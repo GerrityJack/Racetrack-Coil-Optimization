@@ -1,0 +1,23 @@
+======================================================================
+SOLVE LOG
+======================================================================
+
+mode: single solve (solve.py)
+num_coil_cells: 7028
+num_V_dofs: 24168
+mesh_nodes: 3733
+mesh_cells: 19351
+petsc_options: {'ksp_type': 'preonly', 'pc_type': 'lu', 'pc_factor_mat_solver_type': 'mumps'}
+gauge_regularization: 0.001
+I_design: 200.0
+
+----------------------------------------------------------------------
+[single solve]  I = 200.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.572e-03 (absolute: 2.055e+02)
+  residual history: [(0, 130780.28958768798), (1, 205.52218905143198)]
+  |B| on coil: min=0.1939 T, max=10.13 T, mean=4.798 T, p50=4.464 T, p99=9.723 T
+  ||A|| (solution vector norm): 4.421e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.58 s
+----------------------------------------------------------------------

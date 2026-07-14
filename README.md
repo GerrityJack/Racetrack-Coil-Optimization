@@ -1,0 +1,509 @@
+# Racetrack HTS Coil — Magnetostatics, Screening Currents & Quench Analysis
+
+FEniCSx (dolfinx) FEM pipeline for a two-coil REBCO racetrack magnet:
+
+- **A-formulation magnetostatics** (Nedelec elements, uniform current) — the baseline
+- **Homogenised T-A formulation** (Vargas-Llanos et al. 2022) — non-uniform
+  screening currents and the screening-current-induced field (SCIF)
+- **Ic(B,θ) quench analysis** from manufacturer tape data
+
+**Design targets:** 10 T bore field at the midplane between the coils,
+<1 % field uniformity, maximum quench safety margin.
+
+Runtime environment: `fenicsx-env` conda on WSL —
+`conda run -n fenicsx-env python3 <script>` from the repo root.
+
+**→ For a complete explanation of the physics, the model stack, and
+every major assumption, read [The physics, explained](#the-physics-explained).**
+
+---
+
+## For the optimization — start here
+
+**The problem.**  Maximize the magnetic field in the target area, subject
+to (1) never exceeding the tape's quench limit anywhere in the winding
+(with a 1.15 safety factor) and (2) keeping the field uniform to < 1 %
+peak-to-peak over the target box.  Mechanical stress limits exist in the
+codebase but are EXCLUDED from this optimization by current project
+direction.
+
+**Design variables** (all other geometry is derived automatically):
+
+| variable | meaning | type / bounds |
+|---|---|---|
+| `a` | end-cap radius [m] | continuous; > 0 (baseline 0.050) |
+| `b` | centre → cap-centre length [m] | continuous; must exceed `a` (baseline 0.080) |
+| `n_turns` | turns per pancake layer, top → bottom | list of integers ≥ 1; the list LENGTH (number of pancakes) may also vary (baseline `[500,500,500,400,400,250,100]`) |
+
+Geometric feasibility (each layer's inner radius must stay positive:
+`a + max(nᵢ)·t/2 − nᵢ·t > 0`) is checked inside the evaluator —
+infeasible designs return `feasible: false` with objective `None`;
+treat as a constraint violation, not an error.
+
+**One evaluation = one file:** `optimize/evaluate.py`
+
+```bash
+conda run -n fenicsx-env python3 optimize/evaluate.py \
+    --a 0.050 --b 0.080 --n-turns 500,500,500,400,400,250,100 --json
+```
+
+prints a brief human-readable summary and (with `--json`) the full
+machine-readable result dict.  Or from Python:
+
+```python
+from evaluate import evaluate_configuration   # optimize/ on sys.path
+r = evaluate_configuration(0.050, 0.080, [500,500,500,400,400,250,100])
+r["objective_B_target_T"]   # maximize this
+r["pass_constraints"]       # uniformity ≤ 1 % (screening-corrected)
+r["feasible"]               # geometry valid
+```
+
+**Cost and parallelism.**  ~8–12 s per evaluation on one core-group
+(a single small FEM solve — the problem is exactly linear in current, so
+the quench current is a root-find on one solve and everything else is a
+scaling).  Evaluations are fully independent: parallelise across
+processes freely.  Baseline result for reference: a = 50 mm, b = 80 mm,
+baseline turns → **B_target = 13.4 T at I_op = 339 A, uniformity
+0.21 %, PASS**.
+
+**One data caveat**  The tape's measured
+critical-current data ends at 8 T; above that the model extrapolates.
+The result dict reports `clip_fraction` (how much of the quench
+evaluation relied on extrapolation) and `peak_conductor_B_T` — designs
+with large values are *floor estimates*, not predictions, and the
+optimum will likely sit in that regime until extended tape data arrives.
+Consider reporting Pareto results (objective vs `clip_fraction`) rather
+than a single winner.
+
+Constants (target-box size, uniformity limit, safety factor) live in
+`optimize/opt_config.py`.  The full physics and assumption ledger is in
+[The physics, explained](#the-physics-explained) at the bottom of this
+README.  A batch/grid screening driver with plots also exists
+(`optimize/optimize_geometry.py`) if you want a coarse map before
+running your algorithms.
+
+---
+
+## Pipeline
+
+```bash
+# Baseline uniform-J solve (single current)
+conda run -n fenicsx-env python3 solve/solve.py
+
+# Uniform-J current sweep + quench analysis
+conda run -n fenicsx-env python3 sweep/solve_sweep.py
+conda run -n fenicsx-env python3 sweep/quench_sweep.py
+
+# T-A screening-current solve at I_design
+conda run -n fenicsx-env python3 solve/ta_solve.py
+
+# T-A sweep 150–400 A → all ta_* figures + CSV  (~25 s solver time)
+conda run -n fenicsx-env python3 solve/ta_sweep.py
+
+# Post-process saved T-A results (no re-solve)
+conda run -n fenicsx-env python3 solve/ta_postprocess.py
+
+# Uniform-J visualisation
+conda run -n fenicsx-env python3 visualization/plot_fields.py
+conda run -n fenicsx-env python3 visualization/plot_3d.py
+conda run -n fenicsx-env python3 visualization/field_uniformity.py
+```
+
+## Repository layout
+
+```
+Racetrack_v4/
+├── params.py                  ← SINGLE source of truth; edit this first
+├── mesh/build_mesh.py         ← gmsh mesh (eighth-symmetry domain)
+├── physics/
+│   ├── current_source.py      ← tangent/normal/arc-length helpers, symmetry expansion
+│   ├── ic_model.py            ← IcModel + NValueModel (Ic(B,θ), n(B,θ) from CSV)
+│   ├── coil2_field.py         ← Biot-Savart reference field (both coils)
+│   └── *.csv                  ← Shanghai Superconductor 20 K tape data (0–8 T)
+├── solve/
+│   ├── solve.py               ← uniform-J A-form FEM solve
+│   ├── ta_solve.py            ← T-A Picard solver (screening currents)
+│   ├── ta_sweep.py            ← T-A current sweep + all ta_* figures
+│   ├── ta_postprocess.py      ← plots from saved racetrack_ta_fields.npz
+│   └── diagnostics.py         ← solver logging / residual checks
+├── sweep/
+│   ├── solve_sweep.py         ← uniform-J field sweep
+│   └── quench_sweep.py        ← per-cell quench currents + performance summary
+├── validation/                ← Biot-Savart cross-check, mesh convergence, …
+└── visualization/             ← output figures (ta_* = T-A results)
+```
+
+---
+
+## Current configuration (from params.py)
+
+| Parameter | Value |
+|---|---|
+| `n_turns` | `[500, 500, 500, 400, 400, 250, 100]`  (7 layers, top→bottom) |
+| `n_turns_total` | 2650 |
+| `a` / `b` | 50 mm / 80 mm  (cap radius / centre→cap-centre) |
+| `t` / `w` | 75 µm / 4 mm  (tape pitch Λ / tape width) |
+| `delta_SC` | 1 µm  (REBCO superconducting layer thickness) |
+| `I_design` | 200 A/turn |
+| Winding pack | 197.5 mm × 137.5 mm × 28 mm  (x × y × z) |
+| Bore inner radius | 31.25 mm |
+| Tape length | ~1194 m |
+| `coil_half_gap` | 30 mm  (coil 1 at z=0, coil 2 at z=60 mm, midplane at z=30 mm) |
+| `ramp_duration` | 600 s  (ramp 0 → I; sets screening-current depth) |
+| `mesh_z_grading` | `[0.075, 0.15, 0.55, 0.15, 0.075]`  (graded sub-slabs per tape width: 0.3 mm edge cells, coarse bulk) |
+| T-A sweep range | 150–400 A in 25 A steps (`SWEEP_CURRENTS` in ta_sweep.py) |
+
+All layers share the same outer radial edge (`a_out` = 68.75 mm); the inner
+edge of layer i is `a_out − n_i·t` (31.25 mm for the 500-turn layers). The
+stack is centred at z = 0, one tape-width `w` per layer. Change only
+`n_turns` in params.py to try a new stack — everything else is derived.
+
+---
+
+## Eighth-symmetry FEM domain
+
+The mesh covers the octant (x ≥ 0, y ≥ 0, z ≤ coil_half_gap) — an 8×
+DOF reduction:
+
+| Plane | BC | Meaning |
+|---|---|---|
+| x = 0, y = 0 | PEC  n×A = 0 | quadrant mirrors of the racetrack |
+| z = coil_half_gap | PMC  n×H = 0 (natural) | same-polarity image = coil 2 (Helmholtz pair) |
+
+Coil 2's field is therefore included automatically in the FEM. The coil
+cells in the mesh are **one quadrant of coil 1** — any quantity summed over
+them (Biot-Savart integrals, quench statistics over the full magnet, …)
+must expand to the full system: 4 quadrants × 2 coils. For on-axis Bz every
+mirror piece contributes equally (Bz is even under all three mirrors).
+`dB_bore_from_dJ()` in ta_solve.py and `expand_to_full_domain()` in
+current_source.py implement this.
+
+---
+
+## T-A screening-current model (ta_solve.py)
+
+The T-A formulation homogenises the REBCO winding and resolves the
+**non-uniform current distribution** inside the tape that a uniform-J model
+ignores. Two coupled fields:
+
+- **T** — current vector potential (scalar here, CG1). The SC-layer current
+  density is `J_SC = ∇T × n̂`, with n̂ the tape broad-face normal.
+  Transport current is imposed through Dirichlet BCs on the tape edges:
+  `T = ±I/(2δ_SC)` at each tape's top/bottom faces. Two modes:
+  **per-layer** (default, `params.ta_per_layer = True`): one T problem per
+  z-layer, each with its own edge BCs and local ρ(B); converges cleanly.
+  Adjacent tapes need opposite T values on their shared interface nodes,
+  so the layers are solved as separate systems.  **replicated** (legacy,
+  `ta_per_layer = False`): T solved only in the central z-layer; its J
+  copied to the other 6 layers via a KD-tree (x, y, z-within-tape) lookup
+  — ~2× faster per iteration but an approximation for the asymmetric
+  stack, and its Picard plateaus around |ΔB|/|B| ≈ 2–3e-4.
+- **A** — magnetic vector potential (N1curl), driven by the homogenised
+  source `J_s = (δ_SC/Λ)·J_SC` with Λ = t (tape pitch).
+
+The tape's E(J) power law enters as a field-dependent resistivity
+`ρ = (E_c/Jc)·(|J|/Jc)^(n−1)`, with Jc(B,θ) and n(B,θ) interpolated from
+the manufacturer CSV, floored at the critical-state value (`ta_eps_reg`).
+One implicit-Euler (BDF1) step of Faraday's law from the zero-field-cooled
+state to t = `ramp_duration` gives the end-of-ramp screening state; the
+T-equation RHS is `−B_n/Δt`.
+
+**Picard loop** (fixed point in ρ): solve T (linear, frozen ρ) → relax
+`T ← (1−α)T_old + αT_new` → J from T → solve A → B → update ρ(J,B) → repeat
+until `|ΔB|/|B| < ta_picard_tol`. Two-phase relaxation (α = 0.30 → 0.08)
+suppresses a period-2 limit cycle. ~26–31 iterations cold, ~9–11 warm.
+
+**SCIF**: `ΔJ = J_TA − J_unif` with `J_unif = I/(δ_SC·w)·t̂` (per-tape,
+NOT divided by n_layers), then a cell-wise Biot-Savart sum of
+`(δ_SC/Λ)·ΔJ` over the full mirrored system with exact DG0 cell volumes
+gives ΔB at the bore midplane.
+
+### Solver efficiency (reworked 2026-07-09)
+
+- The A-problem matrix is constant → assembled once, **MUMPS factorised
+  once**, reused for every Picard iteration, every sweep current, and the
+  uniform seed solve (only the RHS is reassembled — `_solve_A()`).
+- The T-problem matrix changes with ρ each iteration → stays a
+  LinearProblem (small scalar CG1 system).
+- **Warm start** across sweep currents: T seeded from the previous
+  converged state scaled by I_new/I_old (the T BCs are ∝ I). Verified
+  bias-free: warm and cold agree to 0.01 % in SCIF at tol = 1e-4.
+- Full 11-point sweep: **~25 s solver time** (was minutes to ~28 min).
+
+---
+
+## Results at 200 A, Δt = 600 s (unified dataset, 2026-07-11)
+
+- Tape: Shanghai Superconductor **High Field Low Temperature 20 K**
+  (one CSV pair for the whole pipeline — quench AND T-A).
+  Ic(0 T) = 1976 A, Ic(5 T, 0°) = 546 A per 4 mm tape → i = I/Ic ≈ 0.37
+  at 200 A (sub-critical).  Data covers 0–8 T only.
+- Uniform-J bore Bz = −7.62 T (76 % of the 10 T target)
+- **Bore SCIF ΔBz = +82.0 mT = 1.08 %** (per-layer T-A, graded mesh,
+  converged k ≈ 80; reproducible to <0.01 mT).  At the 1 % uniformity
+  target this is design-relevant — the spatially-resolved ΔB map over the
+  bore box is the next required analysis.
+- Mechanical stress screen (`validation/mechanical_stress_check.py`):
+  cap hoop max 233 MPa (allow ~500), transverse delamination tension
+  12 MPa (allow ~30), leg line load 1.3 MN/m, coil-coil attraction
+  273 kN.  OK at 200 A, but stress ∝ I² → active constraint near 10 T.
+- Quench limit 219.8 A/turn (predates the dataset switch — rerun).
+
+**History warning:** every SCIF number before 2026-07-10 was
+artifact-dominated ("+1.95 %", an interim "~16 %", the "≤0.3 %" bound
+from the superseded datasets, any old `ta_sweep_results.csv`) — see
+CLAUDE.md for the bug history (boundary-cell replication artifact,
+missing quadrant mirrors, wrong cell volumes) and for the 2026-07-11
+Picard robustness rework (fixed α, smooth j/jc floor, ρ relaxation,
+observable-stall convergence criterion).
+
+---
+
+## Ic(B,θ) data — limitations
+
+The manufacturer CSV covers **0–8 T** at ~20 K. Peak winding fields exceed
+this, so Ic above 8 T is extrapolated/clamped (~48 % of evaluations at
+higher currents) — quench predictions there are a floor estimate. Extended
+measurements (15–20 T) are planned; until then apply an extra safety factor.
+
+## Known limitations
+
+- **Ic dataset inconsistency** (see above) — resolve before trusting
+  operating-point conclusions
+- **CSV ceiling at 8 T** — quench limit unreliable above that field
+- **Homogenised winding** — no individual-tape quench propagation
+- **Single BDF1 step** — end-of-ramp snapshot, no full ramp history
+- **On-axis bore SCIF is a near-cancelling sum** — the robust statement
+  is the ≤0.3 % bound.  With the graded default mesh the sub-critical
+  value is converged to ≈ +17 ± 1 mT at 200 A
+  (`validation/ta_z_grading_study.py`: graded matches brute-force
+  uniform nz=5 within 4 % at half the DOFs); screening forms a ~1 mm
+  current-reversal zone at one tape edge that coarser meshes truncate
+- **Layer replication (legacy mode, `ta_per_layer = False`)** — copied
+  pattern ignores layer-to-layer field variation and its Picard plateaus
+  at |ΔB|/|B| ≈ 2–3e-4; at nz ≥ 3 it agrees with the per-layer default
+  within ~10 % (validation/ta_per_layer_comparison.py)
+- **1/8 symmetry assumes equal-sense coils** (Helmholtz pair) and that the
+  screening pattern shares the transport current's mirror symmetry
+- **Bore-box homogeneity not yet re-evaluated** with the fixed model —
+  only the on-axis SCIF point has been computed
+
+---
+
+# The physics, explained
+
+This section is the complete story of what this repository computes, how
+each piece works, why we trust it, and where the biggest assumptions
+live.  It is written to be read start-to-finish.
+
+## 1. The design problem
+
+Two identical racetrack-shaped coils face each other across a 60 mm gap
+(a Helmholtz-like pair).  Each coil is wound from REBCO
+high-temperature-superconductor tape — 4 mm wide, 75 µm thick per turn —
+stacked into 7 pancake layers with different turn counts.  Between the
+coils, at the midplane, sits the *target area*: a small box where the
+experiment happens.  The design must deliver **10 T** there, uniform to
+**< 1 %** across the box, without ever exceeding the tape's critical
+current anywhere in the winding (quench), and without breaking the tape
+mechanically.  The free design variables are the cap radius `a`, the
+length parameter `b`, and the per-layer turn counts `n_turns`.
+
+Four distinct pieces of physics decide whether a design works, and the
+code implements them as four stacked models plus an optimizer that ties
+them together.
+
+## 2. Layer 1 — Magnetostatics (where the field comes from)
+
+**Model.** Maxwell's magnetostatics with no magnetic materials:
+∇×(1/μ₀ ∇×A) = J, solved by finite elements (Nédélec/edge elements for
+the vector potential A, with a small gauge-regularisation term) on a
+tetrahedral mesh of one-eighth of the geometry.  The winding is
+*homogenised*: instead of 2650 individual tapes we prescribe a smeared
+current density J = I/(t·w) following the racetrack direction.
+
+**Symmetry.**  The magnet has three mirror symmetries, so the FEM domain
+is the octant (x ≥ 0, y ≥ 0, z ≤ gap-midplane).  The x = 0 and y = 0
+cuts are "perfect electric conductor" boundaries (n×A = 0) and the
+midplane is a "perfect magnetic conductor" (natural boundary), which by
+the image principle automatically includes the *entire second coil* —
+we never mesh it.  Anything summed over the winding (forces, Biot–Savart
+integrals) must be expanded back to all 8 mirror images; forgetting the
+quadrant images was historically a factor-of-4 bug in the SCIF.
+
+**The most important property: linearity.**  With no iron, B is exactly
+proportional to the current.  One FEM solve per geometry gives B per
+ampere everywhere, and then: the field at any current is a scaling; the
+quench current is a one-dimensional root-find; mechanical stress scales
+exactly as I².  This is what makes the optimizer cheap (~8 s per
+candidate geometry instead of minutes).
+
+**Validation.**  The FEM field agrees with an independent Biot–Savart
+integration at the few-% level (historically ~4 % median); the optimizer
+re-checks this per candidate (`fem_dev_pct` column).
+
+## 3. Layer 2 — Superconductor electrodynamics (how the current actually distributes)
+
+A superconducting tape does not carry current uniformly.  Ramping the
+magnet changes the flux through each tape, which by Faraday's law drives
+*screening currents*: the current bunches toward the tape edges and can
+locally reverse, up to the critical density ±Jc.  Two consequences
+matter to us: the screening currents create their own field error at the
+target (the **screening-current-induced field, SCIF**), and they
+locally amplify |J| — and hence the Lorentz force — inside the tape
+(**screening-current stress**).
+
+**Model.**  The homogenised T–A formulation (Vargas-Llanos et al. 2022).
+Each tape's sheet current is written as J = ∇T × n̂, where T is a scalar
+"current potential" living on the tape plane and n̂ is the tape's face
+normal; the transport current enters as boundary values T = ±I/(2δ_SC)
+on the two tape edges.  The superconductor's electrical behaviour is the
+measured power law E = E_c·(J/Jc)ⁿ, with Jc(B, θ) and n(B, θ)
+interpolated from the manufacturer's 20 K dataset (θ = field angle to
+the tape normal).  One implicit-Euler step of Faraday's law takes the
+system from the zero-field-cooled state to the end of the 600 s ramp.
+T (one problem per pancake — adjacent tapes need opposite edge values,
+so layers are solved separately) and the vector potential A are iterated
+to a joint fixed point (Picard), with the A-matrix factorised once and
+reused.
+
+**Numerics that mattered** (each of these was forced by a measured
+failure, not taste): a *fixed* relaxation factor after ramp-up — every
+adaptive scheme misread slow physical flux-front transients as stalls
+and froze them; a smooth soft-max floor on j/jc — the hard kink at
+j = jc made front cells flip states forever; log-space under-relaxation
+of the resistivity; and a convergence criterion on the *observable*
+(the bore SCIF must stall to < 0.05 mT per 10 iterations) because the
+raw field residual never converges — the flux front wanders chaotically
+among near-degenerate states at the 10⁻⁴ level while every integrated
+quantity is frozen.
+
+**Mesh.**  The screening profile lives across the 4 mm tape width, so
+each layer is meshed as graded sub-slabs — 0.3 mm cells at the tape
+edges (sized by Brandt/Norris strip theory: the penetration zone is
+(1−√(1−i²))·w/2 ≈ 0.1–1 mm here), coarse in the bulk.  This matches
+brute-force uniform refinement within 4 % on the SCIF at a third of the
+cost.
+
+**What the solution looks like — and why it is right.**  The textbook
+"current peaks at both tape edges" profile is the *zero-perpendicular-
+field* case.  Inside this winding every tape sees 1–5 T of perpendicular
+field, vastly more than the ~50 mT strip penetration field, so the tapes
+sit in the *fully-penetrated Bean state*: J = +Jc over part of the
+width and −Jc over the rest, split so the net equals the transport
+current, with the reversal side set by the sign of B_n.  The computed
+profiles show exactly this, flipping sides between the top and bottom
+pancakes as B_n flips — a signature the solver was never told about.
+
+**Result with the current tape:** SCIF ≈ +82 mT ≈ 1.1 % of the bore
+field at 200 A — at the scale of the uniformity budget, which is why the
+optimizer carries a screening estimate for every candidate.
+
+## 4. Layer 3 — Quench (how hard we can push)
+
+A REBCO tape quenches (goes resistive) when its current exceeds the
+critical current Ic, which drops steeply with local field magnitude and
+angle.  The static criterion used here: the coil quenches at the current
+where, for the *worst cell in the winding*, I = Ic(B(I), θ).  Because
+B ∝ I, this is a per-cell 1-D root-find on the single reference solve.
+The operating point takes the minimum over all cells divided by a
+safety factor (1.15 by default).
+
+**The biggest data assumption in the whole project lives here**: the
+manufacturer dataset covers 0–8 T, while the conductor peak field at
+the operating point is well above that.  Ic beyond 8 T is extrapolated
+(clamped), so quench currents are *floor estimates*; the optimizer
+reports the fraction of clipped Ic evaluations (`clip` column) and
+flags candidates that rely too heavily on extrapolation.
+
+## 5. Layer 4 — Mechanics (does the tape survive)
+
+The Lorentz force density f = J×B is enormous at these fields
+(~GN/m³).  Four screens, all from the same field solve:
+
+1. **Cap hoop stress** σ = f_n·r — the curved end-caps carry outward
+   load as conductor tension, evaluated per cell with the conservative
+   assumption that each turn supports itself.  Limit ~500 MPa
+   (lengthwise tape strength).
+2. **Transverse (delamination) stress** — in the straight legs the
+   outward force passes turn-to-turn through the stack: 1-D equilibrium
+   σ_n(y) = −∫f_n dy from the free outer surface.  This acts along the
+   tape's weakest axis (limit ~30 MPa).  The optimizer additionally
+   re-evaluates this with the Bean amplification (saturated bands carry
+   Jc = (1/i)·J_e locally — "screening-current stress", a documented
+   killer of real REBCO magnets).
+3. **Straight-leg line load** (~MN/m) — straight conductors cannot react
+   transverse load without curvature; this number is the requirement
+   handed to the support structure.
+4. **Coil–coil axial attraction** (~hundreds of kN) and its bearing
+   pressure.
+
+Because stress ∝ I² exactly, the stress-limited currents have closed
+forms, and in the current design space they — not quench — set the
+operating point.
+
+## 6. Layer 5 — The optimizer screen (putting it together)
+
+For each candidate (a, b, n_turns), `optimize/optimize_geometry.py`
+runs: one coarse-mesh FEM solve → per-cell quench root-find → operating
+current I_op = min(quench/SF, hoop-limited, delamination-limited
+including screening amplification) → target-box field and uniformity
+from a multi-filament Biot–Savart (one racetrack filament per ~100
+turns, so the layer distribution is resolved) → Bean-state screening
+magnetization per cell → dipole-sum SCIF and SCIF-corrected uniformity
+→ pass/fail and ranking.  ~8 s per candidate.
+
+The Bean screening proxy was calibrated head-to-head against the full
+T-A solver at the baseline geometry: +92 mT vs +82 mT (13 %).  Shortlist
+finalists still get the full T-A, graded-mesh stress maps, and a real
+structural review.
+
+## 7. The assumption ledger (ranked by how much they could move answers)
+
+1. **Ic data ends at 8 T** while operating points need 10–14 T at the
+   conductor — quench margins beyond 8 T are extrapolations.  *Mitigation:
+   clip-fraction flag; extended measurements planned.*
+2. **Static quench criterion** — no thermal runaway dynamics, no
+   normal-zone propagation, no hot-spot analysis.  Fine for ranking;
+   a real protection study is separate work.
+3. **Homogenised winding** — no individual tape resolution; the T-A
+   tape-width resolution is finite (graded sub-slabs); insulation,
+   joints, and terminal effects are absent.
+4. **Single ramp step, no history** — SCIF is the end-of-ramp snapshot;
+   relaxation/drift after the ramp and ramp-rate dependence are not
+   modelled (matters for NMR-class stability specs, not for reaching
+   10 T).
+5. **Mechanical screen, not structural analysis** — self-supporting-turn
+   hoop (conservative), no load sharing, no cooldown prestress, no
+   bending solution for the legs, no stress concentrations.
+   **The screening-current-stress policy is the single biggest design
+   lever in the optimizer** (`SCREENING_STRESS_MODE` in opt_config.py):
+   whether the delamination interface sees the full local Bean
+   amplification ("local", conservative) or the width-averaged load
+   ("averaged", optimistic) swings the achievable target field between
+   ~5.4 T (entirely within validated Ic data) and ~12.5 T (heavily
+   extrapolated Ic).  Settling it needs either a mechanical model of
+   load transfer across the tape width or vendor delamination data
+   under non-uniform loading.
+6. **Bean fully-penetrated proxy in the optimizer** — ±13 % on SCIF vs
+   the T-A reference; assumes |B_n| ≫ 50 mT (true everywhere here;
+   a taper handles the exceptions and a diagnostic reports the
+   unpenetrated fraction).
+7. **Mirror symmetry** — equal-sense coils, and screening patterns
+   assumed to share the transport current's symmetry.
+8. **Field-model accuracy** — FEM validated to ~4 % vs Biot–Savart;
+   uniformity numbers are relative and far more accurate than absolute
+   field values; the per-candidate `fem_dev_pct` column tracks this.
+
+## 8. Validation summary
+
+| Claim | How it was checked |
+|---|---|
+| FEM field correct | Independent Biot–Savart: ~4 % (historic) + per-candidate cross-check |
+| SCIF machinery correct | Quarter-cell uniform-current sum ×4 reproduces full Biot–Savart; exact cell volumes match analytic coil volume to 0.02 % |
+| T-A profiles physical | Fully-penetrated Bean shape, ±Jc plateaus at local Jc, reversal side flips with sign(B_n); Norris transport limit overlaid |
+| Mesh sufficiency | z-resolution study nz = 1…5 + graded; SCIF converged (strong tape ±5 %); in-plane converged at 0.5 % |
+| Per-layer vs replicated T-A | Agree within ~10 % once the tape width is resolved |
+| Solver convergence real | Observable frozen to < 0.01 mT across runs and 500-iteration continuation |
+| Bean optimizer proxy | +92.3 vs +82.0 mT against converged T-A (13 %) |
+| Warm-start unbiased | Warm vs cold starts agree to 0.01 % at tight tolerance |

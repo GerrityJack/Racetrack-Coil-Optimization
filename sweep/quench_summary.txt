@@ -1,0 +1,11 @@
+Currents actually solved (sweep/field_sweep/): [np.float64(50.0), np.float64(100.0), np.float64(200.0), np.float64(225.0), np.float64(250.0), np.float64(275.0), np.float64(300.0), np.float64(325.0), np.float64(350.0), np.float64(375.0), np.float64(400.0), np.float64(425.0), np.float64(450.0), np.float64(475.0), np.float64(500.0), np.float64(525.0), np.float64(550.0), np.float64(575.0), np.float64(600.0)] A
+Ic model: method=linear, output hard-clamped to [219.8, 1689.9] A
+Locations analyzed: 56224
+  status=ok: 52328 (93.1%)
+  status=never_quenched: 3896 (6.9%)
+  status=quenched_at_min: 0 (0.0%)
+
+Weakest point: quench current = 219.81 A at (x=0.0112, y=0.0528, z=-0.0070), s=0.0412 m
+Quench current distribution: min=219.81 A, 5th pct=226.69 A, median=277.27 A, max=599.89 A
+
+Some locations never quenched within the solved current range ([50.0, 600.0] A) -- add higher currents to params.sweep_currents and rerun solve_sweep.py to find their quench current.

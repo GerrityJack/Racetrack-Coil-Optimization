@@ -1,0 +1,589 @@
+{
+  "header": {
+    "mode": "multi-current sweep (solve_sweep.py)",
+    "sweep_currents": [
+      50,
+      100,
+      200,
+      225,
+      250,
+      275,
+      300,
+      325,
+      350,
+      375,
+      400,
+      425,
+      450,
+      475,
+      500,
+      525,
+      550,
+      575,
+      600
+    ],
+    "num_coil_cells": 7028,
+    "num_V_dofs": 24168,
+    "mesh_nodes": 3733,
+    "mesh_cells": 19351,
+    "petsc_options": {
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "pc_factor_mat_solver_type": "mumps"
+    },
+    "gauge_regularization": 0.001
+  },
+  "records": [
+    {
+      "label": "50 A",
+      "I_amps": 50.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          32695.072396921994
+        ],
+        [
+          1,
+          52.099608564326786
+        ]
+      ],
+      "true_abs_residual": 52.099608564326786,
+      "true_rel_residual": 0.0015935003272612906,
+      "B_min_T": 0.04846105182019462,
+      "B_max_T": 2.5315694742762997,
+      "B_mean_T": 1.199404683638021,
+      "B_p50_T": 1.1159488552085495,
+      "B_p99_T": 2.430831883056329,
+      "outlier_ratio": 1.0414416117881882,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.2966601848602295
+    },
+    {
+      "label": "100 A",
+      "I_amps": 100.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          65390.14479384399
+        ],
+        [
+          1,
+          108.71105913208241
+        ]
+      ],
+      "true_abs_residual": 108.71105913208241,
+      "true_rel_residual": 0.0016624991346144988,
+      "B_min_T": 0.09692407535042967,
+      "B_max_T": 5.063139873203631,
+      "B_mean_T": 2.398809472261758,
+      "B_p50_T": 2.2319159611363686,
+      "B_p99_T": 4.86165056647547,
+      "outlier_ratio": 1.0414446295498019,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.14511775970458984
+    },
+    {
+      "label": "200 A",
+      "I_amps": 200.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          130780.28958768798
+        ],
+        [
+          1,
+          203.1154802603141
+        ]
+      ],
+      "true_abs_residual": 203.1154802603141,
+      "true_rel_residual": 0.0015531046834402786,
+      "B_min_T": 0.19389805562241408,
+      "B_max_T": 10.126277587778615,
+      "B_mean_T": 4.797618948474058,
+      "B_p50_T": 4.463751929607652,
+      "B_p99_T": 9.723407105565531,
+      "outlier_ratio": 1.0414330571413066,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.21557092666625977
+    },
+    {
+      "label": "225 A",
+      "I_amps": 225.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          147127.82578614895
+        ],
+        [
+          1,
+          232.1920518646626
+        ]
+      ],
+      "true_abs_residual": 232.1920518646626,
+      "true_rel_residual": 0.001578165453230818,
+      "B_min_T": 0.21808289618680102,
+      "B_max_T": 11.392038100412842,
+      "B_mean_T": 5.397320909878546,
+      "B_p50_T": 5.021784151379045,
+      "B_p99_T": 10.938715915353665,
+      "outlier_ratio": 1.0414419926952203,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.14763903617858887
+    },
+    {
+      "label": "250 A",
+      "I_amps": 250.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          163475.36198460998
+        ],
+        [
+          1,
+          254.04887229793584
+        ]
+      ],
+      "true_abs_residual": 254.04887229793584,
+      "true_rel_residual": 0.0015540499143953735,
+      "B_min_T": 0.24243480358589298,
+      "B_max_T": 12.657852979622392,
+      "B_mean_T": 5.997023676908094,
+      "B_p50_T": 5.579783503619015,
+      "B_p99_T": 12.154160749181013,
+      "outlier_ratio": 1.0414419589172637,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.6817467212677002
+    },
+    {
+      "label": "275 A",
+      "I_amps": 275.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          179822.89818307097
+        ],
+        [
+          1,
+          275.2891020114095
+        ]
+      ],
+      "true_abs_residual": 275.2891020114095,
+      "true_rel_residual": 0.0015308901413164189,
+      "B_min_T": 0.26653482217620733,
+      "B_max_T": 13.923628695963632,
+      "B_mean_T": 6.596728642693186,
+      "B_p50_T": 6.137747917765468,
+      "B_p99_T": 13.369603272154885,
+      "outlier_ratio": 1.0414391820408484,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.18961143493652344
+    },
+    {
+      "label": "300 A",
+      "I_amps": 300.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          196170.43438153193
+        ],
+        [
+          1,
+          311.78096932281557
+        ]
+      ],
+      "true_abs_residual": 311.78096932281557,
+      "true_rel_residual": 0.0015893372021414435,
+      "B_min_T": 0.2907746428292535,
+      "B_max_T": 15.189373379344513,
+      "B_mean_T": 7.1964354485672395,
+      "B_p50_T": 6.695671921587424,
+      "B_p99_T": 14.585098658329704,
+      "outlier_ratio": 1.0414309656156973,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.15422701835632324
+    },
+    {
+      "label": "325 A",
+      "I_amps": 325.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          212517.97057999295
+        ],
+        [
+          1,
+          319.43121999616983
+        ]
+      ],
+      "true_abs_residual": 319.43121999616983,
+      "true_rel_residual": 0.001503078629653741,
+      "B_min_T": 0.31503112879115286,
+      "B_max_T": 16.45517951024378,
+      "B_mean_T": 7.796134920349752,
+      "B_p50_T": 7.253844493898389,
+      "B_p99_T": 15.800537722448192,
+      "outlier_ratio": 1.0414316144991398,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.15220427513122559
+    },
+    {
+      "label": "350 A",
+      "I_amps": 350.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          228865.50677845394
+        ],
+        [
+          1,
+          365.20534120649853
+        ]
+      ],
+      "true_abs_residual": 365.20534120649853,
+      "true_rel_residual": 0.0015957203265235774,
+      "B_min_T": 0.3394070446936953,
+      "B_max_T": 17.720946599168958,
+      "B_mean_T": 8.39583362425156,
+      "B_p50_T": 7.8115355755828135,
+      "B_p99_T": 17.01579385418836,
+      "outlier_ratio": 1.0414410723956335,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.2588014602661133
+    },
+    {
+      "label": "375 A",
+      "I_amps": 375.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          245213.0429769149
+        ],
+        [
+          1,
+          376.699821094687
+        ]
+      ],
+      "true_abs_residual": 376.699821094687,
+      "true_rel_residual": 0.0015362144546697326,
+      "B_min_T": 0.3634030955611275,
+      "B_max_T": 18.986746570442207,
+      "B_mean_T": 8.995536050592447,
+      "B_p50_T": 8.369650443167615,
+      "B_p99_T": 18.231199746705922,
+      "outlier_ratio": 1.04144251800394,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.5955507755279541
+    },
+    {
+      "label": "400 A",
+      "I_amps": 400.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          261560.57917537595
+        ],
+        [
+          1,
+          423.2836606905618
+        ]
+      ],
+      "true_abs_residual": 423.2836606905618,
+      "true_rel_residual": 0.0016183006706325985,
+      "B_min_T": 0.3878382208834236,
+      "B_max_T": 20.252558874127423,
+      "B_mean_T": 9.595238973240141,
+      "B_p50_T": 8.927734003110915,
+      "B_p99_T": 19.446632198902385,
+      "outlier_ratio": 1.0414429947037578,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.26220226287841797
+    },
+    {
+      "label": "425 A",
+      "I_amps": 425.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          277908.1153738369
+        ],
+        [
+          1,
+          437.39533105771744
+        ]
+      ],
+      "true_abs_residual": 437.39533105771744,
+      "true_rel_residual": 0.0015738847009535554,
+      "B_min_T": 0.41205373098207215,
+      "B_max_T": 21.518298621902623,
+      "B_mean_T": 10.194939378711727,
+      "B_p50_T": 9.485609052646154,
+      "B_p99_T": 20.66207743536982,
+      "outlier_ratio": 1.0414392593973685,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.12543129920959473
+    },
+    {
+      "label": "450 A",
+      "I_amps": 450.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          294255.6515722979
+        ],
+        [
+          1,
+          470.68210463271294
+        ]
+      ],
+      "true_abs_residual": 470.68210463271294,
+      "true_rel_residual": 0.001599568613611037,
+      "B_min_T": 0.4362106310053784,
+      "B_max_T": 22.784054414356145,
+      "B_mean_T": 10.794653397334715,
+      "B_p50_T": 10.043768659615246,
+      "B_p99_T": 21.87752434389967,
+      "outlier_ratio": 1.041436592925527,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.17706894874572754
+    },
+    {
+      "label": "475 A",
+      "I_amps": 475.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          310603.18777075893
+        ],
+        [
+          1,
+          510.6093278129974
+        ]
+      ],
+      "true_abs_residual": 510.6093278129974,
+      "true_rel_residual": 0.001643928162739441,
+      "B_min_T": 0.4605061128712508,
+      "B_max_T": 24.049875553304137,
+      "B_mean_T": 11.394346131057057,
+      "B_p50_T": 10.601640357680637,
+      "B_p99_T": 23.092818916308175,
+      "outlier_ratio": 1.041443906890037,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.20836114883422852
+    },
+    {
+      "label": "500 A",
+      "I_amps": 500.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          326950.72396921995
+        ],
+        [
+          1,
+          529.5454914363324
+        ]
+      ],
+      "true_abs_residual": 529.5454914363324,
+      "true_rel_residual": 0.0016196492395171614,
+      "B_min_T": 0.4847531256418479,
+      "B_max_T": 25.3156761431064,
+      "B_mean_T": 11.994059072978638,
+      "B_p50_T": 11.159426253481634,
+      "B_p99_T": 24.30840220875252,
+      "outlier_ratio": 1.0414372744742229,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.5062389373779297
+    },
+    {
+      "label": "525 A",
+      "I_amps": 525.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          343298.26016768086
+        ],
+        [
+          1,
+          550.6912857603702
+        ]
+      ],
+      "true_abs_residual": 550.6912857603702,
+      "true_rel_residual": 0.0016041190697890229,
+      "B_min_T": 0.5086566060769574,
+      "B_max_T": 26.581368632112596,
+      "B_mean_T": 12.593757353034343,
+      "B_p50_T": 11.717231513653967,
+      "B_p99_T": 25.523715562493898,
+      "outlier_ratio": 1.0414380526623983,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.23269152641296387
+    },
+    {
+      "label": "550 A",
+      "I_amps": 550.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          359645.79636614193
+        ],
+        [
+          1,
+          587.339445146503
+        ]
+      ],
+      "true_abs_residual": 587.339445146503,
+      "true_rel_residual": 0.0016331052693538356,
+      "B_min_T": 0.5330252669480989,
+      "B_max_T": 27.847143117961853,
+      "B_mean_T": 13.19344941057312,
+      "B_p50_T": 12.27545809054308,
+      "B_p99_T": 26.738936002748673,
+      "outlier_ratio": 1.0414454455143338,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.12872004508972168
+    },
+    {
+      "label": "575 A",
+      "I_amps": 575.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          375993.3325646029
+        ],
+        [
+          1,
+          617.2615480562558
+        ]
+      ],
+      "true_abs_residual": 617.2615480562558,
+      "true_rel_residual": 0.001641682164537315,
+      "B_min_T": 0.5575005694990567,
+      "B_max_T": 29.11300207528129,
+      "B_mean_T": 13.793159201481332,
+      "B_p50_T": 12.83331195956077,
+      "B_p99_T": 27.954515504855042,
+      "outlier_ratio": 1.0414418404148356,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.12231969833374023
+    },
+    {
+      "label": "600 A",
+      "I_amps": 600.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          392340.86876306386
+        ],
+        [
+          1,
+          622.5320558344172
+        ]
+      ],
+      "true_abs_residual": 622.5320558344172,
+      "true_rel_residual": 0.0015867122326488161,
+      "B_min_T": 0.5815792734296334,
+      "B_max_T": 30.378750470969283,
+      "B_mean_T": 14.392859572437315,
+      "B_p50_T": 13.391684585605809,
+      "B_p99_T": 29.170034333210737,
+      "outlier_ratio": 1.0414369117276765,
+      "A_norm": 110535833.79891893,
+      "wall_time_s": 0.1616203784942627
+    }
+  ]
+}

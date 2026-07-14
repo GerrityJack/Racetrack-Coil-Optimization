@@ -1,0 +1,47 @@
+{
+  "header": {
+    "mode": "single solve (solve.py)",
+    "num_coil_cells": 7028,
+    "num_V_dofs": 24168,
+    "mesh_nodes": 3733,
+    "mesh_cells": 19351,
+    "petsc_options": {
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "pc_factor_mat_solver_type": "mumps"
+    },
+    "gauge_regularization": 0.001,
+    "I_design": 200.0
+  },
+  "records": [
+    {
+      "label": "single solve",
+      "I_amps": 200.0,
+      "ksp_type": "preonly",
+      "pc_type": "lu",
+      "converged_reason": 4,
+      "converged_reason_name": "CONVERGED_ITS",
+      "iterations": 1,
+      "residual_history": [
+        [
+          0,
+          130780.28958768798
+        ],
+        [
+          1,
+          205.52218905143198
+        ]
+      ],
+      "true_abs_residual": 205.52218905143198,
+      "true_rel_residual": 0.0015715073708689846,
+      "B_min_T": 0.1939154020909838,
+      "B_max_T": 10.126279437063712,
+      "B_mean_T": 4.797619870899441,
+      "B_p50_T": 4.4638364068310175,
+      "B_p99_T": 9.723347613302579,
+      "outlier_ratio": 1.0414396193354107,
+      "A_norm": 442143335.1956739,
+      "wall_time_s": 0.5802810192108154
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+======================================================================
+SOLVE LOG
+======================================================================
+
+mode: multi-current sweep (solve_sweep.py)
+sweep_currents: [50, 100, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500, 525, 550, 575, 600]
+num_coil_cells: 7028
+num_V_dofs: 24168
+mesh_nodes: 3733
+mesh_cells: 19351
+petsc_options: {'ksp_type': 'preonly', 'pc_type': 'lu', 'pc_factor_mat_solver_type': 'mumps'}
+gauge_regularization: 0.001
+
+----------------------------------------------------------------------
+[50 A]  I = 50.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.594e-03 (absolute: 5.210e+01)
+  residual history: [(0, 32695.072396921994), (1, 52.099608564326786)]
+  |B| on coil: min=0.04846 T, max=2.532 T, mean=1.199 T, p50=1.116 T, p99=2.431 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.30 s
+----------------------------------------------------------------------
+[100 A]  I = 100.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.662e-03 (absolute: 1.087e+02)
+  residual history: [(0, 65390.14479384399), (1, 108.71105913208241)]
+  |B| on coil: min=0.09692 T, max=5.063 T, mean=2.399 T, p50=2.232 T, p99=4.862 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.15 s
+----------------------------------------------------------------------
+[200 A]  I = 200.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.553e-03 (absolute: 2.031e+02)
+  residual history: [(0, 130780.28958768798), (1, 203.1154802603141)]
+  |B| on coil: min=0.1939 T, max=10.13 T, mean=4.798 T, p50=4.464 T, p99=9.723 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.22 s
+----------------------------------------------------------------------
+[225 A]  I = 225.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.578e-03 (absolute: 2.322e+02)
+  residual history: [(0, 147127.82578614895), (1, 232.1920518646626)]
+  |B| on coil: min=0.2181 T, max=11.39 T, mean=5.397 T, p50=5.022 T, p99=10.94 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.15 s
+----------------------------------------------------------------------
+[250 A]  I = 250.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.554e-03 (absolute: 2.540e+02)
+  residual history: [(0, 163475.36198460998), (1, 254.04887229793584)]
+  |B| on coil: min=0.2424 T, max=12.66 T, mean=5.997 T, p50=5.58 T, p99=12.15 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.68 s
+----------------------------------------------------------------------
+[275 A]  I = 275.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.531e-03 (absolute: 2.753e+02)
+  residual history: [(0, 179822.89818307097), (1, 275.2891020114095)]
+  |B| on coil: min=0.2665 T, max=13.92 T, mean=6.597 T, p50=6.138 T, p99=13.37 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.19 s
+----------------------------------------------------------------------
+[300 A]  I = 300.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.589e-03 (absolute: 3.118e+02)
+  residual history: [(0, 196170.43438153193), (1, 311.78096932281557)]
+  |B| on coil: min=0.2908 T, max=15.19 T, mean=7.196 T, p50=6.696 T, p99=14.59 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.15 s
+----------------------------------------------------------------------
+[325 A]  I = 325.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.503e-03 (absolute: 3.194e+02)
+  residual history: [(0, 212517.97057999295), (1, 319.43121999616983)]
+  |B| on coil: min=0.315 T, max=16.46 T, mean=7.796 T, p50=7.254 T, p99=15.8 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.15 s
+----------------------------------------------------------------------
+[350 A]  I = 350.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.596e-03 (absolute: 3.652e+02)
+  residual history: [(0, 228865.50677845394), (1, 365.20534120649853)]
+  |B| on coil: min=0.3394 T, max=17.72 T, mean=8.396 T, p50=7.812 T, p99=17.02 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.26 s
+----------------------------------------------------------------------
+[375 A]  I = 375.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.536e-03 (absolute: 3.767e+02)
+  residual history: [(0, 245213.0429769149), (1, 376.699821094687)]
+  |B| on coil: min=0.3634 T, max=18.99 T, mean=8.996 T, p50=8.37 T, p99=18.23 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.60 s
+----------------------------------------------------------------------
+[400 A]  I = 400.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.618e-03 (absolute: 4.233e+02)
+  residual history: [(0, 261560.57917537595), (1, 423.2836606905618)]
+  |B| on coil: min=0.3878 T, max=20.25 T, mean=9.595 T, p50=8.928 T, p99=19.45 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.26 s
+----------------------------------------------------------------------
+[425 A]  I = 425.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.574e-03 (absolute: 4.374e+02)
+  residual history: [(0, 277908.1153738369), (1, 437.39533105771744)]
+  |B| on coil: min=0.4121 T, max=21.52 T, mean=10.19 T, p50=9.486 T, p99=20.66 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.13 s
+----------------------------------------------------------------------
+[450 A]  I = 450.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.600e-03 (absolute: 4.707e+02)
+  residual history: [(0, 294255.6515722979), (1, 470.68210463271294)]
+  |B| on coil: min=0.4362 T, max=22.78 T, mean=10.79 T, p50=10.04 T, p99=21.88 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.18 s
+----------------------------------------------------------------------
+[475 A]  I = 475.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.644e-03 (absolute: 5.106e+02)
+  residual history: [(0, 310603.18777075893), (1, 510.6093278129974)]
+  |B| on coil: min=0.4605 T, max=24.05 T, mean=11.39 T, p50=10.6 T, p99=23.09 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.21 s
+----------------------------------------------------------------------
+[500 A]  I = 500.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.620e-03 (absolute: 5.295e+02)
+  residual history: [(0, 326950.72396921995), (1, 529.5454914363324)]
+  |B| on coil: min=0.4848 T, max=25.32 T, mean=11.99 T, p50=11.16 T, p99=24.31 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.51 s
+----------------------------------------------------------------------
+[525 A]  I = 525.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.604e-03 (absolute: 5.507e+02)
+  residual history: [(0, 343298.26016768086), (1, 550.6912857603702)]
+  |B| on coil: min=0.5087 T, max=26.58 T, mean=12.59 T, p50=11.72 T, p99=25.52 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.23 s
+----------------------------------------------------------------------
+[550 A]  I = 550.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.633e-03 (absolute: 5.873e+02)
+  residual history: [(0, 359645.79636614193), (1, 587.339445146503)]
+  |B| on coil: min=0.533 T, max=27.85 T, mean=13.19 T, p50=12.28 T, p99=26.74 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.13 s
+----------------------------------------------------------------------
+[575 A]  I = 575.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.642e-03 (absolute: 6.173e+02)
+  residual history: [(0, 375993.3325646029), (1, 617.2615480562558)]
+  |B| on coil: min=0.5575 T, max=29.11 T, mean=13.79 T, p50=12.83 T, p99=27.95 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.12 s
+----------------------------------------------------------------------
+[600 A]  I = 600.00 A
+  solver: ksp_type=preonly, pc_type=lu
+  PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
+  true residual ||Ax-b||/||b||: 1.587e-03 (absolute: 6.225e+02)
+  residual history: [(0, 392340.86876306386), (1, 622.5320558344172)]
+  |B| on coil: min=0.5816 T, max=30.38 T, mean=14.39 T, p50=13.39 T, p99=29.17 T
+  ||A|| (solution vector norm): 1.105e+08  |  max/p99 outlier ratio: 1.04
+  wall time: 0.16 s
+----------------------------------------------------------------------
