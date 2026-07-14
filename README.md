@@ -10,8 +10,16 @@ FEniCSx (dolfinx) FEM pipeline for a two-coil REBCO racetrack magnet:
 **Design targets:** 10 T bore field at the midplane between the coils,
 <1 % field uniformity, maximum quench safety margin.
 
-Runtime environment: `fenicsx-env` conda on WSL —
-`conda run -n fenicsx-env python3 <script>` from the repo root.
+**Environment setup:** create the `fenicsx-env` conda environment from
+the pinned spec, then run every script through it from the repo root:
+
+```bash
+conda env create -f environment.yml
+conda run -n fenicsx-env python3 <script>
+```
+
+The pins matter — the code depends on dolfinx 0.11.0 API behaviour
+(see the version notes in `environment.yml`).
 
 **→ For a complete explanation of the physics, the model stack, and
 every major assumption, read [The physics, explained](#the-physics-explained).**

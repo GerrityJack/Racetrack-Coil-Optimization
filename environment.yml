@@ -1,0 +1,27 @@
+# Racetrack_v4 simulation environment.
+# Create with:  conda env create -f environment.yml
+# Run with:     conda run -n fenicsx-env python3 solve/ta_solve.py
+#
+# dolfinx is pinned to 0.11.0 — the code relies on API behavior specific
+# to this version (see "dolfinx API quirks" in CLAUDE.md): mandatory
+# petsc_options_prefix in LinearProblem, interpolation_points as a
+# property, geometry.dofmaps[0], etc.
+name: fenicsx-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - fenics-dolfinx=0.11.0
+  - petsc=3.25.2
+  - petsc4py=3.25.2
+  - mpich=5.0.1
+  - mpi4py=4.1.2
+  - mumps-mpi=5.8.2
+  - gmsh=4.15.2
+  - python-gmsh=4.15.2
+  - numpy=2.4.6
+  - scipy=1.17.1
+  - pandas=3.0.3
+  - matplotlib-base=3.11.0
+  - seaborn
+  - pyvista=0.48.4
