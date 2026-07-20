@@ -23,6 +23,9 @@ venv/
 # Generated figures (visualization/*.png)
 *.png
 
+# Presentation slide decks (binary, not diffable)
+*.pptx
+
 # Misc OS / editor cruft
 .DS_Store
 *.swp
