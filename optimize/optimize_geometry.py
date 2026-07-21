@@ -71,6 +71,8 @@ def apply_geometry(cand):
     params.a = float(cand["a"])
     params.b = float(cand["b"])
     params.n_turns = list(cand["n_turns"])
+    if "coil_half_gap" in cand:
+        params.coil_half_gap = float(cand["coil_half_gap"])
     for k, v in cfg.SCREEN_MESH_OVERRIDES.items():
         setattr(params, k, v)
     params.recompute_derived()

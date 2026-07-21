@@ -79,7 +79,11 @@ def evaluate_configuration(a, b, n_turns,
     from current_source import normal_xy
     import optimize_geometry as og
 
-    sf   = safety_factor    if safety_factor    is not None else cfg.SAFETY_FACTOR
+    # NOTE: uses EVALUATE_SAFETY_FACTOR, not SAFETY_FACTOR -- the latter was
+    # repurposed for the internal CMA-ES search (opt_config.py); this frozen
+    # constant keeps evaluate.py's external-team contract unchanged.
+    sf   = safety_factor    if safety_factor    is not None \
+        else cfg.EVALUATE_SAFETY_FACTOR
     umax = uniformity_max_pct if uniformity_max_pct is not None \
         else cfg.UNIFORMITY_MAX_PCT
 
@@ -125,8 +129,16 @@ def evaluate_configuration(a, b, n_turns,
     I_q  = float(np.min(I_q_cells))
     I_op = I_q / sf
 
-    # target box: geometric field + Bean screening correction
-    B_box, box_pts = og.target_box_field(I_op)
+    # target box: geometric field + Bean screening correction.
+    # Temporarily override the box size with evaluate.py's frozen
+    # EVALUATE_TARGET_X_M/Y_M -- cfg.TARGET_X_M/Y_M were repurposed for the
+    # internal CMA-ES search and must not leak into this entry point.
+    _old_tx, _old_ty = cfg.TARGET_X_M, cfg.TARGET_Y_M
+    cfg.TARGET_X_M, cfg.TARGET_Y_M = cfg.EVALUATE_TARGET_X_M, cfg.EVALUATE_TARGET_Y_M
+    try:
+        B_box, box_pts = og.target_box_field(I_op)
+    finally:
+        cfg.TARGET_X_M, cfg.TARGET_Y_M = _old_tx, _old_ty
     M_vec, _ = og.bean_moments(B_unit * I_op, n_hat, theta, ic_model, I_op)
     dB_box = og.dipole_field_mirrored(box_pts, cents, M_vec, vol)
     g = float(params.coil_half_gap)

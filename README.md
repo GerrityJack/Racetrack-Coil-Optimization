@@ -84,11 +84,72 @@ Consider reporting Pareto results (objective vs `clip_fraction`) rather
 than a single winner.
 
 Constants (target-box size, uniformity limit, safety factor) live in
-`optimize/opt_config.py`.  The full physics and assumption ledger is in
-[The physics, explained](#the-physics-explained) at the bottom of this
-README.  A batch/grid screening driver with plots also exists
-(`optimize/optimize_geometry.py`) if you want a coarse map before
-running your algorithms.
+`optimize/opt_config.py` as `EVALUATE_SAFETY_FACTOR`/`EVALUATE_TARGET_X_M`/
+`EVALUATE_TARGET_Y_M` — dedicated constants kept equal to the values above,
+frozen so this entry point's contract doesn't drift when the shared
+`SAFETY_FACTOR`/`TARGET_X_M`/`TARGET_Y_M` values are repurposed elsewhere
+(see the CMA-ES search below, which does exactly that internally).  The
+full physics and assumption ledger is in [The physics,
+explained](#the-physics-explained) at the bottom of this README.  A
+batch/grid screening driver with plots also exists
+(`optimize/optimize_geometry.py`) if you want a coarse map before running
+your algorithms.
+
+---
+
+## Internal CMA-ES search (`optimize/cmaes_search.py`, 2026-07-21)
+
+A separate, actively-evolving internal design study under a different
+objective — **do not confuse this with the frozen `evaluate.py` handoff
+above**, which is unaffected by it. Uses [pycma](https://github.com/CMA-ES/pycma)
+(installed into `fenicsx-env` from conda-forge) to search continuously over
+9 geometry variables plus the coil-to-coil gap, instead of the grid in
+`optimize_geometry.py`.
+
+**Objective:** minimize tape length, subject to:
+
+| constraint | limit |
+|---|---|
+| mean \|Bz\| over the target box (30×6 mm) at I_op | ≥ 10 T |
+| peak-to-peak uniformity over that box (SCIF-corrected) | ≤ 1% |
+| hoop stress, end-cap curved sections only (B×J×bending radius) | ≤ 400 MPa |
+| coil-to-coil **face-to-face** clearance (not `coil_half_gap` itself) | ≥ 3 mm |
+| operating point | worst-margin cell at 50–60% of local Ic (`SAFETY_FACTOR = 1.818`) |
+
+Delamination stress is still computed/reported but not enforced (current
+project direction — see `optimize/opt_config.py` for the reasoning).
+
+**Variables:** `a`, `b`, `coil_half_gap` (previously fixed at 30 mm — now
+free, so the optimizer can bring the two coils closer as long as the 3 mm
+face-gap constraint holds), and the 7 per-layer `n_turns`. `a` and `b` are
+**intentionally unbounded** — a first bounded run pinned both at their box
+edges, so per current project direction only the real physical limits
+apply (non-degenerate straight section, positive inner-radius clearance),
+enforced as a smooth penalty rather than a search box.
+
+```bash
+conda run -n fenicsx-env python3 optimize/cmaes_search.py
+```
+
+~5–10 s per evaluation (one coarse-mesh FEM solve). Outputs
+`optimize/cmaes_results.csv` (this run's best design), `optimize/
+cmaes_history.csv` (this run's full history — overwritten each run), and
+five figures in `visualization/`: `cmaes_convergence.png`,
+`cmaes_constraints.png`, `cmaes_variables.png`, `cmaes_overview.png` (all
+this-run-only), plus `cmaes_param_map.png`.
+
+**Cumulative log across runs:** every run also appends to
+`optimize/cmaes_all_evaluations.csv` (never overwritten, each row tagged
+with the run's start timestamp) — this is the persistent record of every
+design point ever evaluated, good or bad, across every run of this search.
+`cmaes_param_map.png` is built from that cumulative file, not just the
+latest run, so it shows the full explored region to date (colored by
+outcome, one marker shape per run) — check it before starting a new run to
+avoid re-exploring territory already shown to be infeasible or dominated.
+
+As with the grid screen, this uses the fast coarse uniform-J mesh — verify
+the eventual finalist with the full per-layer T-A solver before treating it
+as final.
 
 ---
 
