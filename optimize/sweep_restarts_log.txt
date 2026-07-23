@@ -1,0 +1,165 @@
+[2026-07-21 18:36:05] Starting sweep: budget 11.5 h, 300 evals/restart, master seed 2026072107
+[2026-07-21 18:36:05] [restart 001] starting: a=60.7mm b=157.0mm gap=39.1mm n_turns=[477, 515, 107, 378, 472, 414, 239] seed=5001 (elapsed 0.00h / 11.5h)
+[2026-07-21 18:48:30] [restart 001] done in 12.4 min -- best tape=1.526km B=10.10T unif=0.512% hoop=262MPa a=33.2mm b=101.7mm gap=18.9mm
+[2026-07-21 18:48:30] [restart 002] starting: a=18.5mm b=105.4mm gap=34.8mm n_turns=[761, 368, 686, 159, 804, 498, 602] seed=5002 (elapsed 0.21h / 11.5h)
+[2026-07-21 18:55:49] [restart 002] done in 7.3 min -- best tape=0.948km B=11.54T unif=0.690% hoop=238MPa a=42.7mm b=50.2mm gap=21.3mm
+[2026-07-21 18:55:49] [restart 003] starting: a=80.1mm b=154.3mm gap=23.9mm n_turns=[696, 264, 209, 297, 399, 749, 352] seed=5003 (elapsed 0.33h / 11.5h)
+[2026-07-21 19:05:17] [restart 003] done in 9.5 min -- best tape=0.922km B=10.22T unif=0.686% hoop=238MPa a=45.7mm b=51.8mm gap=22.7mm
+[2026-07-21 19:05:17] [restart 004] starting: a=23.5mm b=51.1mm gap=31.6mm n_turns=[181, 416, 57, 899, 284, 230, 486] seed=5004 (elapsed 0.49h / 11.5h)
+[2026-07-21 19:12:00] [restart 004] done in 6.7 min -- best tape=0.938km B=14.29T unif=0.877% hoop=188MPa a=36.3mm b=41.8mm gap=19.9mm
+[2026-07-21 19:12:00] [restart 005] starting: a=20.9mm b=106.5mm gap=26.5mm n_turns=[820, 609, 656, 624, 897, 639, 868] seed=5005 (elapsed 0.60h / 11.5h)
+[2026-07-21 19:19:27] [restart 005] done in 7.4 min -- best tape=0.720km B=10.82T unif=0.981% hoop=186MPa a=31.7mm b=41.2mm gap=22.4mm
+[2026-07-21 19:19:27] [restart 006] starting: a=42.4mm b=121.7mm gap=17.2mm n_turns=[683, 356, 427, 322, 303, 258, 418] seed=5006 (elapsed 0.72h / 11.5h)
+[2026-07-21 19:29:54] [restart 006] done in 10.4 min -- best tape=0.938km B=10.37T unif=0.289% hoop=150MPa a=23.7mm b=89.9mm gap=18.2mm
+[2026-07-21 19:29:54] [restart 007] starting: a=75.8mm b=176.6mm gap=37.6mm n_turns=[61, 721, 262, 202, 450, 798, 149] seed=5007 (elapsed 0.90h / 11.5h)
+[2026-07-21 19:41:07] [restart 007] done in 11.2 min -- best tape=1.030km B=10.67T unif=0.682% hoop=203MPa a=33.9mm b=60.9mm gap=22.1mm
+[2026-07-21 19:41:07] [restart 008] starting: a=78.1mm b=91.9mm gap=31.0mm n_turns=[250, 861, 678, 307, 769, 187, 570] seed=5008 (elapsed 1.08h / 11.5h)
+[2026-07-21 19:42:53] [restart 008] FAILED:
+Traceback (most recent call last):
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/sweep_restarts.py", line 146, in main
+    best = _run_one_restart(i, x0, seed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/sweep_restarts.py", line 101, in _run_one_restart
+    subprocess.run(
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['conda', 'run', '-n', 'fenicsx-env', 'python3', 'optimize/cmaes_search.py']' returned non-zero exit status 1.
+
+[2026-07-21 19:42:53] [restart 009] starting: a=51.4mm b=96.3mm gap=38.5mm n_turns=[120, 816, 446, 688, 336, 370, 844] seed=5009 (elapsed 1.11h / 11.5h)
+[2026-07-21 19:51:24] [restart 009] done in 8.5 min -- best tape=1.066km B=10.79T unif=0.865% hoop=187MPa a=35.5mm b=65.0mm gap=26.5mm
+[2026-07-21 19:51:24] [restart 010] starting: a=47.8mm b=169.5mm gap=30.7mm n_turns=[717, 256, 428, 639, 248, 70, 605] seed=5010 (elapsed 1.26h / 11.5h)
+[2026-07-21 20:00:56] [restart 010] done in 9.5 min -- best tape=0.971km B=11.21T unif=0.710% hoop=222MPa a=38.3mm b=53.9mm gap=16.0mm
+[2026-07-21 20:00:56] [restart 011] starting: a=83.9mm b=103.5mm gap=33.9mm n_turns=[758, 442, 434, 101, 297, 269, 736] seed=5011 (elapsed 1.41h / 11.5h)
+[2026-07-21 20:09:11] [restart 011] done in 8.3 min -- best tape=0.933km B=10.40T unif=0.477% hoop=218MPa a=41.2mm b=56.6mm gap=25.7mm
+[2026-07-21 20:09:11] [restart 012] starting: a=57.1mm b=133.3mm gap=32.9mm n_turns=[639, 602, 483, 350, 822, 485, 83] seed=5012 (elapsed 1.55h / 11.5h)
+[2026-07-21 20:17:18] [restart 012] done in 8.1 min -- best tape=0.898km B=12.07T unif=0.430% hoop=322MPa a=39.7mm b=46.7mm gap=16.8mm
+[2026-07-21 20:17:18] [restart 013] starting: a=72.3mm b=93.4mm gap=23.0mm n_turns=[713, 498, 641, 71, 452, 388, 178] seed=5013 (elapsed 1.69h / 11.5h)
+[2026-07-21 20:25:08] [restart 013] done in 7.8 min -- best tape=0.799km B=12.86T unif=0.741% hoop=148MPa a=31.6mm b=44.4mm gap=20.2mm
+[2026-07-21 20:25:08] [restart 014] starting: a=80.7mm b=172.8mm gap=41.7mm n_turns=[492, 331, 819, 542, 664, 327, 750] seed=5014 (elapsed 1.82h / 11.5h)
+[2026-07-21 20:34:24] [restart 014] done in 9.3 min -- best tape=1.237km B=11.50T unif=0.711% hoop=255MPa a=39.2mm b=64.2mm gap=19.5mm
+[2026-07-21 20:34:24] [restart 015] starting: a=42.9mm b=167.4mm gap=27.5mm n_turns=[336, 67, 557, 878, 106, 286, 323] seed=5015 (elapsed 1.97h / 11.5h)
+[2026-07-21 20:42:44] [restart 015] done in 8.3 min -- best tape=1.194km B=13.73T unif=0.925% hoop=237MPa a=41.1mm b=53.2mm gap=23.2mm
+[2026-07-21 20:42:44] [restart 016] starting: a=87.4mm b=183.1mm gap=32.3mm n_turns=[281, 359, 355, 351, 345, 229, 794] seed=5016 (elapsed 2.11h / 11.5h)
+[2026-07-21 20:53:03] [restart 016] done in 10.3 min -- best tape=1.879km B=10.78T unif=0.057% hoop=321MPa a=54.9mm b=73.1mm gap=31.6mm
+[2026-07-21 20:53:03] [restart 017] starting: a=71.0mm b=133.1mm gap=37.8mm n_turns=[726, 355, 421, 63, 426, 600, 453] seed=5017 (elapsed 2.28h / 11.5h)
+[2026-07-21 21:02:26] [restart 017] done in 9.4 min -- best tape=0.984km B=10.67T unif=0.542% hoop=193MPa a=38.0mm b=56.7mm gap=24.2mm
+[2026-07-21 21:02:26] [restart 018] starting: a=21.6mm b=114.0mm gap=17.0mm n_turns=[750, 551, 122, 742, 101, 838, 333] seed=5018 (elapsed 2.44h / 11.5h)
+[2026-07-21 21:10:53] [restart 018] done in 8.4 min -- best tape=1.028km B=11.00T unif=0.763% hoop=184MPa a=33.7mm b=59.8mm gap=22.2mm
+[2026-07-21 21:10:53] [restart 019] starting: a=33.5mm b=170.9mm gap=19.8mm n_turns=[589, 697, 744, 467, 602, 82, 712] seed=5019 (elapsed 2.58h / 11.5h)
+[2026-07-21 21:21:20] [restart 019] done in 10.5 min -- best tape=1.057km B=11.39T unif=0.873% hoop=262MPa a=43.4mm b=54.9mm gap=21.1mm
+[2026-07-21 21:21:20] [restart 020] starting: a=45.5mm b=101.6mm gap=23.1mm n_turns=[81, 124, 694, 561, 257, 87, 700] seed=5020 (elapsed 2.75h / 11.5h)
+[2026-07-21 21:30:01] [restart 020] done in 8.7 min -- best tape=0.817km B=10.03T unif=0.441% hoop=266MPa a=41.7mm b=49.8mm gap=18.6mm
+[2026-07-21 21:30:01] [restart 021] starting: a=85.6mm b=149.3mm gap=40.3mm n_turns=[581, 282, 609, 704, 97, 806, 301] seed=5021 (elapsed 2.90h / 11.5h)
+[2026-07-21 21:41:20] [restart 021] done in 11.3 min -- best tape=1.076km B=16.22T unif=0.171% hoop=247MPa a=36.7mm b=42.5mm gap=15.6mm
+[2026-07-21 21:41:20] [restart 022] starting: a=81.3mm b=169.8mm gap=41.6mm n_turns=[57, 455, 452, 689, 246, 854, 149] seed=5022 (elapsed 3.09h / 11.5h)
+[2026-07-21 21:53:04] [restart 022] done in 11.7 min -- best tape=1.074km B=13.07T unif=0.187% hoop=227MPa a=35.7mm b=48.9mm gap=19.7mm
+[2026-07-21 21:53:04] [restart 023] starting: a=69.7mm b=90.7mm gap=18.6mm n_turns=[573, 547, 177, 674, 608, 750, 471] seed=5023 (elapsed 3.28h / 11.5h)
+[2026-07-21 22:03:59] [restart 023] done in 10.9 min -- best tape=0.830km B=10.87T unif=0.693% hoop=138MPa a=26.0mm b=84.7mm gap=18.9mm
+[2026-07-21 22:03:59] [restart 024] starting: a=66.2mm b=140.0mm gap=16.2mm n_turns=[649, 726, 612, 757, 86, 222, 298] seed=5024 (elapsed 3.46h / 11.5h)
+[2026-07-21 22:14:57] [restart 024] done in 11.0 min -- best tape=1.150km B=11.60T unif=0.528% hoop=239MPa a=39.0mm b=54.7mm gap=23.4mm
+[2026-07-21 22:14:57] [restart 025] starting: a=54.0mm b=82.7mm gap=27.3mm n_turns=[582, 473, 409, 281, 884, 270, 74] seed=5025 (elapsed 3.65h / 11.5h)
+[2026-07-21 22:24:53] [restart 025] done in 9.9 min -- best tape=0.623km B=10.24T unif=0.503% hoop=141MPa a=22.8mm b=47.8mm gap=19.6mm
+[2026-07-21 22:24:53] [restart 026] starting: a=67.1mm b=209.9mm gap=34.7mm n_turns=[605, 193, 891, 679, 696, 124, 406] seed=5026 (elapsed 3.81h / 11.5h)
+[2026-07-21 22:39:20] [restart 026] done in 14.5 min -- best tape=1.485km B=10.01T unif=0.583% hoop=291MPa a=39.1mm b=113.1mm gap=16.4mm
+[2026-07-21 22:39:20] [restart 027] starting: a=61.5mm b=139.9mm gap=16.2mm n_turns=[512, 208, 826, 485, 237, 750, 694] seed=5027 (elapsed 4.05h / 11.5h)
+[2026-07-21 22:50:51] [restart 027] done in 11.5 min -- best tape=0.786km B=10.16T unif=0.846% hoop=125MPa a=22.0mm b=79.8mm gap=18.0mm
+[2026-07-21 22:50:51] [restart 028] starting: a=51.1mm b=116.1mm gap=23.5mm n_turns=[699, 144, 764, 596, 177, 198, 361] seed=5028 (elapsed 4.25h / 11.5h)
+[2026-07-21 23:01:03] [restart 028] done in 10.2 min -- best tape=0.835km B=10.43T unif=0.913% hoop=228MPa a=37.4mm b=55.0mm gap=17.5mm
+[2026-07-21 23:01:03] [restart 029] starting: a=27.9mm b=132.7mm gap=26.7mm n_turns=[219, 327, 262, 783, 836, 499, 679] seed=5029 (elapsed 4.42h / 11.5h)
+[2026-07-21 23:11:56] [restart 029] done in 10.9 min -- best tape=0.932km B=11.50T unif=0.553% hoop=164MPa a=29.2mm b=82.2mm gap=16.8mm
+[2026-07-21 23:11:56] [restart 030] starting: a=41.3mm b=106.1mm gap=22.4mm n_turns=[141, 612, 134, 560, 406, 465, 540] seed=5030 (elapsed 4.60h / 11.5h)
+[2026-07-21 23:20:18] [restart 030] done in 8.4 min -- best tape=0.595km B=10.18T unif=0.292% hoop=170MPa a=32.1mm b=44.8mm gap=20.5mm
+[2026-07-21 23:20:18] [restart 031] starting: a=32.6mm b=53.1mm gap=36.3mm n_turns=[68, 450, 331, 563, 574, 505, 63] seed=5031 (elapsed 4.74h / 11.5h)
+[2026-07-21 23:27:40] [restart 031] done in 7.4 min -- best tape=0.563km B=10.85T unif=0.304% hoop=172MPa a=32.2mm b=41.0mm gap=19.2mm
+[2026-07-21 23:27:40] [restart 032] starting: a=34.9mm b=92.7mm gap=34.4mm n_turns=[865, 588, 287, 229, 662, 445, 360] seed=5032 (elapsed 4.86h / 11.5h)
+[2026-07-21 23:35:12] [restart 032] done in 7.5 min -- best tape=0.662km B=13.46T unif=0.388% hoop=177MPa a=23.8mm b=41.3mm gap=16.8mm
+[2026-07-21 23:35:12] [restart 033] starting: a=45.9mm b=190.4mm gap=43.6mm n_turns=[189, 150, 808, 866, 784, 412, 228] seed=5033 (elapsed 4.99h / 11.5h)
+[2026-07-21 23:46:33] [restart 033] done in 11.4 min -- best tape=1.828km B=15.53T unif=0.945% hoop=305MPa a=42.4mm b=78.7mm gap=23.5mm
+[2026-07-21 23:46:33] [restart 034] starting: a=57.7mm b=92.9mm gap=39.8mm n_turns=[540, 566, 567, 140, 245, 332, 264] seed=5034 (elapsed 5.17h / 11.5h)
+[2026-07-21 23:54:54] [restart 034] done in 8.3 min -- best tape=0.971km B=12.44T unif=0.669% hoop=205MPa a=36.1mm b=53.2mm gap=21.3mm
+[2026-07-21 23:54:54] [restart 035] starting: a=26.3mm b=47.2mm gap=29.6mm n_turns=[771, 351, 569, 311, 562, 892, 647] seed=5035 (elapsed 5.31h / 11.5h)
+[2026-07-22 00:02:08] [restart 035] done in 7.2 min -- best tape=0.487km B=10.73T unif=0.451% hoop=150MPa a=27.6mm b=38.1mm gap=15.8mm
+[2026-07-22 00:02:08] [restart 036] starting: a=77.0mm b=193.6mm gap=21.4mm n_turns=[765, 252, 375, 715, 273, 115, 337] seed=5036 (elapsed 5.43h / 11.5h)
+[2026-07-22 00:12:01] [restart 036] done in 9.9 min -- best tape=1.163km B=10.22T unif=0.175% hoop=252MPa a=42.6mm b=54.9mm gap=29.2mm
+[2026-07-22 00:12:01] [restart 037] starting: a=80.9mm b=229.4mm gap=40.4mm n_turns=[323, 843, 421, 881, 372, 861, 808] seed=5037 (elapsed 5.60h / 11.5h)
+[2026-07-22 00:22:39] [restart 037] done in 10.6 min -- best tape=1.411km B=10.29T unif=0.566% hoop=232MPa a=33.8mm b=100.1mm gap=17.9mm
+[2026-07-22 00:22:39] [restart 038] starting: a=75.9mm b=216.3mm gap=35.9mm n_turns=[875, 162, 702, 840, 457, 582, 358] seed=5038 (elapsed 5.78h / 11.5h)
+[2026-07-22 00:33:38] [restart 038] done in 11.0 min -- best tape=1.337km B=10.28T unif=0.067% hoop=167MPa a=21.7mm b=128.5mm gap=16.5mm
+[2026-07-22 00:33:38] [restart 039] starting: a=83.3mm b=115.9mm gap=34.4mm n_turns=[553, 733, 785, 708, 590, 261, 387] seed=5039 (elapsed 5.96h / 11.5h)
+[2026-07-22 00:42:00] [restart 039] done in 8.4 min -- best tape=1.035km B=13.34T unif=0.359% hoop=232MPa a=38.5mm b=47.2mm gap=23.3mm
+[2026-07-22 00:42:00] [restart 040] starting: a=40.7mm b=69.6mm gap=31.5mm n_turns=[894, 456, 396, 668, 516, 522, 900] seed=5040 (elapsed 6.10h / 11.5h)
+[2026-07-22 00:49:21] [restart 040] done in 7.3 min -- best tape=0.626km B=11.67T unif=0.927% hoop=173MPa a=26.9mm b=45.6mm gap=15.7mm
+[2026-07-22 00:49:21] [restart 041] starting: a=32.8mm b=58.3mm gap=25.4mm n_turns=[547, 404, 427, 548, 570, 720, 862] seed=5041 (elapsed 6.22h / 11.5h)
+[2026-07-22 00:57:01] [restart 041] done in 7.7 min -- best tape=0.430km B=10.53T unif=0.495% hoop=129MPa a=25.4mm b=36.4mm gap=17.2mm
+[2026-07-22 00:57:01] [restart 042] starting: a=50.1mm b=128.7mm gap=40.2mm n_turns=[147, 648, 335, 847, 396, 876, 568] seed=5042 (elapsed 6.35h / 11.5h)
+[2026-07-22 01:06:05] [restart 042] done in 9.1 min -- best tape=1.102km B=11.16T unif=0.193% hoop=260MPa a=45.4mm b=54.5mm gap=15.5mm
+[2026-07-22 01:06:05] [restart 043] starting: a=23.5mm b=116.0mm gap=17.7mm n_turns=[287, 89, 477, 341, 227, 238, 210] seed=5043 (elapsed 6.50h / 11.5h)
+[2026-07-22 01:13:22] [restart 043] done in 7.3 min -- best tape=0.859km B=10.12T unif=0.533% hoop=189MPa a=39.9mm b=54.1mm gap=16.2mm
+[2026-07-22 01:13:22] [restart 044] starting: a=80.0mm b=109.7mm gap=33.2mm n_turns=[416, 755, 579, 256, 724, 292, 404] seed=5044 (elapsed 6.62h / 11.5h)
+[2026-07-22 01:21:22] [restart 044] done in 8.0 min -- best tape=1.106km B=13.03T unif=0.514% hoop=259MPa a=36.1mm b=47.9mm gap=20.3mm
+[2026-07-22 01:21:22] [restart 045] starting: a=19.7mm b=169.1mm gap=31.0mm n_turns=[130, 487, 166, 632, 91, 856, 619] seed=5045 (elapsed 6.75h / 11.5h)
+[2026-07-22 01:30:09] [restart 045] done in 8.8 min -- best tape=1.257km B=11.22T unif=0.599% hoop=260MPa a=43.6mm b=62.3mm gap=19.6mm
+[2026-07-22 01:30:09] [restart 046] starting: a=22.0mm b=118.4mm gap=25.5mm n_turns=[413, 559, 372, 249, 117, 851, 659] seed=5046 (elapsed 6.90h / 11.5h)
+[2026-07-22 01:38:23] [restart 046] done in 8.2 min -- best tape=1.010km B=10.99T unif=0.413% hoop=172MPa a=29.8mm b=55.5mm gap=27.2mm
+[2026-07-22 01:38:23] [restart 047] starting: a=36.7mm b=98.2mm gap=29.7mm n_turns=[855, 202, 860, 467, 647, 233, 900] seed=5047 (elapsed 7.04h / 11.5h)
+[2026-07-22 01:45:20] [restart 047] done in 6.9 min -- best tape=0.671km B=10.47T unif=0.249% hoop=195MPa a=32.7mm b=43.4mm gap=17.0mm
+[2026-07-22 01:45:20] [restart 048] starting: a=76.0mm b=182.2mm gap=44.0mm n_turns=[403, 430, 727, 824, 498, 256, 389] seed=5048 (elapsed 7.15h / 11.5h)
+[2026-07-22 01:54:44] [restart 048] done in 9.4 min -- best tape=1.286km B=13.51T unif=0.950% hoop=234MPa a=31.8mm b=71.6mm gap=18.4mm
+[2026-07-22 01:54:44] [restart 049] starting: a=26.2mm b=127.3mm gap=43.0mm n_turns=[92, 484, 271, 145, 161, 685, 555] seed=5049 (elapsed 7.31h / 11.5h)
+[2026-07-22 02:04:07] [restart 049] done in 9.4 min -- best tape=1.292km B=10.22T unif=0.872% hoop=266MPa a=42.6mm b=93.9mm gap=15.6mm
+[2026-07-22 02:04:07] [restart 050] starting: a=58.1mm b=186.5mm gap=25.7mm n_turns=[397, 810, 351, 365, 452, 134, 408] seed=5050 (elapsed 7.47h / 11.5h)
+[2026-07-22 02:15:51] [restart 050] done in 11.7 min -- best tape=1.792km B=11.14T unif=0.165% hoop=242MPa a=32.0mm b=143.5mm gap=16.1mm
+[2026-07-22 02:15:51] [restart 051] starting: a=17.8mm b=142.4mm gap=17.0mm n_turns=[752, 277, 219, 325, 643, 160, 524] seed=5051 (elapsed 7.66h / 11.5h)
+[2026-07-22 02:24:24] [restart 051] done in 8.5 min -- best tape=1.328km B=10.54T unif=0.277% hoop=214MPa a=34.7mm b=97.1mm gap=19.6mm
+[2026-07-22 02:24:24] [restart 052] starting: a=31.7mm b=70.9mm gap=42.7mm n_turns=[129, 358, 699, 154, 358, 327, 149] seed=5052 (elapsed 7.81h / 11.5h)
+[2026-07-22 02:31:09] [restart 052] done in 6.8 min -- best tape=0.829km B=11.54T unif=0.894% hoop=187MPa a=30.2mm b=48.1mm gap=18.2mm
+[2026-07-22 02:31:09] [restart 053] starting: a=32.2mm b=118.1mm gap=34.6mm n_turns=[265, 405, 202, 628, 318, 332, 159] seed=5053 (elapsed 7.92h / 11.5h)
+[2026-07-22 02:40:34] [restart 053] done in 9.4 min -- best tape=1.183km B=10.34T unif=0.310% hoop=181MPa a=30.7mm b=98.9mm gap=15.5mm
+[2026-07-22 02:40:34] [restart 054] starting: a=56.6mm b=172.7mm gap=25.6mm n_turns=[716, 422, 474, 532, 160, 333, 465] seed=5054 (elapsed 8.07h / 11.5h)
+[2026-07-22 02:49:37] [restart 054] done in 9.0 min -- best tape=0.737km B=10.52T unif=0.422% hoop=204MPa a=35.7mm b=41.5mm gap=23.2mm
+[2026-07-22 02:49:37] [restart 055] starting: a=26.1mm b=52.2mm gap=34.9mm n_turns=[847, 197, 561, 333, 560, 197, 779] seed=5055 (elapsed 8.23h / 11.5h)
+[2026-07-22 02:55:39] [restart 055] done in 6.0 min -- best tape=0.897km B=10.89T unif=0.714% hoop=164MPa a=33.3mm b=55.6mm gap=15.6mm
+[2026-07-22 02:55:39] [restart 056] starting: a=37.0mm b=108.3mm gap=31.4mm n_turns=[585, 706, 281, 782, 716, 518, 148] seed=5056 (elapsed 8.33h / 11.5h)
+[2026-07-22 03:02:58] [restart 056] done in 7.3 min -- best tape=0.788km B=10.66T unif=0.626% hoop=194MPa a=30.8mm b=50.2mm gap=18.2mm
+[2026-07-22 03:02:58] [restart 057] starting: a=24.5mm b=71.8mm gap=30.9mm n_turns=[52, 608, 219, 605, 109, 406, 593] seed=5057 (elapsed 8.45h / 11.5h)
+[2026-07-22 03:10:59] [restart 057] done in 8.0 min -- best tape=1.051km B=11.45T unif=0.680% hoop=216MPa a=44.7mm b=57.1mm gap=20.9mm
+[2026-07-22 03:10:59] [restart 058] starting: a=81.0mm b=162.6mm gap=35.9mm n_turns=[297, 692, 63, 604, 221, 153, 559] seed=5058 (elapsed 8.58h / 11.5h)
+[2026-07-22 03:20:05] [restart 058] done in 9.1 min -- best tape=0.637km B=10.89T unif=0.608% hoop=201MPa a=26.5mm b=40.9mm gap=15.6mm
+[2026-07-22 03:20:05] [restart 059] starting: a=84.7mm b=182.8mm gap=30.6mm n_turns=[323, 688, 734, 683, 161, 82, 465] seed=5059 (elapsed 8.73h / 11.5h)
+[2026-07-22 03:28:28] [restart 059] done in 8.4 min -- best tape=1.141km B=10.22T unif=0.660% hoop=245MPa a=40.9mm b=56.6mm gap=23.5mm
+[2026-07-22 03:28:28] [restart 060] starting: a=41.3mm b=70.4mm gap=40.2mm n_turns=[501, 296, 205, 307, 614, 596, 629] seed=5060 (elapsed 8.87h / 11.5h)
+[2026-07-22 03:37:09] [restart 060] done in 8.7 min -- best tape=1.271km B=11.25T unif=0.694% hoop=246MPa a=40.0mm b=63.1mm gap=21.7mm
+[2026-07-22 03:37:09] [restart 061] starting: a=37.4mm b=115.5mm gap=43.8mm n_turns=[242, 618, 463, 211, 385, 297, 346] seed=5061 (elapsed 9.02h / 11.5h)
+[2026-07-22 03:45:13] [restart 061] done in 8.1 min -- best tape=1.026km B=11.34T unif=0.691% hoop=225MPa a=41.6mm b=47.9mm gap=19.3mm
+[2026-07-22 03:45:13] [restart 062] starting: a=44.2mm b=148.5mm gap=35.8mm n_turns=[438, 124, 484, 173, 505, 287, 143] seed=5062 (elapsed 9.15h / 11.5h)
+[2026-07-22 03:54:43] [restart 062] done in 9.5 min -- best tape=1.075km B=11.44T unif=0.975% hoop=278MPa a=35.4mm b=57.0mm gap=17.5mm
+[2026-07-22 03:54:43] [restart 063] starting: a=25.6mm b=149.3mm gap=39.1mm n_turns=[646, 873, 99, 74, 295, 270, 492] seed=5063 (elapsed 9.31h / 11.5h)
+[2026-07-22 04:04:22] [restart 063] done in 9.6 min -- best tape=0.839km B=10.73T unif=0.304% hoop=252MPa a=41.5mm b=47.4mm gap=20.0mm
+[2026-07-22 04:04:22] [restart 064] starting: a=47.3mm b=177.5mm gap=15.9mm n_turns=[733, 330, 826, 233, 289, 56, 102] seed=5064 (elapsed 9.47h / 11.5h)
+[2026-07-22 04:14:36] [restart 064] done in 10.2 min -- best tape=1.297km B=10.31T unif=0.262% hoop=208MPa a=30.6mm b=113.3mm gap=16.0mm
+[2026-07-22 04:14:36] [restart 065] starting: a=58.6mm b=129.2mm gap=40.9mm n_turns=[821, 501, 480, 110, 811, 358, 220] seed=5065 (elapsed 9.64h / 11.5h)
+[2026-07-22 04:23:11] [restart 065] done in 8.6 min -- best tape=0.837km B=10.13T unif=0.945% hoop=184MPa a=35.6mm b=50.9mm gap=23.2mm
+[2026-07-22 04:23:11] [restart 066] starting: a=44.8mm b=81.8mm gap=23.5mm n_turns=[665, 638, 680, 200, 721, 754, 280] seed=5066 (elapsed 9.78h / 11.5h)
+[2026-07-22 04:30:14] [restart 066] done in 7.0 min -- best tape=0.537km B=10.10T unif=0.741% hoop=148MPa a=27.9mm b=44.4mm gap=17.9mm
+[2026-07-22 04:30:14] [restart 067] starting: a=28.0mm b=129.4mm gap=45.0mm n_turns=[820, 754, 544, 848, 847, 815, 182] seed=5067 (elapsed 9.90h / 11.5h)
+[2026-07-22 04:38:15] [restart 067] done in 8.0 min -- best tape=0.879km B=12.56T unif=0.505% hoop=190MPa a=34.1mm b=41.5mm gap=24.1mm
+[2026-07-22 04:38:15] [restart 068] starting: a=85.2mm b=136.0mm gap=17.4mm n_turns=[657, 835, 305, 236, 640, 319, 330] seed=5068 (elapsed 10.04h / 11.5h)
+[2026-07-22 04:46:54] [restart 068] done in 8.7 min -- best tape=0.783km B=10.56T unif=0.704% hoop=167MPa a=32.5mm b=52.0mm gap=22.0mm
+[2026-07-22 04:46:54] [restart 069] starting: a=19.3mm b=151.0mm gap=31.9mm n_turns=[174, 142, 366, 180, 79, 191, 319] seed=5069 (elapsed 10.18h / 11.5h)
+[2026-07-22 04:55:15] [restart 069] done in 8.4 min -- best tape=0.988km B=10.28T unif=0.832% hoop=271MPa a=37.0mm b=56.5mm gap=15.7mm
+[2026-07-22 04:55:15] [restart 070] starting: a=78.8mm b=208.2mm gap=34.7mm n_turns=[260, 503, 565, 242, 208, 101, 453] seed=5070 (elapsed 10.32h / 11.5h)
+[2026-07-22 05:05:46] [restart 070] done in 10.5 min -- best tape=1.231km B=12.35T unif=0.685% hoop=228MPa a=32.4mm b=84.3mm gap=16.4mm
+[2026-07-22 05:05:46] [restart 071] starting: a=31.3mm b=51.8mm gap=28.2mm n_turns=[111, 329, 260, 858, 585, 686, 608] seed=5071 (elapsed 10.49h / 11.5h)
+[2026-07-22 05:14:07] [restart 071] done in 8.4 min -- best tape=1.164km B=11.15T unif=0.952% hoop=257MPa a=35.0mm b=73.5mm gap=16.6mm
+[2026-07-22 05:14:07] [restart 072] starting: a=70.4mm b=89.2mm gap=35.6mm n_turns=[268, 794, 839, 500, 108, 309, 767] seed=5072 (elapsed 10.63h / 11.5h)
+[2026-07-22 05:21:28] [restart 072] done in 7.3 min -- best tape=0.898km B=11.64T unif=0.654% hoop=240MPa a=36.1mm b=47.0mm gap=21.2mm
+[2026-07-22 05:21:28] [restart 073] starting: a=77.5mm b=208.2mm gap=44.8mm n_turns=[732, 714, 90, 750, 874, 884, 813] seed=5073 (elapsed 10.76h / 11.5h)
+[2026-07-22 05:31:33] [restart 073] done in 10.1 min -- best tape=1.042km B=11.44T unif=0.632% hoop=199MPa a=38.9mm b=56.7mm gap=22.8mm
+[2026-07-22 05:31:33] [restart 074] starting: a=42.7mm b=122.1mm gap=42.0mm n_turns=[770, 652, 617, 849, 824, 680, 836] seed=5074 (elapsed 10.92h / 11.5h)
+[2026-07-22 05:39:38] [restart 074] done in 8.1 min -- best tape=1.121km B=13.09T unif=0.736% hoop=237MPa a=41.6mm b=55.3mm gap=20.4mm
+[2026-07-22 05:39:38] [restart 075] starting: a=40.5mm b=84.7mm gap=18.5mm n_turns=[809, 565, 307, 240, 302, 667, 209] seed=5075 (elapsed 11.06h / 11.5h)
+[2026-07-22 05:48:30] [restart 075] done in 8.9 min -- best tape=0.807km B=10.73T unif=0.767% hoop=143MPa a=23.6mm b=69.5mm gap=17.2mm
+[2026-07-22 05:48:30] [restart 076] starting: a=62.4mm b=129.2mm gap=32.8mm n_turns=[477, 664, 350, 300, 184, 521, 810] seed=5076 (elapsed 11.21h / 11.5h)
+[2026-07-22 05:58:08] [restart 076] done in 9.6 min -- best tape=1.174km B=11.37T unif=0.817% hoop=267MPa a=38.1mm b=63.6mm gap=20.0mm
+[2026-07-22 05:58:08] Stopping: 8.0 min left, avg restart takes 9.1 min -- not enough margin left.
+[2026-07-22 05:58:08] Sweep finished: 76 restarts attempted in 11.37 h.

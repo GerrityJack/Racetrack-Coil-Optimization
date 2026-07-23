@@ -33,7 +33,8 @@ for _p in (_ROOT, os.path.join(_ROOT, "physics")):
         sys.path.insert(0, _p)
 
 import params
-from coil2_field import compute_both_coils_field, compute_field_from_coil_at_z
+from coil2_field import (compute_both_coils_field_multilayer,
+                         compute_field_from_coil_at_z)
 
 
 # ── dynamic layer colours (works for any n_layers) ──────────────────────────
@@ -74,11 +75,10 @@ def plot_top(npz_data):
         z_plane = g
         fp = np.column_stack([Xg.ravel(), Yg.ravel(),
                                np.full(Xg.size, z_plane)])
-        print(f"  field_top: computing at midplane z = {z_plane*1e3:.0f} mm …")
-        B_tot, _, _ = compute_both_coils_field(
-            fp, I_per_turn=I_pt,
-            n_turns=params.n_turns_total, a=a, b=b,
-            coil_half_gap=g, n_straight=400, n_cap=300)
+        print(f"  field_top: computing at midplane z = {z_plane*1e3:.0f} mm "
+             f"(multi-filament, per-layer) …")
+        B_tot = compute_both_coils_field_multilayer(
+            fp, I_per_turn=I_pt, n_straight=400, n_cap=300)
         Bx = B_tot[:, 0].reshape(Xg.shape)
         By = B_tot[:, 1].reshape(Xg.shape)
         Bz = B_tot[:, 2].reshape(Xg.shape)
@@ -173,11 +173,10 @@ def plot_side(npz_data):
         zs = np.linspace(-params._z_top - margin, z_c2 + params._z_top + margin, nz)
         Xs, Zs = np.meshgrid(xs, zs)
         fp = np.column_stack([Xs.ravel(), np.zeros(Xs.size), Zs.ravel()])
-        print(f"  field_side: two-coil Biot-Savart ({fp.shape[0]} points) …")
-        B_tot, _, _ = compute_both_coils_field(
-            fp, I_per_turn=I_pt,
-            n_turns=params.n_turns_total, a=a, b=b,
-            coil_half_gap=g, n_straight=400, n_cap=300)
+        print(f"  field_side: two-coil multi-filament Biot-Savart "
+             f"({fp.shape[0]} points) …")
+        B_tot = compute_both_coils_field_multilayer(
+            fp, I_per_turn=I_pt, n_straight=400, n_cap=300)
         Bmag = np.linalg.norm(B_tot, axis=1).reshape(Xs.shape)
         Bx_g = B_tot[:, 0].reshape(Xs.shape)
         Bz_g = B_tot[:, 2].reshape(Xs.shape)

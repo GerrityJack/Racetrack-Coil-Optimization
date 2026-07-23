@@ -44,7 +44,7 @@ import build_mesh
 from physics.ic_model import IcModel, NValueModel
 from ta_solve import (setup_ta_problem, solve_ta_at_current, _J_from_T,
                       dB_bore_from_dJ)
-from coil2_field import compute_both_coils_field
+from coil2_field import compute_both_coils_field_multilayer
 
 # ── Sweep settings ─────────────────────────────────────────────────────────
 SWEEP_CURRENTS = list(range(150, 425, 25))   # 150 … 400 A
@@ -150,7 +150,7 @@ def _scif_at_bore(ta, domain, I_amps):
     dB = dB_bore_from_dJ(cents, dJ_s, ta["coil_vols"])
 
     bore = np.array([[0., 0., float(params.coil_half_gap)]])
-    B_u, _, _ = compute_both_coils_field(bore, I_per_turn=I_amps)
+    B_u = compute_both_coils_field_multilayer(bore, I_per_turn=I_amps)
     Bz_u = float(B_u[0, 2])
     return dB, Bz_u, Bz_u + float(dB[2]), cents
 
@@ -240,10 +240,9 @@ def _plot_field_top(I_amps, Bz_TA, Bz_u):
     Xg, Yg = np.meshgrid(xs, ys)
     fp = np.column_stack([Xg.ravel(), Yg.ravel(), np.full(Xg.size, g)])
 
-    print(f"  ta_field_top: Biot-Savart at z={g*1e3:.0f} mm …")
-    B_tot, _, _ = compute_both_coils_field(fp, I_per_turn=I_amps,
-                                            n_turns=params.n_turns_total,
-                                            a=a, b=b, n_straight=400, n_cap=300)
+    print(f"  ta_field_top: multi-filament Biot-Savart at z={g*1e3:.0f} mm …")
+    B_tot = compute_both_coils_field_multilayer(fp, I_per_turn=I_amps,
+                                                n_straight=400, n_cap=300)
     Bm  = np.linalg.norm(B_tot, axis=1).reshape(Xg.shape)
     Bxg = B_tot[:, 0].reshape(Xg.shape)
     Byg = B_tot[:, 1].reshape(Xg.shape)
@@ -303,10 +302,9 @@ def _plot_field_side(I_amps, Bz_TA):
     Xs, Zs = np.meshgrid(xs, zs)
     fp = np.column_stack([Xs.ravel(), np.zeros(Xs.size), Zs.ravel()])
 
-    print(f"  ta_field_side: Biot-Savart ({fp.shape[0]} pts) …")
-    B_tot, _, _ = compute_both_coils_field(fp, I_per_turn=I_amps,
-                                            n_turns=params.n_turns_total,
-                                            a=a, b=b, n_straight=400, n_cap=300)
+    print(f"  ta_field_side: multi-filament Biot-Savart ({fp.shape[0]} pts) …")
+    B_tot = compute_both_coils_field_multilayer(fp, I_per_turn=I_amps,
+                                                n_straight=400, n_cap=300)
     Bmag = np.linalg.norm(B_tot, axis=1).reshape(Xs.shape)
     Bxg  = B_tot[:, 0].reshape(Xs.shape)
     Bzg  = B_tot[:, 2].reshape(Xs.shape)
@@ -371,13 +369,11 @@ def _plot_uniformity(I_amps, Bz_TA, Bz_u):
     Xb, Yb, fp_b = _grid(REGION_X_M/2, REGION_Y_M/2, GRID_NX, GRID_NY)
     Xs, Ys, fp_s = _grid(SURROUND_X_M/2, SURROUND_Y_M/2, SURROUND_NX, SURROUND_NY)
 
-    print("  ta_uniformity: Biot-Savart on grids …")
-    B_b, _, _ = compute_both_coils_field(fp_b, I_per_turn=I_amps,
-                                          n_turns=params.n_turns_total,
-                                          a=a, b=b, n_straight=400, n_cap=300)
-    B_s, _, _ = compute_both_coils_field(fp_s, I_per_turn=I_amps,
-                                          n_turns=params.n_turns_total,
-                                          a=a, b=b, n_straight=400, n_cap=300)
+    print("  ta_uniformity: multi-filament Biot-Savart on grids …")
+    B_b = compute_both_coils_field_multilayer(fp_b, I_per_turn=I_amps,
+                                              n_straight=400, n_cap=300)
+    B_s = compute_both_coils_field_multilayer(fp_s, I_per_turn=I_amps,
+                                              n_straight=400, n_cap=300)
 
     # Apply SCIF correction: scale field magnitudes by |Bz_TA/Bz_u|
     # (the SCIF is approximately spatially uniform over the small bore box)

@@ -97,14 +97,25 @@ your algorithms.
 
 ---
 
-## Internal CMA-ES search (`optimize/cmaes_search.py`, 2026-07-21)
+## Internal CMA-ES search (`optimize/cmaes_search.py`, 2026-07-21, updated 2026-07-22)
 
 A separate, actively-evolving internal design study under a different
 objective — **do not confuse this with the frozen `evaluate.py` handoff
 above**, which is unaffected by it. Uses [pycma](https://github.com/CMA-ES/pycma)
 (installed into `fenicsx-env` from conda-forge) to search continuously over
-9 geometry variables plus the coil-to-coil gap, instead of the grid in
-`optimize_geometry.py`.
+geometry variables plus the coil-to-coil gap and the per-layer turn counts,
+instead of the grid in `optimize_geometry.py`.
+
+**Current best design overall (6 pancake layers): tape = 0.1464 km,
+B_target = 10.10 T, uniformity = 0.94 %, hoop = 59 MPa** — a=12.9 mm,
+b=21.0 mm, coil_half_gap=13.9 mm, n_turns=[187,223,256,258,245,50]. The
+number of pancake layers (`n_layers`) is now itself a design variable,
+searched as a discrete outer loop over independent CMA-ES runs (see
+`optimize/sweep_n_layers.py` and CLAUDE.md's "n_layers sweep" section for
+the full methodology and results table across 3–12 layers). Layer counts
+3, 4, 9, 10, 12 have only a cheap cold-start result so far and 5 needs a
+redo (a refinement attempt regressed due to an oversized step size) — see
+`optimize/overnight_refinement.py` in CLAUDE.md for the queued fix.
 
 **Objective:** minimize tape length, subject to:
 
@@ -356,6 +367,24 @@ measurements (15–20 T) are planned; until then apply an extra safety factor.
   screening pattern shares the transport current's mirror symmetry
 - **Bore-box homogeneity not yet re-evaluated** with the fixed model —
   only the on-axis SCIF point has been computed
+- **RESOLVED 2026-07-22 — single-filament Biot-Savart broke down at small
+  coil scale:** `physics/coil2_field.py`'s original
+  `compute_both_coils_field()` treats the whole winding as one filament at
+  radius `a` — valid only when the winding-pack cross-section is small
+  compared to `a`/`coil_half_gap` (true at the original ~50-80 mm scale,
+  false for the much smaller CMA-ES-optimized coils above, a≈13-25 mm).
+  Fixed via `compute_both_coils_field_multilayer()` (resolves each layer's
+  own z-center and radial sub-filament group, matching
+  `optimize_geometry.py`'s own approach) — every near-coil field
+  evaluation in the repo (`visualization/plot_fields.py`,
+  `visualization/field_uniformity.py`, `sweep/quench_sweep.py`,
+  `solve/ta_postprocess.py`, `solve/ta_sweep.py`, `solve/ta_solve.py`) now
+  uses it. `field_uniformity.py` also now matches the optimizer's exact
+  30×6 mm target box and applies the same Bean-state SCIF correction —
+  verified result went from a spurious FAIL (6.74 %) to a PASS (0.56 %)
+  closely agreeing with the optimizer's own reported 0.68-0.94 % range.
+  `optimize_geometry.py` itself was already correct (built its own
+  multi-filament sum from scratch) and needed no change.
 
 ---
 

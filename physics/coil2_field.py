@@ -252,6 +252,58 @@ def compute_both_coils_field(field_points, I_per_turn=None,
     return B1 + B2, B1, B2
 
 
+def compute_both_coils_field_multilayer(field_points, I_per_turn=None,
+                                        n_straight=400, n_cap=300,
+                                        turns_per_filament=100):
+    """
+    Multi-filament, per-layer Biot-Savart field from BOTH coils --
+    resolves each layer's own z-center and radial center, instead of
+    compute_both_coils_field()'s single filament at one nominal radius a
+    carrying ALL n_turns_total turns.
+
+    2026-07-22: added because the single-filament approximation this
+    module's own docstring justifies (winding-pack cross-section <<
+    coil_half_gap) silently stopped holding once the CMA-ES search
+    (optimize/cmaes_search.py) started producing much smaller coils --
+    e.g. a=15.5mm with a ~25mm-thick winding pack and coil_half_gap=17mm
+    is the OPPOSITE of "cross-section << gap". Concretely this caused
+    field_uniformity.py to report FAIL (6.7% p-t-p) at the champion
+    design where the properly-resolved multi-filament calculation (the
+    same approach optimize_geometry.py's filament_stack()/
+    target_box_field() already used, correctly, for the optimizer's own
+    constraint check) reports PASS (0.68%) -- confirmed to be a modeling
+    artifact of the thin-filament assumption, not a real property of the
+    design. Use this function (not compute_both_coils_field) for any
+    design that may be far from the ~50-80mm scale the single-filament
+    approximation was originally validated against.
+
+    Groups each layer's n_turns[i] into sub-filaments of ~
+    turns_per_filament turns each, placed at that sub-group's own radial
+    centerline -- mirrors optimize_geometry.py's filament_stack() exactly
+    (same edges/centering formula), so results agree with what the
+    optimizer's own constraint check computes.
+    """
+    I_per_turn = I_per_turn if I_per_turn is not None else params.I_design
+    g = float(params.coil_half_gap)
+    L = params.b - params.a
+
+    field_points = np.atleast_2d(np.asarray(field_points, dtype=np.float64))
+    B = np.zeros_like(field_points)
+    for i, n_i in enumerate(params.n_turns):
+        n_sub = max(1, round(n_i / turns_per_filament))
+        edges = np.linspace(params.a_out - n_i * params.t, params.a_out,
+                            n_sub + 1)
+        z_c = 0.5 * (params.layer_z_tops[i] + params.layer_z_bottoms[i])
+        for j in range(n_sub):
+            r_c = 0.5 * (edges[j] + edges[j + 1])
+            kw = dict(I_per_turn=I_per_turn, n_turns=n_i / n_sub,
+                      a=r_c, b=r_c + L, n_straight=n_straight, n_cap=n_cap)
+            B += compute_field_from_coil_at_z(field_points, z_center=z_c, **kw)
+            B += compute_field_from_coil_at_z(field_points,
+                                              z_center=2.0 * g - z_c, **kw)
+    return B
+
+
 # ---------------------------------------------------------------------------
 # Quick standalone test
 # ---------------------------------------------------------------------------

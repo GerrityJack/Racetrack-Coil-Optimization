@@ -54,6 +54,16 @@ cmaes_constraints, cmaes_variables, cmaes_overview).
 """
 import os, sys, csv, time
 
+# 2026-07-22: force line-buffered stdout. Without this, print() output sits
+# fully buffered whenever stdout is redirected to a file (the normal case
+# for a backgrounded run) and only appears when the process exits --
+# confirmed repeatedly across multi-hour runs where `tail`/`cat` on the log
+# showed nothing until completion. Enables live progress monitoring.
+try:
+    sys.stdout.reconfigure(line_buffering=True)
+except Exception:
+    pass
+
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 for _p in (_ROOT, os.path.join(_ROOT, "physics"),
            os.path.join(_ROOT, "mesh"), os.path.join(_ROOT, "solve"),
@@ -91,17 +101,39 @@ def decode(x):
     return a, b, gap, n_turns
 
 
+def gap_bounds_for_n_layers():
+    """The true minimum coil_half_gap (>=3mm face-to-face clearance) depends
+    on N_LAYERS (z_top = N_LAYERS*w/2), so a static config range tuned for
+    one layer count is WRONG for another -- e.g. cfg.CMAES_HALF_GAP_BOUNDS
+    was tuned for N_LAYERS=7 (floor 15.5mm); at N_LAYERS=12 the true floor
+    is ~27.5mm, well inside that "box", which would let pycma sample gaps
+    that are always penalized as infeasible. Compute the floor from
+    N_LAYERS directly and preserve the ORIGINAL range width above it, so
+    behavior at N_LAYERS=7 is unchanged (7*0.004/2 + 0.003/2 = 0.0155,
+    exactly cfg.CMAES_HALF_GAP_BOUNDS[0]) when CMAES_TIGHT_BOUNDS is off.
+    With CMAES_TIGHT_BOUNDS on, uses CMAES_TIGHT_GAP_MARGIN_M instead of
+    the full original width -- see opt_config.py's "zone-out" section."""
+    floor = N_LAYERS * params.w / 2.0 + cfg.MIN_COIL_GAP_M / 2.0
+    if getattr(cfg, "CMAES_TIGHT_BOUNDS", False):
+        width = cfg.CMAES_TIGHT_GAP_MARGIN_M
+    else:
+        width = cfg.CMAES_HALF_GAP_BOUNDS[1] - cfg.CMAES_HALF_GAP_BOUNDS[0]
+    return floor, floor + width
+
+
 def bounds_and_stds():
     # a, b: no box bound (None = unbounded in pycma) per project direction;
     # step size is set directly rather than derived from a bound range.
+    tight = getattr(cfg, "CMAES_TIGHT_BOUNDS", False)
+    n_bounds = cfg.CMAES_TIGHT_N_BOUNDS if tight else cfg.CMAES_N_BOUNDS
+
+    gap_lo, gap_hi = gap_bounds_for_n_layers()
     lo = [cfg.CMAES_A_BOUNDS[0], cfg.CMAES_B_BOUNDS[0],
-          cfg.CMAES_HALF_GAP_BOUNDS[0]] + [cfg.CMAES_N_BOUNDS[0]] * N_LAYERS
+          gap_lo] + [n_bounds[0]] * N_LAYERS
     hi = [cfg.CMAES_A_BOUNDS[1], cfg.CMAES_B_BOUNDS[1],
-          cfg.CMAES_HALF_GAP_BOUNDS[1]] + [cfg.CMAES_N_BOUNDS[1]] * N_LAYERS
-    gap_std = cfg.CMAES_SIGMA0_FRAC * (cfg.CMAES_HALF_GAP_BOUNDS[1]
-                                       - cfg.CMAES_HALF_GAP_BOUNDS[0])
-    n_std = cfg.CMAES_SIGMA0_FRAC * (cfg.CMAES_N_BOUNDS[1]
-                                     - cfg.CMAES_N_BOUNDS[0])
+          gap_hi] + [n_bounds[1]] * N_LAYERS
+    gap_std = cfg.CMAES_SIGMA0_FRAC * (gap_hi - gap_lo)
+    n_std = cfg.CMAES_SIGMA0_FRAC * (n_bounds[1] - n_bounds[0])
     stds = [cfg.CMAES_A_STD0, cfg.CMAES_B_STD0, gap_std] + [n_std] * N_LAYERS
     return lo, hi, stds
 
@@ -143,31 +175,39 @@ _eval_count = 0
 _history = []
 _best = dict(fitness=np.inf)
 _run_tag = "run"
+_last_flushed_idx = 0    # _history[:_last_flushed_idx] already on disk
+FLUSH_EVERY = 20          # ~1.5-2 generations; see _record()
 
 
-def fitness(x):
-    global _eval_count
-    _eval_count += 1
+def _evaluate_candidate(x):
+    """Pure, worker-safe evaluation: decode x, run geometry_violation() and
+    (if feasible) og.evaluate(), compute the constraint penalty, and return
+    a plain-data dict. Reads only this process's own _ic_model/_comm/params
+    globals (set once by main() in the parent serial path, or _worker_init()
+    in a parallel-pool worker) and never touches _history/_best/_eval_count
+    -- safe to call from a ProcessPoolExecutor worker. Identical evaluation
+    logic to the old inline body of fitness(), just without the bookkeeping
+    side effects."""
     a, b, gap, n_turns = decode(x)
 
     viol, face_gap = geometry_violation(a, b, gap, n_turns)
     if viol > 0.0:
         f = cfg.CMAES_INFEASIBLE_PENALTY_KM * (1.0 + viol)
-        _record(x, a, b, gap, n_turns, face_gap, f, feasible=False, r=None)
-        return f
+        return dict(a=a, b=b, gap=gap, n_turns=n_turns, face_gap=face_gap,
+                    f=f, feasible=False, r=None, g=None)
 
     cand = dict(a=a, b=b, n_turns=n_turns, coil_half_gap=gap)
     try:
         r = og.evaluate(cand, _ic_model, _comm)
     except AssertionError:
         f = cfg.CMAES_INFEASIBLE_PENALTY_KM
-        _record(x, a, b, gap, n_turns, face_gap, f, feasible=False, r=None)
-        return f
+        return dict(a=a, b=b, gap=gap, n_turns=n_turns, face_gap=face_gap,
+                    f=f, feasible=False, r=None, g=None)
 
     if not r.get("feasible", False):
         f = cfg.CMAES_INFEASIBLE_PENALTY_KM
-        _record(x, a, b, gap, n_turns, face_gap, f, feasible=False, r=None)
-        return f
+        return dict(a=a, b=b, gap=gap, n_turns=n_turns, face_gap=face_gap,
+                    f=f, feasible=False, r=None, g=None)
 
     hoop_max_mpa = cfg.SIGMA_HOOP_MAX_PA / 1e6
     g = [
@@ -178,9 +218,22 @@ def fitness(x):
     ]
     penalty = cfg.CMAES_PENALTY_KM * sum(gi ** 2 for gi in g)
     f = r["tape_km"] + penalty
+    return dict(a=a, b=b, gap=gap, n_turns=n_turns, face_gap=face_gap,
+                f=f, feasible=True, r=r, g=g)
 
-    _record(x, a, b, gap, n_turns, face_gap, f, feasible=True, r=r, g=g)
-    return f
+
+def fitness(x):
+    """Serial-path objective handed to cma.optimize(). Thin wrapper around
+    _evaluate_candidate(): same eval-count increment + _record() call, same
+    order, as before the extraction -- this keeps CMAES_N_WORKERS=1 output
+    byte-for-byte identical to the pre-parallelization code."""
+    global _eval_count
+    _eval_count += 1
+    res = _evaluate_candidate(x)
+    _record(x, res["a"], res["b"], res["gap"], res["n_turns"],
+            res["face_gap"], res["f"], res["feasible"], res["r"],
+            res.get("g"))
+    return res["f"]
 
 
 def _record(x, a, b, gap, n_turns, face_gap, f, feasible, r, g=None):
@@ -211,6 +264,85 @@ def _record(x, a, b, gap, n_turns, face_gap, f, feasible, r, g=None):
     print(f"  [{_eval_count:4d}] {tag:6s} f={f:8.3f}  "
           f"a={a*1e3:.1f} b={b*1e3:.1f} gap={gap*1e3:.1f} "
           f"(face={face_gap*1e3:.1f}mm) n={n_turns}  {extra}")
+
+    # 2026-07-22: periodic incremental flush to disk -- previously
+    # cmaes_history.csv/cmaes_all_evaluations.csv/cmaes_results.csv were
+    # only ever written once, at the very end of main(), meaning a crash
+    # or kill mid-run (e.g. a multi-hour extended-refinement run) lost
+    # EVERY evaluation done so far with no way to recover it. Every
+    # FLUSH_EVERY evaluations (~1.5-2 generations), append any not-yet-
+    # written rows to the master log and rewrite this run's own CSVs, so
+    # at most FLUSH_EVERY evaluations' worth of work is ever at risk.
+    if _eval_count % FLUSH_EVERY == 0:
+        _append_master_log()
+        _write_csv(quiet=True)
+
+
+# ── opt-in generation-parallel evaluation (cfg.CMAES_N_WORKERS > 1) ─────────
+# Default (CMAES_N_WORKERS = 1) never touches any of this -- main() takes
+# the plain es.optimize(fitness) branch, byte-for-byte the original path.
+
+def _worker_init():
+    """ProcessPoolExecutor initializer, runs once per worker process before
+    any task is sent to it. Mirrors what main() does once in the serial
+    path (_comm, _ic_model, SCREEN_MESH_OVERRIDES), plus the one extra step
+    required only for parallel workers: giving each worker a distinct
+    mesh_filename so concurrent build_mesh.build(write_path=...) calls
+    (inside og.evaluate()) can never race on the shared default path
+    mesh/racetrack_mesh.msh -- params is a plain module, so each OS process
+    has its own independent copy of params.mesh_filename to repoint."""
+    global _ic_model, _comm
+    _comm = MPI.COMM_WORLD
+    _ic_model = IcModel()
+    for k, v in cfg.SCREEN_MESH_OVERRIDES.items():
+        setattr(params, k, v)
+    root, ext = os.path.splitext(params.mesh_filename)
+    params.mesh_filename = f"{root}_w{os.getpid()}{ext}"
+
+
+def _run_parallel(es, n_workers):
+    """One generation (population) per round-trip to a process pool.
+    pool.map() preserves input order, so fitnesses[i] always corresponds to
+    solutions[i] regardless of completion order -- required for
+    es.tell(solutions, fitnesses). es.stop()/opts['maxfevals'] are driven
+    by es.countevals, which tell() increments by len(fitnesses) each call
+    -- the same mechanism .optimize() itself relies on -- so budget
+    semantics, including the same "last generation may overshoot
+    maxfevals" behavior that already exists in the serial path, are
+    unchanged by using this manual loop instead.
+
+    2026-07-22: added es.logger.add(es) after tell(), matching what pycma's
+    own optimize() does internally via _prepare_callback_list() (which
+    appends self.logger.add as a callback, then invokes it as f(self) --
+    i.e. the `es` argument IS required; `es.logger.add()` with no argument
+    silently returns without writing anything -- verified directly:
+    logger.add() bare produced zero files in outcmaes/ over 6 generations,
+    while logger.add(es) with the same opts wrote all 9 files as expected).
+    Without this, this manual loop never wrote to outcmaes/ at all --
+    confirmed by checking outcmaes/fit.dat's mtime during a live
+    2500-eval parallel run and finding it ~19h stale. Every invocation so
+    far that used CMAES_N_WORKERS>1 (both extended-refinement rounds) was
+    affected; this only fixes it going forward, it doesn't recover missed
+    data from already-completed runs."""
+    global _eval_count
+    import multiprocessing as mp
+    import concurrent.futures as cf
+
+    ctx = mp.get_context("spawn")
+    with cf.ProcessPoolExecutor(max_workers=n_workers, mp_context=ctx,
+                                initializer=_worker_init) as pool:
+        while not es.stop():
+            solutions = es.ask()
+            results = list(pool.map(_evaluate_candidate, solutions))
+            fitnesses = []
+            for x, res in zip(solutions, results):
+                _eval_count += 1
+                _record(x, res["a"], res["b"], res["gap"], res["n_turns"],
+                        res["face_gap"], res["f"], res["feasible"],
+                        res["r"], res.get("g"))
+                fitnesses.append(res["f"])
+            es.tell(solutions, fitnesses)
+            es.logger.add(es)
 
 
 # ── main ─────────────────────────────────────────────────────────────────────
@@ -246,7 +378,25 @@ def main():
 
     es = cma.CMAEvolutionStrategy(x0, 1.0, opts)
     t0 = time.time()
-    es.optimize(fitness)
+
+    n_workers = getattr(cfg, "CMAES_N_WORKERS", 1)
+    if n_workers > 1:
+        # Set BEFORE the pool is created so spawned children inherit these
+        # in os.environ at interpreter boot -- earlier than their own
+        # numpy/dolfinx/PETSc/MKL imports, which matters because a spawned
+        # child must re-import this module to locate _worker_init/
+        # _evaluate_candidate by name, meaning module-level imports happen
+        # before _worker_init()'s body ever runs. Scoped to this branch
+        # only -- the serial path's environment is never touched.
+        os.environ.setdefault("OMP_NUM_THREADS", "1")
+        os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+        os.environ.setdefault("MKL_NUM_THREADS", "1")
+        os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
+        print(f"Parallel mode: {n_workers} worker processes per generation.")
+        _run_parallel(es, n_workers)
+    else:
+        es.optimize(fitness)   # UNCHANGED -- exact original serial path
+
     dt = time.time() - t0
 
     print(f"\n{'='*90}\nCMA-ES finished: {_eval_count} evaluations in "
@@ -266,15 +416,25 @@ def main():
 
     _write_csv()
     _append_master_log()
+    print(f"This run's {_last_flushed_idx} rows are in the cumulative "
+          f"master log -> {cfg.CMAES_MASTER_LOG} "
+          f"(flushed incrementally every {FLUSH_EVERY} evals during the "
+          f"run, not just now at the end)")
     _make_plots()
     _make_param_map()
 
 
 def _append_master_log():
-    """Append this run's full history to the cumulative, never-overwritten
-    master log (cfg.CMAES_MASTER_LOG) -- the parameter-space "map" dataset
-    spanning every cmaes_search.py run to date, each tagged with run_tag."""
-    if not _history:
+    """Append any NOT-YET-WRITTEN rows (tracked via _last_flushed_idx) to
+    the cumulative, never-overwritten master log (cfg.CMAES_MASTER_LOG) --
+    the parameter-space "map" dataset spanning every cmaes_search.py run to
+    date, each tagged with run_tag. Called both periodically during a run
+    (see _record()) and once more at the end -- the index tracking means
+    calling it twice never double-writes a row, so both call sites can use
+    the exact same function."""
+    global _last_flushed_idx
+    new_rows = _history[_last_flushed_idx:]
+    if not new_rows:
         return
     fields = ["run_tag", "eval", "fitness", "feasible", "all_constraints_ok",
               "a_mm", "b_mm", "gap_mm", "face_gap_mm", "n_turns", "n_total",
@@ -288,12 +448,16 @@ def _append_master_log():
         w = csv.DictWriter(fcsv, fieldnames=fields, extrasaction="ignore")
         if write_header:
             w.writeheader()
-        w.writerows(_history)
-    print(f"Appended {len(_history)} rows to cumulative master log -> "
-          f"{cfg.CMAES_MASTER_LOG}")
+        w.writerows(new_rows)
+    _last_flushed_idx = len(_history)
 
 
-def _write_csv():
+def _write_csv(quiet=False):
+    """Rewrites (not appends -- this file always reflects THIS run only,
+    unlike the cumulative master log) cfg.CMAES_OUT_LOG/CMAES_OUT_CSV.
+    quiet=True for the periodic mid-run calls from _record() (avoids a
+    print every FLUSH_EVERY evals); the final call from main() still
+    prints normally."""
     if not _history:
         return
     keys = list(_history[0].keys())
@@ -307,7 +471,8 @@ def _write_csv():
         w = csv.DictWriter(fcsv, fieldnames=keys, extrasaction="ignore")
         w.writeheader()
         w.writerows(_history)
-    print(f"\nFull evaluation history -> {cfg.CMAES_OUT_LOG}")
+    if not quiet:
+        print(f"\nFull evaluation history -> {cfg.CMAES_OUT_LOG}")
 
     if _best["fitness"] < np.inf:
         best_path = os.path.join(_ROOT, cfg.CMAES_OUT_CSV)
@@ -315,7 +480,8 @@ def _write_csv():
             w = csv.DictWriter(fcsv, fieldnames=list(_best.keys()))
             w.writeheader()
             w.writerow(_best)
-        print(f"Best design            -> {cfg.CMAES_OUT_CSV}")
+        if not quiet:
+            print(f"Best design            -> {cfg.CMAES_OUT_CSV}")
 
 
 # ── visualization ────────────────────────────────────────────────────────────
@@ -593,6 +759,16 @@ def _make_param_map():
     colors = np.where(ok, "limegreen", np.where(feas, "orange", "tomato"))
     markers = ["o", "s", "^", "D", "v", "P", "X"]
 
+    # Per-run marker shapes only make sense for a handful of runs -- with
+    # dozens (e.g. an overnight sweep_restarts.py session), a legend with
+    # one entry per run is unreadable and swamps the figure. Above this
+    # threshold, fall back to a single uniform marker colored by outcome
+    # only; the point is the aggregate map, not which run found what.
+    MAX_RUNS_FOR_MARKERS = 10
+    by_run = len(unique_runs) <= MAX_RUNS_FOR_MARKERS
+    pt_size = 20 if len(all_rows) < 5000 else 6
+    pt_alpha = 0.75 if len(all_rows) < 5000 else 0.35
+
     viz_dir = getattr(params, "VIZ_DIR", os.path.join(_ROOT, "visualization"))
     os.makedirs(viz_dir, exist_ok=True)
 
@@ -601,12 +777,17 @@ def _make_param_map():
     for ax in axes.flat:
         _style_axes(ax)
 
-    def _scatter_by_run(ax, x, y):
-        for i, tag in enumerate(unique_runs):
-            m = run_idx == i
-            ax.scatter(x[m], y[m], c=colors[m],
-                      marker=markers[i % len(markers)], s=20, alpha=0.75,
-                      edgecolor="none", label=tag)
+    def _scatter_by_run(ax, x, y, mask=None):
+        idx = np.arange(len(x)) if mask is None else np.where(mask)[0]
+        if by_run:
+            for i, tag in enumerate(unique_runs):
+                m = idx[run_idx[idx] == i]
+                ax.scatter(x[m], y[m], c=colors[m],
+                          marker=markers[i % len(markers)], s=pt_size,
+                          alpha=pt_alpha, edgecolor="none", label=tag)
+        else:
+            ax.scatter(x[idx], y[idx], c=colors[idx], marker="o",
+                      s=pt_size, alpha=pt_alpha, edgecolor="none")
 
     _scatter_by_run(axes[0, 0], a_mm, b_mm)
     axes[0, 0].set_xlabel("a  [mm]"); axes[0, 0].set_ylabel("b  [mm]")
@@ -626,21 +807,13 @@ def _make_param_map():
                          color="white", fontsize=10)
 
     fm = feas & np.isfinite(tape)
-    for i, tag in enumerate(unique_runs):
-        m = fm & (run_idx == i)
-        axes[1, 1].scatter(tape[m], n_tot[m], c=colors[m],
-                          marker=markers[i % len(markers)], s=20,
-                          alpha=0.75, edgecolor="none")
+    _scatter_by_run(axes[1, 1], tape, n_tot, mask=fm)
     axes[1, 1].set_xlabel("tape length  [km]")
     axes[1, 1].set_ylabel("total turns")
     axes[1, 1].set_title("Tape cost vs. turn count (feasible only)",
                          color="white", fontsize=10)
 
     from matplotlib.lines import Line2D
-    run_handles = [Line2D([0], [0], marker=markers[i % len(markers)],
-                         color="w", markerfacecolor="gray", markersize=7,
-                         label=tag, linestyle="none")
-                  for i, tag in enumerate(unique_runs)]
     color_handles = [
         Line2D([0], [0], marker="o", color="w", markerfacecolor="limegreen",
               markersize=7, label="all constraints pass", linestyle="none"),
@@ -650,6 +823,13 @@ def _make_param_map():
               markersize=7, label="geometrically infeasible",
               linestyle="none"),
     ]
+    if by_run:
+        run_handles = [Line2D([0], [0], marker=markers[i % len(markers)],
+                             color="w", markerfacecolor="gray",
+                             markersize=7, label=tag, linestyle="none")
+                      for i, tag in enumerate(unique_runs)]
+    else:
+        run_handles = []
     fig.legend(handles=color_handles + run_handles, loc="lower center",
               ncol=min(4, len(color_handles) + len(run_handles)),
               fontsize=8, labelcolor="white", facecolor="#1a1a2e",

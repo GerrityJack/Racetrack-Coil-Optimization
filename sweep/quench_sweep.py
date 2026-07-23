@@ -375,10 +375,16 @@ def main():
             try:
                 _npz = np.load(npz_path)
                 I_ref = float(_npz["I_solved"])
-                from coil2_field import compute_both_coils_field
+                # multilayer: resolves each layer's own z/radial position
+                # instead of treating the whole winding as one filament at
+                # a single nominal radius -- that approximation is only
+                # valid when the winding-pack cross-section is small
+                # compared to a/coil_half_gap (see coil2_field.py), which
+                # doesn't hold for small optimized coils.
+                from coil2_field import compute_both_coils_field_multilayer
                 bore_pt = np.array([[0.0, 0.0, getattr(params, "coil_half_gap", 0)]])
-                B_b, _, _ = compute_both_coils_field(
-                    bore_pt, I_per_turn=I_ref, n_turns=params.n_turns_total)
+                B_b = compute_both_coils_field_multilayer(
+                    bore_pt, I_per_turn=I_ref)
                 B_ref = float(np.linalg.norm(B_b))
                 print(f"  Bore field at midplane (Biot-Savart):")
                 print(f"    At I_ref = {I_ref:.0f} A/turn    : {B_ref:.4f} T")

@@ -23,7 +23,7 @@ for _p in (_ROOT, os.path.join(_ROOT, "physics"), os.path.join(_ROOT, "solve")):
         sys.path.insert(0, _p)
 
 import params
-from coil2_field import compute_both_coils_field
+from coil2_field import compute_both_coils_field_multilayer
 
 # ── 1. Load saved fields ──────────────────────────────────────────────────────
 npz_path = os.path.join(params.SOLVE_DIR, "racetrack_ta_fields.npz")
@@ -65,7 +65,7 @@ print("\nComputing bore-axis profile …")
 z_bore = np.linspace(0.0, params.coil_half_gap * 1.6, 250)
 bore_pts = np.column_stack([np.zeros_like(z_bore),
                              np.zeros_like(z_bore), z_bore])
-B_axis, _, _ = compute_both_coils_field(bore_pts, I_per_turn=I_solved)
+B_axis = compute_both_coils_field_multilayer(bore_pts, I_per_turn=I_solved)
 Bz_axis = B_axis[:, 2]
 mid_idx = np.argmin(np.abs(z_bore - params.coil_half_gap))
 print(f"  Bz at bore midplane z={params.coil_half_gap*1e3:.0f} mm : {Bz_axis[mid_idx]:.4f} T")

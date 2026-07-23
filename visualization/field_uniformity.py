@@ -10,8 +10,15 @@ Produces exactly one output image:
 
 The uniformity box size is set by REGION_X_M / REGION_Y_M at the top of
 this file. The field is evaluated at the midplane z = params.coil_half_gap
-using direct Biot-Savart from all FEM coil cells (both coils if
-two_coil_mode = True).
+using direct multi-filament Biot-Savart from all FEM coil cells (both
+coils if two_coil_mode = True), PLUS the Bean-state screening-current
+(SCIF) dipole correction -- as of 2026-07-22 this box size (30x6mm) and
+the SCIF correction are made to match optimize/optimize_geometry.py's
+target_box_field()/bean_moments() EXACTLY, so this figure's reported
+uniformity is the same number the CMA-ES optimizer's own constraint
+check computes, not an independent/approximate one. (Previously this
+used a 15x6mm box with no SCIF correction and a cruder single-filament
+field model -- all three differences are now resolved.)
 
 Run after solve.py (requires racetrack_fields.npz with coil geometry).
 """
@@ -25,29 +32,46 @@ from matplotlib.colors import TwoSlopeNorm
 
 import sys, os
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-for _p in (_ROOT, os.path.join(_ROOT, "physics")):
+for _p in (_ROOT, os.path.join(_ROOT, "physics"), os.path.join(_ROOT, "optimize")):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
 import params
-from coil2_field import compute_both_coils_field
+import opt_config as cfg
+from coil2_field import compute_both_coils_field_multilayer
+from current_source import normal_xy
+from ic_model import IcModel, angle_with_normal_deg
+from optimize_geometry import bean_moments, dipole_field_mirrored
 
 # ── Uniformity-region settings (change these to adjust the box) ────────────
-REGION_X_M  = 0.015   # 15 mm  (long axis, x)
-REGION_Y_M  = 0.006   # 6 mm   (short axis, y)
-GRID_NX     = 150     # grid points in x  (0.1 mm spacing)
-GRID_NY     = 60      # grid points in y  (0.1 mm spacing)
-SURROUND_X_M = 0.040  # surrounding view width  (~2.7 × box)
-SURROUND_Y_M = 0.024  # surrounding view height (~4 × box)
+# 2026-07-22: matched to opt_config.py's TARGET_X_M/TARGET_Y_M (the CMA-ES
+# optimizer's own target box) rather than an independent value, so this
+# figure and the optimizer's constraint check always agree.
+REGION_X_M  = cfg.TARGET_X_M   # 30 mm  (long axis, x)
+REGION_Y_M  = cfg.TARGET_Y_M   # 6 mm   (short axis, y)
+GRID_NX     = 150     # grid points in x
+GRID_NY     = 60      # grid points in y
+SURROUND_X_M = max(0.040, REGION_X_M * 1.3)   # surrounding view width
+SURROUND_Y_M = max(0.024, REGION_Y_M * 4.0)   # surrounding view height
 SURROUND_NX  = 200
 SURROUND_NY  = 120
 TARGET_PCT   = 1.0    # uniformity target %
+_ic_model    = None    # lazily constructed (IcModel() loads CSV data)
 
 
 # ── Bore field via analytic two-coil Biot-Savart ─────────────────────────
-# Uses compute_both_coils_field() — the same function the performance
-# summary uses — so the uniformity result is always consistent with the
-# reported bore field.
+# 2026-07-22: switched to compute_both_coils_field_multilayer(), which
+# resolves each layer's own z-center and radial center, instead of
+# compute_both_coils_field()'s single filament carrying ALL turns at one
+# nominal radius a. That approximation is only valid when the winding
+# pack's cross-section is small compared to a and coil_half_gap (true at
+# the original ~50-80mm scale) -- it silently breaks down for a much
+# smaller optimized coil (e.g. a=15.5mm with a ~25mm-thick pack), where it
+# produced a spurious FAIL (6.7% p-t-p) contradicting the optimizer's own
+# properly-resolved multi-filament uniformity check (0.68%, PASS). The
+# multilayer version mirrors optimize_geometry.py's filament_stack(), so
+# this script's result now agrees with what the optimizer itself uses as
+# its constraint.
 #
 # Why not the FEM-cell approach?  Simple x/y reflection of centroids also
 # flips the tangent vector, which is WRONG for the straight sections:
@@ -56,18 +80,37 @@ TARGET_PCT   = 1.0    # uniformity target %
 # instead of doubling them → ≈0 T at the bore instead of the correct ~8 T.
 
 def _bore_field(field_points, npz_data, I_per_turn):
-    a = float(npz_data["a"])
-    b = float(npz_data["b"])
-    g = params.coil_half_gap
-    B, _, _ = compute_both_coils_field(
-        field_points,
-        I_per_turn    = I_per_turn,
-        n_turns       = params.n_turns_total,
-        a=a, b=b,
-        coil_half_gap = g,
-        n_straight    = 400,
-        n_cap         = 300)
-    return B
+    return compute_both_coils_field_multilayer(
+        field_points, I_per_turn=I_per_turn, n_straight=400, n_cap=300)
+
+
+# ── Bean-state screening-current (SCIF) correction ──────────────────────────
+# 2026-07-22: added so this script's uniformity number includes the same
+# screening-current dipole correction optimize_geometry.evaluate() applies
+# -- mirrors bean_moments()/dipole_field_mirrored() exactly, using the
+# per-cell data (centroids, B, volume) already saved in the npz by
+# solve.py's extract_and_save(), which come from the SAME FEM domain/cells
+# optimize_geometry.py itself uses internally.
+
+def _scif_correction(field_points, npz_data, I_op):
+    global _ic_model
+    if _ic_model is None:
+        _ic_model = IcModel()
+
+    cents  = npz_data["coil_centroids"]
+    coil_B = npz_data["coil_B"]
+    vol    = npz_data["coil_volume"]
+    I_solved = float(npz_data["I_solved"])
+
+    B_unit = coil_B / I_solved
+    B_op   = B_unit * I_op
+    L = params.b - params.a
+    nx, ny = normal_xy(cents[:, 0], cents[:, 1], L)
+    n_hat = np.column_stack([nx, ny, np.zeros(len(cents))])
+    theta = angle_with_normal_deg(B_unit, n_hat)
+
+    M_vec, _ = bean_moments(B_op, n_hat, theta, _ic_model, I_op)
+    return dipole_field_mirrored(field_points, cents, M_vec, vol)
 
 
 # ── Grids ─────────────────────────────────────────────────────────────────
@@ -191,8 +234,16 @@ def main():
     Xg, Yg, fp_box = _box_grid()
     print("  Computing box field …")
     B_box = _bore_field(fp_box, npz, I_pt)
+    print("  Computing SCIF (Bean-state screening) correction …")
+    B_box = B_box + _scif_correction(fp_box, npz, I_pt)
     Bmag  = np.linalg.norm(B_box, axis=1).reshape(Xg.shape)
 
+    # SCIF correction NOT applied to the background/surround grid: it's
+    # visual context only (doesn't feed the PASS/FAIL stats below), the
+    # correction is a small (~tens of mT) addition to a multi-tesla field
+    # so it wouldn't change the plot's appearance, and the surround grid
+    # is ~2.7x more points -- not worth the extra compute for a cosmetic
+    # backdrop.
     Xs, Ys, fp_s = _surround_grid()
     print("  Computing surrounding field …")
     B_s   = _bore_field(fp_s, npz, I_pt)

@@ -1,0 +1,564 @@
+Starting CMA-ES: 10 variables, budget 300 evaluations, target B >= 10.0 T, uniformity <= 1.0%, hoop <= 400 MPa, coil-coil face gap >= 3 mm
+
+Parallel mode: 6 worker processes per generation.
+  [   1] INFEAS f=2314.268  a=33.1 b=36.6 gap=38.4 (face=48.9mm) n=[559, 561, 60, 890, 617, 281, 673]  no evaluation (geometry pre-check)
+  [   2] INFEAS f=16965.587  a=20.3 b=94.4 gap=35.1 (face=42.3mm) n=[353, 151, 442, 250, 82, 337, 781]  no evaluation (geometry pre-check)
+  [   3] viol   f=   3.841  a=78.1 b=100.5 gap=21.6 (face=15.1mm) n=[896, 57, 896, 821, 291, 410, 897]  tape=2.592km B=10.54T unif=1.079% hoop=400MPa
+  [   4] OK     f=   1.744  a=45.1 b=69.3 gap=37.1 (face=46.2mm) n=[900, 363, 324, 540, 779, 344, 723]  tape=1.744km B=10.48T unif=0.411% hoop=281MPa
+  [   5] INFEAS f=12036.085  a=21.6 b=58.6 gap=32.9 (face=37.8mm) n=[707, 453, 491, 709, 761, 440, 716]  no evaluation (geometry pre-check)
+  [   6] OK     f=   1.998  a=56.6 b=81.6 gap=28.4 (face=28.7mm) n=[662, 247, 595, 583, 364, 479, 899]  tape=1.998km B=10.21T unif=0.639% hoop=400MPa
+  [   7] OK     f=   2.051  a=52.0 b=77.1 gap=25.9 (face=23.7mm) n=[664, 770, 56, 622, 525, 899, 896]  tape=2.051km B=13.67T unif=0.521% hoop=369MPa
+  [   8] OK     f=   2.089  a=37.7 b=90.2 gap=32.9 (face=37.9mm) n=[790, 623, 584, 664, 308, 378, 867]  tape=2.089km B=11.72T unif=0.612% hoop=265MPa
+  [   9] viol   f=   1.885  a=57.5 b=79.4 gap=29.3 (face=30.7mm) n=[644, 483, 320, 176, 824, 550, 599]  tape=1.812km B=9.81T unif=0.542% hoop=327MPa
+  [  10] INFEAS f=60970.092  a=12.5 b=73.5 gap=33.5 (face=39.0mm) n=[711, 241, 499, 783, 152, 764, 874]  no evaluation (geometry pre-check)
+  [  11] INFEAS f=1070.347  a=35.9 b=94.7 gap=33.7 (face=39.4mm) n=[886, 211, 637, 891, 549, 587, 899]  no evaluation (geometry pre-check)
+  [  12] INFEAS f=1698.308  a=59.6 b=60.4 gap=18.5 (face=9.1mm) n=[483, 897, 245, 806, 499, 430, 610]  no evaluation (geometry pre-check)
+  [  13] OK     f=   1.849  a=46.7 b=82.2 gap=28.9 (face=29.7mm) n=[664, 248, 656, 474, 824, 233, 763]  tape=1.849km B=11.20T unif=0.534% hoop=282MPa
+  [  14] INFEAS f=10121.888  a=69.0 b=58.9 gap=34.2 (face=40.4mm) n=[855, 62, 437, 280, 687, 808, 715]  no evaluation (geometry pre-check)
+  [  15] INFEAS f=9303.974  a=77.8 b=68.4 gap=28.6 (face=29.2mm) n=[742, 331, 241, 312, 824, 583, 900]  no evaluation (geometry pre-check)
+  [  16] viol   f=   2.710  a=70.3 b=90.1 gap=38.4 (face=48.8mm) n=[621, 694, 362, 499, 733, 450, 794]  tape=2.323km B=9.56T unif=0.257% hoop=400MPa
+  [  17] INFEAS f=3863.664  a=75.2 b=71.7 gap=28.7 (face=29.3mm) n=[894, 792, 220, 534, 423, 139, 562]  no evaluation (geometry pre-check)
+  [  18] viol   f=   2.517  a=60.5 b=91.9 gap=41.8 (face=55.6mm) n=[609, 367, 477, 882, 899, 525, 788]  tape=2.506km B=9.92T unif=0.073% hoop=366MPa
+  [  19] INFEAS f=19460.795  a=67.8 b=51.3 gap=22.5 (face=17.0mm) n=[642, 405, 863, 393, 575, 569, 657]  no evaluation (geometry pre-check)
+  [  20] OK     f=   1.257  a=35.8 b=59.4 gap=31.1 (face=34.3mm) n=[862, 529, 401, 186, 597, 217, 432]  tape=1.257km B=10.40T unif=0.416% hoop=217MPa
+  [  21] viol   f=   2.351  a=41.4 b=70.4 gap=25.3 (face=22.6mm) n=[791, 840, 536, 145, 542, 453, 465]  tape=1.611km B=14.17T unif=1.061% hoop=311MPa
+  [  22] OK     f=   1.718  a=47.5 b=68.3 gap=28.7 (face=29.4mm) n=[782, 313, 447, 838, 609, 496, 482]  tape=1.718km B=12.47T unif=0.619% hoop=347MPa
+  [  23] INFEAS f=26182.880  a=68.3 b=48.2 gap=39.6 (face=51.3mm) n=[810, 468, 271, 393, 701, 256, 762]  no evaluation (geometry pre-check)
+  [  24] INFEAS f=7361.333  a=28.9 b=63.3 gap=36.2 (face=44.5mm) n=[862, 423, 334, 336, 893, 211, 692]  no evaluation (geometry pre-check)
+  [  25] INFEAS f=1179.256  a=25.3 b=62.1 gap=33.9 (face=39.7mm) n=[459, 614, 615, 310, 474, 521, 628]  no evaluation (geometry pre-check)
+  [  26] INFEAS f=2791.232  a=32.2 b=64.4 gap=35.0 (face=42.1mm) n=[886, 418, 476, 318, 885, 372, 642]  no evaluation (geometry pre-check)
+  [  27] OK     f=   1.908  a=54.5 b=93.3 gap=25.4 (face=22.7mm) n=[470, 859, 309, 528, 151, 678, 392]  tape=1.908km B=10.05T unif=0.733% hoop=357MPa
+  [  28] INFEAS f=6524.172  a=61.2 b=54.5 gap=27.0 (face=26.1mm) n=[822, 312, 315, 308, 895, 130, 206]  no evaluation (geometry pre-check)
+  [  29] viol   f= 230.434  a=42.6 b=53.3 gap=33.4 (face=38.7mm) n=[897, 622, 612, 427, 716, 464, 766]  tape=1.628km B=13.54T unif=2.070% hoop=310MPa
+  [  30] INFEAS f=1442.144  a=23.5 b=85.7 gap=33.8 (face=39.7mm) n=[394, 384, 154, 332, 422, 336, 599]  no evaluation (geometry pre-check)
+  [  31] OK     f=   2.667  a=58.3 b=102.0 gap=25.9 (face=23.7mm) n=[859, 526, 439, 601, 899, 705, 488]  tape=2.667km B=11.83T unif=0.623% hoop=400MPa
+  [  32] INFEAS f=16560.988  a=84.0 b=69.3 gap=24.7 (face=21.4mm) n=[893, 815, 161, 745, 788, 244, 582]  no evaluation (geometry pre-check)
+  [  33] OK     f=   1.717  a=57.8 b=72.4 gap=30.0 (face=32.1mm) n=[729, 543, 466, 444, 333, 701, 514]  tape=1.717km B=10.92T unif=0.719% hoop=400MPa
+  [  34] viol   f=  10.537  a=61.7 b=84.8 gap=21.6 (face=15.3mm) n=[310, 279, 157, 177, 586, 621, 492]  tape=1.359km B=7.86T unif=0.877% hoop=363MPa
+  [  35] OK     f=   1.530  a=51.0 b=59.8 gap=25.5 (face=23.0mm) n=[458, 891, 55, 819, 678, 605, 274]  tape=1.530km B=13.39T unif=0.165% hoop=310MPa
+  [  36] OK     f=   1.498  a=40.2 b=67.9 gap=29.3 (face=30.6mm) n=[622, 151, 632, 546, 701, 391, 745]  tape=1.498km B=11.70T unif=0.299% hoop=251MPa
+  [  37] OK     f=   2.420  a=68.7 b=82.7 gap=27.6 (face=27.2mm) n=[830, 433, 886, 201, 604, 796, 895]  tape=2.420km B=12.50T unif=0.742% hoop=400MPa
+  [  38] OK     f=   2.212  a=59.1 b=90.6 gap=32.6 (face=37.1mm) n=[859, 167, 592, 516, 776, 489, 656]  tape=2.212km B=10.69T unif=0.541% hoop=381MPa
+  [  39] INFEAS f=17437.857  a=19.6 b=82.1 gap=40.4 (face=52.7mm) n=[767, 686, 617, 488, 308, 527, 418]  no evaluation (geometry pre-check)
+  [  40] OK     f=   1.944  a=47.5 b=76.2 gap=25.9 (face=23.8mm) n=[849, 690, 882, 662, 282, 253, 639]  tape=1.944km B=14.28T unif=0.965% hoop=311MPa
+  [  41] INFEAS f=1448.324  a=29.1 b=74.1 gap=31.7 (face=35.4mm) n=[535, 611, 281, 648, 625, 664, 750]  no evaluation (geometry pre-check)
+  [  42] INFEAS f=7096.810  a=74.5 b=67.2 gap=28.5 (face=28.9mm) n=[579, 675, 621, 844, 666, 512, 617]  no evaluation (geometry pre-check)
+  [  43] OK     f=   1.407  a=42.2 b=49.4 gap=21.5 (face=15.0mm) n=[526, 288, 632, 822, 580, 556, 780]  tape=1.407km B=15.50T unif=0.587% hoop=299MPa
+  [  44] INFEAS f=24715.296  a=17.9 b=65.3 gap=29.7 (face=31.4mm) n=[630, 539, 508, 765, 751, 481, 788]  no evaluation (geometry pre-check)
+  [  45] INFEAS f=29578.909  a=20.6 b=59.2 gap=23.5 (face=19.1mm) n=[879, 638, 689, 567, 763, 898, 864]  no evaluation (geometry pre-check)
+  [  46] INFEAS f=1976.694  a=49.0 b=49.0 gap=23.9 (face=19.9mm) n=[604, 626, 463, 606, 460, 402, 193]  no evaluation (geometry pre-check)
+  [  47] INFEAS f=15905.589  a=76.6 b=62.3 gap=31.2 (face=34.3mm) n=[370, 656, 578, 564, 600, 52, 326]  no evaluation (geometry pre-check)
+  [  48] viol   f=   2.197  a=63.5 b=86.0 gap=35.5 (face=43.0mm) n=[601, 556, 610, 600, 545, 695, 576]  tape=2.137km B=9.83T unif=0.323% hoop=400MPa
+  [  49] OK     f=   1.789  a=36.5 b=64.2 gap=32.3 (face=36.5mm) n=[676, 513, 728, 672, 599, 631, 863]  tape=1.789km B=13.54T unif=0.299% hoop=262MPa
+  [  50] viol   f=  17.025  a=56.5 b=76.0 gap=24.3 (face=20.5mm) n=[638, 424, 538, 443, 327, 266, 562]  tape=1.497km B=10.26T unif=1.279% hoop=359MPa
+  [  51] OK     f=   1.650  a=48.9 b=58.2 gap=24.2 (face=20.3mm) n=[553, 513, 455, 468, 626, 756, 834]  tape=1.650km B=13.39T unif=0.176% hoop=400MPa
+  [  52] INFEAS f=81738.857  a=9.0 b=47.2 gap=23.0 (face=17.9mm) n=[507, 581, 392, 757, 674, 237, 879]  no evaluation (geometry pre-check)
+  [  53] OK     f=   1.459  a=39.7 b=60.6 gap=27.3 (face=26.5mm) n=[506, 207, 822, 718, 494, 454, 597]  tape=1.459km B=12.48T unif=0.221% hoop=269MPa
+  [  54] OK     f=   2.113  a=69.3 b=77.5 gap=27.8 (face=27.6mm) n=[575, 83, 713, 746, 522, 573, 883]  tape=2.113km B=10.47T unif=0.605% hoop=400MPa
+  [  55] OK     f=   1.803  a=50.2 b=66.2 gap=30.7 (face=33.3mm) n=[608, 434, 557, 899, 391, 792, 417]  tape=1.803km B=11.73T unif=0.092% hoop=346MPa
+  [  56] viol   f=   3.093  a=54.9 b=72.8 gap=19.7 (face=11.5mm) n=[166, 481, 755, 676, 450, 533, 849]  tape=1.824km B=12.89T unif=1.080% hoop=400MPa
+  [  57] OK     f=   1.677  a=39.8 b=74.0 gap=27.3 (face=26.5mm) n=[574, 137, 538, 595, 783, 695, 648]  tape=1.677km B=12.48T unif=0.479% hoop=278MPa
+  [  58] INFEAS f=2462.523  a=62.0 b=60.9 gap=23.2 (face=18.5mm) n=[324, 527, 388, 373, 890, 694, 495]  no evaluation (geometry pre-check)
+  [  59] OK     f=   1.606  a=50.4 b=57.7 gap=27.6 (face=27.2mm) n=[522, 151, 900, 693, 599, 529, 552]  tape=1.606km B=12.51T unif=0.478% hoop=333MPa
+  [  60] INFEAS f=7948.397  a=64.7 b=56.5 gap=24.7 (face=21.5mm) n=[850, 72, 448, 632, 688, 633, 823]  no evaluation (geometry pre-check)
+  [  61] INFEAS f=4473.450  a=55.7 b=51.4 gap=18.7 (face=9.5mm) n=[356, 141, 606, 531, 486, 594, 780]  no evaluation (geometry pre-check)
+  [  62] INFEAS f=1335.216  a=28.2 b=53.3 gap=27.8 (face=27.6mm) n=[264, 123, 718, 584, 138, 634, 660]  no evaluation (geometry pre-check)
+  [  63] INFEAS f=1608.770  a=30.4 b=63.7 gap=23.9 (face=19.8mm) n=[630, 67, 788, 696, 566, 471, 792]  no evaluation (geometry pre-check)
+  [  64] OK     f=   2.011  a=59.0 b=64.9 gap=32.9 (face=37.7mm) n=[595, 467, 891, 505, 681, 503, 898]  tape=2.011km B=12.29T unif=0.494% hoop=383MPa
+  [  65] OK     f=   1.232  a=42.7 b=48.7 gap=22.5 (face=17.0mm) n=[826, 116, 692, 588, 459, 232, 762]  tape=1.232km B=15.23T unif=0.391% hoop=272MPa
+  [  66] INFEAS f=17493.226  a=70.7 b=55.4 gap=22.0 (face=16.0mm) n=[229, 453, 897, 305, 311, 590, 668]  no evaluation (geometry pre-check)
+  [  67] viol   f=   1.527  a=36.6 b=71.2 gap=33.6 (face=39.2mm) n=[513, 275, 810, 462, 658, 225, 687]  tape=1.521km B=9.94T unif=0.244% hoop=224MPa
+  [  68] viol   f=  26.024  a=40.6 b=55.9 gap=33.6 (face=39.2mm) n=[631, 467, 790, 646, 535, 483, 824]  tape=1.561km B=12.54T unif=1.350% hoop=270MPa
+  [  69] INFEAS f=11612.478  a=49.2 b=37.9 gap=26.9 (face=25.9mm) n=[784, 100, 798, 556, 552, 546, 381]  no evaluation (geometry pre-check)
+  [  70] OK     f=   1.246  a=50.2 b=58.0 gap=22.9 (face=17.8mm) n=[390, 367, 693, 569, 534, 498, 155]  tape=1.246km B=12.00T unif=0.926% hoop=357MPa
+  [  71] OK     f=   1.265  a=42.8 b=48.8 gap=23.7 (face=19.5mm) n=[781, 98, 653, 704, 554, 407, 673]  tape=1.265km B=15.96T unif=0.380% hoop=275MPa
+  [  72] INFEAS f=2493.499  a=50.2 b=49.1 gap=27.8 (face=27.6mm) n=[865, 221, 584, 831, 623, 219, 857]  no evaluation (geometry pre-check)
+  [  73] viol   f=  42.009  a=46.6 b=67.1 gap=17.6 (face=7.3mm) n=[645, 239, 551, 611, 615, 396, 714]  tape=1.531km B=14.67T unif=1.450% hoop=362MPa
+  [  74] OK     f=   1.448  a=45.3 b=63.3 gap=24.3 (face=20.6mm) n=[490, 222, 549, 744, 611, 502, 497]  tape=1.448km B=12.51T unif=0.510% hoop=332MPa
+  [  75] INFEAS f=2853.521  a=50.4 b=48.6 gap=29.3 (face=30.6mm) n=[170, 108, 779, 513, 696, 450, 458]  no evaluation (geometry pre-check)
+  [  76] OK     f=   1.328  a=31.6 b=68.3 gap=27.9 (face=27.8mm) n=[601, 576, 403, 521, 436, 438, 626]  tape=1.328km B=12.35T unif=0.901% hoop=212MPa
+  [  77] OK     f=   1.553  a=48.5 b=62.6 gap=25.7 (face=23.5mm) n=[622, 165, 787, 720, 473, 423, 715]  tape=1.553km B=12.95T unif=0.408% hoop=300MPa
+  [  78] INFEAS f=4008.862  a=59.9 b=56.3 gap=22.4 (face=16.8mm) n=[892, 350, 890, 526, 415, 411, 813]  no evaluation (geometry pre-check)
+  [  79] OK     f=   1.253  a=37.6 b=57.0 gap=24.2 (face=20.4mm) n=[533, 120, 780, 537, 729, 237, 589]  tape=1.253km B=13.20T unif=0.337% hoop=244MPa
+  [  80] viol   f=  42.237  a=50.3 b=75.2 gap=17.7 (face=7.5mm) n=[632, 177, 754, 458, 537, 349, 602]  tape=1.615km B=12.75T unif=1.451% hoop=378MPa
+  [  81] viol   f= 280.329  a=37.1 b=49.6 gap=28.7 (face=29.4mm) n=[425, 268, 866, 662, 660, 518, 566]  tape=1.351km B=12.47T unif=2.181% hoop=239MPa
+  [  82] INFEAS f=11075.738  a=26.7 b=41.6 gap=20.2 (face=12.3mm) n=[561, 356, 496, 825, 887, 618, 394]  no evaluation (geometry pre-check)
+  [  83] OK     f=   1.438  a=45.2 b=57.5 gap=28.2 (face=28.3mm) n=[450, 95, 606, 748, 427, 443, 885]  tape=1.438km B=10.81T unif=0.460% hoop=311MPa
+  [  84] INFEAS f=1849.795  a=55.7 b=56.1 gap=26.8 (face=25.6mm) n=[765, 314, 700, 631, 496, 396, 504]  no evaluation (geometry pre-check)
+  [  85] INFEAS f=7099.135  a=25.6 b=58.3 gap=25.3 (face=22.6mm) n=[599, 222, 493, 415, 624, 449, 799]  no evaluation (geometry pre-check)
+  [  86] INFEAS f=1414.171  a=51.4 b=53.2 gap=27.6 (face=27.3mm) n=[771, 374, 640, 559, 559, 193, 586]  no evaluation (geometry pre-check)
+  [  87] OK     f=   1.418  a=33.5 b=69.7 gap=22.1 (face=16.2mm) n=[710, 158, 662, 517, 552, 240, 768]  tape=1.418km B=14.40T unif=0.674% hoop=239MPa
+  [  88] viol   f=3004.784  a=31.6 b=42.8 gap=31.6 (face=35.1mm) n=[253, 212, 757, 658, 655, 428, 658]  tape=1.018km B=10.09T unif=4.875% hoop=175MPa
+  [  89] OK     f=   1.467  a=43.0 b=65.6 gap=26.6 (face=25.1mm) n=[616, 108, 773, 620, 602, 355, 588]  tape=1.467km B=12.67T unif=0.553% hoop=278MPa
+  [  90] OK     f=   1.151  a=31.5 b=55.5 gap=20.4 (face=12.8mm) n=[504, 195, 643, 699, 581, 291, 633]  tape=1.151km B=14.81T unif=0.974% hoop=211MPa
+  [  91] INFEAS f=1835.853  a=33.7 b=62.7 gap=26.0 (face=24.0mm) n=[669, 135, 736, 605, 464, 177, 893]  no evaluation (geometry pre-check)
+  [  92] INFEAS f=2624.675  a=25.3 b=52.2 gap=23.7 (face=19.4mm) n=[440, 297, 618, 636, 386, 696, 617]  no evaluation (geometry pre-check)
+  [  93] OK     f=   1.387  a=47.3 b=66.3 gap=21.7 (face=15.4mm) n=[204, 254, 425, 756, 562, 409, 671]  tape=1.387km B=11.00T unif=0.568% hoop=301MPa
+  [  94] OK     f=   0.997  a=35.3 b=57.6 gap=29.7 (face=31.4mm) n=[619, 105, 587, 538, 393, 98, 639]  tape=0.997km B=10.32T unif=0.452% hoop=185MPa
+  [  95] INFEAS f=18124.191  a=23.2 b=77.5 gap=22.5 (face=16.9mm) n=[484, 103, 716, 355, 857, 292, 871]  no evaluation (geometry pre-check)
+  [  96] INFEAS f=1440.171  a=26.8 b=58.6 gap=26.3 (face=24.7mm) n=[513, 69, 518, 688, 554, 211, 478]  no evaluation (geometry pre-check)
+  [  97] INFEAS f=6046.704  a=29.7 b=46.9 gap=18.4 (face=8.8mm) n=[647, 205, 724, 657, 373, 237, 893]  no evaluation (geometry pre-check)
+  [  98] OK     f=   1.193  a=35.3 b=59.8 gap=26.0 (face=24.0mm) n=[456, 122, 441, 782, 819, 50, 609]  tape=1.193km B=10.99T unif=0.335% hoop=210MPa
+  [  99] INFEAS f=1280.388  a=34.6 b=50.2 gap=29.6 (face=31.1mm) n=[388, 229, 739, 886, 731, 517, 703]  no evaluation (geometry pre-check)
+  [ 100] INFEAS f=9619.105  a=27.1 b=63.9 gap=29.4 (face=30.8mm) n=[468, 115, 670, 517, 619, 356, 878]  no evaluation (geometry pre-check)
+  [ 101] INFEAS f=8554.577  a=37.0 b=28.3 gap=27.1 (face=26.2mm) n=[655, 162, 310, 591, 429, 82, 603]  no evaluation (geometry pre-check)
+  [ 102] INFEAS f=4031.945  a=31.4 b=58.2 gap=29.2 (face=30.3mm) n=[403, 119, 541, 897, 306, 150, 693]  no evaluation (geometry pre-check)
+  [ 103] OK     f=   1.316  a=38.1 b=78.0 gap=21.4 (face=14.8mm) n=[370, 56, 682, 577, 509, 286, 528]  tape=1.316km B=11.11T unif=0.998% hoop=240MPa
+  [ 104] viol   f=   5.120  a=35.9 b=76.0 gap=34.1 (face=40.3mm) n=[339, 121, 373, 863, 757, 373, 575]  tape=1.520km B=8.66T unif=0.249% hoop=226MPa
+  [ 105] viol   f=  10.020  a=46.9 b=65.1 gap=36.0 (face=43.9mm) n=[764, 168, 358, 557, 370, 141, 416]  tape=1.193km B=7.90T unif=0.182% hoop=241MPa
+  [ 106] OK     f=   1.396  a=38.0 b=63.2 gap=32.5 (face=37.0mm) n=[659, 141, 530, 507, 581, 266, 839]  tape=1.396km B=10.17T unif=0.151% hoop=247MPa
+  [ 107] viol   f=  11.789  a=47.4 b=52.7 gap=29.9 (face=31.9mm) n=[580, 208, 654, 868, 709, 52, 484]  tape=1.318km B=11.07T unif=1.229% hoop=258MPa
+  [ 108] INFEAS f=1009.111  a=34.6 b=39.1 gap=35.5 (face=43.0mm) n=[477, 103, 155, 427, 501, 178, 829]  no evaluation (geometry pre-check)
+  [ 109] INFEAS f=3655.868  a=26.2 b=65.2 gap=28.6 (face=29.3mm) n=[411, 95, 697, 745, 615, 256, 750]  no evaluation (geometry pre-check)
+  [ 110] OK     f=   1.284  a=41.0 b=67.7 gap=22.3 (face=16.6mm) n=[450, 220, 500, 680, 617, 189, 547]  tape=1.284km B=11.72T unif=0.822% hoop=268MPa
+  [ 111] OK     f=   1.141  a=39.7 b=56.4 gap=27.6 (face=27.2mm) n=[564, 232, 736, 518, 457, 53, 637]  tape=1.141km B=10.96T unif=0.206% hoop=228MPa
+  [ 112] INFEAS f=1000.407  a=57.8 b=62.7 gap=25.5 (face=23.0mm) n=[573, 71, 591, 586, 472, 248, 405]  no evaluation (geometry pre-check)
+  [ 113] viol   f=   4.269  a=31.4 b=89.6 gap=32.4 (face=36.8mm) n=[517, 304, 362, 625, 746, 78, 695]  tape=1.561km B=8.84T unif=0.537% hoop=196MPa
+  [ 114] OK     f=   1.420  a=39.2 b=60.2 gap=21.7 (face=15.5mm) n=[533, 120, 621, 825, 578, 383, 685]  tape=1.420km B=13.91T unif=0.612% hoop=283MPa
+  [ 115] viol   f=   0.907  a=29.7 b=53.1 gap=27.7 (face=27.4mm) n=[482, 217, 516, 542, 359, 90, 646]  tape=0.905km B=9.97T unif=0.279% hoop=165MPa
+  [ 116] viol   f=   2.598  a=42.5 b=71.8 gap=19.8 (face=11.7mm) n=[363, 265, 695, 702, 640, 483, 469]  tape=1.508km B=13.82T unif=1.074% hoop=308MPa
+  [ 117] OK     f=   1.548  a=49.8 b=80.1 gap=23.2 (face=18.5mm) n=[421, 269, 557, 463, 737, 147, 621]  tape=1.548km B=10.24T unif=0.810% hoop=330MPa
+  [ 118] viol   f=  13.630  a=40.7 b=58.0 gap=20.8 (face=13.6mm) n=[494, 131, 522, 465, 479, 251, 614]  tape=1.054km B=11.81T unif=1.251% hoop=270MPa
+  [ 119] viol   f=  22.966  a=52.7 b=67.8 gap=29.8 (face=31.7mm) n=[354, 59, 349, 499, 326, 101, 463]  tape=0.900km B=6.68T unif=0.320% hoop=244MPa
+  [ 120] OK     f=   1.443  a=35.3 b=77.4 gap=22.7 (face=17.5mm) n=[473, 92, 760, 590, 689, 330, 381]  tape=1.443km B=12.23T unif=0.899% hoop=238MPa
+  [ 121] viol   f= 828.050  a=28.5 b=41.5 gap=29.4 (face=30.9mm) n=[390, 218, 641, 423, 376, 97, 600]  tape=0.742km B=8.97T unif=3.031% hoop=148MPa
+  [ 122] OK     f=   1.093  a=36.4 b=52.5 gap=25.1 (face=22.2mm) n=[526, 231, 807, 650, 327, 64, 537]  tape=1.093km B=11.83T unif=0.442% hoop=214MPa
+  [ 123] viol   f=   8.070  a=44.0 b=49.4 gap=23.6 (face=19.3mm) n=[564, 127, 780, 712, 563, 71, 623]  tape=1.148km B=13.48T unif=1.186% hoop=258MPa
+  [ 124] viol   f=  33.743  a=33.8 b=52.4 gap=31.6 (face=35.1mm) n=[439, 62, 467, 669, 586, 142, 777]  tape=1.045km B=8.94T unif=1.390% hoop=181MPa
+  [ 125] OK     f=   1.084  a=35.0 b=56.5 gap=27.4 (face=26.9mm) n=[599, 95, 478, 554, 621, 379, 616]  tape=1.084km B=11.92T unif=0.335% hoop=201MPa
+  [ 126] viol   f=   1.301  a=33.0 b=55.2 gap=23.9 (face=19.8mm) n=[431, 76, 413, 341, 395, 283, 627]  tape=0.879km B=9.54T unif=0.562% hoop=214MPa
+  [ 127] INFEAS f=3148.960  a=54.3 b=52.0 gap=30.6 (face=33.2mm) n=[577, 295, 425, 721, 574, 150, 900]  no evaluation (geometry pre-check)
+  [ 128] OK     f=   1.349  a=39.8 b=70.7 gap=28.6 (face=29.1mm) n=[552, 285, 658, 602, 434, 196, 632]  tape=1.349km B=10.85T unif=0.541% hoop=224MPa
+  [ 129] OK     f=   0.951  a=34.2 b=53.3 gap=27.3 (face=26.5mm) n=[630, 213, 633, 476, 456, 50, 547]  tape=0.951km B=11.48T unif=0.410% hoop=189MPa
+  [ 130] INFEAS f=7888.175  a=22.3 b=36.2 gap=22.4 (face=16.7mm) n=[490, 125, 707, 583, 395, 226, 725]  no evaluation (geometry pre-check)
+  [ 131] INFEAS f=20649.336  a=17.8 b=69.6 gap=28.3 (face=28.6mm) n=[748, 296, 449, 524, 641, 211, 635]  no evaluation (geometry pre-check)
+  [ 132] INFEAS f=1321.810  a=32.9 b=64.2 gap=27.4 (face=26.9mm) n=[423, 86, 536, 583, 525, 66, 843]  no evaluation (geometry pre-check)
+  [ 133] OK     f=   1.118  a=38.3 b=57.6 gap=27.0 (face=26.1mm) n=[506, 144, 495, 718, 577, 119, 555]  tape=1.118km B=10.54T unif=0.142% hoop=219MPa
+  [ 134] OK     f=   1.499  a=42.8 b=69.7 gap=27.6 (face=27.1mm) n=[748, 107, 683, 676, 438, 231, 780]  tape=1.499km B=12.42T unif=0.747% hoop=251MPa
+  [ 135] OK     f=   1.199  a=37.4 b=56.5 gap=31.1 (face=34.3mm) n=[734, 148, 640, 686, 394, 227, 657]  tape=1.199km B=11.27T unif=0.952% hoop=195MPa
+  [ 136] INFEAS f=3766.983  a=27.5 b=43.6 gap=25.0 (face=22.0mm) n=[786, 90, 299, 567, 392, 125, 513]  no evaluation (geometry pre-check)
+  [ 137] INFEAS f=2365.135  a=33.0 b=33.7 gap=22.2 (face=16.4mm) n=[593, 281, 630, 513, 487, 307, 863]  no evaluation (geometry pre-check)
+  [ 138] OK     f=   1.522  a=45.2 b=65.4 gap=23.3 (face=18.6mm) n=[472, 363, 767, 533, 647, 360, 538]  tape=1.522km B=12.70T unif=0.838% hoop=319MPa
+  [ 139] viol   f=   1.918  a=38.4 b=58.7 gap=30.8 (face=33.6mm) n=[569, 110, 611, 528, 392, 50, 840]  tape=1.178km B=9.39T unif=0.135% hoop=218MPa
+  [ 140] viol   f=   9.230  a=32.5 b=56.2 gap=25.5 (face=23.1mm) n=[661, 290, 639, 459, 493, 163, 542]  tape=1.076km B=12.71T unif=1.202% hoop=201MPa
+  [ 141] INFEAS f=2904.113  a=24.1 b=55.4 gap=27.6 (face=27.2mm) n=[475, 149, 548, 672, 540, 102, 497]  no evaluation (geometry pre-check)
+  [ 142] viol   f= 205.746  a=38.7 b=45.4 gap=25.5 (face=23.0mm) n=[410, 107, 509, 648, 580, 120, 529]  tape=0.876km B=10.88T unif=2.012% hoop=209MPa
+  [ 143] OK     f=   1.178  a=44.5 b=53.6 gap=28.4 (face=28.8mm) n=[774, 129, 441, 604, 579, 84, 702]  tape=1.178km B=11.64T unif=0.603% hoop=248MPa
+  [ 144] OK     f=   1.145  a=46.4 b=57.5 gap=28.9 (face=29.8mm) n=[686, 97, 456, 591, 664, 148, 479]  tape=1.145km B=10.78T unif=0.186% hoop=244MPa
+  [ 145] OK     f=   1.200  a=42.2 b=51.8 gap=29.5 (face=31.0mm) n=[603, 378, 540, 691, 373, 285, 696]  tape=1.200km B=11.69T unif=0.814% hoop=243MPa
+  [ 146] viol   f=   5.720  a=36.2 b=71.8 gap=29.8 (face=31.6mm) n=[806, 94, 632, 712, 460, 196, 718]  tape=1.476km B=11.94T unif=1.146% hoop=224MPa
+  [ 147] OK     f=   1.477  a=36.9 b=68.7 gap=25.0 (face=22.1mm) n=[733, 72, 578, 790, 552, 469, 498]  tape=1.477km B=13.72T unif=0.838% hoop=260MPa
+  [ 148] OK     f=   1.237  a=43.6 b=58.3 gap=24.5 (face=21.0mm) n=[673, 60, 754, 653, 482, 97, 737]  tape=1.237km B=12.91T unif=0.394% hoop=243MPa
+  [ 149] OK     f=   1.248  a=36.1 b=62.7 gap=29.4 (face=30.8mm) n=[524, 309, 499, 714, 459, 152, 710]  tape=1.248km B=10.44T unif=0.206% hoop=215MPa
+  [ 150] viol   f=   1.743  a=39.4 b=68.7 gap=26.2 (face=24.5mm) n=[730, 310, 562, 585, 450, 305, 697]  tape=1.467km B=12.64T unif=1.037% hoop=253MPa
+  [ 151] OK     f=   1.156  a=43.0 b=53.6 gap=28.6 (face=29.1mm) n=[624, 153, 504, 728, 648, 77, 646]  tape=1.156km B=11.52T unif=0.840% hoop=237MPa
+  [ 152] viol   f=  11.805  a=45.5 b=58.3 gap=33.6 (face=39.2mm) n=[733, 222, 501, 733, 666, 240, 577]  tape=1.351km B=10.90T unif=1.229% hoop=241MPa
+  [ 153] INFEAS f=4809.086  a=46.9 b=42.2 gap=29.9 (face=31.7mm) n=[806, 281, 653, 491, 607, 298, 697]  no evaluation (geometry pre-check)
+  [ 154] INFEAS f=1481.075  a=43.3 b=44.9 gap=30.8 (face=33.7mm) n=[683, 192, 606, 464, 476, 321, 442]  no evaluation (geometry pre-check)
+  [ 155] OK     f=   1.305  a=47.3 b=55.2 gap=28.1 (face=28.3mm) n=[630, 289, 307, 847, 394, 227, 614]  tape=1.305km B=10.44T unif=0.072% hoop=285MPa
+  [ 156] viol   f=  43.625  a=39.8 b=52.2 gap=30.9 (face=33.8mm) n=[784, 310, 395, 500, 680, 136, 606]  tape=1.190km B=11.12T unif=1.461% hoop=229MPa
+  [ 157] INFEAS f=1552.296  a=50.8 b=52.1 gap=27.6 (face=27.2mm) n=[437, 310, 515, 749, 429, 61, 753]  no evaluation (geometry pre-check)
+  [ 158] OK     f=   1.338  a=43.1 b=60.8 gap=22.9 (face=17.9mm) n=[619, 230, 588, 702, 609, 258, 591]  tape=1.338km B=13.85T unif=0.947% hoop=278MPa
+  [ 159] INFEAS f=1091.960  a=42.7 b=46.1 gap=23.7 (face=19.5mm) n=[625, 121, 578, 807, 743, 189, 604]  no evaluation (geometry pre-check)
+  [ 160] viol   f=   1.140  a=36.5 b=51.3 gap=29.7 (face=31.3mm) n=[693, 321, 565, 473, 737, 104, 598]  tape=1.133km B=11.80T unif=1.006% hoop=214MPa
+  [ 161] OK     f=   1.245  a=33.8 b=52.5 gap=28.5 (face=28.9mm) n=[820, 331, 672, 599, 619, 98, 612]  tape=1.245km B=13.32T unif=0.903% hoop=211MPa
+  [ 162] INFEAS f=2046.317  a=50.2 b=50.1 gap=32.0 (face=36.0mm) n=[787, 205, 480, 502, 786, 64, 657]  no evaluation (geometry pre-check)
+  [ 163] OK     f=   1.153  a=34.1 b=51.9 gap=27.3 (face=26.7mm) n=[792, 183, 701, 468, 577, 135, 667]  tape=1.153km B=12.78T unif=0.787% hoop=202MPa
+  [ 164] INFEAS f=5337.885  a=49.6 b=44.2 gap=27.2 (face=26.4mm) n=[666, 326, 616, 745, 816, 212, 582]  no evaluation (geometry pre-check)
+  [ 165] OK     f=   1.242  a=38.5 b=60.9 gap=20.1 (face=12.2mm) n=[589, 245, 344, 732, 481, 250, 662]  tape=1.242km B=12.83T unif=0.824% hoop=271MPa
+  [ 166] OK     f=   1.144  a=36.8 b=61.0 gap=27.3 (face=26.7mm) n=[630, 150, 487, 474, 730, 86, 539]  tape=1.144km B=10.98T unif=0.505% hoop=240MPa
+  [ 167] OK     f=   1.230  a=40.9 b=64.1 gap=25.6 (face=23.1mm) n=[660, 196, 395, 648, 602, 108, 677]  tape=1.230km B=11.91T unif=0.670% hoop=228MPa
+  [ 168] OK     f=   1.192  a=37.7 b=50.5 gap=24.6 (face=21.1mm) n=[546, 188, 556, 616, 506, 203, 828]  tape=1.192km B=12.17T unif=0.348% hoop=248MPa
+  [ 169] viol   f= 111.404  a=33.5 b=48.2 gap=29.8 (face=31.6mm) n=[801, 234, 436, 523, 483, 66, 664]  tape=1.035km B=10.80T unif=1.743% hoop=192MPa
+  [ 170] OK     f=   1.291  a=44.5 b=66.5 gap=28.9 (face=29.8mm) n=[660, 203, 499, 644, 665, 77, 582]  tape=1.291km B=10.97T unif=0.433% hoop=238MPa
+  [ 171] OK     f=   1.175  a=39.8 b=53.5 gap=30.0 (face=32.0mm) n=[690, 187, 416, 436, 759, 197, 723]  tape=1.175km B=10.72T unif=0.713% hoop=246MPa
+  [ 172] viol   f=   2.059  a=32.1 b=52.9 gap=24.6 (face=21.1mm) n=[675, 58, 564, 435, 692, 54, 572]  tape=0.947km B=12.53T unif=1.075% hoop=182MPa
+  [ 173] OK     f=   1.247  a=34.8 b=60.7 gap=33.4 (face=38.9mm) n=[658, 244, 644, 447, 695, 221, 666]  tape=1.247km B=10.40T unif=0.925% hoop=201MPa
+  [ 174] OK     f=   1.204  a=39.9 b=59.0 gap=30.9 (face=33.8mm) n=[712, 276, 651, 438, 693, 69, 530]  tape=1.204km B=11.07T unif=0.423% hoop=221MPa
+  [ 175] INFEAS f=1000.001  a=31.1 b=49.6 gap=26.9 (face=25.9mm) n=[750, 115, 575, 537, 442, 67, 510]  no evaluation (geometry pre-check)
+  [ 176] INFEAS f=3264.777  a=25.2 b=45.6 gap=26.9 (face=25.9mm) n=[656, 107, 645, 537, 712, 134, 648]  no evaluation (geometry pre-check)
+  [ 177] OK     f=   1.160  a=40.2 b=59.7 gap=31.1 (face=34.3mm) n=[655, 318, 491, 453, 546, 120, 626]  tape=1.160km B=10.34T unif=0.217% hoop=229MPa
+  [ 178] OK     f=   1.106  a=33.4 b=65.5 gap=26.2 (face=24.4mm) n=[518, 86, 587, 475, 641, 121, 642]  tape=1.106km B=10.92T unif=0.614% hoop=195MPa
+  [ 179] OK     f=   1.197  a=35.4 b=65.0 gap=24.5 (face=20.9mm) n=[657, 290, 581, 390, 688, 51, 572]  tape=1.197km B=12.25T unif=0.911% hoop=213MPa
+  [ 180] INFEAS f=1942.241  a=27.1 b=60.4 gap=25.7 (face=23.4mm) n=[673, 185, 720, 514, 601, 213, 573]  no evaluation (geometry pre-check)
+  [ 181] viol   f=   1.386  a=39.7 b=67.9 gap=29.2 (face=30.5mm) n=[514, 89, 636, 467, 603, 88, 825]  tape=1.334km B=9.84T unif=0.348% hoop=236MPa
+  [ 182] INFEAS f=1590.671  a=27.1 b=64.7 gap=28.4 (face=28.8mm) n=[703, 124, 458, 310, 642, 142, 635]  no evaluation (geometry pre-check)
+  [ 183] OK     f=   1.148  a=40.8 b=59.8 gap=27.5 (face=27.1mm) n=[598, 211, 583, 426, 663, 129, 552]  tape=1.148km B=11.06T unif=0.448% hoop=229MPa
+  [ 184] viol   f= 133.256  a=42.4 b=53.8 gap=32.6 (face=37.2mm) n=[582, 106, 515, 629, 611, 107, 565]  tape=1.030km B=9.69T unif=1.813% hoop=211MPa
+  [ 185] INFEAS f=1101.544  a=48.2 b=51.6 gap=28.0 (face=28.0mm) n=[676, 187, 378, 625, 732, 222, 592]  no evaluation (geometry pre-check)
+  [ 186] OK     f=   1.091  a=32.1 b=60.7 gap=27.3 (face=26.5mm) n=[574, 207, 658, 337, 525, 191, 654]  tape=1.091km B=11.05T unif=0.629% hoop=189MPa
+  [ 187] OK     f=   1.361  a=43.1 b=71.2 gap=23.5 (face=19.1mm) n=[594, 265, 619, 402, 646, 259, 509]  tape=1.361km B=11.79T unif=0.967% hoop=267MPa
+  [ 188] viol   f=   1.600  a=38.4 b=64.0 gap=30.4 (face=32.9mm) n=[537, 157, 518, 501, 665, 59, 845]  tape=1.312km B=9.62T unif=0.140% hoop=265MPa
+  [ 189] OK     f=   1.127  a=35.1 b=69.4 gap=24.3 (face=20.7mm) n=[596, 209, 469, 391, 622, 52, 614]  tape=1.127km B=11.20T unif=0.767% hoop=215MPa
+  [ 190] viol   f=   1.345  a=44.0 b=73.3 gap=28.4 (face=28.7mm) n=[549, 95, 506, 420, 582, 289, 602]  tape=1.269km B=9.81T unif=0.529% hoop=249MPa
+  [ 191] OK     f=   1.262  a=37.4 b=74.6 gap=23.4 (face=18.9mm) n=[515, 130, 620, 278, 659, 275, 538]  tape=1.262km B=10.96T unif=0.746% hoop=223MPa
+  [ 192] OK     f=   1.076  a=41.1 b=64.2 gap=24.1 (face=20.3mm) n=[533, 260, 610, 281, 482, 75, 610]  tape=1.076km B=10.35T unif=0.818% hoop=219MPa
+  [ 193] OK     f=   1.288  a=37.3 b=74.5 gap=27.6 (face=27.3mm) n=[604, 170, 629, 419, 663, 54, 646]  tape=1.288km B=10.61T unif=0.667% hoop=201MPa
+  [ 194] OK     f=   1.196  a=39.1 b=53.1 gap=23.3 (face=18.5mm) n=[736, 264, 526, 493, 458, 277, 730]  tape=1.196km B=13.52T unif=0.908% hoop=261MPa
+  [ 195] OK     f=   1.165  a=38.8 b=73.0 gap=25.4 (face=22.8mm) n=[612, 243, 565, 288, 590, 83, 477]  tape=1.165km B=10.38T unif=0.873% hoop=204MPa
+  [ 196] viol   f=   7.763  a=34.9 b=68.0 gap=22.9 (face=17.7mm) n=[685, 125, 622, 462, 525, 177, 718]  tape=1.277km B=13.05T unif=1.180% hoop=225MPa
+  [ 197] viol   f=   2.162  a=30.1 b=65.7 gap=28.2 (face=28.4mm) n=[588, 345, 418, 257, 422, 83, 402]  tape=0.935km B=9.29T unif=1.034% hoop=177MPa
+  [ 198] viol   f=   2.599  a=35.8 b=72.1 gap=24.4 (face=20.8mm) n=[598, 145, 846, 398, 517, 114, 545]  tape=1.370km B=11.15T unif=1.078% hoop=240MPa
+  [ 199] viol   f= 159.955  a=33.7 b=63.9 gap=21.6 (face=15.2mm) n=[754, 104, 569, 257, 452, 122, 731]  tape=1.119km B=12.06T unif=1.891% hoop=200MPa
+  [ 200] OK     f=   1.126  a=32.4 b=63.0 gap=24.8 (face=21.7mm) n=[641, 185, 519, 400, 658, 167, 605]  tape=1.126km B=12.20T unif=0.891% hoop=197MPa
+  [ 201] OK     f=   0.935  a=38.4 b=57.3 gap=24.2 (face=20.4mm) n=[539, 59, 586, 414, 404, 125, 604]  tape=0.935km B=10.64T unif=0.813% hoop=240MPa
+  [ 202] OK     f=   1.161  a=39.3 b=74.5 gap=23.4 (face=18.7mm) n=[536, 198, 599, 301, 559, 127, 464]  tape=1.161km B=10.41T unif=0.847% hoop=223MPa
+  [ 203] OK     f=   1.064  a=33.8 b=58.5 gap=27.6 (face=27.2mm) n=[669, 267, 633, 276, 518, 133, 598]  tape=1.064km B=11.09T unif=0.856% hoop=186MPa
+  [ 204] viol   f=   7.455  a=41.8 b=71.9 gap=22.7 (face=17.4mm) n=[708, 255, 638, 514, 614, 106, 566]  tape=1.411km B=13.02T unif=1.174% hoop=275MPa
+  [ 205] viol   f=   1.515  a=47.8 b=66.8 gap=24.6 (face=21.1mm) n=[424, 227, 619, 201, 635, 50, 725]  tape=1.203km B=9.60T unif=0.576% hoop=255MPa
+  [ 206] OK     f=   1.183  a=38.2 b=68.5 gap=22.6 (face=17.3mm) n=[584, 207, 623, 333, 649, 60, 619]  tape=1.183km B=11.86T unif=0.830% hoop=223MPa
+  [ 207] OK     f=   1.039  a=37.1 b=56.8 gap=23.0 (face=18.1mm) n=[533, 230, 540, 400, 557, 126, 637]  tape=1.039km B=11.86T unif=0.844% hoop=229MPa
+  [ 208] viol   f=   1.400  a=42.2 b=65.9 gap=23.0 (face=18.0mm) n=[579, 283, 631, 467, 675, 148, 528]  tape=1.297km B=12.36T unif=1.023% hoop=264MPa
+  [ 209] OK     f=   1.474  a=43.3 b=90.1 gap=23.8 (face=19.5mm) n=[631, 143, 664, 300, 546, 181, 527]  tape=1.474km B=10.44T unif=0.648% hoop=246MPa
+  [ 210] OK     f=   1.100  a=39.7 b=52.9 gap=20.1 (face=12.1mm) n=[525, 209, 770, 415, 467, 100, 607]  tape=1.100km B=12.54T unif=0.619% hoop=267MPa
+  [ 211] OK     f=   1.081  a=35.5 b=60.3 gap=25.6 (face=23.2mm) n=[571, 290, 632, 289, 515, 184, 575]  tape=1.081km B=11.10T unif=0.587% hoop=207MPa
+  [ 212] INFEAS f=1027.403  a=40.7 b=44.9 gap=24.5 (face=21.0mm) n=[598, 83, 629, 242, 546, 79, 539]  no evaluation (geometry pre-check)
+  [ 213] INFEAS f=3719.314  a=28.7 b=49.0 gap=22.1 (face=16.3mm) n=[634, 107, 685, 422, 270, 279, 818]  no evaluation (geometry pre-check)
+  [ 214] OK     f=   0.961  a=34.6 b=48.5 gap=22.8 (face=17.7mm) n=[462, 79, 703, 465, 506, 196, 701]  tape=0.961km B=12.25T unif=0.742% hoop=216MPa
+  [ 215] OK     f=   1.184  a=43.8 b=63.6 gap=25.1 (face=22.2mm) n=[599, 259, 685, 352, 539, 57, 534]  tape=1.184km B=10.92T unif=0.884% hoop=243MPa
+  [ 216] OK     f=   0.834  a=40.7 b=45.9 gap=23.0 (face=18.0mm) n=[488, 167, 581, 427, 476, 76, 564]  tape=0.834km B=11.62T unif=0.106% hoop=227MPa
+  [ 217] OK     f=   0.922  a=38.3 b=54.8 gap=23.0 (face=18.0mm) n=[476, 84, 536, 473, 536, 187, 556]  tape=0.922km B=11.48T unif=0.543% hoop=216MPa
+  [ 218] viol   f=   1.122  a=40.2 b=56.3 gap=25.6 (face=23.3mm) n=[617, 186, 553, 326, 290, 53, 699]  tape=0.981km B=9.73T unif=0.890% hoop=223MPa
+  [ 219] OK     f=   0.901  a=27.7 b=58.3 gap=21.5 (face=14.9mm) n=[536, 110, 511, 365, 653, 51, 481]  tape=0.901km B=11.68T unif=0.869% hoop=169MPa
+  [ 220] viol   f= 105.389  a=42.1 b=51.1 gap=28.5 (face=29.0mm) n=[523, 75, 804, 374, 686, 55, 547]  tape=1.068km B=10.09T unif=1.722% hoop=206MPa
+  [ 221] OK     f=   0.891  a=34.3 b=51.5 gap=22.6 (face=17.2mm) n=[481, 57, 604, 553, 604, 129, 522]  tape=0.891km B=12.37T unif=0.329% hoop=188MPa
+  [ 222] INFEAS f=1157.105  a=38.2 b=41.2 gap=23.3 (face=18.6mm) n=[395, 161, 608, 459, 470, 93, 481]  no evaluation (geometry pre-check)
+  [ 223] OK     f=   0.857  a=33.3 b=47.4 gap=22.9 (face=17.7mm) n=[390, 98, 552, 499, 653, 105, 587]  tape=0.857km B=11.34T unif=0.756% hoop=186MPa
+  [ 224] viol   f=   2.312  a=32.7 b=49.1 gap=27.4 (face=26.8mm) n=[467, 162, 606, 191, 478, 104, 508]  tape=0.771km B=9.12T unif=0.817% hoop=148MPa
+  [ 225] OK     f=   0.878  a=37.4 b=47.7 gap=23.2 (face=18.4mm) n=[482, 167, 590, 436, 576, 98, 600]  tape=0.878km B=12.10T unif=0.408% hoop=214MPa
+  [ 226] INFEAS f=3732.048  a=27.8 b=55.4 gap=18.8 (face=9.6mm) n=[454, 161, 794, 229, 398, 310, 473]  no evaluation (geometry pre-check)
+  [ 227] OK     f=   0.946  a=34.9 b=49.9 gap=22.7 (face=17.5mm) n=[568, 92, 554, 423, 666, 170, 563]  tape=0.946km B=12.56T unif=0.649% hoop=205MPa
+  [ 228] OK     f=   0.961  a=35.6 b=53.2 gap=25.0 (face=22.1mm) n=[542, 95, 501, 300, 562, 263, 650]  tape=0.961km B=10.90T unif=0.480% hoop=198MPa
+  [ 229] viol   f=  36.406  a=36.5 b=43.4 gap=20.6 (face=13.3mm) n=[611, 274, 466, 449, 456, 111, 577]  tape=0.846km B=13.78T unif=1.422% hoop=243MPa
+  [ 230] viol   f=   4.925  a=34.6 b=59.9 gap=20.9 (face=13.9mm) n=[459, 172, 519, 443, 352, 174, 550]  tape=0.922km B=11.21T unif=1.141% hoop=206MPa
+  [ 231] OK     f=   1.114  a=44.0 b=54.5 gap=21.0 (face=14.1mm) n=[321, 112, 519, 496, 794, 138, 571]  tape=1.114km B=10.67T unif=0.103% hoop=297MPa
+  [ 232] OK     f=   0.879  a=36.4 b=50.1 gap=22.0 (face=16.1mm) n=[307, 60, 552, 676, 525, 51, 629]  tape=0.879km B=10.91T unif=0.912% hoop=198MPa
+  [ 233] OK     f=   1.006  a=42.0 b=48.7 gap=21.7 (face=15.4mm) n=[448, 127, 599, 569, 684, 143, 521]  tape=1.006km B=12.56T unif=0.152% hoop=251MPa
+  [ 234] OK     f=   1.192  a=34.9 b=59.5 gap=23.0 (face=18.1mm) n=[603, 132, 619, 374, 811, 87, 624]  tape=1.192km B=12.18T unif=0.702% hoop=215MPa
+  [ 235] OK     f=   0.871  a=32.3 b=47.7 gap=21.7 (face=15.5mm) n=[482, 83, 523, 532, 653, 140, 521]  tape=0.871km B=12.41T unif=0.366% hoop=193MPa
+  [ 236] viol   f=   2.028  a=35.2 b=44.6 gap=22.0 (face=16.0mm) n=[456, 121, 641, 497, 515, 75, 619]  tape=0.836km B=12.48T unif=1.077% hoop=201MPa
+  [ 237] OK     f=   1.102  a=37.1 b=59.5 gap=24.8 (face=21.7mm) n=[573, 120, 637, 619, 555, 130, 608]  tape=1.102km B=12.56T unif=0.663% hoop=204MPa
+  [ 238] OK     f=   0.897  a=33.1 b=50.3 gap=24.0 (face=20.1mm) n=[624, 87, 526, 498, 593, 106, 597]  tape=0.897km B=12.82T unif=0.792% hoop=185MPa
+  [ 239] OK     f=   0.927  a=39.6 b=50.1 gap=22.4 (face=16.8mm) n=[410, 77, 638, 518, 525, 150, 564]  tape=0.927km B=11.67T unif=0.180% hoop=230MPa
+  [ 240] viol   f=1631.587  a=36.0 b=41.5 gap=26.4 (face=24.7mm) n=[470, 218, 740, 492, 722, 137, 564]  tape=0.962km B=11.88T unif=3.855% hoop=200MPa
+  [ 241] viol   f=   1.051  a=32.0 b=56.7 gap=19.8 (face=11.6mm) n=[361, 211, 626, 647, 693, 68, 579]  tape=1.050km B=13.26T unif=1.003% hoop=204MPa
+  [ 242] viol   f=  29.224  a=33.8 b=41.3 gap=20.7 (face=13.4mm) n=[420, 124, 608, 448, 644, 274, 476]  tape=0.832km B=13.23T unif=1.377% hoop=211MPa
+  [ 243] OK     f=   0.934  a=35.2 b=49.4 gap=20.4 (face=12.8mm) n=[393, 134, 515, 665, 599, 99, 652]  tape=0.934km B=12.67T unif=0.529% hoop=210MPa
+  [ 244] OK     f=   0.833  a=36.8 b=47.1 gap=22.1 (face=16.3mm) n=[531, 113, 380, 613, 606, 51, 538]  tape=0.833km B=12.14T unif=0.310% hoop=198MPa
+  [ 245] INFEAS f=1431.788  a=27.8 b=48.5 gap=23.1 (face=18.2mm) n=[493, 123, 438, 620, 713, 180, 633]  no evaluation (geometry pre-check)
+  [ 246] INFEAS f=2097.181  a=23.8 b=43.5 gap=19.4 (face=10.7mm) n=[363, 89, 600, 454, 630, 146, 638]  no evaluation (geometry pre-check)
+  [ 247] OK     f=   0.749  a=32.1 b=53.1 gap=19.9 (face=11.8mm) n=[327, 68, 531, 487, 540, 89, 389]  tape=0.749km B=10.88T unif=0.949% hoop=171MPa
+  [ 248] OK     f=   0.752  a=32.6 b=39.0 gap=21.1 (face=14.3mm) n=[501, 105, 560, 516, 649, 66, 498]  tape=0.752km B=13.24T unif=0.846% hoop=183MPa
+  [ 249] viol   f= 259.884  a=35.9 b=44.9 gap=25.0 (face=21.9mm) n=[340, 155, 492, 798, 493, 69, 656]  tape=0.950km B=10.40T unif=2.138% hoop=211MPa
+  [ 250] viol   f=  34.782  a=35.6 b=49.0 gap=26.3 (face=24.6mm) n=[420, 82, 513, 621, 560, 128, 556]  tape=0.874km B=10.53T unif=1.412% hoop=199MPa
+  [ 251] INFEAS f=6257.362  a=24.1 b=45.9 gap=19.1 (face=10.1mm) n=[284, 180, 434, 697, 746, 60, 382]  no evaluation (geometry pre-check)
+  [ 252] OK     f=   0.963  a=32.3 b=55.3 gap=22.2 (face=16.5mm) n=[454, 100, 486, 574, 667, 133, 491]  tape=0.963km B=11.66T unif=0.704% hoop=196MPa
+  [ 253] INFEAS f=1168.423  a=29.8 b=43.8 gap=19.5 (face=11.0mm) n=[421, 240, 555, 455, 748, 140, 366]  no evaluation (geometry pre-check)
+  [ 254] OK     f=   0.823  a=36.0 b=47.4 gap=19.5 (face=11.1mm) n=[447, 103, 510, 482, 627, 58, 485]  tape=0.823km B=12.07T unif=0.897% hoop=214MPa
+  [ 255] OK     f=   0.872  a=31.2 b=55.4 gap=20.0 (face=12.0mm) n=[368, 50, 549, 385, 684, 102, 431]  tape=0.872km B=10.62T unif=0.920% hoop=192MPa
+  [ 256] INFEAS f=1302.879  a=27.6 b=49.9 gap=20.4 (face=12.8mm) n=[456, 170, 496, 462, 701, 109, 467]  no evaluation (geometry pre-check)
+  [ 257] INFEAS f=1000.331  a=41.9 b=46.8 gap=23.8 (face=19.5mm) n=[440, 151, 518, 597, 666, 162, 545]  no evaluation (geometry pre-check)
+  [ 258] viol   f=  78.880  a=30.7 b=40.7 gap=19.9 (face=11.9mm) n=[348, 138, 563, 558, 714, 110, 563]  tape=0.822km B=12.69T unif=1.625% hoop=186MPa
+  [ 259] OK     f=   0.894  a=32.9 b=47.5 gap=21.6 (face=15.3mm) n=[470, 181, 552, 330, 659, 263, 435]  tape=0.894km B=12.14T unif=0.619% hoop=207MPa
+  [ 260] INFEAS f=1024.109  a=31.0 b=49.4 gap=21.5 (face=15.0mm) n=[269, 62, 507, 760, 566, 77, 583]  no evaluation (geometry pre-check)
+  [ 261] viol   f=   0.964  a=34.6 b=43.9 gap=21.2 (face=14.5mm) n=[369, 76, 447, 364, 678, 90, 321]  tape=0.726km B=9.65T unif=0.133% hoop=198MPa
+  [ 262] viol   f=  30.188  a=41.4 b=57.6 gap=23.1 (face=18.3mm) n=[655, 249, 595, 402, 610, 147, 455]  tape=1.114km B=12.63T unif=1.381% hoop=258MPa
+  [ 263] OK     f=   0.793  a=30.9 b=46.7 gap=17.4 (face=6.7mm) n=[447, 63, 524, 408, 655, 69, 552]  tape=0.793km B=12.49T unif=0.745% hoop=191MPa
+  [ 264] viol   f=   1.201  a=30.2 b=42.9 gap=19.5 (face=11.0mm) n=[472, 141, 513, 431, 686, 71, 426]  tape=0.784km B=12.50T unif=1.046% hoop=193MPa
+  [ 265] viol   f=   2.624  a=41.1 b=60.0 gap=21.1 (face=14.2mm) n=[439, 56, 554, 458, 616, 125, 409]  tape=0.973km B=10.59T unif=1.091% hoop=240MPa
+  [ 266] viol   f=  41.361  a=31.7 b=43.6 gap=21.0 (face=14.0mm) n=[393, 102, 442, 684, 621, 168, 493]  tape=0.834km B=12.23T unif=1.450% hoop=192MPa
+  [ 267] OK     f=   0.886  a=32.3 b=51.3 gap=21.6 (face=15.3mm) n=[438, 104, 680, 337, 633, 107, 485]  tape=0.886km B=11.60T unif=0.371% hoop=191MPa
+  [ 268] viol   f=   7.868  a=38.8 b=48.9 gap=19.5 (face=11.0mm) n=[445, 96, 545, 402, 580, 185, 403]  tape=0.835km B=11.78T unif=1.188% hoop=231MPa
+  [ 269] viol   f=  10.737  a=36.0 b=58.4 gap=17.2 (face=6.4mm) n=[333, 89, 603, 528, 692, 139, 458]  tape=1.015km B=12.22T unif=1.220% hoop=227MPa
+  [ 270] OK     f=   0.958  a=38.2 b=50.7 gap=20.4 (face=12.8mm) n=[447, 220, 695, 233, 600, 155, 497]  tape=0.958km B=11.72T unif=0.201% hoop=225MPa
+  [ 271] OK     f=   0.937  a=36.4 b=53.6 gap=23.9 (face=19.9mm) n=[494, 105, 562, 420, 629, 66, 636]  tape=0.937km B=11.24T unif=0.260% hoop=201MPa
+  [ 272] viol   f=   1.424  a=32.3 b=53.7 gap=20.0 (face=12.0mm) n=[532, 305, 558, 51, 643, 53, 412]  tape=0.823km B=11.40T unif=1.055% hoop=191MPa
+  [ 273] viol   f=   4.307  a=27.6 b=49.7 gap=18.1 (face=8.2mm) n=[341, 196, 541, 475, 635, 101, 380]  tape=0.807km B=12.45T unif=1.132% hoop=181MPa
+  [ 274] viol   f=   4.331  a=30.8 b=51.3 gap=19.7 (face=11.3mm) n=[540, 251, 426, 342, 732, 98, 462]  tape=0.945km B=12.03T unif=1.130% hoop=221MPa
+  [ 275] OK     f=   0.915  a=35.9 b=53.1 gap=17.3 (face=6.5mm) n=[449, 75, 601, 307, 638, 172, 570]  tape=0.915km B=12.37T unif=0.755% hoop=221MPa
+  [ 276] OK     f=   0.785  a=29.7 b=48.9 gap=18.7 (face=9.4mm) n=[422, 105, 514, 277, 641, 93, 563]  tape=0.785km B=11.42T unif=0.570% hoop=177MPa
+  [ 277] viol   f=  21.349  a=41.6 b=56.8 gap=20.3 (face=12.7mm) n=[577, 77, 551, 348, 656, 112, 470]  tape=0.994km B=11.49T unif=1.319% hoop=234MPa
+  [ 278] viol   f=  38.964  a=29.7 b=53.5 gap=17.3 (face=6.7mm) n=[446, 132, 542, 417, 653, 156, 349]  tape=0.878km B=12.29T unif=1.436% hoop=202MPa
+  [ 279] viol   f= 154.542  a=34.6 b=40.2 gap=19.5 (face=11.1mm) n=[447, 122, 647, 316, 699, 127, 578]  tape=0.817km B=12.94T unif=1.877% hoop=199MPa
+  [ 280] viol   f=   0.904  a=34.5 b=58.6 gap=20.7 (face=13.4mm) n=[413, 135, 596, 366, 580, 61, 475]  tape=0.898km B=11.05T unif=1.006% hoop=201MPa
+  [ 281] OK     f=   0.779  a=32.0 b=45.4 gap=17.3 (face=6.5mm) n=[447, 183, 581, 445, 540, 103, 465]  tape=0.779km B=13.64T unif=0.823% hoop=201MPa
+  [ 282] viol   f=  16.538  a=29.0 b=60.0 gap=18.0 (face=7.9mm) n=[401, 67, 579, 311, 514, 64, 543]  tape=0.824km B=11.16T unif=1.280% hoop=168MPa  [a=78 b=101 nt=4268] KSP converged reason: 4, iterations: 1
+  [a=48 b=68 nt=3967] KSP converged reason: 4, iterations: 1
+  [a=51 b=60 nt=3780] KSP converged reason: 4, iterations: 1
+  [a=47 b=76 nt=4257] KSP converged reason: 4, iterations: 1
+  [a=36 b=64 nt=4682] KSP converged reason: 4, iterations: 1
+  [a=40 b=74 nt=3970] KSP converged reason: 4, iterations: 1
+  [a=37 b=71 nt=3630] KSP converged reason: 4, iterations: 1
+  [a=45 b=63 nt=3615] KSP converged reason: 4, iterations: 1
+  [a=37 b=50 nt=3965] KSP converged reason: 4, iterations: 1
+  [a=35 b=58 nt=2979] KSP converged reason: 4, iterations: 1
+  [a=47 b=65 nt=2774] KSP converged reason: 4, iterations: 1
+  [a=40 b=56 nt=3197] KSP converged reason: 4, iterations: 1
+  [a=53 b=68 nt=2151] KSP converged reason: 4, iterations: 1
+  [a=33 b=55 nt=2566] KSP converged reason: 4, iterations: 1
+  [a=40 b=71 nt=3359] KSP converged reason: 4, iterations: 1
+  [a=45 b=65 nt=3680] KSP converged reason: 4, iterations: 1
+  [a=36 b=72 nt=3618] KSP converged reason: 4, iterations: 1
+  [a=45 b=58 nt=3672] KSP converged reason: 4, iterations: 1
+  [a=41 b=64 nt=3286] KSP converged reason: 4, iterations: 1
+  [a=40 b=59 nt=3369] KSP converged reason: 4, iterations: 1
+  [a=41 b=60 nt=3162] KSP converged reason: 4, iterations: 1
+  [a=41 b=64 nt=2851] KSP converged reason: 4, iterations: 1
+  [a=39 b=74 nt=2784] KSP converged reason: 4, iterations: 1
+  [a=36 b=60 nt=3056] KSP converged reason: 4, iterations: 1
+  [a=33 b=49 nt=2516] KSP converged reason: 4, iterations: 1
+  [a=37 b=43 nt=2944] KSP converged reason: 4, iterations: 1
+  [a=32 b=48 nt=2934] KSP converged reason: 4, iterations: 1
+  [a=32 b=57 nt=3185] KSP converged reason: 4, iterations: 1
+  [a=31 b=41 nt=2994] KSP converged reason: 4, iterations: 1
+  [a=31 b=47 nt=2718] KSP converged reason: 4, iterations: 1
+  [a=38 b=51 nt=2847] KSP converged reason: 4, iterations: 1
+  [a=30 b=49 nt=2615] KSP converged reason: 4, iterations: 1
+  [a=34 b=59 nt=2626] KSP converged reason: 4, iterations: 1
+  [a=34 b=51 nt=2655] KSP converged reason: 4, iterations: 1
+  [a=35 b=55 nt=2639] KSP converged reason: 4, iterations: 1
+  [a=33 b=44 nt=2930] KSP converged reason: 4, iterations: 1
+  [a=57 b=82 nt=3829] KSP converged reason: 4, iterations: 1
+  [a=36 b=59 nt=3224] KSP converged reason: 4, iterations: 1
+  [a=43 b=53 nt=4504] KSP converged reason: 4, iterations: 1
+  [a=40 b=68 nt=3788] KSP converged reason: 4, iterations: 1
+  [a=42 b=49 nt=4184] KSP converged reason: 4, iterations: 1
+  [a=50 b=66 nt=4098] KSP converged reason: 4, iterations: 1
+  [a=59 b=65 nt=4540] KSP converged reason: 4, iterations: 1
+  [a=32 b=68 nt=3601] KSP converged reason: 4, iterations: 1
+  [a=32 b=43 nt=3621] KSP converged reason: 4, iterations: 1
+  [a=36 b=76 nt=3401] KSP converged reason: 4, iterations: 1
+  [a=31 b=90 nt=3327] KSP converged reason: 4, iterations: 1
+  [a=36 b=53 nt=3142] KSP converged reason: 4, iterations: 1
+  [a=38 b=58 nt=3114] KSP converged reason: 4, iterations: 1
+  [a=39 b=45 nt=2903] KSP converged reason: 4, iterations: 1
+  [a=44 b=58 nt=3456] KSP converged reason: 4, iterations: 1
+  [a=40 b=52 nt=3411] KSP converged reason: 4, iterations: 1
+  [a=38 b=61 nt=3303] KSP converged reason: 4, iterations: 1
+  [a=40 b=54 nt=3408] KSP converged reason: 4, iterations: 1
+  [a=35 b=65 nt=3229] KSP converged reason: 4, iterations: 1
+  [a=32 b=61 nt=3146] KSP converged reason: 4, iterations: 1
+  [a=37 b=74 nt=3185] KSP converged reason: 4, iterations: 1
+  [a=34 b=64 nt=2989] KSP converged reason: 4, iterations: 1
+  [a=48 b=67 nt=2881] KSP converged reason: 4, iterations: 1
+  [a=42 b=66 nt=3311] KSP converged reason: 4, iterations: 1
+  [a=41 b=46 nt=2779] KSP converged reason: 4, iterations: 1
+  [a=37 b=48 nt=2949] KSP converged reason: 4, iterations: 1
+  [a=36 b=50 nt=2800] KSP converged reason: 4, iterations: 1
+  [a=36 b=42 nt=3343] KSP converged reason: 4, iterations: 1
+  [a=35 b=49 nt=3057] KSP converged reason: 4, iterations: 1
+  [a=32 b=55 nt=2905] KSP converged reason: 4, iterations: 1
+  [a=41 b=60 nt=2657] KSP converged reason: 4, iterations: 1
+  [a=36 b=54 nt=2912] KSP converged reason: 4, iterations: 1
+  [a=29 b=60 nt=2479] KSP converged reason: 4, iterations: 1
+  [a=31 b=42 nt=2632] KSP converged reason: 4, iterations: 1
+  [a=31 b=50 nt=2283] KSP converged reason: 4, iterations: 1
+  [a=27 b=46 nt=2302] KSP converged reason: 4, iterations: 1
+  [a=52 b=77 nt=4432] KSP converged reason: 4, iterations: 1
+  [a=61 b=92 nt=4547] KSP converged reason: 4, iterations: 1
+  [a=69 b=83 nt=4645] KSP converged reason: 4, iterations: 1
+  [a=40 b=61 nt=3798] KSP converged reason: 4, iterations: 1
+  [a=50 b=58 nt=3946] KSP converged reason: 4, iterations: 1
+  [a=50 b=58 nt=3206] KSP converged reason: 4, iterations: 1
+  [a=47 b=67 nt=3771] KSP converged reason: 4, iterations: 1
+  [a=43 b=66 nt=3662] KSP converged reason: 4, iterations: 1
+  [a=35 b=60 nt=3279] KSP converged reason: 4, iterations: 1
+  [a=38 b=63 nt=3523] KSP converged reason: 4, iterations: 1
+  [a=50 b=80 nt=3215] KSP converged reason: 4, iterations: 1
+  [a=35 b=77 nt=3315] KSP converged reason: 4, iterations: 1
+  [a=35 b=56 nt=3342] KSP converged reason: 4, iterations: 1
+  [a=43 b=70 nt=3663] KSP converged reason: 4, iterations: 1
+  [a=37 b=69 nt=3692] KSP converged reason: 4, iterations: 1
+  [a=47 b=55 nt=3308] KSP converged reason: 4, iterations: 1
+  [a=34 b=52 nt=3751] KSP converged reason: 4, iterations: 1
+  [a=35 b=61 nt=3575] KSP converged reason: 4, iterations: 1
+  [a=43 b=71 nt=3294] KSP converged reason: 4, iterations: 1
+  [a=39 b=53 nt=3484] KSP converged reason: 4, iterations: 1
+  [a=38 b=57 nt=2731] KSP converged reason: 4, iterations: 1
+  [a=43 b=90 nt=2992] KSP converged reason: 4, iterations: 1
+  [a=38 b=55 nt=2848] KSP converged reason: 4, iterations: 1
+  [a=34 b=51 nt=2950] KSP converged reason: 4, iterations: 1
+  [a=42 b=49 nt=3091] KSP converged reason: 4, iterations: 1
+  [a=40 b=50 nt=2882] KSP converged reason: 4, iterations: 1
+  [a=37 b=47 nt=2832] KSP converged reason: 4, iterations: 1
+  [a=36 b=49 nt=2880] KSP converged reason: 4, iterations: 1
+  [a=33 b=47 nt=2890] KSP converged reason: 4, iterations: 1
+  [a=32 b=44 nt=2903] KSP converged reason: 4, iterations: 1
+  [a=36 b=58 nt=2842] KSP converged reason: 4, iterations: 1
+  [a=36 b=53 nt=2812] KSP converged reason: 4, iterations: 1
+  [a=32 b=45 nt=2764] KSP converged reason: 4, iterations: 1
+  [a=35 b=48 nt=2795] KSP converged reason: 4, iterations: 1
+  [a=28 b=37 nt=2636] KSP converged reason: 4, iterations: 1
+  [a=38 b=90 nt=4214] KSP converged reason: 4, iterations: 1
+  [a=70 b=90 nt=4153] KSP converged reason: 4, iterations: 1
+  [a=58 b=102 nt=4517] KSP converged reason: 4, iterations: 1
+  [a=63 b=86 nt=4183] KSP converged reason: 4, iterations: 1
+  [a=55 b=73 nt=3910] KSP converged reason: 4, iterations: 1
+  [a=43 b=49 nt=3870] KSP converged reason: 4, iterations: 1
+  [a=34 b=70 nt=3607] KSP converged reason: 4, iterations: 1
+  [a=38 b=78 nt=3008] KSP converged reason: 4, iterations: 1
+  [a=30 b=53 nt=2852] KSP converged reason: 4, iterations: 1
+  [a=41 b=58 nt=2956] KSP converged reason: 4, iterations: 1
+  [a=34 b=52 nt=3142] KSP converged reason: 4, iterations: 1
+  [a=37 b=57 nt=3486] KSP converged reason: 4, iterations: 1
+  [a=42 b=52 nt=3566] KSP converged reason: 4, iterations: 1
+  [a=43 b=54 nt=3380] KSP converged reason: 4, iterations: 1
+  [a=34 b=52 nt=3523] KSP converged reason: 4, iterations: 1
+  [a=32 b=53 nt=3050] KSP converged reason: 4, iterations: 1
+  [a=40 b=68 nt=3222] KSP converged reason: 4, iterations: 1
+  [a=44 b=73 nt=3043] KSP converged reason: 4, iterations: 1
+  [a=35 b=68 nt=3314] KSP converged reason: 4, iterations: 1
+  [a=32 b=63 nt=3175] KSP converged reason: 4, iterations: 1
+  [a=38 b=69 nt=3075] KSP converged reason: 4, iterations: 1
+  [a=40 b=53 nt=3093] KSP converged reason: 4, iterations: 1
+  [a=40 b=56 nt=2724] KSP converged reason: 4, iterations: 1
+  [a=28 b=58 nt=2707] KSP converged reason: 4, iterations: 1
+  [a=36 b=53 nt=2913] KSP converged reason: 4, iterations: 1
+  [a=35 b=60 nt=2669] KSP converged reason: 4, iterations: 1
+  [a=35 b=45 nt=2924] KSP converged reason: 4, iterations: 1
+  [a=33 b=50 nt=3031] KSP converged reason: 4, iterations: 1
+  [a=32 b=53 nt=2431] KSP converged reason: 4, iterations: 1
+  [a=31 b=55 nt=2569] KSP converged reason: 4, iterations: 1
+  [a=41 b=58 nt=3113] KSP converged reason: 4, iterations: 1
+  [a=32 b=54 nt=2554] KSP converged reason: 4, iterations: 1
+  [a=30 b=53 nt=2695] KSP converged reason: 4, iterations: 1
+  [a=34 b=52 nt=2910] KSP converged reason: 4, iterations: 1
+  [a=31 b=43 nt=2775] KSP converged reason: 4, iterations: 1
+  [a=37 b=49 nt=2951] KSP converged reason: 4, iterations: 1
+  [a=57 b=79 nt=3596] KSP converged reason: 4, iterations: 1
+  [a=41 b=70 nt=3772] KSP converged reason: 4, iterations: 1
+  [a=58 b=72 nt=3730] KSP converged reason: 4, iterations: 1
+  [a=56 b=76 nt=3198] KSP converged reason: 4, iterations: 1
+  [a=69 b=77 nt=4095] KSP converged reason: 4, iterations: 1
+  [a=43 b=49 nt=3675] KSP converged reason: 4, iterations: 1
+  [a=49 b=63 nt=3905] KSP converged reason: 4, iterations: 1
+  [a=45 b=58 nt=3654] KSP converged reason: 4, iterations: 1
+  [a=47 b=53 nt=3555] KSP converged reason: 4, iterations: 1
+  [a=39 b=60 nt=3745] KSP converged reason: 4, iterations: 1
+  [a=28 b=41 nt=2745] KSP converged reason: 4, iterations: 1
+  [a=34 b=53 nt=3005] KSP converged reason: 4, iterations: 1
+  [a=38 b=59 nt=3100] KSP converged reason: 4, iterations: 1
+  [a=45 b=54 nt=3313] KSP converged reason: 4, iterations: 1
+  [a=36 b=63 nt=3367] KSP converged reason: 4, iterations: 1
+  [a=43 b=61 nt=3597] KSP converged reason: 4, iterations: 1
+  [a=38 b=51 nt=3443] KSP converged reason: 4, iterations: 1
+  [a=33 b=48 nt=3207] KSP converged reason: 4, iterations: 1
+  [a=40 b=60 nt=3209] KSP converged reason: 4, iterations: 1
+  [a=38 b=64 nt=3282] KSP converged reason: 4, iterations: 1
+  [a=35 b=69 nt=2953] KSP converged reason: 4, iterations: 1
+  [a=39 b=73 nt=2858] KSP converged reason: 4, iterations: 1
+  [a=36 b=72 nt=3163] KSP converged reason: 4, iterations: 1
+  [a=34 b=58 nt=3094] KSP converged reason: 4, iterations: 1
+  [a=37 b=57 nt=3023] KSP converged reason: 4, iterations: 1
+  [a=44 b=64 nt=3025] KSP converged reason: 4, iterations: 1
+  [a=33 b=47 nt=2884] KSP converged reason: 4, iterations: 1
+  [a=44 b=55 nt=2951] KSP converged reason: 4, iterations: 1
+  [a=37 b=59 nt=3242] KSP converged reason: 4, iterations: 1
+  [a=33 b=39 nt=2895] KSP converged reason: 4, iterations: 1
+  [a=36 b=45 nt=3003] KSP converged reason: 4, iterations: 1
+  [a=35 b=44 nt=2345] KSP converged reason: 4, iterations: 1
+  [a=32 b=51 nt=2784] KSP converged reason: 4, iterations: 1
+  [a=31 b=51 nt=2851] KSP converged reason: 4, iterations: 1
+  [a=35 b=40 nt=2936] KSP converged reason: 4, iterations: 1
+  [a=32 b=53 nt=2457] KSP converged reason: 4, iterations: 1
+  [a=29 b=51 nt=2771] KSP converged reason: 4, iterations: 1
+  [a=28 b=45 nt=2698] KSP converged reason: 4, iterations: 1
+  [a=31 b=57 nt=2618] KSP converged reason: 4, iterations: 1
+  [a=31 b=45 nt=2799] KSP converged reason: 4, iterations: 1
+  [a=45 b=69 nt=3973] KSP converged reason: 4, iterations: 1
+  [a=47 b=82 nt=3862] KSP converged reason: 4, iterations: 1
+  [a=55 b=93 nt=3387] KSP converged reason: 4, iterations: 1
+  [a=62 b=85 nt=2622] KSP converged reason: 4, iterations: 1
+  [a=59 b=91 nt=4055] KSP converged reason: 4, iterations: 1
+  [a=49 b=58 nt=4205] KSP converged reason: 4, iterations: 1
+  [a=41 b=56 nt=4376] KSP converged reason: 4, iterations: 1
+  [a=38 b=57 nt=3525] KSP converged reason: 4, iterations: 1
+  [a=50 b=75 nt=3509] KSP converged reason: 4, iterations: 1
+  [a=31 b=55 nt=3546] KSP converged reason: 4, iterations: 1
+  [a=47 b=66 nt=3281] KSP converged reason: 4, iterations: 1
+  [a=41 b=68 nt=3203] KSP converged reason: 4, iterations: 1
+  [a=42 b=72 nt=3617] KSP converged reason: 4, iterations: 1
+  [a=44 b=49 nt=3440] KSP converged reason: 4, iterations: 1
+  [a=33 b=56 nt=3247] KSP converged reason: 4, iterations: 1
+  [a=46 b=57 nt=3121] KSP converged reason: 4, iterations: 1
+  [a=39 b=69 nt=3639] KSP converged reason: 4, iterations: 1
+  [a=36 b=51 nt=3491] KSP converged reason: 4, iterations: 1
+  [a=37 b=61 nt=3096] KSP converged reason: 4, iterations: 1
+  [a=44 b=66 nt=3330] KSP converged reason: 4, iterations: 1
+  [a=33 b=66 nt=3070] KSP converged reason: 4, iterations: 1
+  [a=42 b=54 nt=3115] KSP converged reason: 4, iterations: 1
+  [a=37 b=75 nt=3015] KSP converged reason: 4, iterations: 1
+  [a=30 b=66 nt=2515] KSP converged reason: 4, iterations: 1
+  [a=42 b=72 nt=3401] KSP converged reason: 4, iterations: 1
+  [a=35 b=49 nt=3112] KSP converged reason: 4, iterations: 1
+  [a=42 b=51 nt=3064] KSP converged reason: 4, iterations: 1
+  [a=35 b=50 nt=3036] KSP converged reason: 4, iterations: 1
+  [a=35 b=59 nt=3250] KSP converged reason: 4, iterations: 1
+  [a=34 b=41 nt=2994] KSP converged reason: 4, iterations: 1
+  [a=36 b=47 nt=2712] KSP converged reason: 4, iterations: 1
+  [a=30 b=43 nt=2740] KSP converged reason: 4, iterations: 1
+  [a=39 b=49 nt=2656] KSP converged reason: 4, iterations: 1
+  [a=28 b=50 nt=2669] KSP converged reason: 4, iterations: 1
+  [a=42 b=57 nt=2791] KSP converged reason: 4, iterations: 1
+  [a=32 b=60 nt=2725] KSP converged reason: 4, iterations: 1
+  [a=32 b=51 nt=2799] KSP converged reason: 4, iterations: 1
+  [a=35 b=42 nt=2698] KSP converged reason: 4, iterations: 1
+  [a=31 b=45 nt=2650] KSP converged reason: 4, iterations: 1
+  [a=31 b=52 nt=2863] KSP converged reason: 4, iterations: 1
+
+  [ 283] OK     f=   1.002  a=34.1 b=52.2 gap=19.7 (face=11.3mm) n=[509, 237, 764, 224, 564, 140, 472]  tape=1.002km B=12.24T unif=0.635% hoop=215MPa
+  [ 284] OK     f=   0.830  a=31.6 b=53.0 gap=17.8 (face=7.5mm) n=[382, 113, 702, 221, 487, 84, 468]  tape=0.830km B=10.83T unif=0.934% hoop=193MPa
+  [ 285] INFEAS f=2513.060  a=24.4 b=54.6 gap=17.7 (face=7.4mm) n=[403, 186, 668, 391, 548, 51, 543]  no evaluation (geometry pre-check)
+  [ 286] OK     f=   0.846  a=34.3 b=51.2 gap=20.8 (face=13.6mm) n=[479, 197, 562, 298, 624, 56, 439]  tape=0.846km B=11.41T unif=0.829% hoop=200MPa
+  [ 287] viol   f=   1.255  a=31.9 b=59.6 gap=19.8 (face=11.6mm) n=[457, 150, 617, 239, 631, 59, 572]  tape=0.924km B=11.50T unif=1.041% hoop=183MPa
+  [ 288] INFEAS f=1142.923  a=24.7 b=50.1 gap=18.9 (face=9.8mm) n=[509, 82, 477, 378, 610, 73, 460]  no evaluation (geometry pre-check)
+  [ 289] INFEAS f=1011.951  a=28.3 b=42.2 gap=19.1 (face=10.2mm) n=[326, 58, 452, 408, 684, 55, 479]  no evaluation (geometry pre-check)
+  [ 290] OK     f=   0.872  a=28.8 b=51.1 gap=21.7 (face=15.4mm) n=[439, 210, 578, 262, 672, 133, 477]  tape=0.872km B=11.43T unif=0.840% hoop=177MPa
+  [ 291] viol   f=  72.704  a=35.4 b=55.0 gap=19.1 (face=10.2mm) n=[540, 180, 536, 361, 486, 53, 483]  tape=0.844km B=12.19T unif=1.599% hoop=203MPa
+  [ 292] OK     f=   0.778  a=31.5 b=43.3 gap=18.2 (face=8.4mm) n=[443, 176, 603, 467, 458, 166, 462]  tape=0.778km B=13.53T unif=0.592% hoop=199MPa
+  [ 293] OK     f=   0.744  a=30.9 b=41.8 gap=16.3 (face=4.6mm) n=[331, 88, 643, 406, 540, 238, 386]  tape=0.744km B=12.95T unif=0.483% hoop=206MPa
+  [ 294] OK     f=   0.828  a=34.5 b=48.1 gap=20.3 (face=12.6mm) n=[448, 94, 580, 414, 544, 193, 522]  tape=0.828km B=12.47T unif=0.676% hoop=208MPa
+  [ 295] OK     f=   0.925  a=32.2 b=50.7 gap=18.1 (face=8.2mm) n=[396, 164, 746, 265, 526, 116, 586]  tape=0.925km B=12.08T unif=0.712% hoop=212MPa
+  [ 296] OK     f=   0.736  a=28.5 b=44.8 gap=17.9 (face=7.8mm) n=[406, 143, 603, 400, 574, 65, 507]  tape=0.736km B=13.15T unif=0.690% hoop=180MPa
+  [ 297] INFEAS f=5184.357  a=23.4 b=46.8 gap=16.8 (face=5.6mm) n=[446, 176, 708, 229, 538, 233, 469]  no evaluation (geometry pre-check)
+  [ 298] viol   f=   2.155  a=30.6 b=50.4 gap=17.5 (face=7.0mm) n=[343, 210, 574, 298, 444, 88, 326]  tape=0.719km B=10.73T unif=1.085% hoop=196MPa
+  [ 299] viol   f= 193.200  a=34.6 b=41.5 gap=18.2 (face=8.3mm) n=[566, 88, 621, 431, 466, 104, 422]  tape=0.748km B=13.76T unif=1.981% hoop=210MPa
+  [ 300] viol   f=  13.145  a=30.9 b=56.9 gap=18.3 (face=8.6mm) n=[383, 59, 717, 350, 512, 145, 452]  tape=0.923km B=11.28T unif=1.247% hoop=203MPa
+  [ 301] OK     f=   0.901  a=36.5 b=48.5 gap=19.8 (face=11.6mm) n=[333, 157, 599, 475, 570, 203, 614]  tape=0.901km B=12.60T unif=0.292% hoop=220MPa
+  [ 302] viol   f= 282.756  a=28.5 b=36.6 gap=17.0 (face=6.0mm) n=[379, 159, 577, 442, 551, 69, 459]  tape=0.629km B=13.86T unif=2.188% hoop=179MPa
+  [ 303] INFEAS f=1000.062  a=31.3 b=36.3 gap=16.0 (face=4.1mm) n=[308, 119, 565, 369, 403, 184, 554]  no evaluation (geometry pre-check)
+  [ 304] OK     f=   0.626  a=26.9 b=45.6 gap=15.7 (face=3.4mm) n=[318, 124, 542, 283, 493, 58, 484]  tape=0.626km B=11.67T unif=0.927% hoop=173MPa
+  [ 305] viol   f=   4.393  a=32.8 b=43.6 gap=19.6 (face=11.2mm) n=[376, 187, 713, 426, 575, 101, 552]  tape=0.866km B=12.96T unif=1.133% hoop=210MPa
+  [ 306] OK     f=   0.824  a=31.3 b=45.1 gap=17.6 (face=7.1mm) n=[399, 107, 573, 387, 499, 162, 672]  tape=0.824km B=12.53T unif=0.722% hoop=204MPa
+  [ 307] INFEAS f=1232.449  a=23.3 b=49.1 gap=17.6 (face=7.1mm) n=[263, 274, 479, 353, 564, 196, 580]  no evaluation (geometry pre-check)
+  [ 308] INFEAS f=1461.821  a=29.2 b=46.1 gap=17.7 (face=7.4mm) n=[358, 95, 587, 517, 561, 73, 753]  no evaluation (geometry pre-check)
+  [ 309] OK     f=   0.822  a=30.8 b=45.3 gap=17.1 (face=6.3mm) n=[344, 91, 722, 449, 411, 184, 449]  tape=0.822km B=12.24T unif=0.821% hoop=215MPa
+  [ 310] viol   f=  16.411  a=31.4 b=51.8 gap=18.8 (face=9.7mm) n=[423, 141, 561, 565, 483, 249, 441]  tape=0.869km B=13.56T unif=1.279% hoop=196MPa
+
+==========================================================================================
+CMA-ES finished: 310 evaluations in 7.3 min
+==========================================================================================
+
+Best feasible design found:
+  a_mm             26.854475022107135
+  b_mm             45.58263302599448
+  gap_mm           15.694118679581592
+  face_gap_mm      3.3882373591631842
+  n_turns          [318, 124, 542, 283, 493, 58, 484]
+  n_total          2302
+  tape_km          0.6260560688392629
+  B_target_T       11.66808566031129
+  uniformity_pct   0.927184611273863
+  hoop_MPa         172.85212131734912
+  delam_MPa        10.730617343960395
+  I_quench_A       405.55980601482463
+  I_op_A           223.08020132828636
+  binding          quench/SF
+  clip_frac        0.17276166456494324
+
+Full evaluation history -> optimize/cmaes_history.csv
+Best design            -> optimize/cmaes_results.csv
+Appended 310 rows to cumulative master log -> optimize/cmaes_all_evaluations.csv
+
+Figures -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/visualization/cmaes_convergence.png, cmaes_constraints.png, cmaes_variables.png, cmaes_overview.png
+Cumulative parameter-space map -> visualization/cmaes_param_map.png (15020 evaluations, 48 runs)

@@ -1,0 +1,20 @@
+[2026-07-22 11:04:07] Starting n_layers sweep: [3, 4, 5, 6, 7, 8, 9, 10, 12], ref_total_turns=1310
+[2026-07-22 11:04:07] [n_layers= 3] starting: a=19.7mm b=26.9mm gap=9.0mm n_turns=[437, 437, 437] max_evals=500 seed=6003
+[2026-07-22 11:10:10] [n_layers= 3] done in 6.1 min -- best tape=0.370km B=10.06T unif=0.913% hoop=149MPa a=28.7mm b=37.4mm gap=8.0mm n_turns=[420, 491, 635]
+[2026-07-22 11:10:10] [n_layers= 4] starting: a=15.6mm b=22.8mm gap=11.0mm n_turns=[328, 328, 328, 328] max_evals=500 seed=6004
+[2026-07-22 11:16:49] Starting n_layers sweep: [4, 5, 6, 8, 9, 10, 12], ref_total_turns=1310
+[2026-07-22 11:16:49] [n_layers= 4] starting: a=15.6mm b=22.8mm gap=11.0mm n_turns=[328, 328, 328, 328] max_evals=500 seed=6004
+[2026-07-22 11:26:20] [n_layers= 4] done in 9.5 min -- best tape=0.356km B=10.58T unif=0.529% hoop=143MPa a=25.6mm b=36.0mm gap=9.6mm n_turns=[352, 312, 458, 492]
+[2026-07-22 11:26:20] [n_layers= 5] starting: a=13.1mm b=20.3mm gap=13.0mm n_turns=[262, 262, 262, 262, 262] max_evals=500 seed=6005
+[2026-07-22 11:39:32] [n_layers= 5] done in 13.2 min -- best tape=1.011km B=10.83T unif=0.963% hoop=209MPa a=37.4mm b=60.1mm gap=20.4mm n_turns=[719, 451, 607, 117, 847]
+[2026-07-22 11:39:32] [n_layers= 6] starting: a=11.5mm b=18.7mm gap=15.0mm n_turns=[218, 218, 218, 218, 218, 218] max_evals=400 seed=6006
+[2026-07-22 11:48:59] [n_layers= 6] done in 9.4 min -- best tape=0.792km B=10.18T unif=0.493% hoop=207MPa a=41.8mm b=48.7mm gap=22.6mm n_turns=[346, 637, 233, 667, 510, 55]
+[2026-07-22 11:48:59] [n_layers= 8] starting: a=9.4mm b=16.7mm gap=19.0mm n_turns=[164, 164, 164, 164, 164, 164, 164, 164] max_evals=400 seed=6008
+[2026-07-22 11:58:25] [n_layers= 8] done in 9.4 min -- best tape=0.442km B=11.46T unif=0.375% hoop=161MPa a=27.4mm b=33.9mm gap=17.6mm n_turns=[229, 270, 360, 351, 52, 360, 224, 222]
+[2026-07-22 11:58:25] [n_layers= 9] starting: a=8.8mm b=16.0mm gap=21.0mm n_turns=[146, 146, 146, 146, 146, 146, 146, 146, 146] max_evals=250 seed=6009
+[2026-07-22 12:03:43] [n_layers= 9] done in 5.3 min -- best tape=0.632km B=10.09T unif=0.487% hoop=233MPa a=30.6mm b=39.1mm gap=19.7mm n_turns=[245, 240, 244, 258, 223, 412, 65, 172, 494]
+[2026-07-22 12:03:43] [n_layers=10] starting: a=8.2mm b=15.4mm gap=23.0mm n_turns=[131, 131, 131, 131, 131, 131, 131, 131, 131, 131] max_evals=250 seed=6010
+[2026-07-22 12:09:45] [n_layers=10] done in 6.0 min -- best tape=0.792km B=12.91T unif=0.664% hoop=210MPa a=30.7mm b=42.0mm gap=23.7mm n_turns=[376, 406, 541, 108, 286, 69, 384, 320, 233, 98]
+[2026-07-22 12:09:45] [n_layers=12] starting: a=7.4mm b=14.6mm gap=27.0mm n_turns=[109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109] max_evals=250 seed=6012
+[2026-07-22 12:16:12] [n_layers=12] done in 6.4 min -- best tape=0.561km B=10.13T unif=0.527% hoop=146MPa a=25.0mm b=38.1mm gap=25.5mm n_turns=[287, 112, 178, 229, 360, 99, 157, 210, 318, 111, 86, 198]
+[2026-07-22 12:16:12] n_layers sweep finished.

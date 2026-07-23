@@ -1003,8 +1003,12 @@ def main():
         bore_pt = np.array([[0.0, 0.0, float(params.coil_half_gap)]])
 
         # ── Mean |B| at bore from uniform-J (Biot-Savart reference) ──────
-        from coil2_field import compute_both_coils_field
-        B_bore_uniform, _, _ = compute_both_coils_field(
+        # multilayer: resolves each layer's own z/radial position rather
+        # than treating the whole winding as one filament at a single
+        # nominal radius (breaks down for small optimized coils -- see
+        # coil2_field.py's compute_both_coils_field_multilayer docstring).
+        from coil2_field import compute_both_coils_field_multilayer
+        B_bore_uniform = compute_both_coils_field_multilayer(
             bore_pt, I_per_turn=params.I_design)
         Bz_bore_uniform = float(B_bore_uniform[0, 2])
         Bz_bore_TA      = Bz_bore_uniform + float(dB_bore[2])
