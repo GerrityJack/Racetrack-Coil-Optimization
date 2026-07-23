@@ -1,0 +1,14 @@
+[2026-07-22 22:11:34] Starting overnight extended refinement: 6 jobs ([3, 4, 5, 9, 10, 12]), 10.0h total budget, 5% proportional step size
+[2026-07-22 22:11:34] [n_layers= 3] starting: a=28.70mm b=37.40mm gap=8.00mm a_std0=1.435mm b_std0=1.870mm n_turns=[420, 491, 500] seed=7003 cap=60min
+[2026-07-22 23:11:04] [n_layers= 3] finished in 59.5 min -- best tape=0.2589km B=10.14T unif=0.829% hoop=114MPa a=23.67mm b=32.85mm gap=7.53mm n_turns=[365, 450, 495]
+[2026-07-22 23:11:04] [n_layers= 4] starting: a=25.60mm b=36.00mm gap=9.60mm a_std0=1.280mm b_std0=1.800mm n_turns=[352, 312, 458, 492] seed=7004 cap=60min
+[2026-07-23 00:11:05] [n_layers= 4] TIMED OUT (killed cleanly -- progress preserved via the incremental flush) in 60.0 min -- best tape=0.2724km B=10.00T unif=0.987% hoop=94MPa a=22.96mm b=33.32mm gap=9.54mm n_turns=[433, 109, 448, 395]
+[2026-07-23 00:11:05] [n_layers= 5] starting: a=16.23mm b=54.99mm gap=11.55mm a_std0=0.811mm b_std0=2.750mm n_turns=[294, 349, 351, 73, 351] seed=7005 cap=75min
+[2026-07-23 01:26:05] [n_layers= 5] TIMED OUT (killed cleanly -- progress preserved via the incremental flush) in 75.0 min -- best tape=0.3440km B=10.00T unif=0.867% hoop=73MPa a=15.40mm b=56.45mm gap=11.50mm n_turns=[272, 325, 324, 320, 50]
+[2026-07-23 01:26:05] [n_layers= 9] starting: a=30.60mm b=39.10mm gap=19.70mm a_std0=1.530mm b_std0=1.955mm n_turns=[245, 240, 244, 258, 223, 412, 65, 172, 494] seed=7009 cap=90min
+[2026-07-23 02:57:04] [n_layers= 9] TIMED OUT (killed cleanly -- progress preserved via the incremental flush) in 91.0 min -- best tape=0.1524km B=10.30T unif=0.913% hoop=65MPa a=12.43mm b=18.80mm gap=19.50mm n_turns=[155, 194, 242, 241, 84, 130, 59, 111, 58]
+[2026-07-23 02:57:04] [n_layers=10] starting: a=30.70mm b=42.00mm gap=23.70mm a_std0=1.535mm b_std0=2.100mm n_turns=[376, 406, 500, 108, 286, 69, 384, 320, 233, 98] seed=7010 cap=100min
+[2026-07-23 04:38:49] [n_layers=10] TIMED OUT (killed cleanly -- progress preserved via the incremental flush) in 101.8 min -- best tape=0.2431km B=10.01T unif=0.863% hoop=108MPa a=20.62mm b=26.93mm gap=21.50mm n_turns=[272, 190, 242, 272, 82, 58, 51, 147, 50, 50]
+[2026-07-23 04:38:49] [n_layers=12] starting: a=25.00mm b=38.10mm gap=25.70mm a_std0=1.250mm b_std0=1.905mm n_turns=[287, 112, 178, 229, 360, 99, 157, 210, 318, 111, 86, 198] seed=7012 cap=120min
+[2026-07-23 06:40:59] [n_layers=12] TIMED OUT (killed cleanly -- progress preserved via the incremental flush) in 122.2 min -- best tape=0.2740km B=10.02T unif=0.935% hoop=112MPa a=20.80mm b=28.37mm gap=25.61mm n_turns=[58, 251, 226, 250, 241, 50, 129, 57, 115, 50, 72, 50]
+[2026-07-23 06:40:59] Overnight refinement finished, total 8.49h

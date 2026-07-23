@@ -81,15 +81,32 @@ from mpi4py import MPI
 from ic_model import IcModel
 
 N_LAYERS = len(cfg.CMAES_X0["n_turns"])
-# vector layout: [a, b, coil_half_gap, n_1, ..., n_N_LAYERS]
+assert N_LAYERS % 2 == 0, (
+    f"N_LAYERS={N_LAYERS} is odd -- double-pancake construction (2026-07-23) "
+    "requires every pancake to be one of a PAIR of adjacent layers wound as "
+    "a single continuous piece (outer edges already match; the inner ends "
+    "are joined), which is only physically buildable for an even layer "
+    "count. Pick an even N_LAYERS.")
+N_PAIRS = N_LAYERS // 2
+# vector layout: [a, b, coil_half_gap, p_1, ..., p_N_PAIRS] -- ONE turn-count
+# variable per double-pancake PAIR (layers 2i, 2i+1 share it), not one per
+# physical layer. decode() expands each pair value to both of its layers.
 IDX_A, IDX_B, IDX_GAP, IDX_N0 = 0, 1, 2, 3
 
 
 # ── vector <-> (a, b, coil_half_gap, n_turns) coding ────────────────────────
 
 def encode_x0():
+    """cfg.CMAES_X0['n_turns'] is still given as the FULL per-layer list
+    (length N_LAYERS) for readability -- averages each adjacent pair down
+    to the single shared value the search actually optimizes over. If the
+    warm start already satisfies pairing exactly (both halves of every
+    pair equal), this is a no-op; otherwise it's the natural starting
+    point for a design that's about to be forced to pair up anyway."""
     x0 = cfg.CMAES_X0
-    return np.array([x0["a"], x0["b"], x0["coil_half_gap"], *x0["n_turns"]],
+    full = x0["n_turns"]
+    pairs = [(full[2 * i] + full[2 * i + 1]) / 2.0 for i in range(N_PAIRS)]
+    return np.array([x0["a"], x0["b"], x0["coil_half_gap"], *pairs],
                     dtype=float)
 
 
@@ -97,7 +114,12 @@ def decode(x):
     a = float(x[IDX_A])
     b = float(x[IDX_B])
     gap = float(x[IDX_GAP])
-    n_turns = [max(1, int(round(xi))) for xi in x[IDX_N0:IDX_N0 + N_LAYERS]]
+    pair_vals = [max(1, int(round(xi)))
+                 for xi in x[IDX_N0:IDX_N0 + N_PAIRS]]
+    n_turns = []
+    for p in pair_vals:
+        n_turns.append(p)
+        n_turns.append(p)
     return a, b, gap, n_turns
 
 
@@ -129,12 +151,24 @@ def bounds_and_stds():
 
     gap_lo, gap_hi = gap_bounds_for_n_layers()
     lo = [cfg.CMAES_A_BOUNDS[0], cfg.CMAES_B_BOUNDS[0],
-          gap_lo] + [n_bounds[0]] * N_LAYERS
+          gap_lo] + [n_bounds[0]] * N_PAIRS
     hi = [cfg.CMAES_A_BOUNDS[1], cfg.CMAES_B_BOUNDS[1],
-          gap_hi] + [n_bounds[1]] * N_LAYERS
+          gap_hi] + [n_bounds[1]] * N_PAIRS
     gap_std = cfg.CMAES_SIGMA0_FRAC * (gap_hi - gap_lo)
-    n_std = cfg.CMAES_SIGMA0_FRAC * (n_bounds[1] - n_bounds[0])
-    stds = [cfg.CMAES_A_STD0, cfg.CMAES_B_STD0, gap_std] + [n_std] * N_LAYERS
+    # 2026-07-23: n_std defaults to the bound-range-derived value (a wide,
+    # cold-start-appropriate step), same as before -- but this was found to
+    # be badly oversized for WARM-STARTED "polish" runs (proportional a/b
+    # step via CMAES_A_STD0_OVERRIDE/CMAES_B_STD0_OVERRIDE, but turns still
+    # got the full-range step): a run intended as a local refinement near a
+    # known-good design instead sampled turn counts essentially uniformly
+    # across the whole bound range from eval 1, and after 3000+ evals had
+    # drifted to a WORSE optimum than its own starting point without
+    # finding its way back. CMAES_N_STD0_OVERRIDE lets an orchestrator set
+    # this proportionally (like the a/b overrides) for that case.
+    n_std_override = getattr(cfg, "CMAES_N_STD0_OVERRIDE", None)
+    n_std = (n_std_override if n_std_override is not None
+             else cfg.CMAES_SIGMA0_FRAC * (n_bounds[1] - n_bounds[0]))
+    stds = [cfg.CMAES_A_STD0, cfg.CMAES_B_STD0, gap_std] + [n_std] * N_PAIRS
     return lo, hi, stds
 
 
@@ -150,7 +184,15 @@ def geometry_violation(a, b, gap, n_turns):
     a_inner_min = a_out - max(n * params.t for n in n_turns)
 
     min_L = 0.005            # 5 mm minimum straight section
-    min_clear = 0.003         # 3 mm minimum bore clearance
+    # 2026-07-23: REBCO tape minimum bend radius -- the innermost turn of
+    # any layer (always the layer with the most turns, since every layer
+    # shares the same outer edge a_out and eats inward by its own
+    # n_i*t) cannot bend tighter than 7.5mm without risking cracking the
+    # tape. Was 3mm (an arbitrary bore-clearance number with no material
+    # basis) -- this is now a real mechanical limit, not a convenience
+    # value, and is expected to bind hard (every design found so far sits
+    # right at the old 3mm floor).
+    min_clear = 0.0075        # 7.5 mm minimum bend radius (innermost turn)
     min_a = 0.003             # a is a radius -- must stay physically positive
     z_top = N_LAYERS * params.w / 2.0
     face_gap = 2.0 * (gap - z_top)   # coil-to-coil FACE-TO-FACE clearance

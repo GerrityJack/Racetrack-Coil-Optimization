@@ -8,6 +8,7 @@ A candidate is a dict: {"a": [m], "b": [m], "n_turns": [list, top→bottom]}.
 Either list them explicitly in CANDIDATES, or leave CANDIDATES = None and
 the grid product of A_VALUES × B_VALUES × N_TURNS_VARIANTS is used.
 """
+import os as _os
 
 # ── Candidate geometries ─────────────────────────────────────────────────────
 # Explicit list takes precedence when not None:
@@ -107,6 +108,31 @@ OUT_PNG = "visualization/opt_overview.png"
 # 7-pancake stack structure (n_layers) is kept fixed; only the per-layer
 # turn counts vary.  n_turns are treated as continuous by CMA-ES and rounded
 # to the nearest int only when evaluated.
+# 2026-07-23: *** THE ENTIRE CHAMPION LEDGER BELOW PREDATES THREE NEW
+# PHYSICAL CONSTRAINTS AND IS NO LONGER VALID/BUILDABLE AS-IS: ***
+#   1. Minimum bend radius raised 3mm -> 7.5mm (REBCO tape cracks below
+#      this; see geometry_violation()'s min_clear in cmaes_search.py) --
+#      every design below sat right at the old 3mm floor, so all are now
+#      significantly infeasible on this constraint alone.
+#   2. Double-pancake construction: cmaes_search.py now optimizes ONE turn
+#      count per PAIR of adjacent layers (2i, 2i+1 forced equal), not one
+#      per layer -- required so each double pancake can be wound as a
+#      single continuous piece (outer edges already match; inner ends are
+#      joined). This makes odd N_LAYERS physically unbuildable (3,5,7,9
+#      are eliminated outright) and none of the even-layer designs below
+#      (6,8,10,12) satisfy pairing as recorded.
+#   3. Turn-count floor removed (CMAES_N_BOUNDS/CMAES_TIGHT_N_BOUNDS lower
+#      bound 50 -> 1, the true physical minimum) -- the old 50 floor had
+#      no material basis and roughly half the layers in every converged
+#      design sat pinned exactly on it (see CLAUDE.md's floor-test
+#      diagnostic writeup).
+# None of the numbers below should be used as a direct warm start anymore
+# without re-deriving `a` for the new bend-radius floor and averaging each
+# pair's turns first (see cmaes_search.py's encode_x0(), which does the
+# pair-averaging automatically if you pass one of these lists directly --
+# but the resulting `a` will start deeply infeasible on constraint 1).
+# Kept for historical reference only.
+#
 # 2026-07-22: default CMAES_X0 restored to the CURRENT OVERALL BEST design
 # (6-layer champion, 0.1464km @ 10.10T, unif=0.94%, hoop=59MPa) so a plain
 # `python3 cmaes_search.py` with no env-var override does something useful
@@ -162,7 +188,14 @@ CMAES_A_STD0 = 0.006                 # 2026-07-22: n_layers=5 ROUND 2 --
 CMAES_B_STD0 = 0.012                 # b was STILL DECLINING in round 1
                                      # (55mm, trending down) -- kept larger
                                      # than a's step so it can keep moving
-CMAES_N_BOUNDS = (50, 900)          # per-layer turn count search range
+CMAES_N_BOUNDS = (1, 900)           # per-PAIR turn count search range.
+                                    # 2026-07-23: floor dropped 50 -> 1 (the
+                                    # true physical minimum, params.py only
+                                    # asserts n>=1) -- the old 50 had no
+                                    # material basis, and roughly half the
+                                    # layers in every converged design sat
+                                    # pinned exactly on it (see CLAUDE.md's
+                                    # floor-test diagnostic).
 
 # 2026-07-21: coil-to-coil axial gap made a free variable (was fixed at
 # 0.030 m).  Constraint is a >= 3 mm FACE-TO-FACE clearance between the two
@@ -191,7 +224,9 @@ CMAES_HALF_GAP_BOUNDS = (0.0155, 0.045)   # coil_half_gap search range [m]
 CMAES_TIGHT_BOUNDS = True   # 2026-07-22: enabled for the n_layers=6/8
                             # extended-refinement follow-up (restore to
                             # False afterward unless kept on deliberately)
-CMAES_TIGHT_N_BOUNDS = (50, 500)             # was (50, 900); top 5% maxed at 423
+CMAES_TIGHT_N_BOUNDS = (1, 500)              # 2026-07-23: floor 50 -> 1 (see
+                                             # CMAES_N_BOUNDS above); upper
+                                             # still 500 (top 5% maxed at 423)
 CMAES_TIGHT_GAP_MARGIN_M = 0.010             # gap in [floor, floor+10mm]; top
                                              # 20%'s max observed margin was 11.3mm
 CMAES_SIGMA0_FRAC = 0.3             # initial step size as a fraction of each
@@ -208,6 +243,25 @@ CMAES_INFEASIBLE_PENALTY_KM = 1000.0  # flat penalty for geometrically
                                       # infeasible / failed evaluations
 CMAES_OUT_CSV = "optimize/cmaes_results.csv"     # this run's best design
 CMAES_OUT_LOG = "optimize/cmaes_history.csv"     # this run's full history
+
+# 2026-07-23: path overrides, REQUIRED whenever more than one
+# cmaes_search.py process may be alive at once (e.g. two orchestrators
+# launched in parallel). Found the hard way: two orchestrators both left
+# CMAES_OUT_CSV/CMAES_OUT_LOG at these shared defaults while running jobs
+# concurrently, and each job's periodic write silently clobbered the
+# other's file -- one orchestrator's "best design for job X" summary line
+# ended up reading back a DIFFERENT job's in-progress result (confirmed:
+# a reported 12-layer turns list only had 9 entries after zip() truncated
+# against a stray 9-layer read). CMAES_MASTER_LOG above was NOT affected
+# (append-only, every row tagged by run_tag) -- only these two per-run
+# snapshot files. Any orchestrator launching concurrent jobs MUST set
+# unique values for both env vars per job (e.g. suffix by n_layers).
+_out_csv_override = _os.environ.get("CMAES_OUT_CSV_OVERRIDE")
+if _out_csv_override:
+    CMAES_OUT_CSV = _out_csv_override
+_out_log_override = _os.environ.get("CMAES_OUT_LOG_OVERRIDE")
+if _out_log_override:
+    CMAES_OUT_LOG = _out_log_override
 
 # Cumulative, NEVER-overwritten log of every evaluation across every
 # cmaes_search.py run to date (each row tagged with a run_tag) -- the
@@ -232,7 +286,7 @@ CMAES_N_WORKERS = 6
 # given how much hand-editing/commentary this block already has). Absent
 # (the normal case), this does nothing -- default behavior for every other
 # caller of this module is completely unaffected.
-import os as _os, json as _json
+import json as _json
 _override = _os.environ.get("CMAES_SWEEP_OVERRIDE_JSON")
 if _override:
     _o = _json.loads(_override)
@@ -261,3 +315,58 @@ if _a_std0_override:
 _b_std0_override = _os.environ.get("CMAES_B_STD0_OVERRIDE")
 if _b_std0_override:
     CMAES_B_STD0 = float(_b_std0_override)
+
+# 2026-07-23: turn-count (per-pair) step size override, same rationale as
+# the a/b overrides above -- added after discovering the un-overridden
+# formula (CMAES_SIGMA0_FRAC * bound_range) gives n_std ~= 135-150, which
+# is enormous next to typical per-pair turn counts (50-250). A warm-started
+# "polish" run that only proportionally scaled a/b's step size still
+# sampled turns almost uniformly across the WHOLE bound range from eval 1
+# -- not a local refinement at all -- and after 3000+ evals had drifted to
+# a worse optimum than its own starting point. CMAES_N_STD0 is None by
+# default (falls back to the old bound-range-derived formula, unchanged
+# behavior for cold starts, which legitimately want a wide initial step).
+# Set via this override for any warm-started polish run.
+CMAES_N_STD0 = None
+_n_std0_override = _os.environ.get("CMAES_N_STD0_OVERRIDE")
+if _n_std0_override:
+    CMAES_N_STD0 = float(_n_std0_override)
+
+# 2026-07-23: gap-margin override, for orchestrators that want to pin
+# coil_half_gap near its physical floor instead of letting CMA-ES search it.
+# Motivation: across 60,930 cumulative evaluations spanning every layer
+# count tried (3,4,5,6,7,8,9,10,12), the best designs land within ~0.4mm of
+# gap_bounds_for_n_layers()'s floor (2*n_layers*w/2 + MIN_COIL_GAP_M/2) in
+# EVERY case -- it has stopped being a variable worth spending search budget
+# on. This does not remove gap from the CMA-ES vector (would require
+# touching the fixed [a,b,gap,n...] encoding and every downstream CSV/plot
+# column that assumes it) -- it just shrinks CMAES_TIGHT_GAP_MARGIN_M (and
+# with it, gap's initial step size, computed proportionally in
+# bounds_and_stds()) so CMA-ES effectively treats it as fixed while staying
+# fully backward compatible for any caller that doesn't set this env var.
+_gap_margin_override = _os.environ.get("CMAES_TIGHT_GAP_MARGIN_M_OVERRIDE")
+if _gap_margin_override:
+    CMAES_TIGHT_GAP_MARGIN_M = float(_gap_margin_override)
+
+# 2026-07-23: turn-floor override, for the floor-test diagnostic
+# (optimize/floor_test.py). The CMAES_TIGHT_N_BOUNDS lower bound of 50 is
+# NOT physical -- params.recompute_derived() only asserts n_turns[i] >= 1 --
+# it was an empirical "zone-out" choice. But across 60k+ evaluations, many
+# layers in near-optimal designs (roughly half, in every layer count >= 6)
+# sit exactly AT that 50 floor, the same warning sign that flagged the old
+# a/b box bounds as wrong. This override lets a diagnostic run drop the
+# floor toward the true physical minimum (1) to see whether tape length
+# keeps improving -- if so, 50 was an artificial wall, not a converged
+# optimum. Format: "lo,hi". Absent: CMAES_TIGHT_N_BOUNDS above is unchanged.
+_tight_n_override = _os.environ.get("CMAES_TIGHT_N_BOUNDS_OVERRIDE")
+if _tight_n_override:
+    _lo, _hi = _tight_n_override.split(",")
+    CMAES_TIGHT_N_BOUNDS = (int(_lo), int(_hi))
+
+# 2026-07-23: worker-count override, so a diagnostic run launched IN
+# PARALLEL with a primary cmaes_search.py job (e.g. floor_test.py alongside
+# focused_refinement_6_9.py) can use fewer workers and avoid oversubscribing
+# this 8-core machine. Absent: CMAES_N_WORKERS above (6) is unchanged.
+_n_workers_override = _os.environ.get("CMAES_N_WORKERS_OVERRIDE")
+if _n_workers_override:
+    CMAES_N_WORKERS = int(_n_workers_override)

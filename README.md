@@ -97,7 +97,7 @@ your algorithms.
 
 ---
 
-## Internal CMA-ES search (`optimize/cmaes_search.py`, 2026-07-21, updated 2026-07-22)
+## Internal CMA-ES search (`optimize/cmaes_search.py`, 2026-07-21, updated 2026-07-23)
 
 A separate, actively-evolving internal design study under a different
 objective — **do not confuse this with the frozen `evaluate.py` handoff
@@ -106,16 +106,39 @@ above**, which is unaffected by it. Uses [pycma](https://github.com/CMA-ES/pycma
 geometry variables plus the coil-to-coil gap and the per-layer turn counts,
 instead of the grid in `optimize_geometry.py`.
 
-**Current best design overall (6 pancake layers): tape = 0.1464 km,
-B_target = 10.10 T, uniformity = 0.94 %, hoop = 59 MPa** — a=12.9 mm,
-b=21.0 mm, coil_half_gap=13.9 mm, n_turns=[187,223,256,258,245,50]. The
-number of pancake layers (`n_layers`) is now itself a design variable,
-searched as a discrete outer loop over independent CMA-ES runs (see
-`optimize/sweep_n_layers.py` and CLAUDE.md's "n_layers sweep" section for
-the full methodology and results table across 3–12 layers). Layer counts
-3, 4, 9, 10, 12 have only a cheap cold-start result so far and 5 needs a
-redo (a refinement attempt regressed due to an oversized step size) — see
-`optimize/overnight_refinement.py` in CLAUDE.md for the queued fix.
+**2026-07-23 — three practical manufacturing constraints added; the
+previous champion ledger is obsolete.** Every design found before today
+predates all three of the following and is no longer valid/buildable —
+see CLAUDE.md's "Practical manufacturing constraints" section for the
+full reasoning. A re-search under the new constraints
+(`optimize/double_pancake_search.py`) is in progress as of this writing;
+check `optimize/double_pancake_log.txt` / CLAUDE.md's status section for
+current numbers before citing a "best design."
+
+1. **Minimum bend radius 7.5 mm** — REBCO tape cracks below this. Raised
+   from an arbitrary 3 mm bore-clearance value that had no material basis.
+   Every design found before today sat right at that old 3 mm floor, so
+   all are now significantly infeasible on this alone.
+2. **Double-pancake construction** — the search now optimizes **one turn
+   count per PAIR of adjacent layers** (layers 2i and 2i+1 forced equal),
+   not one per layer, since each double pancake must be wound as a single
+   continuous piece (outer edges already match; the inner ends are
+   joined). This makes **odd `n_layers` physically unbuildable**
+   (`cmaes_search.py` asserts on it) — 3, 5, 7, and 9 layer designs are
+   eliminated outright, including the 9-layer design that had been the
+   most promising open lead just before this change.
+3. **Turn-count floor removed** (50 → 1, the true physical minimum —
+   `params.py` only asserts `n ≥ 1`). The old 50 had no material basis,
+   and roughly half the layers in every previously-converged design sat
+   pinned exactly on it.
+
+A 7×14×1 mm sensor array also needs clearance, but **needs no separate
+constraint** — verified directly against the racetrack geometry: each
+straight section is `2L` long (not `L`), so even the tightest prior
+design has ~12–16 mm of straight bore, well over the 7 mm sensor
+dimension; the 14 mm dimension needs bore diameter `2×a_inner_min ≥ 14mm`,
+automatically satisfied once constraint 1 holds (2×7.5=15mm); the 1 mm
+dimension fits in the existing 3 mm coil-to-coil face gap.
 
 **Objective:** minimize tape length, subject to:
 
@@ -125,6 +148,7 @@ redo (a refinement attempt regressed due to an oversized step size) — see
 | peak-to-peak uniformity over that box (SCIF-corrected) | ≤ 1% |
 | hoop stress, end-cap curved sections only (B×J×bending radius) | ≤ 400 MPa |
 | coil-to-coil **face-to-face** clearance (not `coil_half_gap` itself) | ≥ 3 mm |
+| innermost turn of any layer (bend radius) | ≥ 7.5 mm |
 | operating point | worst-margin cell at 50–60% of local Ic (`SAFETY_FACTOR = 1.818`) |
 
 Delamination stress is still computed/reported but not enforced (current
@@ -132,11 +156,14 @@ project direction — see `optimize/opt_config.py` for the reasoning).
 
 **Variables:** `a`, `b`, `coil_half_gap` (previously fixed at 30 mm — now
 free, so the optimizer can bring the two coils closer as long as the 3 mm
-face-gap constraint holds), and the 7 per-layer `n_turns`. `a` and `b` are
-**intentionally unbounded** — a first bounded run pinned both at their box
-edges, so per current project direction only the real physical limits
-apply (non-degenerate straight section, positive inner-radius clearance),
-enforced as a smooth penalty rather than a search box.
+face-gap constraint holds), and **one `n_turns` value per double-pancake
+pair** of layers (so an `n_layers`-layer design has `n_layers/2` free turn
+variables, each applied to both layers in its pair) — `n_layers` itself
+must be even. `a` and `b` are **intentionally unbounded** — a first
+bounded run pinned both at their box edges, so per current project
+direction only the real physical limits apply (non-degenerate straight
+section, positive inner-radius clearance ≥ 7.5mm bend radius), enforced
+as a smooth penalty rather than a search box.
 
 ```bash
 conda run -n fenicsx-env python3 optimize/cmaes_search.py

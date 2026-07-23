@@ -1,0 +1,2 @@
+[2026-07-23 12:44:13] Starting double-pancake re-search: 4 jobs ([6, 8, 10, 12]), 8.0h total budget -- 7.5mm bend radius, double-pancake pairing, turn floor removed (1,500)
+[2026-07-23 12:44:13] [n_layers= 6] starting: a=17.438mm b=25.479mm gap=13.915mm a_std0=1.744mm b_std0=2.548mm n_std0=40.67 n_turns=[205, 205, 257, 257, 148, 148] seed=60623 cap=90min

@@ -68,7 +68,11 @@ import opt_config as cfg
 # 400 evals from a fresh uniform-turns start would just be worse and
 # redundant. That 0.188km design remains the reference every OTHER layer
 # count is compared against.
-LAYER_COUNTS = [4, 5, 6, 8, 9, 10, 12]
+LAYER_COUNTS = [4, 6, 8, 10, 12]     # 2026-07-23: odd counts (5, 9) removed
+                                      # -- double-pancake construction makes
+                                      # them physically unbuildable
+                                      # (cmaes_search.py now asserts on
+                                      # odd N_LAYERS)
 
 # The best known design as of 2026-07-22 (round-1 extended refinement from
 # run 3): a=15.5mm, b=22.8mm, gap=17.0mm, n_turns totaling 1310 across 7
@@ -77,7 +81,8 @@ LAYER_COUNTS = [4, 5, 6, 8, 9, 10, 12]
 REF_TOTAL_TURNS = 1310
 
 MIN_STRAIGHT_M = 0.005       # geometry_violation()'s floor
-MIN_BORE_CLEAR_M = 0.003     # geometry_violation()'s floor
+MIN_BORE_CLEAR_M = 0.0075    # geometry_violation()'s min bend radius floor
+                              # (2026-07-23: REBCO min bend radius, was 3mm)
 MIN_FACE_GAP_M = 0.003       # cfg.MIN_COIL_GAP_M
 
 SWEEP_LOG = os.path.join(_ROOT, "optimize", "sweep_n_layers_log.txt")

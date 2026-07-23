@@ -1,0 +1,6 @@
+[2026-07-23 09:58:10] Starting floor-test diagnostic: 5 jobs ([12, 10, 9, 8, 6]), 4.0h total budget, turn floor 1,500 (was 50,500), 2 workers/job (parallel to the primary 9/6 run)
+[2026-07-23 09:58:10] [n_layers=12] starting: turn bounds=1,500 (was 50,500) a=20.80mm b=28.37mm gap=25.61mm n_turns=[58, 251, 226, 250, 241, 50, 129, 57, 115, 50, 72, 50] seed=12112 workers=2 cap=60min
+[2026-07-23 11:01:45] [n_layers=12] TIMED OUT (progress preserved via incremental flush) in 63.6 min -- best tape=0.1994km (was ?) unif=0.892% hoop=75MPa turns before->after: [58->146, 251->190, 226->211, 250->233, 241->190, 50->218, 129->55, 57->190, 115->57]
+[2026-07-23 11:01:45] [n_layers=10] starting: turn bounds=1,500 (was 50,500) a=20.62mm b=26.93mm gap=21.50mm n_turns=[272, 190, 242, 272, 82, 58, 51, 147, 50, 50] seed=10110 workers=2 cap=50min
+[2026-07-23 12:18:46] [n_layers=10] TIMED OUT (progress preserved via incremental flush) in 77.0 min -- best tape=0.1717km (was ?) unif=0.695% hoop=74MPa turns before->after: [272->140, 190->173, 242->210, 272->204, 82->159, 58->205, 51->58, 147->206, 50->50]
+[2026-07-23 12:18:46] [n_layers= 9] starting: turn bounds=1,500 (was 50,500) a=12.43mm b=18.80mm gap=19.50mm n_turns=[155, 194, 242, 241, 84, 130, 59, 111, 58] seed=9109 workers=2 cap=45min
