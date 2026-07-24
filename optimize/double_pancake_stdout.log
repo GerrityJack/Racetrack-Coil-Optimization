@@ -1,2 +1,9 @@
 [2026-07-23 12:44:13] Starting double-pancake re-search: 4 jobs ([6, 8, 10, 12]), 8.0h total budget -- 7.5mm bend radius, double-pancake pairing, turn floor removed (1,500)
 [2026-07-23 12:44:13] [n_layers= 6] starting: a=17.438mm b=25.479mm gap=13.915mm a_std0=1.744mm b_std0=2.548mm n_std0=40.67 n_turns=[205, 205, 257, 257, 148, 148] seed=60623 cap=90min
+[2026-07-23 14:08:07] [n_layers= 6] finished in 83.9 min -- best tape=0.2258km B=10.00T unif=0.987% hoop=114MPa a=22.20mm b=27.27mm gap=13.50mm n_turns=[285, 285, 379, 379, 2, 2]
+[2026-07-23 14:08:07] [n_layers= 8] starting: a=16.950mm b=24.248mm gap=17.522mm a_std0=1.695mm b_std0=2.425mm n_std0=38.00 n_turns=[194, 194, 178, 178, 244, 244, 144, 144] seed=80823 cap=100min
+[2026-07-23 16:23:07] [n_layers= 8] TIMED OUT (progress preserved via incremental flush) in 135.0 min -- best tape=0.2049km B=10.22T unif=0.981% hoop=85MPa a=16.92mm b=23.16mm gap=17.53mm n_turns=[171, 171, 250, 250, 243, 243, 67, 67]
+[2026-07-23 16:23:07] [n_layers=10] starting: a=17.438mm b=23.749mm gap=21.505mm a_std0=1.744mm b_std0=2.375mm n_std0=28.28 n_turns=[231, 231, 257, 257, 70, 70, 99, 99, 50, 50] seed=101023 cap=110min
+[2026-07-24 00:06:33] [n_layers=10] TIMED OUT (progress preserved via incremental flush) in 463.4 min -- best tape=0.1938km B=10.05T unif=0.881% hoop=71MPa a=15.64mm b=20.64mm gap=21.92mm n_turns=[152, 152, 217, 217, 212, 212, 211, 211, 2, 2]
+[2026-07-24 00:06:33] Total time budget (8.0h) nearly exhausted -- skipping remaining jobs: [12]
+[2026-07-24 00:06:33] Double-pancake re-search finished, total 11.37h

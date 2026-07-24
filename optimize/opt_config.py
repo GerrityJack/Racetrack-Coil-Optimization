@@ -167,9 +167,36 @@ OUT_PNG = "visualization/opt_overview.png"
 #   3/4/9/10/12 layers: only cold-start sweep results exist (250-500
 #     evals each, optimize/sweep_n_layers_log.txt) -- NOT yet given the
 #     extended-refinement treatment. See CLAUDE.md's overnight-run plan.
-CMAES_X0 = dict(a=0.012908431166261252, b=0.020950054349354264,
-               coil_half_gap=0.013915040783036767,
-               n_turns=[187, 223, 256, 258, 245, 50])
+#
+# ── 2026-07-24: CURRENT CHAMPION, under the three 2026-07-23 constraints ──
+# (bend radius 7.5mm, double-pancake pairing, no turn floor). Full ledger,
+# one CMA-ES job per buildable (even) layer count, ~90-135 min each,
+# n_turns given as the full per-layer list (pairs already equal):
+#   10 layers (BEST OVERALL, 0.1938km @ 10.05T, unif=0.88%, hoop=71MPa):
+#     a=0.015638780170509824, b=0.02064141470385894,
+#     coil_half_gap=0.021924337907097105,
+#     n_turns=[152,152,217,217,212,212,211,211,2,2]
+#   8 layers (0.2049km @ 10.22T, unif=0.98%, hoop=85MPa):
+#     a=0.01691878415679104, b=0.023162907260678892,
+#     coil_half_gap=0.017526252266569582,
+#     n_turns=[171,171,250,250,243,243,67,67]
+#   12 layers (0.2380km @ 10.01T, unif=0.94%, hoop=111MPa):
+#     a=0.020143788523549656, b=0.025226049597542666,
+#     coil_half_gap=0.025505016270093442,
+#     n_turns=[231,231,326,326,45,45,106,106,5,5,1,1]
+#   6 layers (0.2258km @ 10.00T, unif=0.99%, hoop=114MPa):
+#     a=0.02219635247570603, b=0.02726759479379641,
+#     coil_half_gap=0.0135001375408541580,
+#     n_turns=[285,285,379,379,2,2]
+# All four show the same pattern: the last pair collapses toward the new
+# turn floor (2, 67->via n=8's own tightest pair, 5&1, 2) -- a recurring
+# signal that even n_layers=10's own true optimum may want fewer than 5
+# effective pairs; see CLAUDE.md for the discussion. n_layers=12 was
+# skipped by the orchestrator's own stale wall-clock total-budget check
+# (a bug found this run, see CLAUDE.md) and had to be launched manually.
+CMAES_X0 = dict(a=0.015638780170509824, b=0.02064141470385894,
+               coil_half_gap=0.021924337907097105,
+               n_turns=[152, 152, 217, 217, 212, 212, 211, 211, 2, 2])
 
 # 2026-07-21: the first run pinned a and b at their box bounds (30/60 mm)
 # for most of the search -- per project direction, a and b now have NO

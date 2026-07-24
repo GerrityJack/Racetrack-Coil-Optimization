@@ -107,13 +107,23 @@ geometry variables plus the coil-to-coil gap and the per-layer turn counts,
 instead of the grid in `optimize_geometry.py`.
 
 **2026-07-23 — three practical manufacturing constraints added; the
-previous champion ledger is obsolete.** Every design found before today
-predates all three of the following and is no longer valid/buildable —
-see CLAUDE.md's "Practical manufacturing constraints" section for the
-full reasoning. A re-search under the new constraints
-(`optimize/double_pancake_search.py`) is in progress as of this writing;
-check `optimize/double_pancake_log.txt` / CLAUDE.md's status section for
-current numbers before citing a "best design."
+previous champion ledger is obsolete.** Every design found before this
+date predates all three of the following and is no longer valid/buildable
+— see CLAUDE.md's "Practical manufacturing constraints" section for the
+full reasoning.
+
+**Current best design overall (10 pancake layers, i.e. 5 double
+pancakes): tape = 0.1938 km, B_target = 10.05 T, uniformity = 0.88 %,
+hoop = 71 MPa** — a=15.64mm, b=20.64mm, coil_half_gap=21.92mm,
+n_turns=[152,152,217,217,212,212,211,211,2,2] (found 2026-07-24, from
+`optimize/double_pancake_search.py`, one CMA-ES job per buildable even
+layer count). Runner-up designs: 8 layers 0.2049km, 12 layers 0.2380km, 6
+layers 0.2258km — see CLAUDE.md's "Results (completed 2026-07-24)"
+subsection for the full table and turn-pair breakdown. Notably, all four
+designs independently converged to shedding their last turn-pair down
+toward the new floor, a pattern not yet fully explained — see CLAUDE.md
+for the open follow-up question this raises about whether 10 layers is
+truly using its full pair budget.
 
 1. **Minimum bend radius 7.5 mm** — REBCO tape cracks below this. Raised
    from an arbitrary 3 mm bore-clearance value that had no material basis.
