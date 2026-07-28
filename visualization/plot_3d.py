@@ -206,11 +206,35 @@ def plot_geometry():
 # field_3d.png
 # ═══════════════════════════════════════════════════════════════════════════
 
+def _mirror_z(z, g):
+    """z-coordinate of coil 2's image of a point at z in coil 1's own local
+    frame, MIRRORED about the midplane (z=g) -- NOT translated by +2g.
+
+    2026-07-27 fix: this project's FEM solve uses a PMC (n×H=0) boundary
+    at z=coil_half_gap specifically because the true two-coil system is
+    mirror-symmetric about that plane (same physical winding sense on
+    both sides, same-direction "image" current -- the standard PMC image
+    principle) -- confirmed by physics/coil2_field.py's
+    compute_both_coils_field_multilayer(), the function actually used for
+    every real design number (B_target, uniformity, tape optimization,
+    T-A SCIF), which places layer z-centers at `2*g - z_c` (a true
+    mirror), not `z_c + 2*g`. This module's plotting code used the wrong
+    (translation) convention throughout -- harmless for a palindromic
+    layer stack, but for an asymmetric one like the champion's
+    [285,285,379,379,2,2] it silently drew coil 2's layers in the wrong
+    relative order (e.g. the thin 2-turn layer ending up near the
+    midplane instead of at the far end, on the OPPOSITE side from where
+    it correctly sits on coil 1) -- a picture bug only, since none of the
+    actual physics calculations went through this code path."""
+    return 2.0 * g - z
+
+
 def _expand_to_full_system(centroids, Bmag):
     """
     Expand FEM coil cells from the simulated 1/8 domain (x≥0, y≥0, full z of
     coil 1) to the complete two-coil system by reflecting x and y, then
-    duplicating coil 1 as coil 2 at z + 2·coil_half_gap.
+    mirroring coil 1 about the midplane (z=coil_half_gap) to get coil 2 --
+    see _mirror_z's docstring for why this must be a mirror, not a shift.
     Returns (centroids_full, Bmag_full).
     """
     g = params.coil_half_gap
@@ -223,8 +247,8 @@ def _expand_to_full_system(centroids, Bmag):
             c_parts.append(c); B_parts.append(Bmag)
     coil1_c = np.vstack(c_parts)
     coil1_B = np.concatenate(B_parts)
-    # Coil 2: identical geometry/current, shifted by 2g in z
-    coil2_c = coil1_c.copy(); coil2_c[:, 2] += 2.0 * g
+    # Coil 2: identical geometry/current, MIRRORED about the midplane
+    coil2_c = coil1_c.copy(); coil2_c[:, 2] = _mirror_z(coil2_c[:, 2], g)
     return np.vstack([coil1_c, coil2_c]), np.concatenate([coil1_B, coil1_B])
 
 
@@ -242,7 +266,7 @@ def plot_field_3d(npz_data):
     else:
         centroids, Bmag = centroids_raw, Bmag_raw
         if getattr(params, "two_coil_mode", False):
-            c2 = centroids_raw.copy(); c2[:, 2] += 2.0 * g
+            c2 = centroids_raw.copy(); c2[:, 2] = _mirror_z(c2[:, 2], g)
             centroids = np.vstack([centroids_raw, c2])
             Bmag      = np.tile(Bmag_raw, 2)
 
@@ -257,12 +281,14 @@ def plot_field_3d(npz_data):
                         centroids[:, 1] * 1e3,
                         centroids[:, 2] * 1e3,
                         c=Bmag, cmap="magma", s=3, alpha=0.5, rasterized=True)
-        # Layer boundary rings for both coils
-        for z_off in (0.0, 2.0 * g):
+        # Layer boundary rings for both coils. Coil 2's z is MIRRORED about
+        # the midplane (z=g), not shifted -- see _mirror_z's docstring.
+        for coil2 in (False, True):
             for i in range(params.n_layers):
                 xo, yo = _racetrack_xy(params.a_out)
                 for z_face in (params.layer_z_tops[i], params.layer_z_bottoms[i]):
-                    zo = np.full_like(xo, (z_face + z_off) * 1e3)
+                    z_plot = _mirror_z(z_face, g) if coil2 else z_face
+                    zo = np.full_like(xo, z_plot * 1e3)
                     ax.plot(xo * 1e3, yo * 1e3, zo,
                             color=colors[i], lw=0.5, alpha=0.45)
         ax.view_init(elev=elev, azim=azim)

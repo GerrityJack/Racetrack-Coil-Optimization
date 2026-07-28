@@ -28,13 +28,14 @@ import matplotlib.cm as cm
 
 import sys, os
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-for _p in (_ROOT, os.path.join(_ROOT, "physics")):
+for _p in (_ROOT, os.path.join(_ROOT, "physics"), os.path.join(_ROOT, "visualization")):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
 import params
 from coil2_field import (compute_both_coils_field_multilayer,
                          compute_field_from_coil_at_z)
+from plot_3d import _mirror_z
 
 
 # ── dynamic layer colours (works for any n_layers) ──────────────────────────
@@ -214,18 +215,22 @@ def plot_side(npz_data):
               np.hypot(Bxs, Bzs), cmap="cool", pivot="mid",
               scale=40, width=0.003, alpha=0.80)
 
-    # Shade winding-pack layers (both coils if two_coil_mode)
-    coil_z_offsets = [0.0]
-    if two:
-        coil_z_offsets.append(2.0 * g)
-
-    for z_off in coil_z_offsets:
+    # Shade winding-pack layers (both coils if two_coil_mode). Coil 2's z
+    # is MIRRORED about the midplane (z=g), not shifted by +2g -- see
+    # plot_3d.py's _mirror_z docstring for why (matches the real physics
+    # code's convention, compute_both_coils_field_multilayer).
+    for coil2 in ((False, True) if two else (False,)):
         for i in range(params.n_layers):
-            zb = (params.layer_z_bottoms[i] + z_off) * 1e3
-            zt = (params.layer_z_tops[i]    + z_off) * 1e3
+            zb_local = params.layer_z_bottoms[i]
+            zt_local = params.layer_z_tops[i]
+            if coil2:
+                zb, zt = sorted((_mirror_z(zb_local, g) * 1e3,
+                                _mirror_z(zt_local, g) * 1e3))
+            else:
+                zb, zt = zb_local * 1e3, zt_local * 1e3
             ax.axhspan(zb, zt, alpha=0.12, color=colors[i],
                        label=(f"Layer {i} ({params.n_turns[i]}t)"
-                              if z_off == 0.0 else None))
+                              if not coil2 else None))
 
     if two:
         ax.axhline(g * 1e3, color="lime", lw=1.5, ls="--",

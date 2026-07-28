@@ -1,0 +1,2 @@
+[2026-07-24 10:36:43] [n_layers=8, focused] starting under UNIFORMITY_MAX_PCT=0.8%: a=15.64mm b=20.64mm gap=17.92mm n_turns=[152,152,217,217,212,212,211,211] a_std0=1.564mm b_std0=2.064mm n_std0=39.6 seed=80824 cap=150min
+[2026-07-24 12:18:47] [n_layers=8, focused under UNIFORMITY_MAX_PCT=0.8%] finished naturally (hit MAX_EVALS=2500) in ~102 min -- best tape=0.2327km B=10.00T unif=0.588% hoop=114MPa a=21.97mm b=27.57mm gap=17.50mm n_turns=[284, 284, 385, 385, 3, 3, 6, 6]

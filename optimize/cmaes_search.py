@@ -206,6 +206,11 @@ def geometry_violation(a, b, gap, n_turns):
         viol += ((min_clear - a_inner_min) / min_clear) ** 2
     if face_gap < cfg.MIN_COIL_GAP_M:
         viol += ((cfg.MIN_COIL_GAP_M - face_gap) / cfg.MIN_COIL_GAP_M) ** 2
+    # 2026-07-26: soft floor on `a` -- see opt_config.py's CMAES_MIN_A_M
+    # comment. Smooth quadratic, same style as the other terms; 0 disables.
+    min_a_soft = getattr(cfg, "CMAES_MIN_A_M", 0.0)
+    if min_a_soft > 0.0 and a < min_a_soft:
+        viol += ((min_a_soft - a) / min_a_soft) ** 2
     return viol, face_gap
 
 
@@ -254,10 +259,38 @@ def _evaluate_candidate(x):
     hoop_max_mpa = cfg.SIGMA_HOOP_MAX_PA / 1e6
     g = [
         max(0.0, (cfg.B_TARGET_MIN_T - r["B_target_T"]) / cfg.B_TARGET_MIN_T),
-        max(0.0, (r["uniformity_pct"] - cfg.UNIFORMITY_MAX_PCT)
-            / cfg.UNIFORMITY_MAX_PCT),
         max(0.0, (r["hoop_MPa"] - hoop_max_mpa) / hoop_max_mpa),
     ]
+    # 2026-07-24: NO uniformity signal is currently in the fitness
+    # function. History, in order:
+    #   1. r["uniformity_pct"] (the coarse Bean-state on-axis proxy) used
+    #      to be here. Full T-A box-uniformity validation found it not
+    #      just noisy but ANTI-correlated with the real target: the
+    #      design with the best on-axis proxy score (n_layers=10, on-axis
+    #      1.37%) has the WORST true box uniformity of every design tried
+    #      (9.18% peak-to-peak, vs. 0.44-1.06% for 4/6/8 layers). Removed.
+    #   2. A penalty on peak per-pair turn concentration was added in its
+    #      place, reasoning from the same (flawed) on-axis data. Once box
+    #      uniformity was actually measured, peak turns turned out NOT to
+    #      track it either (n_layers=12 has fewer peak turns than 4/6/8
+    #      but worse box uniformity). Removed too.
+    #   3. What DOES track true box uniformity, cleanly, across all five
+    #      layer counts tested: coil radius `a` (bigger a -> better box
+    #      uniformity -- the target box is a FIXED 30x6mm, so a smaller
+    #      coil means the box eats into proportionally more of the
+    #      near-field region). No penalty on `a` has been added here yet
+    #      -- `a` is already a free, unbounded search variable, and biasing
+    #      it upward through the objective would fight directly against
+    #      minimizing tape_km (smaller coils generally need less tape),
+    #      which is a real physical tradeoff this project hasn't resolved
+    #      into a single proxy term yet, not just an implementation gap.
+    # r["uniformity_pct"] is still computed and recorded in the CSV logs
+    # for reference. Until a fast, TRUSTWORTHY uniformity signal exists,
+    # T-A-validate box uniformity (see ta_solve.py's box-uniformity
+    # extension) on a shortlist of low-tape candidates AFTER the coarse
+    # search, rather than trusting anything in the coarse screen's own
+    # ranking for uniformity. See CLAUDE.md's "Coarse-screen SCIF proxy
+    # found unreliable" section for the complete investigation.
     penalty = cfg.CMAES_PENALTY_KM * sum(gi ** 2 for gi in g)
     f = r["tape_km"] + penalty
     return dict(a=a, b=b, gap=gap, n_turns=n_turns, face_gap=face_gap,

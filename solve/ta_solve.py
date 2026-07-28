@@ -1013,6 +1013,35 @@ def main():
         Bz_bore_uniform = float(B_bore_uniform[0, 2])
         Bz_bore_TA      = Bz_bore_uniform + float(dB_bore[2])
 
+        # ── Box peak-to-peak uniformity, T-A ground truth ──────────────────
+        # 2026-07-24: extends the same dB_bore_from_dJ() machinery used for
+        # the single on-axis SCIF point above to a grid over the actual
+        # target box (matches opt_config.py's TARGET_X_M/TARGET_Y_M), so we
+        # get a TRUE peak-to-peak uniformity number instead of just an
+        # on-axis point estimate. Added after discovering the coarse
+        # optimizer screen's analytic Bean-proxy uniformity_pct is
+        # unreliable by up to ~10x for these compact designs -- this is
+        # the ground-truth replacement, using T-A's actual resolved current
+        # distribution instead of the proxy's one-shot dipole-sum shortcut.
+        # Slower than the on-axis point (one dB_bore_from_dJ call per grid
+        # point) but still cheap relative to the T-A solve itself.
+        _opt_dir = os.path.join(_ROOT, "optimize")
+        if _opt_dir not in sys.path:
+            sys.path.insert(0, _opt_dir)
+        import opt_config as cfg
+        g_half = float(params.coil_half_gap)
+        xs = np.linspace(-cfg.TARGET_X_M / 2, cfg.TARGET_X_M / 2, cfg.TARGET_NX)
+        ys = np.linspace(-cfg.TARGET_Y_M / 2, cfg.TARGET_Y_M / 2, cfg.TARGET_NY)
+        Xg, Yg = np.meshgrid(xs, ys)
+        box_pts = np.column_stack([Xg.ravel(), Yg.ravel(),
+                                   np.full(Xg.size, g_half)])
+        B_box_uniform = compute_both_coils_field_multilayer(
+            box_pts, I_per_turn=params.I_design)
+        dB_box = np.array([dB_bore_from_dJ(centroids, dJ_s, dV, bore_pt=p)
+                           for p in box_pts])
+        Bmag_box = np.linalg.norm(B_box_uniform + dB_box, axis=1)
+        box_ptp_pct = (Bmag_box.max() - Bmag_box.min()) / Bmag_box.mean() * 100.0
+
         # ── Save ──────────────────────────────────────────────────────────
         out = os.path.join(params.SOLVE_DIR, "racetrack_ta_fields.npz")
         np.savez(out,
@@ -1026,7 +1055,9 @@ def main():
                  J_unif_coil    = J_unif_arr,
                  dB_bore        = dB_bore,
                  Bz_bore_uniform= Bz_bore_uniform,
-                 Bz_bore_TA     = Bz_bore_TA)
+                 Bz_bore_TA     = Bz_bore_TA,
+                 dV             = dV,
+                 box_ptp_pct    = box_ptp_pct)
         print(f"\nSaved T-A fields to {out}")
 
         # ── Console summary ───────────────────────────────────────────────
@@ -1040,7 +1071,10 @@ def main():
         print(f"  SCIF ΔBz at bore        = {dB_bore[2]*1e3:+.2f} mT")
         print(f"  SCIF |ΔB| at bore       = {np.linalg.norm(dB_bore)*1e3:.2f} mT")
         print(f"  T-A bore Bz             = {Bz_bore_TA:+.4f} T")
-        print(f"  Relative SCIF           = {abs(dB_bore[2])/abs(Bz_bore_uniform)*100:.3f}%")
+        print(f"  Relative SCIF (on-axis) = {abs(dB_bore[2])/abs(Bz_bore_uniform)*100:.3f}%")
+        print(f"  Box peak-to-peak unif.  = {box_ptp_pct:.3f}%  "
+              f"({cfg.TARGET_X_M*1e3:.0f}x{cfg.TARGET_Y_M*1e3:.0f}mm box, "
+              f"TRUE T-A ground truth)")
         print(f"{'='*55}")
 
         # ── J-map in central z-layer ──────────────────────────────────────

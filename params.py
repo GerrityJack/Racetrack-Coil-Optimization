@@ -5,8 +5,48 @@ All other scripts import this module; nothing is hardcoded elsewhere.
 import os, math
 
 # ── Tape / winding geometry ──────────────────────────────────────────────────
-a  = 0.050     # m — short radius (end-cap centreline)
-b  = 0.080     # m — long radius  (centre → cap centre)
+# 2026-07-24: set to the n_layers=6 double-pancake design, tape=0.2258km,
+# a=22.20mm, b=27.27mm, gap=13.50mm, n_turns=[285,285,379,379,2,2]. This is
+# the FIRST — and, of every design tried this session, the ONLY tape-
+# optimal — design with a genuinely T-A-validated PASSING box uniformity:
+# **0.731% peak-to-peak over the real 30x6mm target box** (ta_solve.py's
+# new box-uniformity extension — see below), comfortably under both the
+# 1.0% and the (now largely moot) 0.8% targets.
+#
+# This is the end of a same-day chain of three corrections. Full picture,
+# box peak-to-peak uniformity (the ONLY number in this table worth
+# trusting) measured directly by T-A for every layer count tried:
+#
+#   layers |  a (mm) | peak turns/layer | on-axis SCIF | BOX unif. (TRUE)
+#   -------|---------|-------------------|---------------|------------------
+#     4    |  22.80  |       387         |     5.61%     |  0.436% PASS (best)
+#     6    |  22.20  |       379         |     5.68%     |  0.731% PASS  <- this design
+#     8    |  21.97  |       385         |     5.54%     |  1.059% (nearly)
+#    12    |  20.14  |       326         |     5.78%     |  2.404% FAIL
+#    10    |  15.64  |       217         |     1.37%     |  9.18%  FAIL (badly)
+#
+# Box uniformity tracks COIL RADIUS `a` almost perfectly (bigger a = better
+# uniformity) and essentially NOT layer count or peak turn concentration
+# (12 has fewer peak turns than 4/6/8 but worse uniformity; 10 has by far
+# the fewest peak turns and by far the worst uniformity). This makes
+# physical sense: the target box is a FIXED 30x6mm regardless of coil
+# size, so a smaller coil means the box eats into proportionally more of
+# the near-field region where gradients are steep.
+#
+# Two earlier, now-superseded findings on the way to this: (1) the coarse
+# optimizer screen's on-axis-derived `uniformity_pct` is unreliable by up
+# to ~10x and was removed from the CMA-ES objective (it's a near-
+# cancelling sum that doesn't represent box uniformity at all -- an
+# n_layers=10 design that looked BEST on-axis (1.37%) is WORST on the box
+# (9.18%)); (2) a peak-per-pair-turns penalty was added as a replacement
+# signal, then found to be based on the same flawed on-axis data and ALSO
+# doesn't track true box uniformity -- it has since been removed too. See
+# CLAUDE.md's "Coarse-screen SCIF proxy found unreliable" section for the
+# complete investigation and `optimize/cmaes_search.py`'s fitness function
+# for the current (still-incomplete -- no fast trustworthy uniformity
+# signal exists yet) objective.
+a  = 0.022227029065529628    # m
+b  = 0.02726822715975084     # m
 t  = 75e-6     # m — single tape thickness (radial pitch, no gap)
 w  = 0.004     # m — tape width (out-of-plane depth per layer)
 
@@ -16,7 +56,8 @@ delta_SC = 1.0e-6   # m — REBCO superconducting layer thickness (~1 µm).
 # ── Layer definition  [top → bottom] ────────────────────────────────────────
 # Each entry is the number of turns in that z-layer.
 # All layers share the SAME outer radial edge; inner edge = a_out − n_i·t.
-n_turns = [500, 500, 500, 400, 400, 250, 100]
+# Double-pancake pairs: (285,285),(379,379),(2,2).
+n_turns = [285, 285, 379, 379, 2, 2]
 
 # ── Derived winding quantities ────────────────────────────────────────────────
 # Computed by recompute_derived() at the BOTTOM of this file.  To change
@@ -25,12 +66,13 @@ n_turns = [500, 500, 500, 400, 400, 250, 100]
 # quantity below (and the mesh sizing) is refreshed.
 
 # ── Current ───────────────────────────────────────────────────────────────────
-I_design = 200.0    # A/turn — default operating / visualisation current
+I_design = 224.28825989070785    # A/turn — quench/SF-limited I_op for the
+                                 # n_layers=6 champion (was 200.0 default).
 # J_mag (homogenised current density) is set by recompute_derived()
 
 # ── Two-coil configuration ────────────────────────────────────────────────────
 two_coil_mode  = True
-coil_half_gap  = 0.03    # m — half centre-to-centre separation
+coil_half_gap  = 0.013500289306395013    # m
                            # (coil 1 at z=0, coil 2 at z=2g, midplane at z=g)
 
 # ── Eighth-symmetry mode ──────────────────────────────────────────────────────

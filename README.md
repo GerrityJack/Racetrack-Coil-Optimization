@@ -112,18 +112,44 @@ date predates all three of the following and is no longer valid/buildable
 — see CLAUDE.md's "Practical manufacturing constraints" section for the
 full reasoning.
 
-**Current best design overall (10 pancake layers, i.e. 5 double
-pancakes): tape = 0.1938 km, B_target = 10.05 T, uniformity = 0.88 %,
-hoop = 71 MPa** — a=15.64mm, b=20.64mm, coil_half_gap=21.92mm,
-n_turns=[152,152,217,217,212,212,211,211,2,2] (found 2026-07-24, from
-`optimize/double_pancake_search.py`, one CMA-ES job per buildable even
-layer count). Runner-up designs: 8 layers 0.2049km, 12 layers 0.2380km, 6
-layers 0.2258km — see CLAUDE.md's "Results (completed 2026-07-24)"
-subsection for the full table and turn-pair breakdown. Notably, all four
-designs independently converged to shedding their last turn-pair down
-toward the new floor, a pattern not yet fully explained — see CLAUDE.md
-for the open follow-up question this raises about whether 10 layers is
-truly using its full pair budget.
+**Current best design overall (6 pancake layers, i.e. 3 double
+pancakes): tape = 0.2258 km, B_target = 10.00 T, hoop = 114 MPa, box
+peak-to-peak uniformity = 0.731 % — a real, T-A-validated PASS** —
+a=22.20mm, b=27.27mm, coil_half_gap=13.50mm,
+n_turns=[285,285,379,379,2,2] (found 2026-07-24). **This is the first
+genuinely validated design of the entire optimization effort** — every
+earlier "champion" (10, 8, and a rejected 4-layer design) turned out to
+be an artifact of a broken proxy once actually checked against the real
+30×6mm target box.
+
+**2026-07-27 — widened search re-confirms this design as the best found
+anywhere.** A follow-up search (`optimize/day_search.py`) re-ran the
+discrete n_layers outer loop (6, 8, 10, 12, and two new counts, 14 and
+16) with a coil-radius floor tuned against real T-A checks, then
+T-A-validated every winner. Every alternative came in at 3.1–4.5% true
+box uniformity — 4 to 6× worse than the champion's 0.83%. See CLAUDE.md's
+"2026-07-27" section for the full table. **The same run also surfaced an
+important open risk on the champion itself: its B_target relies on an
+optimistic Ic extrapolation above the measured 8 T tape data. Under a
+conservative extrapolation instead, B_target drops from 10.00 T to
+6.51 T.** This is now the top-priority open item — see [Known
+limitations](#known-limitations) below.
+
+**Important — the coarse optimizer screen's `uniformity_pct` metric was
+found unreliable by up to ~10x**, and a same-day replacement heuristic
+(penalizing peak per-layer turn concentration) was *also* found wrong
+once real box uniformity was measured: the design with the best on-axis
+SCIF (10 layers, 1.37%) has the *worst* true box uniformity of every
+design tried (9.18%, vs. 0.44-1.06% for 4/6/8 layers) — on-axis SCIF is
+a near-cancelling sum that does not represent the real target. What
+*does* track true box uniformity, cleanly, across every layer count
+tested: coil radius `a` (bigger = better, since the box is a fixed size
+regardless of coil scale). `cmaes_search.py`'s fitness function currently
+carries **no uniformity signal at all** — deliberately, rather than a
+third guessed proxy. **See CLAUDE.md's "Box uniformity is the real
+target" section for the full investigation, 5-design data table, and
+current methodology** before trusting any `uniformity_pct` number from
+this optimizer, past or future.
 
 1. **Minimum bend radius 7.5 mm** — REBCO tape cracks below this. Raised
    from an arbitrary 3 mm bore-clearance value that had no material basis.
@@ -254,26 +280,36 @@ Racetrack_v4/
 
 ## Current configuration (from params.py)
 
-| Parameter | Value |
-|---|---|
-| `n_turns` | `[500, 500, 500, 400, 400, 250, 100]`  (7 layers, top→bottom) |
-| `n_turns_total` | 2650 |
-| `a` / `b` | 50 mm / 80 mm  (cap radius / centre→cap-centre) |
-| `t` / `w` | 75 µm / 4 mm  (tape pitch Λ / tape width) |
-| `delta_SC` | 1 µm  (REBCO superconducting layer thickness) |
-| `I_design` | 200 A/turn |
-| Winding pack | 197.5 mm × 137.5 mm × 28 mm  (x × y × z) |
-| Bore inner radius | 31.25 mm |
-| Tape length | ~1194 m |
-| `coil_half_gap` | 30 mm  (coil 1 at z=0, coil 2 at z=60 mm, midplane at z=30 mm) |
-| `ramp_duration` | 600 s  (ramp 0 → I; sets screening-current depth) |
-| `mesh_z_grading` | `[0.075, 0.15, 0.55, 0.15, 0.075]`  (graded sub-slabs per tape width: 0.3 mm edge cells, coarse bulk) |
-| T-A sweep range | 150–400 A in 25 A steps (`SWEEP_CURRENTS` in ta_sweep.py) |
+**`params.py` currently holds the CMA-ES champion design (§ "Internal
+CMA-ES search" above), not the original hand-picked baseline.** The
+baseline values (`a=50mm`, `b=80mm`, 7-layer `[500,500,500,400,400,250,100]`
+stack) are kept below for reference — they're what `evaluate.py`'s
+worked example and the physics-explanation section further down use —
+but are no longer what a fresh solve/visualization run in this repo
+actually produces.
 
-All layers share the same outer radial edge (`a_out` = 68.75 mm); the inner
-edge of layer i is `a_out − n_i·t` (31.25 mm for the 500-turn layers). The
-stack is centred at z = 0, one tape-width `w` per layer. Change only
-`n_turns` in params.py to try a new stack — everything else is derived.
+| Parameter | Current champion (params.py, as of 2026-07-24) | Original baseline (evaluate.py example) |
+|---|---|---|
+| `n_turns` | `[285, 285, 379, 379, 2, 2]`  (6 layers = 3 double pancakes, top→bottom) | `[500, 500, 500, 400, 400, 250, 100]`  (7 layers) |
+| `n_turns_total` | 1332 | 2650 |
+| `a` / `b` | 22.227 mm / 27.268 mm | 50 mm / 80 mm |
+| `t` / `w` | 75 µm / 4 mm  (tape pitch Λ / tape width) | same |
+| `delta_SC` | 1 µm  (REBCO superconducting layer thickness) | same |
+| `I_design` | 224.29 A/turn | 200 A/turn |
+| `coil_half_gap` | 13.500 mm  (face-to-face gap 3.0 mm, at the manufacturing floor) | 30 mm |
+| Tape length | 0.2258 km | ~1194 m |
+| B_target @ I_op | 10.00 T (optimistic Ic extrapolation — see [Known limitations](#known-limitations)) | 13.4 T @ I_op=339A |
+| Box peak-to-peak uniformity | 0.731% (T-A validated PASS) | 0.21% |
+| Hoop stress | 114 MPa | — |
+| `ramp_duration` | 600 s  (ramp 0 → I; sets screening-current depth) | same |
+| `mesh_z_grading` | `[0.075, 0.15, 0.55, 0.15, 0.075]`  (graded sub-slabs per tape width: 0.3 mm edge cells, coarse bulk) | same |
+| T-A sweep range | 150–400 A in 25 A steps (`SWEEP_CURRENTS` in ta_sweep.py) | same |
+
+All layers share the same outer radial edge `a_out`; the inner edge of
+layer i is `a_out − n_i·t`. The stack is centred at z = 0, one tape-width
+`w` per layer. Change only `n_turns` in params.py to try a new stack —
+everything else is derived (call `params.recompute_derived()` after
+mutating any of `a`/`b`/`t`/`w`/`n_turns` programmatically).
 
 ---
 
@@ -385,6 +421,20 @@ measurements (15–20 T) are planned; until then apply an extra safety factor.
 
 ## Known limitations
 
+- **TOP PRIORITY, found 2026-07-27 — the current champion's B_target may
+  not actually reach 10 T.** Every Ic lookup in this project defaults to
+  `clip_B=True`, flat-clamping Ic to its measured 8 T value for any cell
+  above that field — this is *optimistic*, not conservative, since Ic
+  decreases with B in the measured range. Re-evaluating the champion's
+  fixed geometry (`optimize/day_search.py` Phase C, `ConservativeIcModel`)
+  under a conservative linear continuation of the measured 8 T slope
+  instead drops B_target from 10.00 T to **6.51 T (-34.9 %)**, below the
+  design floor. 11.8 % of the champion's own quench-point Ic evaluations
+  already clip to the 8 T boundary — not a remote edge case. Resolve by
+  extending the Ic/n-value measurement dataset above 8 T, or by
+  re-optimizing under the conservative extrapolation (see CLAUDE.md's
+  2026-07-27 section for the one extra data point gathered so far: at
+  safety factor 1.3 the same geometry reaches 14.71 T, clip_frac 0.231).
 - **Ic dataset inconsistency** (see above) — resolve before trusting
   operating-point conclusions
 - **CSV ceiling at 8 T** — quench limit unreliable above that field
@@ -422,6 +472,20 @@ measurements (15–20 T) are planned; until then apply an extra safety factor.
   closely agreeing with the optimizer's own reported 0.68-0.94 % range.
   `optimize_geometry.py` itself was already correct (built its own
   multi-filament sum from scratch) and needed no change.
+- **RESOLVED 2026-07-27 — coil 2 was mirrored incorrectly in
+  visualization code (picture-only bug, no physics numbers affected):**
+  `visualization/plot_3d.py`'s `_expand_to_full_system()` and several
+  copies of the same pattern (`plot_fields.py`'s layer-shading loop,
+  `plot_field_poster.py`) placed coil 2 by *translating* coil 1's
+  geometry by `+2·coil_half_gap` instead of *mirroring* it about the
+  midplane — correct only for a palindromic layer stack, which the
+  champion's `[285,285,379,379,2,2]` is not, so figures silently drew
+  coil 2's layers in the wrong relative order (thin layer appearing at
+  the wrong face). `physics/coil2_field.py`'s
+  `compute_both_coils_field_multilayer()` — the function every real
+  design number (B_target, uniformity, tape optimization, T-A SCIF)
+  actually goes through — was always correct. Fixed with a shared
+  `_mirror_z(z, g) = 2·g − z` helper; every affected figure regenerated.
 
 ---
 

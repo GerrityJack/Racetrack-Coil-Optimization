@@ -1,0 +1,6 @@
+TA_VALIDATE_RESULT label='phaseA_16L' repeat=0 box_ptp_pct=3.8455 onaxis_scif_pct=4.6619 Bz_bore_uniform=-10.75797 Bz_bore_TA=-10.25644 converged=True n_iters=87 solve_s=234.8
+TA_VALIDATE_RESULT label='phaseA_16L' repeat=1 box_ptp_pct=3.8452 onaxis_scif_pct=4.6620 Bz_bore_uniform=-10.75797 Bz_bore_TA=-10.25643 converged=True n_iters=85 solve_s=283.1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")

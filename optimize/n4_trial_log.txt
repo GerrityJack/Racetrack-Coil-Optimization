@@ -1,0 +1,1 @@
+[2026-07-24 12:25:21] [n_layers=4, trial] starting under UNIFORMITY_MAX_PCT=0.8%: a=21.97mm b=27.57mm gap=9.503mm n_turns=[284,284,385,385] a_std0=2.197mm b_std0=2.757mm n_std0=66.9 seed=40824 cap=150min

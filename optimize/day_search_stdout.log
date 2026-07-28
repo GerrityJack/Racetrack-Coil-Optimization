@@ -1,0 +1,50 @@
+[2026-07-26 21:25:24] ======================================================================
+[2026-07-26 21:25:24] day_search.py starting: Phase A (widen search) -> Phase B (T-A validate) -> Phase C (relax assumptions)
+[2026-07-26 21:25:24] ======================================================================
+[2026-07-26 21:25:24] PHASE A: widened search over n_layers=[6, 8, 10, 12, 14, 16], CMAES_MIN_A_M=18mm floor, tight-bounds OFF, a seeded >= 24mm
+[2026-07-26 21:25:24] [n_layers= 6] starting: a=24.00mm b=31.20mm gap=15.00mm n_turns=[225, 225, 225, 225, 225, 225] seed=6726 cap=90min max_evals=2500
+[2026-07-26 22:27:21] [n_layers= 6] finished in 61.9 min -- best tape=0.1408km B=10.01T unif=18.160% hoop=73MPa a=18.01mm b=23.03mm gap=13.58mm n_turns=[262, 262, 264, 264, 1, 1]
+[2026-07-26 22:27:21] [n_layers= 8] starting: a=24.00mm b=31.20mm gap=19.00mm n_turns=[169, 169, 169, 169, 169, 169, 169, 169] seed=8726 cap=100min max_evals=2500
+[2026-07-26 23:40:26] [n_layers= 8] finished in 73.1 min -- best tape=0.1406km B=10.00T unif=19.164% hoop=73MPa a=18.01mm b=23.02mm gap=17.51mm n_turns=[261, 261, 263, 263, 1, 1, 1, 1]
+[2026-07-26 23:40:26] [n_layers=10] starting: a=24.00mm b=31.20mm gap=23.00mm n_turns=[135, 135, 135, 135, 135, 135, 135, 135, 135, 135] seed=10726 cap=110min max_evals=2500
+[2026-07-27 00:12:25] [n_layers=10] finished in 32.0 min -- best tape=0.1892km B=10.02T unif=10.803% hoop=86MPa a=20.26mm b=28.49mm gap=21.74mm n_turns=[297, 297, 281, 281, 1, 1, 1, 1, 2, 2]
+[2026-07-27 00:12:25] [n_layers=12] starting: a=24.00mm b=31.20mm gap=27.00mm n_turns=[112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112] seed=12726 cap=120min max_evals=2500
+[2026-07-27 00:14:01] ======================================================================
+[2026-07-27 00:14:01] day_search.py starting: Phase A (widen search) -> Phase B (T-A validate) -> Phase C (relax assumptions)
+[2026-07-27 00:14:01] ======================================================================
+[2026-07-27 00:14:01] PHASE A: widened search over n_layers=[6, 8, 10, 12, 14, 16], CMAES_MIN_A_M=22mm floor, tight-bounds OFF, a seeded >= 24mm
+[2026-07-27 00:14:01] [n_layers= 6] starting: a=24.00mm b=31.20mm gap=15.00mm n_turns=[225, 225, 225, 225, 225, 225] seed=6726 cap=90min max_evals=2500
+[2026-07-27 01:09:25] [n_layers= 6] finished in 55.4 min -- best tape=0.1781km B=10.00T unif=15.708% hoop=92MPa a=21.50mm b=26.53mm gap=13.63mm n_turns=[287, 287, 284, 284, 1, 1]
+[2026-07-27 01:09:25] [n_layers= 8] starting: a=24.00mm b=31.20mm gap=19.00mm n_turns=[169, 169, 169, 169, 169, 169, 169, 169] seed=8726 cap=100min max_evals=2500
+[2026-07-27 02:12:08] [n_layers= 8] finished in 62.7 min -- best tape=0.1877km B=10.00T unif=12.687% hoop=92MPa a=21.50mm b=27.18mm gap=18.50mm n_turns=[324, 324, 237, 237, 1, 1, 1, 1]
+[2026-07-27 02:12:08] [n_layers=10] starting: a=24.00mm b=31.20mm gap=23.00mm n_turns=[135, 135, 135, 135, 135, 135, 135, 135, 135, 135] seed=10726 cap=110min max_evals=2500
+[2026-07-27 03:22:20] [n_layers=10] finished in 70.2 min -- best tape=0.2121km B=10.00T unif=10.115% hoop=99MPa a=23.47mm b=28.65mm gap=22.78mm n_turns=[356, 356, 226, 226, 1, 1, 3, 3, 1, 1]
+[2026-07-27 03:22:20] [n_layers=12] starting: a=24.00mm b=31.20mm gap=27.00mm n_turns=[112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112, 112] seed=12726 cap=120min max_evals=2500
+[2026-07-27 04:33:42] [n_layers=12] finished in 71.4 min -- best tape=0.2315km B=10.01T unif=6.619% hoop=111MPa a=24.81mm b=31.07mm gap=26.24mm n_turns=[318, 318, 315, 315, 1, 1, 1, 1, 1, 1, 1, 1]
+[2026-07-27 04:33:42] [n_layers=14] starting: a=24.00mm b=31.20mm gap=31.00mm n_turns=[96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96, 96] seed=14726 cap=135min max_evals=2500
+[2026-07-27 06:30:36] [n_layers=14] finished in 116.9 min -- best tape=0.2254km B=10.00T unif=8.115% hoop=108MPa a=22.20mm b=27.20mm gap=29.50mm n_turns=[241, 241, 239, 239, 211, 211, 1, 1, 1, 1, 1, 1, 1, 1]
+[2026-07-27 06:30:36] [n_layers=16] starting: a=24.00mm b=31.20mm gap=35.00mm n_turns=[84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84] seed=16726 cap=150min max_evals=2500
+[2026-07-27 08:04:26] [n_layers=16] finished in 93.8 min -- best tape=0.2214km B=10.05T unif=8.249% hoop=93MPa a=22.28mm b=27.31mm gap=33.94mm n_turns=[355, 355, 1, 1, 179, 179, 72, 72, 1, 1, 1, 1, 1, 1, 2, 2]
+[2026-07-27 08:04:26] PHASE A finished, 6/6 layer counts produced an all-pass design, 7.84h elapsed
+[2026-07-27 08:04:26] PHASE B: T-A-validating shortlist (2 repeats each) -- the coarse screen's own uniformity_pct is not trustworthy, see CLAUDE.md
+[2026-07-27 08:06:57] [6L_champion (reference)] tape=0.2259km box_ptp%: 0.828, 0.828 -> PASS
+[2026-07-27 08:09:19] [phaseA_6L] tape=0.1781km box_ptp%: 4.462, 4.487 -> FAIL
+[2026-07-27 08:12:16] [phaseA_8L] tape=0.1877km box_ptp%: 3.409, 3.410 -> FAIL
+[2026-07-27 08:16:12] [phaseA_10L] tape=0.2121km box_ptp%: 3.475, 3.471 -> FAIL
+[2026-07-27 09:10:39] [phaseA_12L] tape=0.2315km box_ptp%: 4.096, 4.097 -> FAIL
+[2026-07-27 09:21:58] [phaseA_14L] tape=0.2254km box_ptp%: 3.091, 3.097 -> FAIL
+[2026-07-27 09:31:03] [phaseA_16L] tape=0.2214km box_ptp%: 3.845, 3.845 -> FAIL
+[2026-07-27 09:31:03] PHASE B WINNER: 6L_champion (reference) tape=0.2259km box_ptp%=[0.828,0.828]
+[2026-07-27 09:31:03] PHASE C.1: Ic-extrapolation-beyond-8T sensitivity check on the winner
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[2026-07-27 09:31:13]   baseline (flat clamp):  I_q=408A I_op=224A B=10.00T hoop=114MPa clip=0.118
+[2026-07-27 09:31:13]   conservative (linear):  I_q=292A I_op=161A B=6.51T hoop=59MPa clip=0.000
+[2026-07-27 09:31:13] PHASE C.2: fixed-geometry safety-factor / hoop-cap sensitivity
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0

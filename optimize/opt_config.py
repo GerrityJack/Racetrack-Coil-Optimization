@@ -42,7 +42,35 @@ TARGET_X_M      = 0.030    # box full width in x [m]
 TARGET_Y_M      = 0.006    # box full width in y [m]
 TARGET_NX       = 61
 TARGET_NY       = 25
-UNIFORMITY_MAX_PCT = 1.0   # peak-to-peak |B| limit over the box [%]
+UNIFORMITY_MAX_PCT = 0.8   # peak-to-peak |B| limit over the box [%]. NOT
+                           # currently enforced anywhere in cmaes_search.py
+                           # -- kept only as a reference constant and for
+                           # r["uniformity_pct"]'s pass/fail label in the
+                           # CSV logs (informational only, not trustworthy
+                           # -- see below).
+                           #
+                           # 2026-07-24, three corrections same day, in
+                           # order: (1) tightened 1.0->0.8 to cover ~0.4pp
+                           # of measured mesh-realization noise in the
+                           # coarse screen; (2) found to be a much smaller
+                           # issue than the coarse screen's on-axis SCIF
+                           # proxy being unreliable by up to ~10x --
+                           # uniformity_pct removed from the CMA-ES fitness
+                           # entirely, replaced with a peak-per-pair-turns
+                           # penalty (MAX_TURNS_PER_PAIR_TARGET, since
+                           # removed -- see below); (3) once a proper T-A
+                           # BOX uniformity check was built (not just the
+                           # on-axis point), peak-turns turned out to not
+                           # track true box uniformity either -- removed.
+                           # What DOES track true box uniformity cleanly:
+                           # coil radius `a` (bigger = better -- the target
+                           # box is a fixed 30x6mm, so it eats into
+                           # proportionally more of a smaller coil's
+                           # near-field region). No fast, trustworthy
+                           # uniformity signal exists yet for the CMA-ES
+                           # objective -- see CLAUDE.md's "Coarse-screen
+                           # SCIF proxy found unreliable" section and
+                           # cmaes_search.py's fitness function comment.
 B_TARGET_MIN_T  = 10.0     # required mean |Bz| over the target box at I_op
 
 # ── Mechanical allowables (screen; see validation/mechanical_stress_check) ──
@@ -194,9 +222,115 @@ OUT_PNG = "visualization/opt_overview.png"
 # effective pairs; see CLAUDE.md for the discussion. n_layers=12 was
 # skipped by the orchestrator's own stale wall-clock total-budget check
 # (a bug found this run, see CLAUDE.md) and had to be launched manually.
-CMAES_X0 = dict(a=0.015638780170509824, b=0.02064141470385894,
-               coil_half_gap=0.021924337907097105,
-               n_turns=[152, 152, 217, 217, 212, 212, 211, 211, 2, 2])
+#
+# 2026-07-24: DIRECT TEST of the "last pair is deadweight" hypothesis --
+# took the 10-layer winner, dropped its collapsed 5th pair, and
+# re-evaluated as an 8-layer design with coil_half_gap COMPENSATED to
+# preserve the same physical clearance between the near-midplane layer and
+# the midplane (recompute_derived() always re-centers the stack around
+# coil 1's fixed z=0, so just changing n_layers without compensating gap
+# silently moves every layer -- an early uncompensated version of this
+# test gave a badly misleading uniformity blowup to 3.77%, purely a
+# geometry-bookkeeping artifact, not a real effect). Properly compensated
+# (gap = z_top(8 layers) + [gap(10L) - z_top(10L)] = 17.9243mm), the
+# 8-layer truncation scored tape=0.1931km, B=9.86T, unif=1.30%, hoop=68MPa
+# -- statistically indistinguishable from the 10-layer winner (which
+# itself read 0.88/1.12/1.27% uniformity across 3 repeat evaluations of
+# the IDENTICAL design -- see UNIFORMITY_MAX_PCT's comment above for why
+# that noise motivated tightening the target to 0.8%). Conclusion: the
+# dropped pair was genuine deadweight. That was the warm start for a
+# focused n_layers=8 search under the tightened 0.8% constraint (seed
+# 80824, run_tag run_20260724_103646) -- COMPLETED 2026-07-24, 2502 evals,
+# finished naturally at CMAES_MAX_EVALS=2500 (~102 min, well inside the
+# 150 min cap). Result:
+#
+# ── CURRENT CHAMPION under UNIFORMITY_MAX_PCT=0.8% (NOT directly
+# comparable to the 1.0%-target ledger above -- tightening the margin has
+# a real tape-length cost, not a rounding difference): ──
+#   8 layers, tape=0.2327km @ 10.00T, unif=0.588%, hoop=114MPa:
+#     a=0.02196859732616475, b=0.027566130091511443,
+#     coil_half_gap=0.017503154727045075,
+#     n_turns=[284,284,385,385,3,3,6,6]
+# Progression during the search: 0.3645km (eval 136) -> 0.2690km ->
+# 0.2334km -> 0.2327km (final) -- converged smoothly, no regression. Two
+# pairs collapsed near the turn floor (3, 6) -- the same recurring
+# "sheds a pair" signature seen at every other layer count this session.
+# Under the LOOSER 1.0% target this same search space produces designs
+# around 0.19-0.20km (see the ledger above) -- so the 0.8% margin costs
+# roughly +20-25% tape for a comparable design. That is the real,
+# measured price of building in margin against the ~0.4pp mesh-noise
+# band found earlier, not a modeling artifact.
+# CMAES_X0 above (8 layers, 0.2327km) is the CURRENT DOCUMENTED CHAMPION --
+# kept in the CMAES_X0 assignment's comment block, not overwritten, while
+# the trial below runs. Do not treat the 4-layer trial as final until it
+# completes and is written up.
+#
+# 2026-07-24 (same day, immediately after): the 8-layer champion's own two
+# small pairs (3,3 and 6,6 -- the two pairs FARTHEST from the midplane,
+# same position convention as the earlier 10L->8L test) look like the same
+# "collapsing toward deadweight" signature seen everywhere else this
+# session. Direct test (gap re-compensated the same way as before, floor
+# for n_layers=4 = 9.5mm, matches almost exactly): tape=0.2282km (only
+# ~2% less -- those pairs were already small), but B_target=9.93T (just
+# under the 10T floor) and unif=0.88% (passes the OLD 1.0% target, fails
+# the current 0.8% one) -- NOT a clean pass unlike the 10L->8L case, but
+# close enough on both fronts that a real search (not just truncation)
+# might close the gap. That trial (seed 40824, run_tag
+# run_20260724_122521) was STOPPED EARLY (not run to MAX_EVALS) once the
+# population visibly converged to a single point yet kept reporting wildly
+# different uniformity readings for that IDENTICAL candidate (0.49-1.29%
+# across repeats) -- a live demonstration of noise, and a sign further
+# CMA-ES search couldn't distinguish real improvement from it.
+#
+# It was BRIEFLY promoted as the main design based on a 20-repeat
+# in-process robustness test (optimize/n4_robustness_test.py) of the best
+# point found (eval 1631, tape=0.2352km) -- that test showed essentially
+# ZERO variance (uniformity std=0.0002pp) and 20/20 pass. **That
+# promotion was then REVERSED after further investigation**: cross-
+# checking the SAME design against an INDEPENDENT mesh realization
+# (generated by solve.py, a separate process from the one CMA-ES/the
+# robustness test used internally) gave uniformity=2.19% -- a clear FAIL,
+# >20x worse than the 0.79% both the optimizer and the 20x in-process
+# repeat had agreed on. Root cause: gmsh mesh generation is NOT perfectly
+# reproducible ACROSS separate process launches (only within one -- which
+# is why the in-process repeat test was blind to it), and this design's
+# SCIF (Bean-state dipole) correction sits in a near-cancelling-sum regime
+# where that normal cross-process mesh variation gets amplified >20x
+# instead of averaging out. The SAME cross-check applied to the 8-layer
+# champion (below) shows it is NOT similarly fragile (independent-mesh
+# uniformity 0.72% vs the optimizer's own 0.59%, both comfortably under
+# 0.8%) -- this is a real, n_layers=4-specific problem, not a general
+# flaw in this session's results. See CLAUDE.md's "n_layers=4 trial"
+# section for the full writeup.
+#
+# *** SUPERSEDED same day by a bigger discovery, itself then refined
+# twice more: the coarse-screen uniformity_pct itself (not just its
+# mesh-realization noise) is unreliable by up to ~10x for these compact
+# designs -- an on-axis-derived "peak per-pair turns" hypothesis was
+# tried as a replacement signal, then DISPROVEN once a true T-A BOX
+# uniformity check was built (ta_solve.py's box-uniformity extension):
+# peak turns doesn't track real box uniformity either. What DOES, cleanly,
+# across all five layer counts tested: coil radius `a` (bigger a = better
+# box uniformity; the target box is a fixed 30x6mm, so it eats into
+# proportionally more of a smaller coil's near-field region). Full data:
+#
+#   layers |  a (mm) | peak turns/layer | on-axis SCIF | BOX unif. (TRUE)
+#   -------|---------|-------------------|---------------|------------------
+#     4    |  22.80  |       387         |     5.61%     |  0.436% PASS (best)
+#     6    |  22.20  |       379         |     5.68%     |  0.731% PASS  <- CHAMPION
+#     8    |  21.97  |       385         |     5.54%     |  1.059% (nearly)
+#    12    |  20.14  |       326         |     5.78%     |  2.404% FAIL
+#    10    |  15.64  |       217         |     1.37%     |  9.18%  FAIL (badly)
+#
+# n_layers=6 (below) is the CURRENT CHAMPION: the ONLY tape-optimal
+# design among those with a validated PASSING box uniformity (4 layers
+# has slightly better uniformity but more tape). See CLAUDE.md's
+# "Coarse-screen SCIF proxy found unreliable" section for the complete,
+# three-stage investigation. No fast/trustworthy uniformity signal exists
+# yet for the CMA-ES objective -- see cmaes_search.py's fitness function.
+CMAES_X0 = dict(a=0.02219635247570603, b=0.02726759479379641,
+               coil_half_gap=0.0135001375408541580,
+               n_turns=[285, 285, 379, 379, 2, 2])
 
 # 2026-07-21: the first run pinned a and b at their box bounds (30/60 mm)
 # for most of the search -- per project direction, a and b now have NO
@@ -261,7 +395,12 @@ CMAES_SIGMA0_FRAC = 0.3             # initial step size as a fraction of each
 CMAES_POPSIZE   = None              # None => pycma default (4 + 3*ln(N))
 CMAES_MAX_EVALS = 2500                # generous default budget for polishing
                                       # the current champion (see CMAES_X0)
-CMAES_SEED      = 606                 # fresh seed for the 6-layer polish
+CMAES_SEED      = 80824               # 2026-07-24: n_layers=8 champion search
+                                      # under the 0.8% uniformity target
+                                      # (n_layers=4 trial, seed 40824,
+                                      # investigated and REJECTED -- see
+                                      # CMAES_X0's comment above / CLAUDE.md)
+                                      # (was 80824, the n_layers=8 search)
 CMAES_PENALTY_KM = 200.0            # penalty scale [km-equivalent] per unit
                                     # (normalized) constraint violation^2 --
                                     # large relative to typical tape lengths
@@ -390,6 +529,18 @@ if _tight_n_override:
     _lo, _hi = _tight_n_override.split(",")
     CMAES_TIGHT_N_BOUNDS = (int(_lo), int(_hi))
 
+# 2026-07-26: boolean override for CMAES_TIGHT_BOUNDS itself (the two
+# overrides above only adjust ITS sub-ranges once it's on). Added for the
+# day_search.py "widen search-space bounds" phase, which wants tight
+# bounds OFF (wider turn-count and gap ranges) to check whether the
+# empirical near-floor "zone-out" region is really where the optimum
+# lives once box uniformity (not just tape) is accounted for. Absent:
+# CMAES_TIGHT_BOUNDS above (True) is unchanged.
+_tight_bounds_override = _os.environ.get("CMAES_TIGHT_BOUNDS_OVERRIDE")
+if _tight_bounds_override is not None:
+    CMAES_TIGHT_BOUNDS = _tight_bounds_override.strip().lower() in (
+        "1", "true", "yes")
+
 # 2026-07-23: worker-count override, so a diagnostic run launched IN
 # PARALLEL with a primary cmaes_search.py job (e.g. floor_test.py alongside
 # focused_refinement_6_9.py) can use fewer workers and avoid oversubscribing
@@ -397,3 +548,73 @@ if _tight_n_override:
 _n_workers_override = _os.environ.get("CMAES_N_WORKERS_OVERRIDE")
 if _n_workers_override:
     CMAES_N_WORKERS = int(_n_workers_override)
+
+# ── 2026-07-26: soft floor on coil radius `a` ────────────────────────────────
+# The 2026-07-24 a-isolation sweep (CLAUDE.md) held b-a, gap, n_turns fixed
+# for the 6-layer champion and varied ONLY a: box uniformity forms a bowl
+# with its minimum at the champion's own a=22.2mm, and gets rapidly WORSE
+# below it (a=19.2mm -> 1.90%, a=16.2mm -> 8.48%) -- every blind coarse-
+# screen search to date (8/10/12-layer champions, a=15.6-22.0mm) has
+# converged toward small a because tape_km drops with a and NO uniformity
+# signal is in the fitness function (see cmaes_search.py's fitness()) --
+# and 3 of those 4 designs then FAILED true T-A box uniformity badly
+# (8L nearly-fail 1.06%, 10L fail 9.18%, 12L fail 2.40%). This is a soft,
+# smooth-quadratic penalty (same style as geometry_violation()'s other
+# terms) discouraging (not forbidding) CMA-ES from re-exploring the region
+# already shown to fail -- NOT a proven general threshold (only one design
+# was isolated this way; CLAUDE.md's own next-step notes flag that `a`
+# might be a proxy for something else, e.g. a ratio involving gap). T-A
+# validation of the resulting shortlist remains the real arbiter regardless
+# -- this only saves search budget from being wasted purely on tape length
+# in a region already known to fail.
+#
+# 2026-07-26/27 CORRECTION: the original 0.018 default was tried in the
+# day_search.py Phase A run and, exactly as feared, CMA-ES pinned `a`
+# EXACTLY at the floor for both the 6- and 8-layer jobs (18.01mm both
+# times) rather than settling above it -- there is zero fitness gradient
+# opposing smaller `a` once the penalty term is satisfied, so ANY floor
+# this low just becomes a new wall, not a real trade-off point. Direct T-A
+# validation of the 6-layer result CONFIRMED this was indeed still a bad
+# region: box_ptp_pct = 12.14% (vs. the <=1.0% target, and vs. the 6.2.2mm
+# champion's 0.73-0.83%) -- worse even than the original isolation sweep's
+# 16.2mm point (8.48%) despite a different (also-searched) n_turns/b/gap
+# combination, confirming this isn't specific to one exact geometry.
+# Raised 0.018 -> 0.0215 (21.5mm): just below the champion's own 22.227mm,
+# deliberately anchoring the search close to the ONE confirmed-passing
+# radius rather than hoping CMA-ES rediscovers it unaided (twice now shown
+# not to happen). This turns Phase A into more of a "how much tape can
+# other layer counts save AT roughly this radius" test than a free search
+# over `a` -- an intentional, evidence-driven trade-off, not a compromise.
+# 0 disables (matches all prior behavior exactly).
+# 2026-07-27, second correction: 21.5mm ALSO just gets pinned exactly
+# (confirmed across two more jobs: 6L finished at a=21.50mm/3.24% true
+# box unif, 8L's mid-run snapshot at a=22.22mm/1.80% drifted back down to
+# a=21.50mm by its own final convergence) -- every floor tried so far
+# becomes the new wall given enough evaluations, regardless of where the
+# search wanders in between. Raised again, 0.0215 -> 0.0222, now
+# essentially AT the champion's own 22.227mm (0.007mm of slack so it's a
+# floor, not a forced equality). This is a running, evidence-driven
+# adjustment, not a one-time guess -- see CMAES_MIN_A_M's real-data table
+# building up in day_search_report.md/CLAUDE.md as more layer counts are
+# checked. Edited in place (not via a kill+restart) while day_search.py's
+# Phase A loop is still running: each job launches as a FRESH subprocess
+# that re-imports this file from disk at its own start time, so already-
+# running jobs are unaffected and only not-yet-started jobs pick this up.
+CMAES_MIN_A_M = 0.0222
+_min_a_override = _os.environ.get("CMAES_MIN_A_M_OVERRIDE")
+if _min_a_override:
+    CMAES_MIN_A_M = float(_min_a_override)
+
+# ── 2026-07-26: SAFETY_FACTOR / SIGMA_HOOP_MAX_PA overrides ──────────────────
+# For a post-hoc sensitivity sweep on an already-found design (how much
+# tape could be saved by operating closer to Ic, or by allowing higher hoop
+# stress, and how much real-world risk that costs) -- see the "relax
+# assumptions" sweep in optimize/day_search.py. Absent: SAFETY_FACTOR/
+# SIGMA_HOOP_MAX_PA above are used unchanged, exactly as before this was
+# added -- fully backward compatible for every other caller.
+_sf_override = _os.environ.get("SAFETY_FACTOR_OVERRIDE")
+if _sf_override:
+    SAFETY_FACTOR = float(_sf_override)
+_hoop_override = _os.environ.get("SIGMA_HOOP_MAX_PA_OVERRIDE")
+if _hoop_override:
+    SIGMA_HOOP_MAX_PA = float(_hoop_override)
