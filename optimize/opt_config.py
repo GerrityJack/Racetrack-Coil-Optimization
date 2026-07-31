@@ -62,15 +62,20 @@ UNIFORMITY_MAX_PCT = 0.8   # peak-to-peak |B| limit over the box [%]. NOT
                            # BOX uniformity check was built (not just the
                            # on-axis point), peak-turns turned out to not
                            # track true box uniformity either -- removed.
-                           # What DOES track true box uniformity cleanly:
-                           # coil radius `a` (bigger = better -- the target
-                           # box is a fixed 30x6mm, so it eats into
-                           # proportionally more of a smaller coil's
-                           # near-field region). No fast, trustworthy
-                           # uniformity signal exists yet for the CMA-ES
-                           # objective -- see CLAUDE.md's "Coarse-screen
-                           # SCIF proxy found unreliable" section and
-                           # cmaes_search.py's fitness function comment.
+                           # (4) 2026-07-31: a FOURTH proxy, the uniform-J
+                           # box field, was tried and also failed -- the
+                           # screening contribution spans -1.50 to +0.57 pp,
+                           # so uniform-J 1.43% maps to anywhere in
+                           # 0.69-2.00% T-A. RETRACTED at the same time: the
+                           # earlier claim here that box uniformity "tracks
+                           # coil radius `a` cleanly (bigger = better)". That
+                           # came from comparing designs differing in `a` AND
+                           # layer count AND gap AND turns simultaneously;
+                           # isolating `a` gives a V-shaped bowl with an
+                           # INTERIOR minimum, not a monotone trend.
+                           # There is NO fast, trustworthy uniformity signal.
+                           # Validate every finalist with
+                           # optimize/ta_validate.py -- see CLAUDE.md.
 B_TARGET_MIN_T  = 10.0     # required mean |Bz| over the target box at I_op
 
 # ── Mechanical allowables (screen; see validation/mechanical_stress_check) ──
@@ -342,9 +347,18 @@ OUT_PNG = "visualization/opt_overview.png"
 # reaches 0.1863km at 10.00T and 97MPa -- 17% LESS TAPE -- but its real T-A
 # box uniformity is 3.66%, and all six such candidates came in at 3.6-8.6%
 # vs the 1% target. The steep taper is doing essential uniformity work.
-CMAES_X0 = dict(a=0.02219635247570603, b=0.02726759479379641,
-               coil_half_gap=0.0135001375408541580,
-               n_turns=[295, 295, 369, 369, 2, 2])
+#
+# 2026-07-31: updated to the first design validated under a REALISTIC Ic
+# model. The flat clamp (clip_B=True) over-predicts Ic by +26.7% at a 1.6x
+# extrapolation (hold-out validated), so every earlier design's B_target was
+# inflated; the previous champion reaches only 9.40 T under the Kim model.
+# This design: tape=0.2596km, B=10.03T (Kim), box uniformity 0.442%,
+# hoop=102MPa, I_op=204.57A at 65% of local Ic.
+#
+# Set CMAES_IC_EXTRAP=kim when searching, or B_target will be optimistic.
+CMAES_X0 = dict(a=0.023227029065529628, b=0.02826822715975084,
+               coil_half_gap=0.013500289306395013,
+               n_turns=[329, 329, 411, 411, 2, 2])
 
 # 2026-07-21: the first run pinned a and b at their box bounds (30/60 mm)
 # for most of the search -- per project direction, a and b now have NO

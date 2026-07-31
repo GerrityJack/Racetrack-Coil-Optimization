@@ -1,0 +1,7 @@
+[10:31:37] Conservative redesign: 10 T under a VALIDATED Ic extrapolation
+[10:31:37]   Ic model = kim (hold-out MAPE 4.1%, bias -3.3%)
+[10:31:37]   operating point = 62.5% of local Ic (SAFETY_FACTOR=1.6)
+[10:31:37]   layer counts = [6, 8, 10, 12], 1200 evals each
+[10:31:37] 
+[10:31:37] n_layers=6: x0 a=22.23mm b=27.27mm gap=13.50mm turns=[295, 295, 369, 369, 2, 2]
+[10:31:37]    bend=8.39mm straight=5.04mm face=3.00mm  buildable=True

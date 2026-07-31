@@ -1,0 +1,91 @@
+[11:37:10] Funnel redesign: cheap geometry filter -> FEM -> T-A
+[11:37:10]   Ic model=kim, operating point=62.5% of local Ic
+[11:37:10]   stage-1 filter: uniform-J box p2p <= 1.45% (champion's own = 1.420%)
+[11:37:10] 
+[11:37:10] STAGE 1 (cheap, current-independent geometry filter)
+[11:40:41]   n_layers=6: 567 feasible on the cheap metric, keeping 40 (3.5 min)
+[11:40:41]     best cheap design: tape=0.2079km unifJ=1.432% pairs=[243, 243, 219]
+[11:46:11]   n_layers=8: 1702 feasible on the cheap metric, keeping 40 (5.5 min)
+[11:46:11]     best cheap design: tape=0.1960km unifJ=1.425% pairs=[284, 333, 21, 1]
+[11:51:52]   n_layers=10: 1782 feasible on the cheap metric, keeping 40 (5.7 min)
+[11:51:52]     best cheap design: tape=0.2086km unifJ=1.360% pairs=[242, 242, 222, 1, 1]
+[11:59:07]   n_layers=12: 1189 feasible on the cheap metric, keeping 40 (7.2 min)
+[11:59:07]     best cheap design: tape=0.1967km unifJ=1.450% pairs=[285, 333, 17, 4, 1, 1]
+[11:59:07]   160 survivors -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/funnel_redesign/stage1_survivors.csv
+[11:59:07] 
+[11:59:07] STAGE 2 (full FEM evaluate, kim Ic model)
+  [a=20 b=25 nt=1410] KSP converged reason: 4, iterations: 1
+[11:59:13]   OK n=6 tape=0.2079 B=10.04T hoop=  86 unifJ=1.43% pairs=[243, 243, 219]
+  [a=20 b=25 nt=1408] KSP converged reason: 4, iterations: 1
+[11:59:18]   OK n=6 tape=0.2080 B=10.12T hoop=  87 unifJ=1.45% pairs=[243, 244, 217]
+  [a=20 b=25 nt=1412] KSP converged reason: 4, iterations: 1
+[11:59:24]   OK n=6 tape=0.2081 B=10.14T hoop=  86 unifJ=1.41% pairs=[243, 243, 220]
+  [a=20 b=25 nt=1412] KSP converged reason: 4, iterations: 1
+[11:59:29]   OK n=6 tape=0.2082 B=10.13T hoop=  86 unifJ=1.42% pairs=[243, 243, 220]
+  [a=20 b=25 nt=1416] KSP converged reason: 4, iterations: 1
+[11:59:35]   OK n=6 tape=0.2083 B=10.14T hoop=  86 unifJ=1.34% pairs=[242, 242, 224]
+  [a=20 b=25 nt=1414] KSP converged reason: 4, iterations: 1
+[11:59:40]   OK n=6 tape=0.2084 B=10.23T hoop=  87 unifJ=1.42% pairs=[243, 242, 222]
+  [a=20 b=25 nt=1412] KSP converged reason: 4, iterations: 1
+[11:59:46]   OK n=6 tape=0.2085 B=10.09T hoop=  86 unifJ=1.42% pairs=[243, 244, 219]
+  [a=20 b=25 nt=1416] KSP converged reason: 4, iterations: 1
+[11:59:52]   OK n=6 tape=0.2086 B=10.12T hoop=  85 unifJ=1.38% pairs=[243, 243, 222]
+  [a=20 b=25 nt=1278] KSP converged reason: 4, iterations: 1
+[11:59:57]   -- n=8 tape=0.1960 B= 9.38T hoop=  79 unifJ=1.43% pairs=[284, 333, 21, 1]
+  [a=20 b=25 nt=1280] KSP converged reason: 4, iterations: 1
+[12:00:01]   -- n=8 tape=0.1964 B= 9.41T hoop=  79 unifJ=1.42% pairs=[284, 333, 22, 1]
+  [a=20 b=25 nt=1280] KSP converged reason: 4, iterations: 1
+[12:00:06]   -- n=8 tape=0.1965 B= 9.44T hoop=  80 unifJ=1.42% pairs=[284, 333, 19, 4]
+  [a=20 b=25 nt=1282] KSP converged reason: 4, iterations: 1
+[12:00:11]   -- n=8 tape=0.1966 B= 9.47T hoop=  80 unifJ=1.45% pairs=[285, 333, 18, 5]
+  [a=20 b=25 nt=1282] KSP converged reason: 4, iterations: 1
+[12:00:15]   -- n=8 tape=0.1968 B= 9.52T hoop=  81 unifJ=1.42% pairs=[284, 333, 23, 1]
+  [a=20 b=25 nt=1282] KSP converged reason: 4, iterations: 1
+[12:00:20]   -- n=8 tape=0.1969 B= 9.49T hoop=  81 unifJ=1.42% pairs=[284, 333, 23, 1]
+  [a=20 b=25 nt=1284] KSP converged reason: 4, iterations: 1
+[12:00:25]   -- n=8 tape=0.1970 B= 9.49T hoop=  80 unifJ=1.45% pairs=[285, 333, 21, 3]
+  [a=20 b=25 nt=1282] KSP converged reason: 4, iterations: 1
+[12:00:29]   -- n=8 tape=0.1971 B= 9.44T hoop=  81 unifJ=1.43% pairs=[283, 332, 24, 2]
+  [a=20 b=25 nt=1416] KSP converged reason: 4, iterations: 1
+[12:00:37]   -- n=10 tape=0.2086 B= 9.98T hoop=  84 unifJ=1.36% pairs=[242, 242, 222, 1, 1]
+  [a=20 b=25 nt=1416] KSP converged reason: 4, iterations: 1
+[12:00:45]   -- n=10 tape=0.2087 B= 9.96T hoop=  85 unifJ=1.36% pairs=[242, 242, 222, 1, 1]
+  [a=20 b=25 nt=1418] KSP converged reason: 4, iterations: 1
+[12:00:52]   -- n=10 tape=0.2088 B= 9.98T hoop=  84 unifJ=1.34% pairs=[242, 242, 223, 1, 1]
+  [a=20 b=25 nt=1418] KSP converged reason: 4, iterations: 1
+[12:00:59]   -- n=10 tape=0.2089 B= 9.93T hoop=  84 unifJ=1.35% pairs=[242, 242, 223, 1, 1]
+  [a=20 b=25 nt=1418] KSP converged reason: 4, iterations: 1
+[12:01:07]   -- n=10 tape=0.2090 B= 9.97T hoop=  84 unifJ=1.36% pairs=[242, 242, 222, 1, 2]
+  [a=20 b=25 nt=1420] KSP converged reason: 4, iterations: 1
+[12:01:14]   -- n=10 tape=0.2091 B= 9.95T hoop=  84 unifJ=1.37% pairs=[242, 240, 226, 1, 1]
+  [a=20 b=25 nt=1420] KSP converged reason: 4, iterations: 1
+[12:01:23]   -- n=10 tape=0.2092 B= 9.99T hoop=  84 unifJ=1.34% pairs=[242, 242, 223, 2, 1]
+  [a=20 b=25 nt=1420] KSP converged reason: 4, iterations: 1
+[12:01:32]   -- n=10 tape=0.2093 B= 9.97T hoop=  85 unifJ=1.38% pairs=[242, 240, 225, 2, 1]
+  [a=20 b=25 nt=1282] KSP converged reason: 4, iterations: 1
+[12:01:38]   -- n=12 tape=0.1967 B= 9.43T hoop=  79 unifJ=1.45% pairs=[285, 333, 17, 4, 1, 1]
+  [a=20 b=25 nt=1284] KSP converged reason: 4, iterations: 1
+[12:01:45]   -- n=12 tape=0.1971 B= 9.46T hoop=  80 unifJ=1.45% pairs=[285, 333, 19, 3, 1, 1]
+  [a=20 b=25 nt=1286] KSP converged reason: 4, iterations: 1
+[12:01:51]   -- n=12 tape=0.1975 B= 9.43T hoop=  79 unifJ=1.45% pairs=[285, 333, 19, 3, 2, 1]
+  [a=20 b=25 nt=1286] KSP converged reason: 4, iterations: 1
+[12:01:57]   -- n=12 tape=0.1976 B= 9.42T hoop=  79 unifJ=1.45% pairs=[285, 333, 17, 5, 2, 1]
+  [a=20 b=25 nt=1288] KSP converged reason: 4, iterations: 1
+[12:02:03]   -- n=12 tape=0.1980 B= 9.44T hoop=  79 unifJ=1.45% pairs=[285, 333, 18, 4, 2, 2]
+  [a=20 b=25 nt=1288] KSP converged reason: 4, iterations: 1
+[12:02:09]   -- n=12 tape=0.1981 B= 9.39T hoop=  79 unifJ=1.45% pairs=[285, 333, 13, 1, 9, 3]
+  [a=20 b=25 nt=1290] KSP converged reason: 4, iterations: 1
+[12:02:17]   -- n=12 tape=0.1984 B= 9.48T hoop=  80 unifJ=1.45% pairs=[285, 333, 20, 2, 2, 3]
+  [a=20 b=25 nt=1290] KSP converged reason: 4, iterations: 1
+[12:02:25]   -- n=12 tape=0.1985 B= 9.40T hoop=  79 unifJ=1.45% pairs=[285, 333, 17, 6, 1, 3]
+[12:02:25]   8 designs meet 10 T and hoop
+[12:02:25] 
+[12:02:25] STAGE 3 (T-A box uniformity, the deciding number)
+[12:08:54]   n=6 tape=0.2079 unifJ=1.43% -> T-A box = 2.006, 1.998  FAIL
+[12:15:46]   n=6 tape=0.2080 unifJ=1.45% -> T-A box = 1.886, 1.887  FAIL
+[12:22:03]   n=6 tape=0.2081 unifJ=1.41% -> T-A box = 2.124, 2.122  FAIL
+[12:27:18]   n=6 tape=0.2082 unifJ=1.42% -> T-A box = 1.654, 1.653  FAIL
+[12:33:27]   n=6 tape=0.2083 unifJ=1.34% -> T-A box = 1.728, 1.702  FAIL
+[12:33:27] 
+[12:33:27] No finalist passed T-A box uniformity.
+[12:33:27] Best T-A seen: n=6 2.006%, n=6 1.887%, n=6 2.124%, n=6 1.654%, n=6 1.728%

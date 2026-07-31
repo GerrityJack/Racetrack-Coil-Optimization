@@ -32,10 +32,10 @@ every major assumption, read [The physics, explained](#the-physics-explained).**
 
 | constraint | limit |
 |---|---|
-| mean \|Bz\| over the target box (30×6 mm) at I_op | ≥ 10 T |
+| mean \|Bz\| over the target box (30×6 mm) at I_op | ≥ 10 T — **evaluated with a validated Ic extrapolation, not the flat clamp** |
 | peak-to-peak uniformity over that box | ≤ 1 % — **must be checked with the T-A solver, not the coarse screen** (see below) |
 | hoop stress, end-cap curved sections only | ≤ 400 MPa |
-| operating point | worst-margin cell at 50–60 % of local Ic (`SAFETY_FACTOR = 1.818`) |
+| operating point | worst-margin cell at 60–65 % of local Ic (2026-07-31; was 50–60 %) |
 | coil-to-coil **face-to-face** clearance | ≥ 3 mm |
 | innermost turn bend radius (REBCO cracks below this) | ≥ 7.5 mm |
 | double-pancake construction | layers paired (2i, 2i+1) share a turn count → **`n_layers` must be even** |
@@ -43,20 +43,31 @@ every major assumption, read [The physics, explained](#the-physics-explained).**
 **Variables:** `a` (end-cap radius), `b` (centre → cap-centre length),
 `coil_half_gap`, and one turn count per double-pancake pair.
 
-**Current best design — 6 layers (3 double pancakes):** tape = 0.2235 km,
-B_target = 10.22 T, hoop = 111 MPa, T-A box uniformity = 0.69 %.
-`a` = 22.227 mm, `b` = 27.268 mm, `coil_half_gap` = 13.500 mm,
-`n_turns = [295,295,369,369,2,2]` (2026-07-30; T-A-validated on four
-independent meshes at 0.686–0.688 %). **One open caveat, important — see
-[Known limitations](#known-limitations):** its 10 T rests on an
-optimistic Ic extrapolation above the measured 8 T tape data.
+**Current best design — 6 layers (3 double pancakes), 2026-07-31:**
+tape = 0.2596 km, B_target = 10.03 T, hoop = 102 MPa, T-A box uniformity
+= 0.442%. `a` = 23.227 mm, `b` = 28.268 mm, `coil_half_gap` = 13.500 mm,
+`n_turns = [329,329,411,411,2,2]`, I_op = 204.57 A at 65% of local Ic.
 
-> **Do not flatten the turn taper to save tape.** A tape-only CMA-ES
-> polish (which has no uniformity signal) drives the profile toward equal
-> pairs — e.g. `[291,291,291,291,1,1]` reaches **0.1863 km at 10.00 T and
-> 97 MPa, 17 % less tape** — but its true T-A box uniformity is 3.66 %,
-> and all six such candidates landed at 3.6–8.6 % against a 1 % target.
-> The steep taper is doing essential uniformity work.
+**This is the first design validated against a realistic critical-current
+model.** Every earlier design was optimized with `clip_B=True`, which
+flat-clamps Ic at the measured 8 T ceiling — hold-out validation against
+the measured data showed that clamp **over-predicts Ic by +26.7%** at a
+1.6× extrapolation and +54% at 2.7×. Under the best-validated
+extrapolation the previous champion reaches only 9.40 T, not the 10.2 T
+the clamp claimed.
+
+> **Open caveat.** Under a deliberately more conservative extrapolation
+> (pinning-force scaling law, B_c2 = 45 T) this design gives 9.34 T. Kim
+> is the measurably better model *and* is itself slightly conservative, so
+> 10.03 T is the better estimate — but state it honestly as **~10 T with
+> about ±0.5 T of model uncertainty**. Only measured Ic data above 8 T can
+> close that; no amount of computation will.
+
+> **There is no fast proxy for box uniformity.** Four have been tried and
+> falsified against T-A: on-axis SCIF (anti-correlated), peak turns per
+> pair, the Bean-state correction (~10× error), and the uniform-current
+> box field (screening spans −1.50 to +0.57 pp). Validate every finalist
+> with `optimize/ta_validate.py` — a solve is only ~3–5 min.
 
 **How to evaluate a design.** Two tools, and the difference matters:
 
@@ -316,7 +327,7 @@ dimension fits in the existing 3 mm coil-to-coil face gap.
 
 | constraint | limit |
 |---|---|
-| mean \|Bz\| over the target box (30×6 mm) at I_op | ≥ 10 T |
+| mean \|Bz\| over the target box (30×6 mm) at I_op | ≥ 10 T — **evaluated with a validated Ic extrapolation, not the flat clamp** |
 | peak-to-peak uniformity over that box (SCIF-corrected) | ≤ 1% |
 | hoop stress, end-cap curved sections only (B×J×bending radius) | ≤ 400 MPa |
 | coil-to-coil **face-to-face** clearance (not `coil_half_gap` itself) | ≥ 3 mm |
@@ -615,8 +626,29 @@ measurements (15–20 T) are planned; until then apply an extra safety factor.
 
 ## Known limitations
 
-- **TOP PRIORITY, found 2026-07-27 — the current champion's B_target may
-  not actually reach 10 T.** Every Ic lookup in this project defaults to
+- **CONFIRMED 2026-07-31 — the champion does NOT reach 10 T under a
+  physical Ic extrapolation.** `optimize/studies/ic_scaling_law_test.py`
+  fits the pinning-force scaling law `Jc = C·B^(p-1)(1−B/B_c2)^q` per
+  angle to the measured 0–8 T data (p ≈ 0.61–0.66, sub-1 % RMS) and uses
+  it above 8 T. B_target at the target box:
+
+  | model | 55 % Ic | 60 % Ic | 65 % Ic |
+  |---|---|---|---|
+  | flat clamp (current default, optimistic) | 10.21 T | 11.32 T | 12.42 T |
+  | scaling law, B_c2 = 25 T | 6.95 | 7.81 | 8.67 |
+  | scaling law, B_c2 = 45 T | 7.18 | 8.06 | 8.94 |
+  | scaling law, B_c2 = 100 T | 7.28 | 8.17 | 9.06 |
+
+  Even relaxing the operating point to 65 % of Ic, the design reaches only
+  **~8.7–9.1 T**. The B_c2 band is tight (~0.4 T), so this is not an
+  artifact of the unconstrained-parameter problem — B_c2 is *fixed* at
+  three values precisely because q and B_c2 are degenerate over a 1–8 T
+  fit window (a free fit picks physically meaningless parameters; see the
+  script's docstring). Naive turn-scaling is an inefficient fix: doubling
+  the tape buys only ~+1 T, because more turns push `a` outward via the
+  bend-radius floor and raise the peak field, lowering I_op. The design
+  needs re-optimization under this Ic model, not just more tape.
+- **Superseded framing, kept for context — found 2026-07-27.** Every Ic lookup in this project defaults to
   `clip_B=True`, flat-clamping Ic to its measured 8 T value for any cell
   above that field — this is *optimistic*, not conservative, since Ic
   decreases with B in the measured range. Re-evaluating the champion's

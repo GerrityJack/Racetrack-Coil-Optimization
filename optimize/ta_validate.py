@@ -72,6 +72,16 @@ def _apply(design):
     # Deliberately do NOT apply cfg.SCREEN_MESH_OVERRIDES here -- this is
     # the full-fidelity T-A validation, not the coarse screen; keep
     # params.py's production mesh_nz_per_layer / mesh_z_grading.
+    #
+    # 2026-07-31: optional "mesh" dict sets arbitrary params mesh
+    # attributes (mesh_z_grading, mesh_nz_per_layer, mesh_size_min_factor,
+    # ...) BEFORE recompute_derived(), so a mesh-convergence study can vary
+    # resolution on a FIXED design. Absent (the normal case) nothing
+    # changes and production settings are used exactly as before.
+    for k, v in (design.get("mesh") or {}).items():
+        if not hasattr(params, k):
+            raise KeyError(f"unknown params attribute in 'mesh' override: {k}")
+        setattr(params, k, v)
     params.recompute_derived()
 
 
@@ -149,10 +159,17 @@ def validate_once(design, repeat_idx, comm):
     except OSError:
         pass
 
+    n_coil_cells = int(len(coil_cells))
+    try:
+        n_dofs = int(uniform_setup["V"].dofmap.index_map.size_global
+                     * uniform_setup["V"].dofmap.index_map_bs)
+    except Exception:
+        n_dofs = -1
+
     return dict(box_ptp_pct=box_ptp_pct, onaxis_scif_pct=onaxis_scif_pct,
                Bz_bore_uniform=Bz_bore_uniform, Bz_bore_TA=Bz_bore_TA,
                converged=bool(info["converged"]), n_iters=int(info["n_iters"]),
-               solve_s=dt)
+               solve_s=dt, n_coil_cells=n_coil_cells, n_dofs=n_dofs)
 
 
 def main():
@@ -176,7 +193,9 @@ def main():
                   f"Bz_bore_uniform={r['Bz_bore_uniform']:.5f} "
                   f"Bz_bore_TA={r['Bz_bore_TA']:.5f} "
                   f"converged={r['converged']} n_iters={r['n_iters']} "
-                  f"solve_s={r['solve_s']:.1f}", flush=True)
+                  f"solve_s={r['solve_s']:.1f} "
+                  f"n_coil_cells={r['n_coil_cells']} n_dofs={r['n_dofs']}",
+                  flush=True)
 
 
 if __name__ == "__main__":

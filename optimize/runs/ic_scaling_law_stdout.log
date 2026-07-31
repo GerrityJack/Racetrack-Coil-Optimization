@@ -1,0 +1,66 @@
+[10:03:58] Jc(B) = C*B^(p-1)*(1-B/Bc2)^q extrapolation test on the champion
+[10:03:58]   design n_turns=[295, 295, 369, 369, 2, 2] a=22.227mm b=27.268mm
+[10:03:58] fitting scaling law, Bc2 fixed at 25 T ...
+[10:03:58]   fitted 43 angles, rel_rms 0.51-4.05%
+[10:03:58] fitting scaling law, Bc2 fixed at 45 T ...
+[10:03:58]   fitted 43 angles, rel_rms 0.49-3.71%
+[10:03:58] fitting scaling law, Bc2 fixed at 100 T ...
+[10:03:58]   fitted 43 angles, rel_rms 0.42-3.51%
+[10:03:58] fit parameters -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ic_scaling_law/fit_params.csv
+[10:03:58] 
+[10:03:58] Ic at 0 deg (worst angle), A:
+[10:03:58]     B[T]  flat clamp    bc2_25T    bc2_45T   bc2_100T
+[10:03:58]      8.0       405.1      405.1      405.1      405.1
+[10:03:58]     10.0       405.1      331.3      334.7      336.4
+[10:03:58]     12.0       405.1      270.3      278.8      282.7
+[10:03:58]     14.0       405.1      217.8      232.8      239.3
+[10:03:58]     16.0       405.1      171.2      194.1      203.5
+[10:03:58]     20.0       405.1       89.8      133.1      148.1
+[10:03:58] 
+[10:03:58] re-evaluating the champion (one FEM solve per row) ...
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:04]   flat_clamp (current default)   @55%  I_op= 223.9A  B= 10.21T  hoop=  111MPa peakB=10.69T  clip=0.139
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:09]   scaling_law_bc2_25T            @55%  I_op= 165.5A  B=  6.95T  hoop=   61MPa peakB= 7.90T  clip=0.000
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:15]   scaling_law_bc2_45T            @55%  I_op= 169.6A  B=  7.18T  hoop=   64MPa peakB= 8.09T  clip=0.003
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:20]   scaling_law_bc2_100T           @55%  I_op= 171.3A  B=  7.28T  hoop=   65MPa peakB= 8.18T  clip=0.004
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:28]   flat_clamp (current default)   @60%  I_op= 244.2A  B= 11.32T  hoop=  132MPa peakB=11.66T  clip=0.176
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:33]   scaling_law_bc2_25T            @60%  I_op= 180.6A  B=  7.81T  hoop=   72MPa peakB= 8.62T  clip=0.018
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:39]   scaling_law_bc2_45T            @60%  I_op= 185.0A  B=  8.06T  hoop=   76MPa peakB= 8.83T  clip=0.026
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:43]   scaling_law_bc2_100T           @60%  I_op= 186.9A  B=  8.17T  hoop=   77MPa peakB= 8.92T  clip=0.030
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:50]   flat_clamp (current default)   @65%  I_op= 264.6A  B= 12.42T  hoop=  155MPa peakB=12.63T  clip=0.192
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:04:56]   scaling_law_bc2_25T            @65%  I_op= 195.6A  B=  8.67T  hoop=   85MPa peakB= 9.34T  clip=0.055
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:05:00]   scaling_law_bc2_45T            @65%  I_op= 200.4A  B=  8.94T  hoop=   89MPa peakB= 9.57T  clip=0.070
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:05:04]   scaling_law_bc2_100T           @65%  I_op= 202.5A  B=  9.06T  hoop=   91MPa peakB= 9.67T  clip=0.080
+[10:05:04] 
+[10:05:04] model                            %Ic  I_op[A]  B_tgt[T]   hoop  >=10T
+[10:05:04] flat_clamp (current default)     55%    223.9     10.21    111    YES
+[10:05:04] scaling_law_bc2_25T              55%    165.5      6.95     61     no
+[10:05:04] scaling_law_bc2_45T              55%    169.6      7.18     64     no
+[10:05:04] scaling_law_bc2_100T             55%    171.3      7.28     65     no
+[10:05:04] flat_clamp (current default)     60%    244.2     11.32    132    YES
+[10:05:04] scaling_law_bc2_25T              60%    180.6      7.81     72     no
+[10:05:04] scaling_law_bc2_45T              60%    185.0      8.06     76     no
+[10:05:04] scaling_law_bc2_100T             60%    186.9      8.17     77     no
+[10:05:04] flat_clamp (current default)     65%    264.6     12.42    155    YES
+[10:05:04] scaling_law_bc2_25T              65%    195.6      8.67     85     no
+[10:05:04] scaling_law_bc2_45T              65%    200.4      8.94     89     no
+[10:05:04] scaling_law_bc2_100T             65%    202.5      9.06     91     no
+[10:05:04] 
+[10:05:04] Reminder: freefit and bc2_30T BOUND the answer -- q and Bc2 are
+[10:05:04] degenerate over the 1-8T fit window, so quote the pair as a band.
+[10:05:04] Any row that changes I_op also changes the screening currents, so
+[10:05:04] box uniformity must be re-validated with ta_validate.py before a
+[10:05:04] new operating point is adopted.
+[10:05:04] total 1.1 min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ic_scaling_law/results.csv
+[10:05:04] figure -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/visualization/ic_scaling_law.png

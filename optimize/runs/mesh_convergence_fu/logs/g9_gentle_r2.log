@@ -1,0 +1,5 @@
+TA_VALIDATE_RESULT label='g9_gentle_r2' repeat=0 box_ptp_pct=0.6138 onaxis_scif_pct=5.8229 Bz_bore_uniform=-11.21600 Bz_bore_TA=-10.56290 converged=True n_iters=79 solve_s=188.9 n_coil_cells=8575 n_dofs=18209
+
+--- stderr ---
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")

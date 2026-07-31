@@ -1,0 +1,23 @@
+[09:48:41] mesh convergence of the champion's box uniformity: 7 mesh configs, geometry FIXED
+[09:48:41]   design: a=22.227mm b=27.268mm gap=13.500mm n_turns=[295, 295, 369, 369, 2, 2] I=223.88A
+[09:52:05]   [g7_rep1        ] box_ptp=0.980%  cells=  6689 dofs=  15098  iters= 80 conv=True 183s
+[09:52:18]   [g7_rep2        ] box_ptp=0.983%  cells=  6689 dofs=  15098  iters= 86 conv=True 201s
+[09:55:48]   [g7_rep3        ] box_ptp=0.992%  cells=  6689 dofs=  15098  iters= 98 conv=True 208s
+[09:55:51]   [g9_gentle_r1   ] box_ptp=0.613%  cells=  8575 dofs=  18209  iters= 81 conv=True 196s
+[09:58:55]   [g7_iter400     ] box_ptp=0.961%  cells=  6689 dofs=  15098  iters= 73 conv=True 163s
+[09:59:19]   [g9_gentle_r2   ] box_ptp=0.614%  cells=  8575 dofs=  18209  iters= 79 conv=True 189s
+[10:00:36]   [g5_iter400     ] box_ptp=0.687%  cells=  4844 dofs=  12084  iters= 73 conv=True 90s
+[10:00:36] 
+[10:00:36] label           axis        cells    dofs    box%  conv
+[10:00:36] g5_iter400      solver       4844   12084   0.687  True
+[10:00:36] g7_iter400      solver       6689   15098   0.961  True
+[10:00:36] g9_gentle_r1    z-fine       8575   18209   0.613  True
+[10:00:36] g9_gentle_r2    z-fine       8575   18209   0.614  True
+[10:00:36] g7_rep1         z-repeat     6689   15098   0.980  True
+[10:00:36] g7_rep2         z-repeat     6689   15098   0.983  True
+[10:00:36] g7_rep3         z-repeat     6689   15098   0.992  True
+[10:00:36] 
+[10:00:36] spread across ALL mesh configs: 0.613 - 0.992% (range 0.379pp)
+[10:00:36] all configs below the 1.0% target: True
+[10:00:36] spread among the 7 FINEST configs: 0.613 - 0.992% (range 0.379pp)
+[10:00:36] total 11.9 min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/mesh_convergence_fu/results.csv

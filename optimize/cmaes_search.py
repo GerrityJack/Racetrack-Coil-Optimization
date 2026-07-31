@@ -366,6 +366,27 @@ def _record(x, a, b, gap, n_turns, face_gap, f, feasible, r, g=None):
 # Default (CMAES_N_WORKERS = 1) never touches any of this -- main() takes
 # the plain es.optimize(fitness) branch, byte-for-byte the original path.
 
+def _build_ic_model():
+    """The Ic model every evaluation uses. Defaults to the historical
+    IcModel (flat clamp above the measured 8T ceiling) so existing behavior
+    is unchanged; set the CMAES_IC_EXTRAP env var to switch.
+
+    2026-07-31: the flat clamp is OPTIMISTIC by +26.7% at a 1.6x
+    extrapolation and +54% at 2.7x (hold-out validation against the
+    measured data itself -- optimize/studies/ic_extrapolation_validation.py).
+    Any design whose peak conductor field exceeds 8T should be optimized
+    with CMAES_IC_EXTRAP=kim (best validated, MAPE 4.1%) or scaling:45
+    (mildly conservative).
+
+    Values: 'flat' (default, historical), 'kim', 'scaling[:Bc2]'.
+    """
+    kind = os.environ.get("CMAES_IC_EXTRAP", "flat")
+    if kind.strip().lower() in ("flat", "", "clip", "default"):
+        return IcModel()
+    from ic_extrapolation import make_ic_model
+    return make_ic_model(kind)
+
+
 def _worker_init():
     """ProcessPoolExecutor initializer, runs once per worker process before
     any task is sent to it. Mirrors what main() does once in the serial
@@ -377,7 +398,7 @@ def _worker_init():
     has its own independent copy of params.mesh_filename to repoint."""
     global _ic_model, _comm
     _comm = MPI.COMM_WORLD
-    _ic_model = IcModel()
+    _ic_model = _build_ic_model()
     for k, v in cfg.SCREEN_MESH_OVERRIDES.items():
         setattr(params, k, v)
     root, ext = os.path.splitext(params.mesh_filename)
@@ -434,7 +455,7 @@ def _run_parallel(es, n_workers):
 def main():
     global _ic_model, _comm, _run_tag
     _comm = MPI.COMM_WORLD
-    _ic_model = IcModel()
+    _ic_model = _build_ic_model()
     _run_tag = f"run_{time.strftime('%Y%m%d_%H%M%S')}"
 
     for k, v in cfg.SCREEN_MESH_OVERRIDES.items():

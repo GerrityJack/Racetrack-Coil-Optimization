@@ -1,0 +1,64 @@
+[10:42:58] Shape-preserving redesign: minimum tape reaching 10 T with the champion's taper held FIXED
+[10:42:58]   Ic model=kim, operating point=62.5% of local Ic
+[10:42:58]   profile per pair = s x [295, 369...(repeated), 2]
+[10:42:58] 
+[10:42:58] --- n_layers=6 ---
+  [a=22 b=27 nt=930] KSP converged reason: 4, iterations: 1
+[10:43:03]   s=0.70  tape=0.1538km  B=7.19T  hoop=93MPa
+  [a=22 b=27 nt=1134] KSP converged reason: 4, iterations: 1
+[10:43:07]   s=0.85  tape=0.1890km  B=8.04T  hoop=91MPa
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[10:43:12]   s=1.00  tape=0.2235km  B=8.95T  hoop=89MPa
+[10:43:12]   s=1.20: not buildable (bend radius) -- stop raising
+[10:43:12]   n_layers=6: cannot reach 10.0 T with this shape
+[10:43:12] 
+[10:43:12] --- n_layers=8 ---
+  [a=22 b=27 nt=1446] KSP converged reason: 4, iterations: 1
+[10:43:18]   s=0.70  tape=0.2363km  B=8.86T  hoop=94MPa
+  [a=22 b=27 nt=1762] KSP converged reason: 4, iterations: 1
+[10:43:24]   s=0.85  tape=0.2894km  B=10.07T  hoop=94MPa
+  [a=22 b=27 nt=1396] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1578] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1672] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1716] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1740] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1750] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1756] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1762] KSP converged reason: 4, iterations: 1
+[10:44:13]   -> min scale s=0.8500: tape=0.2894km B=10.07T hoop=94MPa I_op=194.6A pairs=[251, 314, 314, 2]
+[10:44:13] 
+[10:44:13] --- n_layers=10 ---
+  [a=22 b=27 nt=1962] KSP converged reason: 4, iterations: 1
+[10:44:22]   s=0.70  tape=0.3187km  B=10.20T  hoop=98MPa
+  [a=22 b=27 nt=1476] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1720] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1842] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1902] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1872] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1886] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=1894] KSP converged reason: 4, iterations: 1
+[10:45:27]   -> min scale s=0.6754: tape=0.3075km B=10.02T hoop=98MPa I_op=202.8A pairs=[199, 249, 249, 249, 1]
+[10:45:27] 
+[10:45:27] --- n_layers=12 ---
+  [a=22 b=27 nt=2478] KSP converged reason: 4, iterations: 1
+[10:45:38]   s=0.70  tape=0.4012km  B=11.37T  hoop=102MPa
+  [a=22 b=27 nt=1864] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=2172] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=2018] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=2094] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=2056] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=2036] KSP converged reason: 4, iterations: 1
+  [a=22 b=27 nt=2028] KSP converged reason: 4, iterations: 1
+[10:47:08]   -> min scale s=0.5715: tape=0.3276km B=10.24T hoop=107MPa I_op=216.3A pairs=[169, 211, 211, 211, 211, 1]
+[10:47:08] 
+[10:47:08] PHASE B: T-A box-uniformity validation (2 independent meshes each)
+[10:54:54]   n_layers=8: box p2p = 1.713, 1.712 -> FAIL
+[11:05:52]   n_layers=10: box p2p = 1.660, 1.660 -> FAIL
+[11:23:21]   n_layers=12: box p2p = 2.121, 2.121 -> FAIL
+[11:23:21] 
+[11:23:21]  n_lay  tape_km    B_T  hoop    box%  verdict
+[11:23:21]      8   0.2894  10.07    94   1.713  FAIL
+[11:23:21]     10   0.3075  10.02    98   1.660  FAIL
+[11:23:21]     12   0.3276  10.24   107   2.121  FAIL
+[11:23:21] 
+[11:23:21] No shape-preserving design passed both 10 T and box uniformity.

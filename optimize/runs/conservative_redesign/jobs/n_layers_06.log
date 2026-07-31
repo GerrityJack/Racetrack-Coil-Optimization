@@ -1,0 +1,793 @@
+Starting CMA-ES: 6 variables, budget 1200 evaluations, target B >= 10.0 T, uniformity <= 0.8%, hoop <= 400 MPa, coil-coil face gap >= 3 mm
+
+Parallel mode: 6 worker processes per generation.
+  [a=23 b=29 nt=1364] KSP converged reason: 4, iterations: 1
+  [   1] INFEAS f=1000.149  a=21.9 b=27.1 gap=13.5 (face=3.1mm) n=[331, 331, 344, 344, 22, 22]  no evaluation (geometry pre-check)
+  [   2] INFEAS f=1196.136  a=23.7 b=26.5 gap=14.9 (face=5.9mm) n=[340, 340, 389, 389, 5, 5]  no evaluation (geometry pre-check)
+  [   3] INFEAS f=1041.412  a=19.3 b=27.5 gap=13.5 (face=3.0mm) n=[255, 255, 345, 345, 1, 1]  no evaluation (geometry pre-check)
+  [   4] INFEAS f=1028.749  a=22.4 b=26.5 gap=16.4 (face=8.8mm) n=[310, 310, 391, 391, 32, 32]  no evaluation (geometry pre-check)
+  [   5] INFEAS f=1002.378  a=21.1 b=27.3 gap=14.1 (face=4.2mm) n=[251, 251, 362, 362, 24, 24]  no evaluation (geometry pre-check)
+  [   6] INFEAS f=1036.826  a=20.3 b=30.5 gap=13.6 (face=3.2mm) n=[361, 361, 375, 375, 18, 18]  no evaluation (geometry pre-check)
+  [   7] INFEAS f=1000.276  a=21.8 b=28.9 gap=14.3 (face=4.7mm) n=[299, 299, 358, 358, 12, 12]  no evaluation (geometry pre-check)
+  [   8] INFEAS f=1002.111  a=21.2 b=29.2 gap=13.8 (face=3.5mm) n=[289, 289, 364, 364, 11, 11]  no evaluation (geometry pre-check)
+  [   9] viol   f=   2.443  a=22.6 b=28.7 gap=13.5 (face=3.1mm) n=[291, 291, 375, 375, 16, 16]  tape=0.241km B=8.95T unif=1.317% hoop=94MPa
+  [a=22 b=28 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1430] KSP converged reason: 4, iterations: 1
+  [a=22 b=29 nt=1368] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1338] KSP converged reason: 4, iterations: 1
+  [  10] viol   f=   0.639  a=22.4 b=28.8 gap=13.5 (face=3.1mm) n=[325, 325, 340, 340, 19, 19]  tape=0.233km B=9.55T unif=8.410% hoop=82MPa
+  [  11] INFEAS f=1000.118  a=22.0 b=28.9 gap=13.5 (face=3.0mm) n=[289, 289, 348, 348, 17, 17]  no evaluation (geometry pre-check)
+  [  12] INFEAS f=1000.508  a=21.7 b=29.3 gap=14.9 (face=5.8mm) n=[330, 330, 348, 348, 20, 20]  no evaluation (geometry pre-check)
+  [  13] INFEAS f=1026.154  a=22.3 b=28.4 gap=13.5 (face=3.1mm) n=[315, 315, 428, 428, 1, 1]  no evaluation (geometry pre-check)
+  [  14] INFEAS f=1082.723  a=22.6 b=26.2 gap=13.6 (face=3.2mm) n=[312, 312, 373, 373, 14, 14]  no evaluation (geometry pre-check)
+  [  15] INFEAS f=1048.217  a=23.5 b=27.4 gap=13.6 (face=3.1mm) n=[321, 321, 369, 369, 19, 19]  no evaluation (geometry pre-check)
+  [  16] viol   f=   1.790  a=22.2 b=28.0 gap=13.6 (face=3.3mm) n=[300, 300, 382, 382, 15, 15]  tape=0.241km B=9.12T unif=1.908% hoop=92MPa
+  [  17] viol   f=   1.922  a=22.6 b=28.4 gap=13.5 (face=3.0mm) n=[296, 296, 382, 382, 37, 37]  tape=0.254km B=9.09T unif=0.772% hoop=96MPa
+  [  18] viol   f=   2.454  a=22.8 b=29.1 gap=14.1 (face=4.1mm) n=[307, 307, 356, 356, 6, 6]  tape=0.234km B=8.95T unif=4.181% hoop=88MPa
+  [a=23 b=29 nt=1318] KSP converged reason: 4, iterations: 1
+  [a=24 b=29 nt=1328] KSP converged reason: 4, iterations: 1
+  [  19] INFEAS f=1001.505  a=21.6 b=28.8 gap=14.1 (face=4.3mm) n=[328, 328, 382, 382, 23, 23]  no evaluation (geometry pre-check)
+  [  20] INFEAS f=1008.941  a=21.8 b=26.3 gap=13.6 (face=3.3mm) n=[324, 324, 353, 353, 21, 21]  no evaluation (geometry pre-check)
+  [  21] INFEAS f=1019.373  a=23.6 b=27.9 gap=13.6 (face=3.2mm) n=[306, 306, 365, 365, 4, 4]  no evaluation (geometry pre-check)
+  [  22] viol   f=   3.331  a=22.6 b=28.7 gap=13.6 (face=3.2mm) n=[293, 293, 361, 361, 5, 5]  tape=0.230km B=8.75T unif=2.101% hoop=89MPa
+  [  23] INFEAS f=1001.888  a=23.2 b=28.0 gap=14.5 (face=4.9mm) n=[337, 337, 381, 381, 40, 40]  no evaluation (geometry pre-check)
+  [  24] INFEAS f=1002.469  a=21.8 b=30.1 gap=14.7 (face=5.4mm) n=[345, 345, 390, 390, 42, 42]  no evaluation (geometry pre-check)
+  [  25] INFEAS f=1004.921  a=22.9 b=27.5 gap=13.5 (face=3.0mm) n=[303, 303, 376, 376, 14, 14]  no evaluation (geometry pre-check)
+  [  26] viol   f=   1.542  a=23.8 b=29.1 gap=13.5 (face=3.1mm) n=[331, 331, 331, 331, 2, 2]  tape=0.227km B=9.19T unif=6.700% hoop=83MPa
+  [  27] INFEAS f=1000.508  a=21.7 b=27.2 gap=13.5 (face=3.1mm) n=[285, 285, 356, 356, 5, 5]  no evaluation (geometry pre-check)
+  [a=23 b=29 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1420] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1354] KSP converged reason: 4, iterations: 1
+  [a=24 b=30 nt=1354] KSP converged reason: 4, iterations: 1
+  [a=24 b=31 nt=1284] KSP converged reason: 4, iterations: 1
+  [a=24 b=30 nt=1330] KSP converged reason: 4, iterations: 1
+  [  28] viol   f=   0.476  a=22.3 b=28.4 gap=15.6 (face=7.1mm) n=[350, 350, 350, 350, 10, 10]  tape=0.235km B=9.65T unif=2.874% hoop=77MPa
+  [  29] INFEAS f=1000.597  a=21.7 b=28.4 gap=14.1 (face=4.3mm) n=[311, 311, 349, 349, 38, 38]  no evaluation (geometry pre-check)
+  [  30] INFEAS f=1018.610  a=23.7 b=28.0 gap=13.6 (face=3.1mm) n=[330, 330, 389, 389, 2, 2]  no evaluation (geometry pre-check)
+  [  31] viol   f=   3.951  a=23.9 b=30.5 gap=13.7 (face=3.4mm) n=[295, 295, 332, 332, 15, 15]  tape=0.234km B=8.64T unif=3.781% hoop=94MPa
+  [  32] viol   f=   1.772  a=22.6 b=29.3 gap=14.0 (face=4.1mm) n=[318, 318, 366, 366, 8, 8]  tape=0.242km B=9.13T unif=5.072% hoop=85MPa
+  [  33] viol   f=   1.816  a=24.3 b=29.6 gap=13.6 (face=3.1mm) n=[325, 325, 347, 347, 5, 5]  tape=0.240km B=9.11T unif=4.419% hoop=90MPa
+  [  34] INFEAS f=1000.653  a=23.9 b=28.8 gap=13.6 (face=3.3mm) n=[317, 317, 330, 330, 31, 31]  no evaluation (geometry pre-check)
+  [  35] viol   f=   0.931  a=23.0 b=30.3 gap=13.5 (face=3.0mm) n=[334, 334, 335, 335, 8, 8]  tape=0.237km B=9.41T unif=3.096% hoop=83MPa
+  [  36] viol   f=   2.602  a=23.9 b=30.3 gap=13.5 (face=3.1mm) n=[311, 311, 340, 340, 14, 14]  tape=0.240km B=8.91T unif=3.425% hoop=89MPa
+  [a=22 b=30 nt=1476] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1402] KSP converged reason: 4, iterations: 1
+  [a=22 b=29 nt=1362] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=24 b=30 nt=1344] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1286] KSP converged reason: 4, iterations: 1
+  [a=23 b=31 nt=1354] KSP converged reason: 4, iterations: 1
+  [  37] viol   f=   1.350  a=22.7 b=28.8 gap=13.9 (face=3.8mm) n=[322, 322, 317, 317, 4, 4]  tape=0.216km B=9.25T unif=10.822% hoop=78MPa
+  [  38] viol   f=   0.663  a=22.3 b=28.7 gap=13.7 (face=3.3mm) n=[326, 326, 348, 348, 7, 7]  tape=0.230km B=9.53T unif=8.634% hoop=81MPa
+  [  39] viol   f=   1.646  a=23.6 b=30.3 gap=13.7 (face=3.4mm) n=[326, 326, 332, 332, 14, 14]  tape=0.239km B=9.16T unif=6.572% hoop=84MPa
+  [  40] INFEAS f=1000.053  a=22.0 b=29.2 gap=18.9 (face=13.8mm) n=[377, 377, 388, 388, 20, 20]  no evaluation (geometry pre-check)
+  [  41] viol   f=   0.483  a=22.5 b=29.6 gap=15.4 (face=6.7mm) n=[356, 356, 364, 364, 18, 18]  tape=0.255km B=9.66T unif=3.386% hoop=77MPa
+  [  42] INFEAS f=1013.971  a=24.4 b=28.8 gap=14.7 (face=5.3mm) n=[361, 361, 335, 335, 47, 47]  no evaluation (geometry pre-check)
+  [  43] viol   f=   0.568  a=23.0 b=30.4 gap=14.3 (face=4.5mm) n=[354, 354, 328, 328, 15, 15]  tape=0.249km B=9.60T unif=9.612% hoop=80MPa
+  [  44] viol   f=   0.242  a=22.6 b=28.1 gap=14.6 (face=5.3mm) n=[358, 358, 341, 341, 2, 2]  tape=0.233km B=9.93T unif=7.567% hoop=76MPa
+  [  45] viol   f=   1.688  a=22.7 b=30.7 gap=13.5 (face=3.1mm) n=[324, 324, 339, 339, 14, 14]  tape=0.241km B=9.15T unif=3.686% hoop=81MPa
+  [a=22 b=29 nt=1548] KSP converged reason: 4, iterations: 1
+  [a=22 b=29 nt=1480] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1454] KSP converged reason: 4, iterations: 1
+  [a=23 b=31 nt=1444] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1364] KSP converged reason: 4, iterations: 1
+  [a=23 b=31 nt=1526] KSP converged reason: 4, iterations: 1
+  [  46] viol   f=   4.533  a=23.5 b=30.1 gap=19.5 (face=15.0mm) n=[374, 374, 284, 284, 24, 24]  tape=0.253km B=8.54T unif=5.365% hoop=89MPa
+  [  47] OK     f=   0.256  a=23.0 b=28.9 gap=15.4 (face=6.7mm) n=[385, 385, 327, 327, 15, 15]  tape=0.256km B=10.37T unif=5.713% hoop=83MPa
+  [  48] INFEAS f=1001.999  a=21.8 b=30.2 gap=13.8 (face=3.6mm) n=[391, 391, 366, 366, 22, 22]  no evaluation (geometry pre-check)
+  [  49] OK     f=   0.266  a=22.3 b=28.6 gap=14.2 (face=4.4mm) n=[380, 380, 355, 355, 39, 39]  tape=0.266km B=10.77T unif=11.100% hoop=79MPa
+  [  50] viol   f=   0.283  a=22.5 b=31.3 gap=15.3 (face=6.5mm) n=[375, 375, 334, 334, 13, 13]  tape=0.264km B=9.90T unif=7.768% hoop=77MPa
+  [  51] INFEAS f=1022.524  a=22.8 b=27.0 gap=13.8 (face=3.5mm) n=[351, 351, 357, 357, 31, 31]  no evaluation (geometry pre-check)
+  [  52] viol   f=   2.725  a=22.5 b=28.8 gap=19.5 (face=14.9mm) n=[383, 383, 350, 350, 7, 7]  tape=0.253km B=8.89T unif=10.490% hoop=75MPa
+  [  53] OK     f=   0.270  a=22.6 b=30.7 gap=13.6 (face=3.3mm) n=[372, 372, 370, 370, 21, 21]  tape=0.270km B=10.33T unif=10.902% hoop=81MPa
+  [  54] INFEAS f=1112.524  a=23.0 b=26.4 gap=14.8 (face=5.5mm) n=[305, 305, 380, 380, 4, 4]  no evaluation (geometry pre-check)
+  [a=24 b=30 nt=1472] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1448] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1422] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1368] KSP converged reason: 4, iterations: 1
+  [a=25 b=30 nt=1424] KSP converged reason: 4, iterations: 1
+  [a=23 b=31 nt=1400] KSP converged reason: 4, iterations: 1
+  [  55] viol   f=   1.896  a=24.6 b=30.3 gap=17.7 (face=11.3mm) n=[359, 359, 309, 309, 44, 44]  tape=0.266km B=9.10T unif=1.918% hoop=94MPa
+  [  56] viol   f=   0.747  a=23.3 b=29.6 gap=13.5 (face=3.0mm) n=[340, 340, 321, 321, 23, 23]  tape=0.241km B=9.50T unif=5.599% hoop=85MPa
+  [  57] INFEAS f=1002.202  a=23.5 b=28.2 gap=16.1 (face=8.2mm) n=[337, 337, 316, 316, 37, 37]  no evaluation (geometry pre-check)
+  [  58] INFEAS f=1001.118  a=24.9 b=29.7 gap=15.6 (face=7.1mm) n=[455, 455, 346, 346, 24, 24]  no evaluation (geometry pre-check)
+  [  59] viol   f=   1.812  a=22.7 b=29.2 gap=16.2 (face=8.3mm) n=[343, 343, 361, 361, 7, 7]  tape=0.244km B=9.11T unif=1.760% hoop=78MPa
+  [  60] OK     f=   0.265  a=24.4 b=29.6 gap=14.9 (face=5.9mm) n=[389, 389, 340, 340, 7, 7]  tape=0.265km B=10.08T unif=6.810% hoop=86MPa
+  [  61] INFEAS f=1017.300  a=23.5 b=27.8 gap=14.2 (face=4.5mm) n=[323, 323, 352, 352, 45, 45]  no evaluation (geometry pre-check)
+  [  62] OK     f=   0.247  a=23.0 b=28.5 gap=14.0 (face=4.0mm) n=[360, 360, 343, 343, 21, 21]  tape=0.247km B=10.04T unif=9.310% hoop=80MPa
+  [  63] viol   f=   1.302  a=23.1 b=31.2 gap=13.5 (face=3.1mm) n=[328, 328, 336, 336, 36, 36]  tape=0.255km B=9.28T unif=3.450% hoop=83MPa
+  [a=24 b=30 nt=1454] KSP converged reason: 4, iterations: 1
+  [a=24 b=29 nt=1484] KSP converged reason: 4, iterations: 1
+  [a=24 b=30 nt=1542] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=24 b=30 nt=1360] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1492] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1472] KSP converged reason: 4, iterations: 1
+  [  64] OK     f=   0.269  a=23.6 b=29.0 gap=13.8 (face=3.6mm) n=[423, 423, 316, 316, 3, 3]  tape=0.269km B=10.64T unif=7.139% hoop=89MPa
+  [  65] INFEAS f=1019.213  a=24.3 b=28.6 gap=14.7 (face=5.5mm) n=[377, 377, 309, 309, 34, 34]  no evaluation (geometry pre-check)
+  [  66] viol   f=   0.262  a=23.8 b=30.5 gap=14.6 (face=5.2mm) n=[369, 369, 305, 305, 6, 6]  tape=0.250km B=9.92T unif=10.678% hoop=90MPa
+  [  67] OK     f=   0.271  a=24.1 b=29.6 gap=13.5 (face=3.1mm) n=[425, 425, 299, 299, 3, 3]  tape=0.271km B=10.36T unif=10.039% hoop=93MPa
+  [  68] OK     f=   0.277  a=23.5 b=30.1 gap=13.8 (face=3.7mm) n=[385, 385, 359, 359, 27, 27]  tape=0.277km B=10.38T unif=12.863% hoop=83MPa
+  [  69] INFEAS f=1055.873  a=24.6 b=28.4 gap=13.7 (face=3.3mm) n=[339, 339, 314, 314, 15, 15]  no evaluation (geometry pre-check)
+  [  70] viol   f=   0.263  a=22.9 b=28.1 gap=14.2 (face=4.4mm) n=[340, 340, 331, 331, 21, 21]  tape=0.232km B=9.88T unif=11.023% hoop=81MPa
+  [  71] OK     f=   0.267  a=23.1 b=30.2 gap=13.6 (face=3.2mm) n=[371, 371, 350, 350, 25, 25]  tape=0.267km B=10.09T unif=7.936% hoop=82MPa
+  [  72] OK     f=   0.258  a=23.0 b=29.7 gap=13.7 (face=3.4mm) n=[350, 350, 356, 356, 30, 30]  tape=0.258km B=10.03T unif=10.878% hoop=84MPa
+  [a=24 b=30 nt=1532] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1334] KSP converged reason: 4, iterations: 1
+  [a=22 b=29 nt=1430] KSP converged reason: 4, iterations: 1
+  [a=24 b=30 nt=1372] KSP converged reason: 4, iterations: 1
+  [a=25 b=31 nt=1422] KSP converged reason: 4, iterations: 1
+  [a=24 b=31 nt=1372] KSP converged reason: 4, iterations: 1
+  [a=25 b=31 nt=1368] KSP converged reason: 4, iterations: 1
+  [  73] viol   f=   0.447  a=22.4 b=29.2 gap=13.6 (face=3.1mm) n=[331, 331, 357, 357, 27, 27]  tape=0.249km B=9.69T unif=7.044% hoop=83MPa
+  [  74] INFEAS f=1000.830  a=23.5 b=28.3 gap=14.8 (face=5.6mm) n=[359, 359, 331, 331, 20, 20]  no evaluation (geometry pre-check)
+  [  75] INFEAS f=1000.000  a=22.2 b=29.1 gap=13.7 (face=3.4mm) n=[368, 368, 327, 327, 10, 10]  no evaluation (geometry pre-check)
+  [  76] viol   f=   2.290  a=24.9 b=31.0 gap=16.4 (face=8.7mm) n=[343, 343, 348, 348, 20, 20]  tape=0.261km B=8.99T unif=2.042% hoop=88MPa
+  [  77] viol   f=   1.542  a=23.0 b=28.2 gap=13.7 (face=3.4mm) n=[310, 310, 350, 350, 7, 7]  tape=0.227km B=9.19T unif=6.090% hoop=89MPa
+  [  78] viol   f=   0.961  a=24.3 b=29.9 gap=13.7 (face=3.3mm) n=[333, 333, 317, 317, 36, 36]  tape=0.248km B=9.40T unif=6.803% hoop=90MPa
+  [  79] viol   f=   1.390  a=23.8 b=31.0 gap=13.6 (face=3.3mm) n=[329, 329, 321, 321, 36, 36]  tape=0.251km B=9.25T unif=4.262% hoop=86MPa
+  [  80] OK     f=   0.280  a=23.8 b=29.5 gap=13.9 (face=3.9mm) n=[399, 399, 334, 334, 33, 33]  tape=0.280km B=10.65T unif=7.912% hoop=90MPa
+  [  81] viol   f=   1.215  a=24.6 b=31.4 gap=13.6 (face=3.1mm) n=[341, 341, 314, 314, 29, 29]  tape=0.257km B=9.31T unif=5.001% hoop=91MPa
+  [a=23 b=29 nt=1474] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1518] KSP converged reason: 4, iterations: 1
+  [a=25 b=31 nt=1534] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1458] KSP converged reason: 4, iterations: 1
+  [a=24 b=29 nt=1366] KSP converged reason: 4, iterations: 1
+  [a=23 b=31 nt=1520] KSP converged reason: 4, iterations: 1
+  [a=25 b=30 nt=1542] KSP converged reason: 4, iterations: 1
+  [  82] OK     f=   0.290  a=24.8 b=30.6 gap=13.6 (face=3.2mm) n=[378, 378, 333, 333, 56, 56]  tape=0.290km B=10.15T unif=7.724% hoop=92MPa
+  [  83] viol   f=   0.483  a=23.4 b=30.9 gap=13.5 (face=3.0mm) n=[339, 339, 366, 366, 55, 55]  tape=0.281km B=9.68T unif=3.471% hoop=87MPa
+  [  84] INFEAS f=1000.957  a=23.2 b=28.0 gap=13.7 (face=3.4mm) n=[368, 368, 348, 348, 14, 14]  no evaluation (geometry pre-check)
+  [  85] OK     f=   0.269  a=22.6 b=29.3 gap=14.8 (face=5.7mm) n=[365, 365, 335, 335, 59, 59]  tape=0.269km B=10.37T unif=7.002% hoop=83MPa
+  [  86] viol   f=   0.486  a=23.8 b=29.4 gap=13.5 (face=3.0mm) n=[364, 364, 308, 308, 11, 11]  tape=0.245km B=9.65T unif=4.060% hoop=87MPa
+  [  87] INFEAS f=1024.214  a=25.0 b=29.2 gap=13.7 (face=3.4mm) n=[363, 363, 312, 312, 50, 50]  no evaluation (geometry pre-check)
+  [  88] viol   f=   0.308  a=23.4 b=29.9 gap=14.0 (face=3.9mm) n=[360, 360, 343, 343, 26, 26]  tape=0.260km B=9.84T unif=8.871% hoop=81MPa
+  [  89] OK     f=   0.258  a=23.3 b=28.7 gap=15.1 (face=6.3mm) n=[376, 376, 338, 338, 23, 23]  tape=0.258km B=10.18T unif=5.683% hoop=81MPa
+  [  90] OK     f=   0.294  a=24.8 b=30.3 gap=14.4 (face=4.8mm) n=[405, 405, 325, 325, 41, 41]  tape=0.294km B=10.54T unif=10.388% hoop=91MPa
+  [a=23 b=28 nt=1516] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1536] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1510] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1498] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1474] KSP converged reason: 4, iterations: 1
+  [a=24 b=31 nt=1414] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1492] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1506] KSP converged reason: 4, iterations: 1
+  [  91] viol   f=   0.715  a=24.1 b=31.1 gap=15.2 (face=6.4mm) n=[365, 365, 325, 325, 17, 17]  tape=0.262km B=9.52T unif=5.642% hoop=83MPa
+  [  92] OK     f=   0.260  a=22.6 b=27.6 gap=14.3 (face=4.6mm) n=[389, 389, 333, 333, 36, 36]  tape=0.260km B=11.00T unif=10.055% hoop=81MPa
+  [  93] OK     f=   0.262  a=22.9 b=28.5 gap=14.0 (face=3.9mm) n=[353, 353, 329, 329, 67, 67]  tape=0.262km B=10.24T unif=11.313% hoop=82MPa
+  [  94] INFEAS f=1012.574  a=23.6 b=28.0 gap=14.3 (face=4.5mm) n=[352, 352, 338, 338, 28, 28]  no evaluation (geometry pre-check)
+  [  95] viol   f=   0.285  a=23.2 b=29.7 gap=15.7 (face=7.4mm) n=[354, 354, 335, 335, 66, 66]  tape=0.271km B=9.92T unif=2.890% hoop=83MPa
+  [  96] OK     f=   0.277  a=23.5 b=29.4 gap=15.0 (face=6.1mm) n=[393, 393, 283, 283, 61, 61]  tape=0.277km B=10.66T unif=8.374% hoop=94MPa
+  [  97] viol   f=   0.320  a=22.3 b=27.8 gap=16.8 (face=9.6mm) n=[346, 346, 353, 353, 69, 69]  tape=0.259km B=9.83T unif=5.188% hoop=80MPa
+  [  98] viol   f=   0.445  a=23.4 b=29.7 gap=16.2 (face=8.4mm) n=[375, 375, 352, 352, 19, 19]  tape=0.264km B=9.70T unif=2.639% hoop=78MPa
+  [  99] OK     f=   0.269  a=22.9 b=28.8 gap=14.7 (face=5.4mm) n=[400, 400, 325, 325, 28, 28]  tape=0.269km B=11.02T unif=8.778% hoop=87MPa
+  [a=23 b=29 nt=1452] KSP converged reason: 4, iterations: 1
+  [ 100] INFEAS f=1005.270  a=21.3 b=26.4 gap=15.7 (face=7.4mm) n=[381, 381, 308, 308, 54, 54]  no evaluation (geometry pre-check)
+  [ 101] INFEAS f=1020.594  a=25.3 b=29.6 gap=14.5 (face=5.0mm) n=[355, 355, 348, 348, 38, 38]  no evaluation (geometry pre-check)
+  [ 102] INFEAS f=1014.822  a=23.4 b=27.8 gap=16.5 (face=9.0mm) n=[381, 381, 324, 324, 48, 48]  no evaluation (geometry pre-check)
+  [ 103] OK     f=   0.260  a=23.0 b=29.2 gap=13.8 (face=3.6mm) n=[399, 399, 318, 318, 9, 9]  tape=0.260km B=10.80T unif=10.726% hoop=90MPa
+  [ 104] INFEAS f=1000.016  a=22.7 b=27.6 gap=13.9 (face=3.7mm) n=[387, 387, 331, 331, 62, 62]  no evaluation (geometry pre-check)
+  [ 105] INFEAS f=1013.267  a=22.4 b=27.2 gap=13.6 (face=3.2mm) n=[419, 419, 301, 301, 44, 44]  no evaluation (geometry pre-check)
+  [ 106] INFEAS f=1028.646  a=23.5 b=27.6 gap=15.9 (face=7.8mm) n=[416, 416, 296, 296, 44, 44]  no evaluation (geometry pre-check)
+  [ 107] INFEAS f=1000.002  a=22.2 b=29.5 gap=14.2 (face=4.5mm) n=[357, 357, 347, 347, 51, 51]  no evaluation (geometry pre-check)
+  [ 108] INFEAS f=1003.877  a=23.8 b=29.6 gap=15.0 (face=6.1mm) n=[446, 446, 305, 305, 43, 43]  no evaluation (geometry pre-check)
+  [a=23 b=28 nt=1544] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1496] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1490] KSP converged reason: 4, iterations: 1
+  [a=22 b=29 nt=1410] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1510] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1428] KSP converged reason: 4, iterations: 1
+  [ 109] OK     f=   0.273  a=23.4 b=28.4 gap=13.7 (face=3.3mm) n=[413, 413, 343, 343, 16, 16]  tape=0.273km B=10.86T unif=12.286% hoop=86MPa
+  [ 110] INFEAS f=1003.710  a=22.1 b=28.6 gap=13.9 (face=3.9mm) n=[402, 402, 351, 351, 22, 22]  no evaluation (geometry pre-check)
+  [ 111] OK     f=   0.266  a=23.1 b=29.0 gap=13.5 (face=3.0mm) n=[369, 369, 330, 330, 49, 49]  tape=0.266km B=10.28T unif=8.279% hoop=85MPa
+  [ 112] INFEAS f=1000.127  a=22.5 b=28.4 gap=15.5 (face=6.9mm) n=[403, 403, 346, 346, 26, 26]  no evaluation (geometry pre-check)
+  [ 113] viol   f=   0.334  a=22.8 b=30.2 gap=13.9 (face=3.9mm) n=[349, 349, 360, 360, 5, 5]  tape=0.250km B=9.79T unif=7.551% hoop=81MPa
+  [ 114] INFEAS f=1002.167  a=22.3 b=29.0 gap=14.4 (face=4.9mm) n=[405, 405, 327, 327, 19, 19]  no evaluation (geometry pre-check)
+  [ 115] OK     f=   0.267  a=23.1 b=29.1 gap=14.4 (face=4.8mm) n=[386, 386, 325, 325, 34, 34]  tape=0.267km B=10.54T unif=8.467% hoop=84MPa
+  [ 116] viol   f=   0.258  a=22.2 b=28.6 gap=14.2 (face=4.3mm) n=[348, 348, 330, 330, 27, 27]  tape=0.239km B=9.90T unif=12.574% hoop=77MPa
+  [ 117] OK     f=   0.276  a=22.8 b=29.8 gap=13.8 (face=3.6mm) n=[376, 376, 321, 321, 58, 58]  tape=0.276km B=10.47T unif=10.132% hoop=86MPa
+  [a=23 b=29 nt=1468] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1416] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1424] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1470] KSP converged reason: 4, iterations: 1
+  [a=22 b=29 nt=1472] KSP converged reason: 4, iterations: 1
+  [a=24 b=29 nt=1454] KSP converged reason: 4, iterations: 1
+  [a=23 b=30 nt=1418] KSP converged reason: 4, iterations: 1
+  [ 118] OK     f=   0.256  a=23.7 b=29.3 gap=13.8 (face=3.6mm) n=[358, 358, 341, 341, 28, 28]  tape=0.256km B=10.05T unif=11.909% hoop=86MPa
+  [ 119] OK     f=   0.259  a=23.1 b=29.2 gap=13.8 (face=3.5mm) n=[381, 381, 336, 336, 17, 17]  tape=0.259km B=10.44T unif=13.280% hoop=83MPa
+  [ 120] OK     f=   0.248  a=22.3 b=27.6 gap=13.6 (face=3.1mm) n=[356, 356, 332, 332, 47, 47]  tape=0.248km B=10.60T unif=13.501% hoop=82MPa
+  [ 121] OK     f=   0.243  a=22.5 b=28.1 gap=13.7 (face=3.3mm) n=[367, 367, 317, 317, 24, 24]  tape=0.243km B=10.36T unif=12.292% hoop=83MPa
+  [ 122] viol   f=   0.300  a=22.6 b=29.1 gap=13.9 (face=3.7mm) n=[346, 346, 330, 330, 36, 36]  tape=0.247km B=9.84T unif=12.196% hoop=79MPa
+  [ 123] INFEAS f=1001.496  a=21.3 b=28.5 gap=14.1 (face=4.2mm) n=[363, 363, 322, 322, 3, 3]  no evaluation (geometry pre-check)
+  [ 124] OK     f=   0.252  a=22.3 b=28.8 gap=13.5 (face=3.1mm) n=[360, 360, 343, 343, 33, 33]  tape=0.252km B=10.17T unif=9.894% hoop=79MPa
+  [ 125] viol   f=   0.877  a=22.8 b=29.8 gap=13.5 (face=3.0mm) n=[330, 330, 335, 335, 44, 44]  tape=0.249km B=9.44T unif=5.765% hoop=81MPa
+  [ 126] INFEAS f=1000.531  a=21.7 b=27.8 gap=13.5 (face=3.0mm) n=[337, 337, 333, 333, 69, 69]  no evaluation (geometry pre-check)
+  [a=23 b=28 nt=1520] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1470] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1374] KSP converged reason: 4, iterations: 1
+  [a=24 b=29 nt=1446] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1424] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1448] KSP converged reason: 4, iterations: 1
+  [ 127] OK     f=   0.262  a=22.7 b=27.8 gap=13.6 (face=3.3mm) n=[385, 385, 336, 336, 39, 39]  tape=0.262km B=10.84T unif=13.616% hoop=83MPa
+  [ 128] viol   f=   0.260  a=23.7 b=29.1 gap=13.5 (face=3.1mm) n=[356, 356, 334, 334, 33, 33]  tape=0.255km B=9.95T unif=11.041% hoop=84MPa
+  [ 129] INFEAS f=1015.325  a=22.5 b=26.8 gap=14.1 (face=4.2mm) n=[369, 369, 315, 315, 46, 46]  no evaluation (geometry pre-check)
+  [ 130] viol   f=   0.411  a=23.0 b=28.6 gap=13.6 (face=3.2mm) n=[356, 356, 316, 316, 15, 15]  tape=0.238km B=9.71T unif=8.090% hoop=83MPa
+  [ 131] OK     f=   0.249  a=23.0 b=28.1 gap=13.9 (face=3.8mm) n=[346, 346, 327, 327, 51, 51]  tape=0.249km B=10.13T unif=13.416% hoop=83MPa
+  [ 132] INFEAS f=1000.107  a=22.0 b=27.5 gap=14.3 (face=4.6mm) n=[355, 355, 318, 318, 44, 44]  no evaluation (geometry pre-check)
+  [ 133] INFEAS f=1000.535  a=21.9 b=26.8 gap=13.9 (face=3.8mm) n=[333, 333, 338, 338, 53, 53]  no evaluation (geometry pre-check)
+  [ 134] OK     f=   0.256  a=22.7 b=27.7 gap=13.8 (face=3.6mm) n=[380, 380, 312, 312, 43, 43]  tape=0.256km B=10.58T unif=12.068% hoop=86MPa
+  [ 135] viol   f=   0.285  a=22.6 b=28.9 gap=13.5 (face=3.0mm) n=[348, 348, 346, 346, 18, 18]  tape=0.241km B=9.85T unif=13.050% hoop=78MPa
+  [a=23 b=29 nt=1486] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1440] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1456] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1476] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1352] KSP converged reason: 4, iterations: 1
+  [ 136] viol   f=   0.357  a=22.4 b=28.1 gap=14.4 (face=4.9mm) n=[332, 332, 360, 360, 28, 28]  tape=0.244km B=9.76T unif=8.106% hoop=81MPa
+  [ 137] INFEAS f=1000.000  a=22.4 b=27.4 gap=13.6 (face=3.3mm) n=[369, 369, 341, 341, 45, 45]  no evaluation (geometry pre-check)
+  [ 138] INFEAS f=1002.931  a=23.3 b=28.0 gap=13.5 (face=3.0mm) n=[346, 346, 314, 314, 54, 54]  no evaluation (geometry pre-check)
+  [ 139] INFEAS f=1010.524  a=22.6 b=27.1 gap=13.5 (face=3.1mm) n=[333, 333, 319, 319, 59, 59]  no evaluation (geometry pre-check)
+  [ 140] INFEAS f=1000.299  a=23.2 b=28.1 gap=14.4 (face=4.8mm) n=[377, 377, 327, 327, 34, 34]  no evaluation (geometry pre-check)
+  [ 141] OK     f=   0.266  a=23.5 b=29.3 gap=14.3 (face=4.6mm) n=[387, 387, 334, 334, 22, 22]  tape=0.266km B=10.62T unif=10.896% hoop=86MPa
+  [ 142] viol   f=   0.921  a=23.0 b=28.9 gap=13.6 (face=3.2mm) n=[333, 333, 328, 328, 15, 15]  tape=0.231km B=9.41T unif=10.789% hoop=80MPa
+  [ 143] OK     f=   0.253  a=22.5 b=28.1 gap=14.0 (face=4.1mm) n=[358, 358, 331, 331, 49, 49]  tape=0.253km B=10.54T unif=11.186% hoop=82MPa
+  [ 144] OK     f=   0.256  a=23.1 b=28.5 gap=13.5 (face=3.0mm) n=[364, 364, 320, 320, 44, 44]  tape=0.256km B=10.22T unif=9.625% hoop=85MPa
+  [a=22 b=28 nt=1480] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1494] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1434] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1400] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1432] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1438] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1412] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1512] KSP converged reason: 4, iterations: 1
+  [ 145] OK     f=   0.252  a=22.3 b=28.1 gap=13.9 (face=3.9mm) n=[365, 365, 335, 335, 40, 40]  tape=0.252km B=10.65T unif=12.610% hoop=81MPa
+  [ 146] viol   f=   0.334  a=22.9 b=29.3 gap=13.5 (face=3.0mm) n=[355, 355, 328, 328, 17, 17]  tape=0.244km B=9.79T unif=10.142% hoop=81MPa
+  [ 147] OK     f=   0.251  a=22.2 b=27.6 gap=13.7 (face=3.3mm) n=[370, 370, 340, 340, 37, 37]  tape=0.251km B=10.65T unif=13.941% hoop=80MPa
+  [ 148] OK     f=   0.243  a=22.8 b=27.9 gap=13.8 (face=3.6mm) n=[356, 356, 331, 331, 30, 30]  tape=0.243km B=10.34T unif=11.993% hoop=83MPa
+  [ 149] viol   f=   0.277  a=22.7 b=28.7 gap=13.6 (face=3.2mm) n=[343, 343, 350, 350, 26, 26]  tape=0.245km B=9.87T unif=11.104% hoop=81MPa
+  [ 150] OK     f=   0.252  a=22.9 b=28.6 gap=14.4 (face=4.9mm) n=[368, 368, 315, 315, 33, 33]  tape=0.252km B=10.46T unif=10.022% hoop=85MPa
+  [ 151] viol   f=   0.265  a=23.3 b=28.5 gap=13.6 (face=3.1mm) n=[351, 351, 336, 336, 19, 19]  tape=0.242km B=9.89T unif=10.346% hoop=85MPa
+  [ 152] INFEAS f=1000.002  a=22.2 b=28.3 gap=13.9 (face=3.8mm) n=[358, 358, 346, 346, 39, 39]  no evaluation (geometry pre-check)
+  [ 153] OK     f=   0.265  a=22.8 b=28.0 gap=14.6 (face=5.2mm) n=[369, 369, 321, 321, 66, 66]  tape=0.265km B=10.71T unif=8.219% hoop=86MPa
+  [a=22 b=28 nt=1422] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1438] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1444] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1498] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1452] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1482] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1444] KSP converged reason: 4, iterations: 1
+  [ 154] OK     f=   0.256  a=23.0 b=28.1 gap=14.1 (face=4.3mm) n=[371, 371, 333, 333, 37, 37]  tape=0.256km B=10.62T unif=10.362% hoop=83MPa
+  [ 155] OK     f=   0.239  a=22.5 b=27.9 gap=13.8 (face=3.7mm) n=[371, 371, 333, 333, 7, 7]  tape=0.239km B=10.55T unif=12.620% hoop=81MPa
+  [ 156] OK     f=   0.239  a=22.4 b=27.6 gap=14.3 (face=4.6mm) n=[361, 361, 343, 343, 18, 18]  tape=0.239km B=10.38T unif=8.372% hoop=79MPa
+  [ 157] INFEAS f=1000.000  a=22.2 b=27.3 gap=13.9 (face=3.7mm) n=[347, 347, 333, 333, 14, 14]  no evaluation (geometry pre-check)
+  [ 158] OK     f=   0.268  a=22.9 b=28.6 gap=14.1 (face=4.1mm) n=[394, 394, 316, 316, 39, 39]  tape=0.268km B=10.84T unif=8.509% hoop=88MPa
+  [ 159] OK     f=   0.247  a=22.2 b=28.2 gap=13.8 (face=3.7mm) n=[362, 362, 334, 334, 30, 30]  tape=0.247km B=10.19T unif=11.868% hoop=78MPa
+  [ 160] OK     f=   0.253  a=23.0 b=29.1 gap=14.2 (face=4.3mm) n=[374, 374, 327, 327, 18, 18]  tape=0.253km B=10.50T unif=12.576% hoop=87MPa
+  [ 161] INFEAS f=1016.946  a=22.6 b=26.9 gap=14.2 (face=4.3mm) n=[373, 373, 322, 322, 36, 36]  no evaluation (geometry pre-check)
+  [ 162] OK     f=   0.245  a=22.4 b=28.0 gap=13.7 (face=3.4mm) n=[382, 382, 329, 329, 11, 11]  tape=0.245km B=10.45T unif=12.379% hoop=81MPa
+  [a=22 b=28 nt=1446] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1492] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1402] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1440] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1428] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1468] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1424] KSP converged reason: 4, iterations: 1
+  [ 163] OK     f=   0.246  a=22.8 b=28.1 gap=13.5 (face=3.0mm) n=[361, 361, 331, 331, 28, 28]  tape=0.246km B=10.31T unif=12.397% hoop=83MPa
+  [ 164] INFEAS f=1000.001  a=22.2 b=27.7 gap=13.6 (face=3.3mm) n=[367, 367, 339, 339, 5, 5]  no evaluation (geometry pre-check)
+  [ 165] OK     f=   0.242  a=22.5 b=28.1 gap=13.7 (face=3.5mm) n=[362, 362, 345, 345, 16, 16]  tape=0.242km B=10.30T unif=12.262% hoop=79MPa
+  [ 166] OK     f=   0.248  a=22.3 b=27.6 gap=14.3 (face=4.7mm) n=[367, 367, 351, 351, 28, 28]  tape=0.248km B=10.69T unif=9.490% hoop=80MPa
+  [ 167] OK     f=   0.239  a=22.2 b=27.8 gap=13.9 (face=3.9mm) n=[358, 358, 333, 333, 23, 23]  tape=0.239km B=10.37T unif=12.251% hoop=79MPa
+  [ 168] OK     f=   0.235  a=22.5 b=27.6 gap=14.1 (face=4.3mm) n=[367, 367, 323, 323, 11, 11]  tape=0.235km B=10.37T unif=12.620% hoop=79MPa
+  [ 169] OK     f=   0.229  a=22.5 b=27.7 gap=14.4 (face=4.8mm) n=[356, 356, 339, 339, 2, 2]  tape=0.229km B=10.27T unif=9.629% hoop=79MPa
+  [ 170] OK     f=   0.247  a=22.6 b=28.3 gap=13.9 (face=3.8mm) n=[360, 360, 350, 350, 24, 24]  tape=0.247km B=10.53T unif=12.809% hoop=81MPa
+  [ 171] OK     f=   0.241  a=22.4 b=27.7 gap=14.3 (face=4.6mm) n=[387, 387, 322, 322, 3, 3]  tape=0.241km B=10.86T unif=9.856% hoop=84MPa
+  [a=23 b=29 nt=1430] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1380] KSP converged reason: 4, iterations: 1
+  [ 172] viol   f=   0.266  a=22.8 b=28.1 gap=14.3 (face=4.6mm) n=[339, 339, 347, 347, 10, 10]  tape=0.232km B=9.87T unif=11.174% hoop=80MPa
+  [ 173] viol   f=   0.478  a=23.1 b=28.9 gap=14.6 (face=5.1mm) n=[338, 338, 333, 333, 19, 19]  tape=0.236km B=9.65T unif=9.163% hoop=80MPa
+  [ 174] INFEAS f=1001.209  a=22.3 b=27.1 gap=14.8 (face=5.6mm) n=[379, 379, 332, 332, 13, 13]  no evaluation (geometry pre-check)
+  [ 175] INFEAS f=1007.965  a=22.6 b=27.2 gap=13.8 (face=3.7mm) n=[358, 358, 337, 337, 6, 6]  no evaluation (geometry pre-check)
+  [ 176] INFEAS f=1001.571  a=21.5 b=26.7 gap=14.6 (face=5.3mm) n=[380, 380, 327, 327, 28, 28]  no evaluation (geometry pre-check)
+  [ 177] INFEAS f=1001.075  a=21.8 b=26.7 gap=14.3 (face=4.7mm) n=[340, 340, 356, 356, 16, 16]  no evaluation (geometry pre-check)
+  [ 178] viol   f=   0.266  a=23.1 b=28.9 gap=14.0 (face=3.9mm) n=[363, 363, 333, 333, 19, 19]  tape=0.249km B=9.91T unif=9.626% hoop=80MPa
+  [ 179] INFEAS f=1002.968  a=22.0 b=26.7 gap=14.4 (face=4.8mm) n=[373, 373, 325, 325, 17, 17]  no evaluation (geometry pre-check)
+  [ 180] INFEAS f=1000.626  a=22.1 b=27.6 gap=14.6 (face=5.2mm) n=[395, 395, 320, 320, 5, 5]  no evaluation (geometry pre-check)
+  [a=23 b=29 nt=1488] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1428] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1404] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1426] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1424] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [ 181] viol   f=   0.234  a=22.4 b=28.1 gap=13.8 (face=3.7mm) n=[356, 356, 332, 332, 11, 11]  tape=0.234km B=9.99T unif=12.038% hoop=77MPa
+  [ 182] INFEAS f=1000.102  a=22.4 b=27.4 gap=14.0 (face=4.0mm) n=[358, 358, 328, 328, 4, 4]  no evaluation (geometry pre-check)
+  [ 183] OK     f=   0.243  a=23.0 b=28.5 gap=14.5 (face=5.0mm) n=[367, 367, 322, 322, 13, 13]  tape=0.243km B=10.10T unif=9.274% hoop=81MPa
+  [ 184] INFEAS f=1006.515  a=22.9 b=27.5 gap=13.5 (face=3.0mm) n=[342, 342, 361, 361, 22, 22]  no evaluation (geometry pre-check)
+  [ 185] OK     f=   0.246  a=23.0 b=28.6 gap=13.5 (face=3.1mm) n=[364, 364, 334, 334, 16, 16]  tape=0.246km B=10.07T unif=8.696% hoop=82MPa
+  [ 186] INFEAS f=1000.016  a=22.1 b=27.4 gap=14.1 (face=4.2mm) n=[367, 367, 341, 341, 2, 2]  no evaluation (geometry pre-check)
+  [ 187] viol   f=   0.622  a=22.8 b=29.0 gap=15.2 (face=6.4mm) n=[336, 336, 351, 351, 25, 25]  tape=0.246km B=9.57T unif=5.228% hoop=82MPa
+  [ 188] viol   f=   0.294  a=22.7 b=28.2 gap=15.2 (face=6.5mm) n=[359, 359, 351, 351, 3, 3]  tape=0.237km B=9.83T unif=4.554% hoop=76MPa
+  [ 189] OK     f=   0.262  a=22.6 b=28.6 gap=13.9 (face=3.8mm) n=[383, 383, 325, 325, 36, 36]  tape=0.262km B=10.75T unif=10.893% hoop=85MPa
+  [a=22 b=28 nt=1436] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1432] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1422] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1438] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1414] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1432] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1452] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1408] KSP converged reason: 4, iterations: 1
+  [ 190] OK     f=   0.242  a=22.4 b=28.2 gap=13.7 (face=3.5mm) n=[365, 365, 328, 328, 18, 18]  tape=0.242km B=10.33T unif=12.796% hoop=81MPa
+  [ 191] viol   f=   0.307  a=23.0 b=29.1 gap=14.2 (face=4.4mm) n=[362, 362, 344, 344, 1, 1]  tape=0.242km B=9.82T unif=9.514% hoop=78MPa
+  [ 192] OK     f=   0.247  a=22.3 b=28.4 gap=13.9 (face=3.9mm) n=[377, 377, 324, 324, 17, 17]  tape=0.247km B=10.61T unif=11.693% hoop=82MPa
+  [ 193] OK     f=   0.244  a=22.7 b=28.2 gap=13.6 (face=3.2mm) n=[363, 363, 332, 332, 21, 21]  tape=0.244km B=10.12T unif=11.059% hoop=80MPa
+  [ 194] viol   f=   0.346  a=22.8 b=29.1 gap=13.7 (face=3.4mm) n=[346, 346, 337, 337, 6, 6]  tape=0.234km B=9.76T unif=14.264% hoop=79MPa
+  [ 195] OK     f=   0.245  a=23.0 b=28.1 gap=13.9 (face=3.7mm) n=[360, 360, 335, 335, 24, 24]  tape=0.245km B=10.15T unif=8.916% hoop=81MPa
+  [ 196] OK     f=   0.242  a=22.5 b=28.4 gap=13.7 (face=3.4mm) n=[375, 375, 340, 340, 1, 1]  tape=0.242km B=10.38T unif=12.436% hoop=80MPa
+  [ 197] OK     f=   0.246  a=22.9 b=28.3 gap=14.7 (face=5.3mm) n=[372, 372, 345, 345, 9, 9]  tape=0.246km B=10.23T unif=8.564% hoop=78MPa
+  [ 198] OK     f=   0.237  a=22.4 b=28.1 gap=13.6 (face=3.1mm) n=[366, 366, 332, 332, 6, 6]  tape=0.237km B=10.10T unif=7.757% hoop=79MPa
+  [a=22 b=29 nt=1452] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1396] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1438] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1522] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1422] KSP converged reason: 4, iterations: 1
+  [ 199] INFEAS f=1000.044  a=22.1 b=28.1 gap=13.5 (face=3.1mm) n=[376, 376, 326, 326, 11, 11]  no evaluation (geometry pre-check)
+  [ 200] OK     f=   0.234  a=22.3 b=28.1 gap=14.1 (face=4.3mm) n=[363, 363, 330, 330, 5, 5]  tape=0.234km B=10.38T unif=12.966% hoop=79MPa
+  [ 201] INFEAS f=1000.063  a=22.0 b=27.8 gap=13.7 (face=3.3mm) n=[358, 358, 332, 332, 31, 31]  no evaluation (geometry pre-check)
+  [ 202] OK     f=   0.248  a=22.6 b=28.6 gap=14.2 (face=4.4mm) n=[384, 384, 330, 330, 5, 5]  tape=0.248km B=10.41T unif=8.681% hoop=81MPa
+  [ 203] INFEAS f=1000.004  a=22.2 b=28.2 gap=13.7 (face=3.4mm) n=[364, 364, 336, 336, 12, 12]  no evaluation (geometry pre-check)
+  [ 204] INFEAS f=1000.360  a=21.8 b=27.6 gap=13.5 (face=3.1mm) n=[364, 364, 334, 334, 4, 4]  no evaluation (geometry pre-check)
+  [ 205] OK     f=   0.252  a=22.4 b=28.8 gap=13.6 (face=3.3mm) n=[378, 378, 331, 331, 17, 17]  tape=0.252km B=10.37T unif=8.083% hoop=82MPa
+  [ 206] OK     f=   0.238  a=22.7 b=28.2 gap=13.7 (face=3.3mm) n=[356, 356, 345, 345, 10, 10]  tape=0.238km B=10.11T unif=10.319% hoop=80MPa
+  [ 207] OK     f=   0.263  a=22.4 b=28.4 gap=14.0 (face=4.0mm) n=[378, 378, 344, 344, 39, 39]  tape=0.263km B=10.42T unif=10.672% hoop=77MPa
+  [a=23 b=28 nt=1438] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1474] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1468] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1462] KSP converged reason: 4, iterations: 1
+  [a=22 b=29 nt=1428] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1406] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1424] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1464] KSP converged reason: 4, iterations: 1
+  [ 208] viol   f=   0.237  a=22.7 b=28.3 gap=13.6 (face=3.2mm) n=[355, 355, 346, 346, 2, 2]  tape=0.234km B=9.96T unif=9.224% hoop=79MPa
+  [ 209] OK     f=   0.261  a=22.7 b=29.0 gap=14.9 (face=5.8mm) n=[392, 392, 327, 327, 18, 18]  tape=0.261km B=10.53T unif=5.982% hoop=81MPa
+  [ 210] OK     f=   0.252  a=22.7 b=28.5 gap=14.0 (face=3.9mm) n=[384, 384, 336, 336, 11, 11]  tape=0.252km B=10.51T unif=8.062% hoop=81MPa
+  [ 211] OK     f=   0.245  a=22.6 b=27.8 gap=14.0 (face=4.1mm) n=[390, 390, 323, 323, 6, 6]  tape=0.245km B=10.87T unif=10.740% hoop=85MPa
+  [ 212] OK     f=   0.247  a=22.3 b=28.8 gap=14.5 (face=5.0mm) n=[378, 378, 325, 325, 11, 11]  tape=0.247km B=10.41T unif=8.179% hoop=79MPa
+  [ 213] OK     f=   0.254  a=22.6 b=28.5 gap=14.4 (face=4.7mm) n=[382, 382, 336, 336, 16, 16]  tape=0.254km B=10.67T unif=9.466% hoop=82MPa
+  [ 214] INFEAS f=1000.004  a=22.2 b=28.5 gap=14.3 (face=4.5mm) n=[367, 367, 335, 335, 6, 6]  no evaluation (geometry pre-check)
+  [ 215] OK     f=   0.238  a=22.3 b=28.0 gap=14.4 (face=4.8mm) n=[361, 361, 338, 338, 13, 13]  tape=0.238km B=10.23T unif=8.737% hoop=77MPa
+  [ 216] OK     f=   0.248  a=22.5 b=28.1 gap=13.7 (face=3.4mm) n=[368, 368, 339, 339, 25, 25]  tape=0.248km B=10.39T unif=10.827% hoop=80MPa
+  [a=23 b=29 nt=1422] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1428] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1428] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1412] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1414] KSP converged reason: 4, iterations: 1
+  [a=22 b=29 nt=1396] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1416] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1446] KSP converged reason: 4, iterations: 1
+  [ 217] OK     f=   0.241  a=22.6 b=28.3 gap=13.6 (face=3.1mm) n=[358, 358, 340, 340, 16, 16]  tape=0.241km B=10.10T unif=9.929% hoop=79MPa
+  [ 218] OK     f=   0.233  a=22.7 b=27.7 gap=14.4 (face=4.9mm) n=[345, 345, 348, 348, 14, 14]  tape=0.233km B=10.05T unif=9.022% hoop=79MPa
+  [ 219] viol   f=   0.305  a=22.5 b=28.6 gap=13.6 (face=3.2mm) n=[357, 357, 338, 338, 3, 3]  tape=0.235km B=9.81T unif=8.185% hoop=78MPa
+  [ 220] OK     f=   0.247  a=22.7 b=29.0 gap=13.9 (face=3.9mm) n=[377, 377, 329, 329, 5, 5]  tape=0.247km B=10.48T unif=13.296% hoop=82MPa
+  [ 221] OK     f=   0.240  a=22.6 b=28.2 gap=13.8 (face=3.5mm) n=[359, 359, 340, 340, 15, 15]  tape=0.240km B=10.13T unif=9.292% hoop=79MPa
+  [ 222] OK     f=   0.237  a=22.6 b=27.9 gap=14.0 (face=4.0mm) n=[358, 358, 332, 332, 16, 16]  tape=0.237km B=10.08T unif=9.330% hoop=79MPa
+  [ 223] INFEAS f=1000.037  a=22.1 b=27.5 gap=14.7 (face=5.4mm) n=[363, 363, 343, 343, 22, 22]  no evaluation (geometry pre-check)
+  [ 224] OK     f=   0.237  a=22.5 b=28.0 gap=14.2 (face=4.3mm) n=[365, 365, 336, 336, 7, 7]  tape=0.237km B=10.12T unif=8.375% hoop=76MPa
+  [ 225] OK     f=   0.244  a=22.6 b=27.7 gap=14.4 (face=4.7mm) n=[375, 375, 333, 333, 15, 15]  tape=0.244km B=10.70T unif=10.175% hoop=82MPa
+  [a=23 b=28 nt=1418] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1446] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1410] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1404] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1390] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1430] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1468] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1448] KSP converged reason: 4, iterations: 1
+  [ 226] OK     f=   0.240  a=22.7 b=28.3 gap=14.0 (face=4.0mm) n=[361, 361, 338, 338, 10, 10]  tape=0.240km B=10.04T unif=11.050% hoop=78MPa
+  [ 227] viol   f=   0.241  a=22.8 b=27.9 gap=14.9 (face=5.9mm) n=[344, 344, 342, 342, 16, 16]  tape=0.232km B=9.93T unif=6.669% hoop=79MPa
+  [ 228] viol   f=   0.470  a=22.5 b=27.6 gap=14.9 (face=5.8mm) n=[334, 334, 345, 345, 9, 9]  tape=0.226km B=9.65T unif=6.357% hoop=78MPa
+  [ 229] OK     f=   0.235  a=22.6 b=28.1 gap=13.5 (face=3.0mm) n=[349, 349, 340, 340, 16, 16]  tape=0.235km B=10.02T unif=11.447% hoop=81MPa
+  [ 230] viol   f=   0.256  a=23.2 b=28.2 gap=14.5 (face=5.0mm) n=[361, 361, 344, 344, 18, 18]  tape=0.245km B=9.93T unif=8.470% hoop=77MPa
+  [ 231] OK     f=   0.230  a=22.8 b=27.9 gap=14.7 (face=5.4mm) n=[350, 350, 338, 338, 7, 7]  tape=0.230km B=10.01T unif=7.258% hoop=78MPa
+  [ 232] OK     f=   0.242  a=22.3 b=27.7 gap=14.2 (face=4.4mm) n=[354, 354, 353, 353, 27, 27]  tape=0.242km B=10.45T unif=9.111% hoop=78MPa
+  [ 233] OK     f=   0.249  a=23.1 b=28.6 gap=13.8 (face=3.6mm) n=[363, 363, 324, 324, 28, 28]  tape=0.249km B=10.33T unif=12.574% hoop=87MPa
+  [ 234] OK     f=   0.239  a=22.4 b=27.8 gap=14.5 (face=5.0mm) n=[356, 356, 349, 349, 19, 19]  tape=0.239km B=10.26T unif=7.473% hoop=78MPa
+  [a=23 b=28 nt=1422] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1406] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1432] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1400] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1374] KSP converged reason: 4, iterations: 1
+  [ 235] OK     f=   0.235  a=22.3 b=28.1 gap=14.3 (face=4.6mm) n=[365, 365, 335, 335, 3, 3]  tape=0.235km B=10.12T unif=10.737% hoop=77MPa
+  [ 236] OK     f=   0.228  a=22.5 b=28.0 gap=13.6 (face=3.2mm) n=[344, 344, 344, 344, 6, 6]  tape=0.228km B=10.01T unif=17.042% hoop=79MPa
+  [ 237] INFEAS f=1000.033  a=22.1 b=27.1 gap=14.0 (face=4.1mm) n=[354, 354, 349, 349, 12, 12]  no evaluation (geometry pre-check)
+  [ 238] OK     f=   0.238  a=22.7 b=28.1 gap=14.3 (face=4.5mm) n=[355, 355, 339, 339, 17, 17]  tape=0.238km B=10.06T unif=9.218% hoop=78MPa
+  [ 239] OK     f=   0.233  a=22.7 b=28.1 gap=14.3 (face=4.6mm) n=[348, 348, 341, 341, 11, 11]  tape=0.233km B=10.06T unif=10.402% hoop=78MPa
+  [ 240] OK     f=   0.241  a=22.8 b=28.0 gap=14.0 (face=4.0mm) n=[355, 355, 338, 338, 23, 23]  tape=0.241km B=10.12T unif=9.579% hoop=80MPa
+  [ 241] INFEAS f=1000.152  a=22.5 b=27.4 gap=14.4 (face=4.8mm) n=[365, 365, 347, 347, 9, 9]  no evaluation (geometry pre-check)
+  [ 242] viol   f=   0.471  a=22.7 b=28.2 gap=13.9 (face=3.9mm) n=[341, 341, 335, 335, 11, 11]  tape=0.229km B=9.65T unif=11.319% hoop=77MPa
+  [ 243] INFEAS f=1001.441  a=22.8 b=27.6 gap=14.5 (face=5.1mm) n=[345, 345, 344, 344, 15, 15]  no evaluation (geometry pre-check)
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1408] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1396] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1404] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1412] KSP converged reason: 4, iterations: 1
+  [ 244] viol   f=   0.236  a=22.7 b=28.2 gap=13.7 (face=3.4mm) n=[348, 348, 343, 343, 1, 1]  tape=0.229km B=9.94T unif=12.048% hoop=79MPa
+  [ 245] INFEAS f=1000.016  a=22.1 b=27.9 gap=13.7 (face=3.3mm) n=[357, 357, 332, 332, 9, 9]  no evaluation (geometry pre-check)
+  [ 246] viol   f=   0.342  a=22.8 b=28.3 gap=14.4 (face=4.8mm) n=[353, 353, 334, 334, 2, 2]  tape=0.231km B=9.76T unif=9.145% hoop=77MPa
+  [ 247] OK     f=   0.235  a=22.6 b=28.2 gap=14.0 (face=3.9mm) n=[367, 367, 324, 324, 2, 2]  tape=0.235km B=10.16T unif=10.276% hoop=79MPa
+  [ 248] viol   f=   0.232  a=22.8 b=28.3 gap=13.9 (face=3.8mm) n=[348, 348, 346, 346, 4, 4]  tape=0.231km B=9.99T unif=13.170% hoop=79MPa
+  [ 249] viol   f=   0.325  a=22.6 b=28.4 gap=14.0 (face=4.1mm) n=[352, 352, 334, 334, 3, 3]  tape=0.231km B=9.78T unif=9.950% hoop=77MPa
+  [ 250] OK     f=   0.235  a=22.8 b=28.4 gap=13.8 (face=3.6mm) n=[347, 347, 347, 347, 10, 10]  tape=0.235km B=10.25T unif=15.994% hoop=83MPa
+  [ 251] OK     f=   0.233  a=22.3 b=28.1 gap=13.9 (face=3.8mm) n=[353, 353, 338, 338, 11, 11]  tape=0.233km B=10.04T unif=9.774% hoop=78MPa
+  [ 252] viol   f=   0.239  a=23.0 b=28.2 gap=14.3 (face=4.6mm) n=[349, 349, 344, 344, 13, 13]  tape=0.237km B=9.96T unif=10.325% hoop=79MPa
+  [a=23 b=29 nt=1432] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1374] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1432] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1390] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1444] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1400] KSP converged reason: 4, iterations: 1
+  [ 253] OK     f=   0.230  a=22.6 b=28.4 gap=13.9 (face=3.8mm) n=[347, 347, 346, 346, 3, 3]  tape=0.230km B=10.04T unif=15.292% hoop=79MPa
+  [ 254] OK     f=   0.228  a=22.7 b=28.4 gap=13.9 (face=3.9mm) n=[340, 340, 346, 346, 1, 1]  tape=0.228km B=10.03T unif=14.853% hoop=83MPa
+  [ 255] OK     f=   0.243  a=22.9 b=28.7 gap=13.8 (face=3.5mm) n=[354, 354, 347, 347, 15, 15]  tape=0.243km B=10.14T unif=12.367% hoop=80MPa
+  [ 256] viol   f=   0.337  a=22.9 b=28.2 gap=13.6 (face=3.1mm) n=[342, 342, 338, 338, 8, 8]  tape=0.229km B=9.77T unif=13.905% hoop=79MPa
+  [ 257] OK     f=   0.240  a=22.5 b=28.4 gap=13.9 (face=3.8mm) n=[344, 344, 349, 349, 23, 23]  tape=0.240km B=10.23T unif=12.620% hoop=81MPa
+  [ 258] viol   f=   0.435  a=23.0 b=28.4 gap=14.0 (face=3.9mm) n=[337, 337, 353, 353, 5, 5]  tape=0.234km B=9.68T unif=12.825% hoop=81MPa
+  [ 259] OK     f=   0.245  a=22.5 b=28.4 gap=13.8 (face=3.5mm) n=[370, 370, 341, 341, 11, 11]  tape=0.245km B=10.31T unif=13.004% hoop=78MPa
+  [ 260] viol   f=   0.254  a=22.6 b=28.3 gap=14.5 (face=5.0mm) n=[352, 352, 339, 339, 2, 2]  tape=0.231km B=9.89T unif=8.014% hoop=77MPa
+  [ 261] viol   f=   0.319  a=22.8 b=28.5 gap=14.1 (face=4.2mm) n=[350, 350, 335, 335, 15, 15]  tape=0.238km B=9.80T unif=13.385% hoop=78MPa
+  [a=23 b=28 nt=1422] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1426] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1406] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=22 b=28 nt=1430] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1374] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1410] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1390] KSP converged reason: 4, iterations: 1
+  [ 262] OK     f=   0.238  a=22.5 b=28.2 gap=14.3 (face=4.6mm) n=[347, 347, 350, 350, 18, 18]  tape=0.238km B=10.27T unif=10.200% hoop=80MPa
+  [ 263] viol   f=   0.350  a=22.6 b=28.5 gap=14.2 (face=4.4mm) n=[336, 336, 345, 345, 10, 10]  tape=0.232km B=9.76T unif=11.268% hoop=80MPa
+  [ 264] OK     f=   0.239  a=22.8 b=28.5 gap=13.9 (face=3.7mm) n=[349, 349, 352, 352, 12, 12]  tape=0.239km B=10.08T unif=15.446% hoop=81MPa
+  [ 265] OK     f=   0.239  a=22.7 b=28.4 gap=14.0 (face=4.0mm) n=[355, 355, 343, 343, 13, 13]  tape=0.239km B=10.18T unif=10.448% hoop=80MPa
+  [ 266] OK     f=   0.235  a=22.8 b=28.3 gap=14.0 (face=3.9mm) n=[352, 352, 343, 343, 8, 8]  tape=0.235km B=10.10T unif=12.058% hoop=79MPa
+  [ 267] viol   f=   0.354  a=22.8 b=28.7 gap=13.9 (face=3.8mm) n=[338, 338, 347, 347, 2, 2]  tape=0.231km B=9.75T unif=13.743% hoop=81MPa
+  [ 268] viol   f=   0.379  a=22.9 b=28.5 gap=13.8 (face=3.5mm) n=[349, 349, 336, 336, 9, 9]  tape=0.234km B=9.73T unif=16.197% hoop=77MPa
+  [ 269] viol   f=   0.346  a=22.6 b=28.7 gap=13.8 (face=3.6mm) n=[334, 334, 357, 357, 14, 14]  tape=0.241km B=9.77T unif=11.095% hoop=84MPa
+  [ 270] OK     f=   0.231  a=22.7 b=28.3 gap=13.7 (face=3.5mm) n=[341, 341, 345, 345, 9, 9]  tape=0.231km B=10.18T unif=17.876% hoop=84MPa
+  [a=23 b=28 nt=1432] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1396] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1400] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1406] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1444] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1408] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1422] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1426] KSP converged reason: 4, iterations: 1
+  [ 271] OK     f=   0.244  a=22.8 b=28.5 gap=14.2 (face=4.4mm) n=[347, 347, 351, 351, 24, 24]  tape=0.244km B=10.17T unif=11.774% hoop=82MPa
+  [ 272] viol   f=   0.238  a=22.7 b=28.4 gap=13.8 (face=3.6mm) n=[341, 341, 349, 349, 1, 1]  tape=0.230km B=9.94T unif=14.077% hoop=81MPa
+  [ 273] OK     f=   0.233  a=22.7 b=28.1 gap=14.0 (face=4.1mm) n=[352, 352, 340, 340, 8, 8]  tape=0.233km B=10.13T unif=11.100% hoop=79MPa
+  [ 274] viol   f=   0.243  a=22.6 b=28.1 gap=13.8 (face=3.6mm) n=[340, 340, 351, 351, 7, 7]  tape=0.232km B=9.92T unif=17.080% hoop=81MPa
+  [ 275] viol   f=   0.254  a=22.7 b=28.7 gap=13.9 (face=3.9mm) n=[336, 336, 354, 354, 13, 13]  tape=0.239km B=9.91T unif=12.357% hoop=83MPa
+  [ 276] OK     f=   0.239  a=22.9 b=28.3 gap=14.0 (face=4.0mm) n=[351, 351, 353, 353, 12, 12]  tape=0.239km B=10.15T unif=10.462% hoop=80MPa
+  [ 277] viol   f=   0.242  a=22.6 b=28.2 gap=13.8 (face=3.6mm) n=[342, 342, 349, 349, 13, 13]  tape=0.235km B=9.94T unif=13.420% hoop=80MPa
+  [ 278] viol   f=   0.240  a=22.7 b=28.5 gap=13.8 (face=3.5mm) n=[356, 356, 346, 346, 9, 9]  tape=0.239km B=9.99T unif=10.522% hoop=79MPa
+  [ 279] OK     f=   0.238  a=22.6 b=28.3 gap=13.9 (face=3.8mm) n=[356, 356, 346, 346, 11, 11]  tape=0.238km B=10.19T unif=11.624% hoop=78MPa
+  [a=23 b=28 nt=1412] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1410] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1406] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1404] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1414] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1400] KSP converged reason: 4, iterations: 1
+  [ 280] viol   f=   0.291  a=22.8 b=28.4 gap=14.0 (face=4.1mm) n=[357, 357, 341, 341, 7, 7]  tape=0.237km B=9.84T unif=9.828% hoop=78MPa
+  [ 281] OK     f=   0.233  a=22.7 b=28.2 gap=14.1 (face=4.2mm) n=[341, 341, 343, 343, 15, 15]  tape=0.233km B=10.12T unif=11.783% hoop=82MPa
+  [ 282] OK     f=   0.237  a=22.8 b=28.5 gap=13.9 (face=3.9mm) n=[358, 358, 342, 342, 3, 3]  tape=0.237km B=10.12T unif=9.844% hoop=81MPa
+  [ 283] viol   f=   0.259  a=22.8 b=28.2 gap=14.0 (face=4.0mm) n=[349, 349, 347, 347, 6, 6]  tape=0.233km B=9.89T unif=11.638% hoop=77MPa
+  [ 284] OK     f=   0.235  a=22.8 b=28.3 gap=14.1 (face=4.1mm) n=[354, 354, 348, 348, 4, 4]  tape=0.235km B=10.06T unif=10.936% hoop=78MPa
+  [ 285] OK     f=   0.232  a=22.7 b=28.3 gap=13.9 (face=3.8mm) n=[345, 345, 343, 343, 9, 9]  tape=0.232km B=10.03T unif=16.087% hoop=80MPa
+  [ 286] viol   f=   0.387  a=22.8 b=28.3 gap=13.9 (face=3.8mm) n=[340, 340, 351, 351, 5, 5]  tape=0.233km B=9.72T unif=12.995% hoop=81MPa
+  [ 287] viol   f=   0.239  a=22.9 b=28.3 gap=13.8 (face=3.6mm) n=[352, 352, 349, 349, 6, 6]  tape=0.235km B=9.96T unif=10.734% hoop=78MPa
+  [ 288] viol   f=   0.250  a=22.9 b=28.5 gap=13.7 (face=3.4mm) n=[350, 350, 340, 340, 10, 10]  tape=0.236km B=9.92T unif=12.518% hoop=80MPa
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1400] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1402] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1404] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1418] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1402] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1406] KSP converged reason: 4, iterations: 1
+  [ 289] viol   f=   0.278  a=22.9 b=28.5 gap=14.0 (face=4.0mm) n=[358, 358, 341, 341, 3, 3]  tape=0.237km B=9.86T unif=9.798% hoop=78MPa
+  [ 290] OK     f=   0.229  a=22.7 b=28.3 gap=13.9 (face=3.8mm) n=[345, 345, 344, 344, 4, 4]  tape=0.229km B=10.22T unif=15.061% hoop=82MPa
+  [ 291] viol   f=   0.238  a=22.7 b=28.5 gap=13.9 (face=3.8mm) n=[355, 355, 341, 341, 3, 3]  tape=0.234km B=9.96T unif=9.889% hoop=79MPa
+  [ 292] OK     f=   0.234  a=22.8 b=28.2 gap=14.1 (face=4.3mm) n=[348, 348, 341, 341, 12, 12]  tape=0.234km B=10.06T unif=10.885% hoop=80MPa
+  [ 293] viol   f=   0.232  a=22.9 b=28.3 gap=13.9 (face=3.9mm) n=[344, 344, 346, 346, 7, 7]  tape=0.232km B=9.99T unif=14.188% hoop=81MPa
+  [ 294] OK     f=   0.233  a=22.6 b=28.2 gap=13.9 (face=3.8mm) n=[350, 350, 341, 341, 9, 9]  tape=0.233km B=10.10T unif=10.709% hoop=80MPa
+  [ 295] OK     f=   0.237  a=22.6 b=28.4 gap=14.0 (face=4.0mm) n=[346, 346, 347, 347, 16, 16]  tape=0.237km B=10.27T unif=13.986% hoop=81MPa
+  [ 296] OK     f=   0.235  a=22.7 b=28.5 gap=14.0 (face=4.0mm) n=[343, 343, 344, 344, 14, 14]  tape=0.235km B=10.05T unif=12.687% hoop=81MPa
+  [ 297] OK     f=   0.235  a=22.5 b=28.3 gap=14.0 (face=3.9mm) n=[348, 348, 342, 342, 13, 13]  tape=0.235km B=10.13T unif=14.398% hoop=79MPa
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1400] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [ 298] viol   f=   0.234  a=22.7 b=28.1 gap=13.9 (face=3.8mm) n=[350, 350, 344, 344, 6, 6]  tape=0.232km B=9.96T unif=9.905% hoop=78MPa
+  [ 299] viol   f=   0.242  a=22.8 b=28.1 gap=13.8 (face=3.5mm) n=[343, 343, 345, 345, 4, 4]  tape=0.229km B=9.92T unif=13.625% hoop=80MPa
+  [ 300] OK     f=   0.232  a=22.7 b=28.3 gap=14.1 (face=4.1mm) n=[345, 345, 346, 346, 8, 8]  tape=0.232km B=10.17T unif=12.721% hoop=82MPa
+  [ 301] viol   f=   0.245  a=22.7 b=28.3 gap=14.0 (face=4.0mm) n=[356, 356, 338, 338, 5, 5]  tape=0.235km B=9.93T unif=9.829% hoop=77MPa
+  [ 302] OK     f=   0.230  a=22.8 b=28.3 gap=13.7 (face=3.4mm) n=[341, 341, 347, 347, 3, 3]  tape=0.230km B=10.07T unif=16.076% hoop=83MPa
+  [ 303] OK     f=   0.229  a=22.7 b=28.2 gap=13.9 (face=3.9mm) n=[347, 347, 347, 347, 2, 2]  tape=0.229km B=10.02T unif=15.016% hoop=79MPa
+  [ 304] OK     f=   0.229  a=22.8 b=28.3 gap=13.9 (face=3.8mm) n=[341, 341, 344, 344, 3, 3]  tape=0.229km B=10.05T unif=15.402% hoop=82MPa
+  [ 305] viol   f=   0.239  a=22.8 b=28.5 gap=14.1 (face=4.1mm) n=[352, 352, 341, 341, 6, 6]  tape=0.235km B=9.96T unif=11.722% hoop=78MPa
+  [ 306] OK     f=   0.232  a=22.7 b=28.1 gap=13.8 (face=3.7mm) n=[353, 353, 342, 342, 4, 4]  tape=0.232km B=10.04T unif=10.319% hoop=79MPa
+  [a=23 b=28 nt=1366] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1396] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1402] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1390] KSP converged reason: 4, iterations: 1
+  [ 307] viol   f=   0.243  a=22.5 b=28.1 gap=14.1 (face=4.2mm) n=[338, 338, 345, 345, 6, 6]  tape=0.228km B=9.91T unif=13.754% hoop=80MPa
+  [ 308] OK     f=   0.232  a=22.8 b=28.4 gap=13.7 (face=3.4mm) n=[349, 349, 346, 346, 3, 3]  tape=0.232km B=10.13T unif=15.037% hoop=81MPa
+  [ 309] viol   f=   0.261  a=22.8 b=28.1 gap=14.1 (face=4.2mm) n=[341, 341, 348, 348, 7, 7]  tape=0.231km B=9.88T unif=12.733% hoop=80MPa
+  [ 310] viol   f=   0.451  a=22.8 b=28.5 gap=13.9 (face=3.7mm) n=[333, 333, 347, 347, 3, 3]  tape=0.229km B=9.67T unif=12.291% hoop=82MPa
+  [ 311] viol   f=   0.252  a=22.8 b=28.4 gap=13.9 (face=3.8mm) n=[342, 342, 348, 348, 4, 4]  tape=0.232km B=9.90T unif=14.402% hoop=81MPa
+  [ 312] OK     f=   0.230  a=22.8 b=28.4 gap=13.8 (face=3.5mm) n=[338, 338, 347, 347, 3, 3]  tape=0.230km B=10.01T unif=16.034% hoop=83MPa
+  [ 313] OK     f=   0.234  a=22.9 b=28.4 gap=13.9 (face=3.9mm) n=[347, 347, 346, 346, 8, 8]  tape=0.234km B=10.10T unif=14.612% hoop=80MPa
+  [ 314] viol   f=   0.460  a=22.7 b=28.2 gap=14.1 (face=4.3mm) n=[337, 337, 347, 347, 5, 5]  tape=0.229km B=9.66T unif=12.159% hoop=80MPa
+  [ 315] viol   f=   0.256  a=22.7 b=28.0 gap=14.1 (face=4.2mm) n=[345, 345, 341, 341, 9, 9]  tape=0.230km B=9.89T unif=11.424% hoop=77MPa
+  [a=23 b=28 nt=1390] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1408] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1400] KSP converged reason: 4, iterations: 1
+  [ 316] OK     f=   0.231  a=22.8 b=28.3 gap=13.8 (face=3.5mm) n=[343, 343, 347, 347, 5, 5]  tape=0.231km B=10.17T unif=16.476% hoop=83MPa
+  [ 317] viol   f=   0.234  a=22.8 b=28.3 gap=13.8 (face=3.7mm) n=[350, 350, 345, 345, 1, 1]  tape=0.231km B=9.96T unif=11.246% hoop=79MPa
+  [ 318] viol   f=   0.246  a=22.7 b=28.3 gap=13.8 (face=3.6mm) n=[341, 341, 349, 349, 9, 9]  tape=0.233km B=9.92T unif=14.434% hoop=80MPa
+  [ 319] viol   f=   0.242  a=22.8 b=28.5 gap=13.7 (face=3.3mm) n=[344, 344, 348, 348, 5, 5]  tape=0.233km B=9.93T unif=15.669% hoop=81MPa
+  [ 320] viol   f=   0.258  a=22.9 b=28.5 gap=13.9 (face=3.8mm) n=[337, 337, 348, 348, 7, 7]  tape=0.233km B=9.89T unif=13.520% hoop=83MPa
+  [ 321] OK     f=   0.234  a=22.9 b=28.4 gap=13.6 (face=3.2mm) n=[344, 344, 345, 345, 10, 10]  tape=0.234km B=10.15T unif=17.132% hoop=84MPa
+  [ 322] OK     f=   0.235  a=22.8 b=28.5 gap=13.8 (face=3.5mm) n=[348, 348, 348, 348, 8, 8]  tape=0.235km B=10.23T unif=16.426% hoop=83MPa
+  [ 323] viol   f=   0.432  a=22.9 b=28.3 gap=13.8 (face=3.6mm) n=[340, 340, 351, 351, 5, 5]  tape=0.233km B=9.68T unif=12.877% hoop=81MPa
+  [ 324] OK     f=   0.236  a=22.8 b=28.5 gap=13.8 (face=3.6mm) n=[340, 340, 347, 347, 13, 13]  tape=0.236km B=10.03T unif=14.685% hoop=83MPa
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [ 325] OK     f=   0.231  a=22.9 b=28.4 gap=13.8 (face=3.6mm) n=[340, 340, 347, 347, 4, 4]  tape=0.231km B=10.06T unif=16.241% hoop=84MPa
+  [ 326] OK     f=   0.234  a=22.9 b=28.5 gap=13.6 (face=3.1mm) n=[343, 343, 347, 347, 7, 7]  tape=0.234km B=10.00T unif=13.060% hoop=84MPa
+  [ 327] OK     f=   0.229  a=22.7 b=28.3 gap=13.7 (face=3.5mm) n=[346, 346, 343, 343, 3, 3]  tape=0.229km B=10.00T unif=16.883% hoop=80MPa
+  [ 328] viol   f=   0.233  a=22.9 b=28.4 gap=13.7 (face=3.4mm) n=[340, 340, 347, 347, 5, 5]  tape=0.232km B=9.97T unif=16.247% hoop=83MPa
+  [ 329] viol   f=   0.346  a=23.0 b=28.4 gap=13.6 (face=3.1mm) n=[343, 343, 341, 341, 6, 6]  tape=0.230km B=9.76T unif=11.605% hoop=80MPa
+  [ 330] OK     f=   0.234  a=23.0 b=28.5 gap=13.7 (face=3.4mm) n=[348, 348, 347, 347, 4, 4]  tape=0.234km B=10.05T unif=16.858% hoop=82MPa
+  [ 331] viol   f=   0.233  a=22.9 b=28.5 gap=13.7 (face=3.4mm) n=[340, 340, 346, 346, 5, 5]  tape=0.231km B=9.97T unif=14.787% hoop=83MPa
+  [ 332] OK     f=   0.233  a=22.9 b=28.5 gap=13.6 (face=3.2mm) n=[343, 343, 345, 345, 8, 8]  tape=0.233km B=10.05T unif=14.937% hoop=83MPa
+  [ 333] OK     f=   0.231  a=22.8 b=28.3 gap=13.8 (face=3.6mm) n=[345, 345, 346, 346, 5, 5]  tape=0.231km B=10.17T unif=14.943% hoop=82MPa
+  [a=23 b=28 nt=1374] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1390] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1390] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1394] KSP converged reason: 4, iterations: 1
+  [ 334] OK     f=   0.231  a=22.8 b=28.3 gap=13.8 (face=3.6mm) n=[344, 344, 346, 346, 5, 5]  tape=0.231km B=10.15T unif=14.384% hoop=84MPa
+  [ 335] OK     f=   0.231  a=22.7 b=28.4 gap=13.6 (face=3.3mm) n=[344, 344, 345, 345, 6, 6]  tape=0.231km B=10.04T unif=13.141% hoop=82MPa
+  [ 336] OK     f=   0.232  a=22.9 b=28.3 gap=13.8 (face=3.7mm) n=[347, 347, 347, 347, 5, 5]  tape=0.232km B=10.06T unif=15.680% hoop=80MPa
+  [ 337] viol   f=   0.244  a=22.7 b=28.3 gap=13.6 (face=3.3mm) n=[337, 337, 344, 344, 6, 6]  tape=0.229km B=9.91T unif=11.752% hoop=83MPa
+  [ 338] viol   f=   0.248  a=22.9 b=28.4 gap=13.8 (face=3.5mm) n=[347, 347, 344, 344, 1, 1]  tape=0.230km B=9.90T unif=16.341% hoop=79MPa
+  [ 339] OK     f=   0.232  a=22.7 b=28.4 gap=13.7 (face=3.3mm) n=[343, 343, 350, 350, 3, 3]  tape=0.232km B=10.01T unif=15.252% hoop=83MPa
+  [ 340] viol   f=   0.240  a=22.7 b=28.2 gap=13.7 (face=3.4mm) n=[349, 349, 340, 340, 2, 2]  tape=0.229km B=9.93T unif=12.382% hoop=79MPa
+  [ 341] viol   f=   0.251  a=22.8 b=28.4 gap=13.8 (face=3.7mm) n=[344, 344, 343, 343, 4, 4]  tape=0.230km B=9.90T unif=15.130% hoop=79MPa
+  [ 342] OK     f=   0.232  a=22.8 b=28.4 gap=13.7 (face=3.4mm) n=[348, 348, 344, 344, 5, 5]  tape=0.232km B=10.03T unif=15.684% hoop=81MPa
+  [a=23 b=28 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1406] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1390] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [ 343] OK     f=   0.232  a=22.8 b=28.4 gap=13.6 (face=3.3mm) n=[346, 346, 346, 346, 5, 5]  tape=0.232km B=10.09T unif=17.720% hoop=82MPa
+  [ 344] OK     f=   0.232  a=22.8 b=28.4 gap=13.6 (face=3.2mm) n=[344, 344, 346, 346, 6, 6]  tape=0.232km B=10.11T unif=18.287% hoop=83MPa
+  [ 345] OK     f=   0.235  a=22.7 b=28.4 gap=13.6 (face=3.2mm) n=[346, 346, 344, 344, 13, 13]  tape=0.235km B=10.03T unif=17.280% hoop=80MPa
+  [ 346] viol   f=   0.239  a=22.8 b=28.4 gap=13.7 (face=3.5mm) n=[352, 352, 344, 344, 3, 3]  tape=0.234km B=9.95T unif=12.956% hoop=79MPa
+  [ 347] viol   f=   0.236  a=22.8 b=28.3 gap=13.9 (face=3.7mm) n=[349, 349, 343, 343, 2, 2]  tape=0.231km B=9.95T unif=12.191% hoop=79MPa
+  [ 348] viol   f=   0.243  a=22.8 b=28.5 gap=13.6 (face=3.2mm) n=[345, 345, 348, 348, 3, 3]  tape=0.232km B=9.92T unif=13.211% hoop=81MPa
+  [ 349] viol   f=   0.265  a=22.8 b=28.4 gap=13.8 (face=3.7mm) n=[346, 346, 344, 344, 5, 5]  tape=0.231km B=9.87T unif=12.381% hoop=79MPa
+  [ 350] OK     f=   0.232  a=22.8 b=28.4 gap=13.7 (face=3.4mm) n=[344, 344, 349, 349, 4, 4]  tape=0.232km B=10.03T unif=16.811% hoop=82MPa
+  [ 351] OK     f=   0.232  a=22.8 b=28.5 gap=13.7 (face=3.3mm) n=[345, 345, 348, 348, 3, 3]  tape=0.232km B=10.01T unif=17.101% hoop=81MPa
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1402] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1402] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1412] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1398] KSP converged reason: 4, iterations: 1
+  [a=23 b=29 nt=1404] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1396] KSP converged reason: 4, iterations: 1
+  [ 352] viol   f=   0.240  a=22.8 b=28.5 gap=13.6 (face=3.1mm) n=[349, 349, 346, 346, 11, 11]  tape=0.237km B=9.96T unif=14.293% hoop=80MPa
+  [ 353] viol   f=   0.239  a=22.7 b=28.5 gap=13.6 (face=3.3mm) n=[342, 342, 347, 347, 12, 12]  tape=0.235km B=9.96T unif=15.838% hoop=80MPa
+  [ 354] viol   f=   0.242  a=22.7 b=28.4 gap=13.6 (face=3.2mm) n=[343, 343, 348, 348, 10, 10]  tape=0.234km B=9.94T unif=14.098% hoop=81MPa
+  [ 355] viol   f=   0.231  a=22.7 b=28.4 gap=13.7 (face=3.4mm) n=[347, 347, 344, 344, 2, 2]  tape=0.230km B=9.99T unif=16.337% hoop=80MPa
+  [ 356] OK     f=   0.234  a=22.9 b=28.5 gap=13.7 (face=3.4mm) n=[343, 343, 348, 348, 8, 8]  tape=0.234km B=10.04T unif=15.750% hoop=83MPa
+  [ 357] OK     f=   0.229  a=22.8 b=28.4 gap=13.6 (face=3.3mm) n=[343, 343, 345, 345, 2, 2]  tape=0.229km B=10.03T unif=13.713% hoop=82MPa
+  [ 358] viol   f=   0.235  a=22.8 b=28.5 gap=13.6 (face=3.3mm) n=[344, 344, 348, 348, 7, 7]  tape=0.234km B=9.97T unif=15.226% hoop=82MPa
+  [ 359] OK     f=   0.234  a=22.7 b=28.5 gap=13.6 (face=3.1mm) n=[347, 347, 347, 347, 8, 8]  tape=0.234km B=10.19T unif=16.670% hoop=82MPa
+  [ 360] OK     f=   0.232  a=22.9 b=28.4 gap=13.6 (face=3.2mm) n=[348, 348, 347, 347, 3, 3]  tape=0.232km B=10.06T unif=15.026% hoop=81MPa
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1396] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [ 361] viol   f=   0.230  a=22.8 b=28.3 gap=13.7 (face=3.4mm) n=[344, 344, 345, 345, 1, 1]  tape=0.228km B=9.97T unif=13.995% hoop=81MPa
+  [ 362] OK     f=   0.230  a=22.7 b=28.3 gap=13.6 (face=3.3mm) n=[346, 346, 347, 347, 3, 3]  tape=0.230km B=10.16T unif=17.050% hoop=82MPa
+  [ 363] OK     f=   0.230  a=22.8 b=28.4 gap=13.7 (face=3.5mm) n=[343, 343, 346, 346, 2, 2]  tape=0.230km B=10.08T unif=17.078% hoop=83MPa
+  [ 364] OK     f=   0.230  a=22.8 b=28.5 gap=13.7 (face=3.4mm) n=[345, 345, 345, 345, 2, 2]  tape=0.230km B=10.01T unif=17.039% hoop=81MPa
+  [ 365] viol   f=   0.242  a=22.8 b=28.4 gap=13.6 (face=3.3mm) n=[346, 346, 345, 345, 1, 1]  tape=0.229km B=9.92T unif=15.212% hoop=79MPa
+  [ 366] OK     f=   0.230  a=22.7 b=28.3 gap=13.7 (face=3.3mm) n=[343, 343, 343, 343, 7, 7]  tape=0.230km B=10.18T unif=18.110% hoop=82MPa
+  [ 367] OK     f=   0.229  a=22.8 b=28.4 gap=13.7 (face=3.3mm) n=[343, 343, 344, 344, 3, 3]  tape=0.229km B=10.12T unif=16.881% hoop=83MPa
+  [ 368] OK     f=   0.232  a=22.7 b=28.2 gap=13.7 (face=3.3mm) n=[350, 350, 344, 344, 4, 4]  tape=0.232km B=10.02T unif=10.820% hoop=80MPa
+  [ 369] OK     f=   0.233  a=22.7 b=28.4 gap=13.6 (face=3.2mm) n=[347, 347, 343, 343, 7, 7]  tape=0.233km B=10.07T unif=14.022% hoop=81MPa
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1374] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [ 370] viol   f=   0.238  a=22.8 b=28.3 gap=13.8 (face=3.6mm) n=[342, 342, 345, 345, 1, 1]  tape=0.228km B=9.93T unif=16.512% hoop=81MPa
+  [ 371] viol   f=   0.244  a=22.8 b=28.3 gap=13.8 (face=3.6mm) n=[343, 343, 344, 344, 1, 1]  tape=0.228km B=9.91T unif=13.714% hoop=80MPa
+  [ 372] viol   f=   0.249  a=22.7 b=28.4 gap=13.6 (face=3.3mm) n=[342, 342, 344, 344, 1, 1]  tape=0.228km B=9.90T unif=15.271% hoop=81MPa
+  [ 373] viol   f=   0.328  a=22.8 b=28.4 gap=13.7 (face=3.4mm) n=[348, 348, 345, 345, 1, 1]  tape=0.231km B=9.78T unif=14.989% hoop=78MPa
+  [ 374] OK     f=   0.230  a=22.7 b=28.3 gap=13.8 (face=3.6mm) n=[346, 346, 342, 342, 4, 4]  tape=0.230km B=10.01T unif=15.557% hoop=80MPa
+  [ 375] viol   f=   0.232  a=22.8 b=28.5 gap=13.7 (face=3.3mm) n=[344, 344, 344, 344, 6, 6]  tape=0.231km B=9.98T unif=16.968% hoop=80MPa
+  [ 376] OK     f=   0.229  a=22.8 b=28.3 gap=13.8 (face=3.5mm) n=[339, 339, 346, 346, 3, 3]  tape=0.229km B=10.00T unif=16.512% hoop=83MPa
+  [ 377] OK     f=   0.228  a=22.8 b=28.3 gap=13.8 (face=3.6mm) n=[342, 342, 344, 344, 2, 2]  tape=0.228km B=10.04T unif=13.174% hoop=82MPa
+  [ 378] OK     f=   0.229  a=22.7 b=28.3 gap=13.6 (face=3.3mm) n=[343, 343, 345, 345, 2, 2]  tape=0.229km B=10.11T unif=18.078% hoop=82MPa
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1394] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1374] KSP converged reason: 4, iterations: 1
+  [ 379] OK     f=   0.228  a=22.7 b=28.3 gap=13.7 (face=3.4mm) n=[342, 342, 343, 343, 3, 3]  tape=0.228km B=10.05T unif=16.793% hoop=82MPa
+  [ 380] OK     f=   0.229  a=22.8 b=28.4 gap=13.6 (face=3.3mm) n=[343, 343, 346, 346, 1, 1]  tape=0.229km B=10.06T unif=16.797% hoop=82MPa
+  [ 381] viol   f=   0.256  a=22.8 b=28.4 gap=13.7 (face=3.5mm) n=[345, 345, 342, 342, 3, 3]  tape=0.230km B=9.89T unif=12.463% hoop=81MPa
+  [ 382] OK     f=   0.230  a=22.8 b=28.4 gap=13.7 (face=3.4mm) n=[344, 344, 345, 345, 4, 4]  tape=0.230km B=10.09T unif=15.413% hoop=83MPa
+  [ 383] viol   f=   0.277  a=22.8 b=28.4 gap=13.7 (face=3.5mm) n=[341, 341, 346, 346, 1, 1]  tape=0.229km B=9.85T unif=13.846% hoop=81MPa
+  [ 384] viol   f=   0.272  a=22.8 b=28.4 gap=13.7 (face=3.5mm) n=[341, 341, 345, 345, 2, 2]  tape=0.229km B=9.85T unif=13.398% hoop=81MPa
+  [ 385] OK     f=   0.232  a=22.8 b=28.3 gap=13.8 (face=3.6mm) n=[345, 345, 345, 345, 7, 7]  tape=0.232km B=10.21T unif=15.864% hoop=82MPa
+  [ 386] viol   f=   0.242  a=22.8 b=28.3 gap=13.8 (face=3.6mm) n=[342, 342, 346, 346, 1, 1]  tape=0.229km B=9.92T unif=13.759% hoop=81MPa
+  [ 387] viol   f=   0.232  a=22.8 b=28.3 gap=13.7 (face=3.5mm) n=[342, 342, 344, 344, 1, 1]  tape=0.227km B=9.95T unif=16.356% hoop=81MPa
+  [a=23 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [ 388] OK     f=   0.229  a=22.7 b=28.4 gap=13.7 (face=3.4mm) n=[343, 343, 344, 344, 3, 3]  tape=0.229km B=10.12T unif=16.816% hoop=82MPa
+  [ 389] viol   f=   0.303  a=22.8 b=28.3 gap=13.7 (face=3.5mm) n=[338, 338, 348, 348, 3, 3]  tape=0.230km B=9.81T unif=15.273% hoop=81MPa
+  [ 390] OK     f=   0.230  a=22.7 b=28.3 gap=13.8 (face=3.6mm) n=[343, 343, 346, 346, 5, 5]  tape=0.230km B=10.03T unif=14.728% hoop=81MPa
+  [ 391] viol   f=   0.231  a=22.8 b=28.4 gap=13.7 (face=3.4mm) n=[341, 341, 345, 345, 5, 5]  tape=0.230km B=9.98T unif=14.025% hoop=83MPa
+  [ 392] OK     f=   0.229  a=22.8 b=28.3 gap=13.7 (face=3.4mm) n=[343, 343, 345, 345, 3, 3]  tape=0.229km B=10.08T unif=17.044% hoop=82MPa
+  [ 393] OK     f=   0.229  a=22.7 b=28.4 gap=13.7 (face=3.4mm) n=[343, 343, 344, 344, 3, 3]  tape=0.229km B=10.13T unif=17.473% hoop=82MPa
+  [ 394] OK     f=   0.229  a=22.7 b=28.3 gap=13.7 (face=3.4mm) n=[343, 343, 343, 343, 5, 5]  tape=0.229km B=10.12T unif=16.908% hoop=82MPa
+  [ 395] viol   f=   0.239  a=22.8 b=28.4 gap=13.7 (face=3.4mm) n=[343, 343, 345, 345, 2, 2]  tape=0.229km B=9.93T unif=16.428% hoop=81MPa
+  [ 396] OK     f=   0.228  a=22.7 b=28.3 gap=13.7 (face=3.3mm) n=[345, 345, 344, 344, 1, 1]  tape=0.228km B=10.02T unif=16.175% hoop=80MPa
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1366] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [ 397] OK     f=   0.229  a=22.7 b=28.3 gap=13.7 (face=3.5mm) n=[344, 344, 344, 344, 3, 3]  tape=0.229km B=10.20T unif=16.201% hoop=82MPa
+  [ 398] viol   f=   0.249  a=22.7 b=28.3 gap=13.7 (face=3.4mm) n=[344, 344, 342, 342, 3, 3]  tape=0.228km B=9.90T unif=14.626% hoop=80MPa
+  [ 399] viol   f=   0.230  a=22.8 b=28.4 gap=13.6 (face=3.2mm) n=[345, 345, 344, 344, 2, 2]  tape=0.229km B=9.99T unif=13.316% hoop=82MPa
+  [ 400] OK     f=   0.230  a=22.7 b=28.3 gap=13.7 (face=3.4mm) n=[345, 345, 345, 345, 4, 4]  tape=0.230km B=10.14T unif=15.459% hoop=82MPa
+  [ 401] OK     f=   0.229  a=22.7 b=28.3 gap=13.7 (face=3.5mm) n=[345, 345, 343, 343, 3, 3]  tape=0.229km B=10.09T unif=13.460% hoop=82MPa
+  [ 402] OK     f=   0.229  a=22.8 b=28.4 gap=13.6 (face=3.2mm) n=[344, 344, 345, 345, 2, 2]  tape=0.229km B=10.10T unif=15.745% hoop=82MPa
+  [ 403] viol   f=   0.233  a=22.7 b=28.2 gap=13.9 (face=3.7mm) n=[340, 340, 342, 342, 1, 1]  tape=0.226km B=9.94T unif=15.538% hoop=81MPa
+  [ 404] viol   f=   0.241  a=22.7 b=28.4 gap=13.7 (face=3.3mm) n=[348, 348, 343, 343, 2, 2]  tape=0.230km B=9.93T unif=15.638% hoop=79MPa
+  [ 405] viol   f=   0.230  a=22.7 b=28.3 gap=13.7 (face=3.3mm) n=[347, 347, 343, 343, 2, 2]  tape=0.230km B=10.00T unif=16.392% hoop=80MPa
+  [a=23 b=28 nt=1390] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1392] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1374] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [ 406] viol   f=   0.230  a=22.7 b=28.4 gap=13.6 (face=3.2mm) n=[345, 345, 344, 344, 2, 2]  tape=0.229km B=9.98T unif=12.167% hoop=81MPa
+  [ 407] OK     f=   0.231  a=22.7 b=28.4 gap=13.6 (face=3.3mm) n=[345, 345, 344, 344, 5, 5]  tape=0.231km B=10.04T unif=15.352% hoop=81MPa
+  [ 408] OK     f=   0.229  a=22.6 b=28.3 gap=13.7 (face=3.5mm) n=[347, 347, 343, 343, 2, 2]  tape=0.229km B=10.08T unif=11.844% hoop=81MPa
+  [ 409] viol   f=   0.235  a=22.7 b=28.3 gap=13.6 (face=3.2mm) n=[347, 347, 344, 344, 5, 5]  tape=0.231km B=9.96T unif=16.668% hoop=79MPa
+  [ 410] OK     f=   0.231  a=22.7 b=28.4 gap=13.6 (face=3.3mm) n=[345, 345, 344, 344, 6, 6]  tape=0.231km B=10.06T unif=15.810% hoop=81MPa
+  [ 411] OK     f=   0.228  a=22.8 b=28.3 gap=13.8 (face=3.5mm) n=[344, 344, 344, 344, 1, 1]  tape=0.228km B=10.05T unif=17.710% hoop=80MPa
+  [ 412] OK     f=   0.228  a=22.7 b=28.2 gap=13.8 (face=3.6mm) n=[346, 346, 343, 343, 2, 2]  tape=0.228km B=10.12T unif=13.788% hoop=81MPa
+  [ 413] OK     f=   0.229  a=22.7 b=28.2 gap=13.9 (face=3.8mm) n=[347, 347, 340, 340, 4, 4]  tape=0.229km B=10.02T unif=13.962% hoop=80MPa
+  [ 414] viol   f=   0.233  a=22.8 b=28.3 gap=13.7 (face=3.4mm) n=[342, 342, 344, 344, 1, 1]  tape=0.228km B=9.95T unif=16.451% hoop=81MPa
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [ 415] OK     f=   0.228  a=22.7 b=28.3 gap=13.7 (face=3.5mm) n=[345, 345, 343, 343, 1, 1]  tape=0.228km B=10.01T unif=13.953% hoop=80MPa
+  [ 416] viol   f=   0.235  a=22.7 b=28.3 gap=13.8 (face=3.5mm) n=[345, 345, 342, 342, 2, 2]  tape=0.228km B=9.94T unif=12.208% hoop=80MPa
+  [ 417] viol   f=   0.316  a=22.7 b=28.3 gap=13.7 (face=3.4mm) n=[345, 345, 344, 344, 1, 1]  tape=0.228km B=9.79T unif=12.748% hoop=78MPa
+  [ 418] OK     f=   0.228  a=22.7 b=28.3 gap=13.7 (face=3.5mm) n=[345, 345, 343, 343, 3, 3]  tape=0.228km B=10.08T unif=14.362% hoop=80MPa
+  [ 419] viol   f=   0.230  a=22.7 b=28.3 gap=13.8 (face=3.6mm) n=[348, 348, 342, 342, 1, 1]  tape=0.229km B=9.97T unif=12.243% hoop=80MPa
+  [ 420] viol   f=   0.246  a=22.8 b=28.4 gap=13.7 (face=3.5mm) n=[347, 347, 344, 344, 2, 2]  tape=0.230km B=9.91T unif=11.712% hoop=80MPa
+  [ 421] viol   f=   0.252  a=22.7 b=28.3 gap=13.8 (face=3.7mm) n=[345, 345, 343, 343, 5, 5]  tape=0.230km B=9.89T unif=13.210% hoop=79MPa
+  [ 422] viol   f=   0.238  a=22.7 b=28.2 gap=13.8 (face=3.5mm) n=[347, 347, 343, 343, 2, 2]  tape=0.229km B=9.93T unif=12.236% hoop=79MPa
+  [ 423] viol   f=   0.256  a=22.8 b=28.3 gap=13.7 (face=3.4mm) n=[344, 344, 343, 343, 1, 1]  tape=0.228km B=9.88T unif=14.146% hoop=79MPa
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1386] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+  [ 424] OK     f=   0.227  a=22.7 b=28.2 gap=13.9 (face=3.7mm) n=[345, 345, 343, 343, 2, 2]  tape=0.227km B=10.10T unif=14.907% hoop=80MPa
+  [ 425] viol   f=   0.230  a=22.7 b=28.2 gap=13.7 (face=3.5mm) n=[348, 348, 342, 342, 3, 3]  tape=0.230km B=9.99T unif=12.626% hoop=80MPa
+  [ 426] OK     f=   0.228  a=22.7 b=28.3 gap=13.7 (face=3.4mm) n=[344, 344, 343, 343, 3, 3]  tape=0.228km B=10.04T unif=14.241% hoop=80MPa
+  [ 427] OK     f=   0.229  a=22.6 b=28.3 gap=13.8 (face=3.5mm) n=[349, 349, 343, 343, 1, 1]  tape=0.229km B=10.06T unif=14.737% hoop=80MPa
+  [ 428] OK     f=   0.230  a=22.8 b=28.3 gap=13.7 (face=3.4mm) n=[346, 346, 344, 344, 3, 3]  tape=0.230km B=10.26T unif=16.607% hoop=83MPa
+  [ 429] viol   f=   0.235  a=22.7 b=28.2 gap=13.8 (face=3.6mm) n=[345, 345, 342, 342, 3, 3]  tape=0.228km B=9.94T unif=13.188% hoop=79MPa
+  [ 430] OK     f=   0.230  a=22.7 b=28.3 gap=13.7 (face=3.4mm) n=[347, 347, 343, 343, 3, 3]  tape=0.230km B=10.05T unif=16.619% hoop=80MPa
+  [ 431] OK     f=   0.229  a=22.7 b=28.2 gap=13.9 (face=3.7mm) n=[346, 346, 344, 344, 3, 3]  tape=0.229km B=10.10T unif=12.071% hoop=81MPa
+  [ 432] OK     f=   0.229  a=22.8 b=28.3 gap=13.7 (face=3.3mm) n=[343, 343, 344, 344, 4, 4]  tape=0.229km B=10.13T unif=16.018% hoop=83MPa
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1384] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1388] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1380] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
+  [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1

@@ -1,0 +1,46 @@
+[12:33:37] T-A-in-the-loop search anchored on the champion
+[12:33:37]   Ic model=kim, operating point=65% of local Ic
+[12:33:37]   NOTE: no cheap uniformity proxy survives -- uniform-J was the 4th to fail (screening spans -1.50 to +0.57 pp)
+[12:33:37] 
+[12:33:37] STEP 1: FEM screen (field / stress) -- cheap, weeds out anything that cannot reach 10 T before paying for T-A
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[12:33:41]   champion_ref         tape=0.2235 B=  9.40T hoop=  96 I_op= 208.7 pairs=[295, 369, 2] 
+  [a=22 b=27 nt=1386] KSP converged reason: 4, iterations: 1
+[12:33:44]   a+0.0mm_maxturns     tape=0.2330 B=  9.77T hoop=  96 I_op= 208.1 pairs=[307, 384, 2] 
+  [a=22 b=27 nt=1378] KSP converged reason: 4, iterations: 1
+[12:33:48]   a+0.0mm_f0.995       tape=0.2317 B=  9.61T hoop=  98 I_op= 206.9 pairs=[305, 382, 2] 
+  [a=23 b=28 nt=1436] KSP converged reason: 4, iterations: 1
+[12:33:52]   a+0.5mm              tape=0.2464 B=  9.76T hoop=  97 I_op= 204.0 pairs=[318, 398, 2] 
+  [a=23 b=28 nt=1484] KSP converged reason: 4, iterations: 1
+[12:33:55]   a+1.0mm              tape=0.2596 B= 10.03T hoop= 102 I_op= 204.6 pairs=[329, 411, 2] -> T-A
+  [a=24 b=29 nt=1530] KSP converged reason: 4, iterations: 1
+[12:33:59]   a+1.5mm              tape=0.2729 B=  9.96T hoop= 100 I_op= 200.0 pairs=[339, 424, 2] 
+  [a=24 b=29 nt=1580] KSP converged reason: 4, iterations: 1
+[12:34:03]   a+2.0mm              tape=0.2873 B= 10.32T hoop= 107 I_op= 202.1 pairs=[350, 438, 2] -> T-A
+  [a=25 b=30 nt=1676] KSP converged reason: 4, iterations: 1
+[12:34:07]   a+3.0mm              tape=0.3164 B= 10.33T hoop= 107 I_op= 195.1 pairs=[371, 464, 3] -> T-A
+  [a=26 b=31 nt=1774] KSP converged reason: 4, iterations: 1
+[12:34:11]   a+4.0mm              tape=0.3469 B= 10.66T hoop= 113 I_op= 194.3 pairs=[393, 491, 3] -> T-A
+[12:34:11] 
+[12:34:11] STEP 2: T-A box uniformity on 5 candidates (2 in parallel, 2 meshes each)
+[12:38:32]   champion_ref         B=  9.40T tape=0.2235 -> box = 0.268, 0.269  fail
+[12:38:34]   a+1.0mm              B= 10.03T tape=0.2596 -> box = 0.442, 0.442  PASS
+[12:42:30]   a+3.0mm              B= 10.33T tape=0.3164 -> box = 0.389, 0.390  PASS
+[12:42:41]   a+2.0mm              B= 10.32T tape=0.2873 -> box = 0.408, 0.408  PASS
+[12:45:24]   a+4.0mm              B= 10.66T tape=0.3469 -> box = 0.301, 0.302  PASS
+[12:45:24] 
+[12:45:24] label                 tape_km     B_T  hoop    box%  verdict
+[12:45:24] champion_ref           0.2235    9.40    96   0.269  fail
+[12:45:24] a+4.0mm                0.3469   10.66   113   0.302  PASS
+[12:45:24] a+3.0mm                0.3164   10.33   107   0.390  PASS
+[12:45:24] a+2.0mm                0.2873   10.32   107   0.408  PASS
+[12:45:24] a+1.0mm                0.2596   10.03   102   0.442  PASS
+[12:45:24] 
+[12:45:24] WINNER: a+1.0mm tape=0.2596km B=10.03T hoop=102MPa box=0.442%
+[12:45:24]   a=23.2270mm b=28.2682mm gap=13.5000mm I_op=204.57A
+[12:45:24]   n_turns=[329, 329, 411, 411, 2, 2]
+[12:45:24] 
+[12:45:24] conservative cross-check ('scaling:45'):
+  [a=23 b=28 nt=1484] KSP converged reason: 4, iterations: 1
+[12:45:29]   B_target=9.34T I_op=193.1A (BELOW 10T)
+[12:45:29] total 11.9 min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_in_loop/results.csv
