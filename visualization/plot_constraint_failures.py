@@ -2,7 +2,7 @@
 plot_constraint_failures.py
 =============================
 Every evaluation across the whole project's cumulative CMA-ES history
-(optimize/cmaes_all_evaluations.csv), tape length vs. chronological
+(optimize/runs/cmaes_all_evaluations.csv), tape length vs. chronological
 evaluation order, colored by WHICH constraint it failed.
 
 Categories (priority order -- a row can fail more than one constraint;

@@ -1,0 +1,8 @@
+TA_VALIDATE_RESULT label='a+0.25mm' repeat=0 box_ptp_pct=0.8314 onaxis_scif_pct=5.5639 Bz_bore_uniform=-10.94229 Bz_bore_TA=-10.33347 converged=True n_iters=79 solve_s=107.8
+TA_VALIDATE_RESULT label='a+0.25mm' repeat=1 box_ptp_pct=0.8321 onaxis_scif_pct=5.5643 Bz_bore_uniform=-10.94229 Bz_bore_TA=-10.33343 converged=True n_iters=90 solve_s=138.1
+
+--- stderr ---
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")

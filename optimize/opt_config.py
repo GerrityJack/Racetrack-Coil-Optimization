@@ -127,7 +127,7 @@ FILAMENT_TURNS_PER_GROUP = 100   # radial sub-filaments per layer for the
                                  # target-box Biot-Savart (uniformity)
 
 # ── Output ───────────────────────────────────────────────────────────────────
-OUT_CSV = "optimize/opt_results.csv"
+OUT_CSV = "optimize/runs/opt_results.csv"
 OUT_PNG = "visualization/opt_overview.png"
 
 # ── CMA-ES search (cmaes_search.py) ──────────────────────────────────────────
@@ -328,9 +328,23 @@ OUT_PNG = "visualization/opt_overview.png"
 # "Coarse-screen SCIF proxy found unreliable" section for the complete,
 # three-stage investigation. No fast/trustworthy uniformity signal exists
 # yet for the CMA-ES objective -- see cmaes_search.py's fitness function.
+#
+# 2026-07-30: turn split updated [285,285,379,379,2,2] -> [295,295,369,369,2,2].
+# The perturbation study (optimize/studies/perturbation_study.py) found this
+# neighbour dominates the old champion on ALL four metrics simultaneously
+# (tape 0.2259->0.2235km, B 10.005->10.215T, hoop 114->111MPa, T-A box
+# uniformity 0.828->0.687%); re-confirmed by optimize/studies/local_polish.py
+# on independent meshes (0.688/0.686%). a/b/gap are unchanged.
+#
+# WARNING -- do NOT "improve" this by flattening the turn taper. The
+# local_polish.py run's tape-only CMA-ES (which has no uniformity signal)
+# drove the profile toward equal pairs, e.g. [291,291,291,291,1,1]: that
+# reaches 0.1863km at 10.00T and 97MPa -- 17% LESS TAPE -- but its real T-A
+# box uniformity is 3.66%, and all six such candidates came in at 3.6-8.6%
+# vs the 1% target. The steep taper is doing essential uniformity work.
 CMAES_X0 = dict(a=0.02219635247570603, b=0.02726759479379641,
                coil_half_gap=0.0135001375408541580,
-               n_turns=[285, 285, 379, 379, 2, 2])
+               n_turns=[295, 295, 369, 369, 2, 2])
 
 # 2026-07-21: the first run pinned a and b at their box bounds (30/60 mm)
 # for most of the search -- per project direction, a and b now have NO
@@ -407,8 +421,8 @@ CMAES_PENALTY_KM = 200.0            # penalty scale [km-equivalent] per unit
                                     # (O(1-3 km)) so any violation dominates
 CMAES_INFEASIBLE_PENALTY_KM = 1000.0  # flat penalty for geometrically
                                       # infeasible / failed evaluations
-CMAES_OUT_CSV = "optimize/cmaes_results.csv"     # this run's best design
-CMAES_OUT_LOG = "optimize/cmaes_history.csv"     # this run's full history
+CMAES_OUT_CSV = "optimize/runs/cmaes_results.csv"     # this run's best design
+CMAES_OUT_LOG = "optimize/runs/cmaes_history.csv"     # this run's full history
 
 # 2026-07-23: path overrides, REQUIRED whenever more than one
 # cmaes_search.py process may be alive at once (e.g. two orchestrators
@@ -434,7 +448,7 @@ if _out_log_override:
 # "parameter-space map" dataset for identifying good/bad regions across
 # runs.  See cmaes_param_map.png (built from this file, not just the
 # current run) in visualization/.
-CMAES_MASTER_LOG = "optimize/cmaes_all_evaluations.csv"
+CMAES_MASTER_LOG = "optimize/runs/cmaes_all_evaluations.csv"
 CMAES_PARAM_MAP_PNG = "visualization/cmaes_param_map.png"
 
 # 2026-07-21: opt-in generation-parallel evaluation. Default 1 = the exact

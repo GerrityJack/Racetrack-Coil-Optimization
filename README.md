@@ -26,9 +26,64 @@ every major assumption, read [The physics, explained](#the-physics-explained).**
 
 ---
 
-## For the optimization — start here
+## The design problem — start here
 
-**The problem.**  Maximize the magnetic field in the target area, subject
+**Minimize REBCO tape length**, subject to:
+
+| constraint | limit |
+|---|---|
+| mean \|Bz\| over the target box (30×6 mm) at I_op | ≥ 10 T |
+| peak-to-peak uniformity over that box | ≤ 1 % — **must be checked with the T-A solver, not the coarse screen** (see below) |
+| hoop stress, end-cap curved sections only | ≤ 400 MPa |
+| operating point | worst-margin cell at 50–60 % of local Ic (`SAFETY_FACTOR = 1.818`) |
+| coil-to-coil **face-to-face** clearance | ≥ 3 mm |
+| innermost turn bend radius (REBCO cracks below this) | ≥ 7.5 mm |
+| double-pancake construction | layers paired (2i, 2i+1) share a turn count → **`n_layers` must be even** |
+
+**Variables:** `a` (end-cap radius), `b` (centre → cap-centre length),
+`coil_half_gap`, and one turn count per double-pancake pair.
+
+**Current best design — 6 layers (3 double pancakes):** tape = 0.2235 km,
+B_target = 10.22 T, hoop = 111 MPa, T-A box uniformity = 0.69 %.
+`a` = 22.227 mm, `b` = 27.268 mm, `coil_half_gap` = 13.500 mm,
+`n_turns = [295,295,369,369,2,2]` (2026-07-30; T-A-validated on four
+independent meshes at 0.686–0.688 %). **One open caveat, important — see
+[Known limitations](#known-limitations):** its 10 T rests on an
+optimistic Ic extrapolation above the measured 8 T tape data.
+
+> **Do not flatten the turn taper to save tape.** A tape-only CMA-ES
+> polish (which has no uniformity signal) drives the profile toward equal
+> pairs — e.g. `[291,291,291,291,1,1]` reaches **0.1863 km at 10.00 T and
+> 97 MPa, 17 % less tape** — but its true T-A box uniformity is 3.66 %,
+> and all six such candidates landed at 3.6–8.6 % against a 1 % target.
+> The steep taper is doing essential uniformity work.
+
+**How to evaluate a design.** Two tools, and the difference matters:
+
+| tool | speed | trust |
+|---|---|---|
+| `optimize/optimize_geometry.py` `evaluate()` — coarse uniform-J screen | ~5 s | `tape_km`, `B_target_T`, `hoop_MPa` are reliable. Its **`uniformity_pct` is NOT** — found wrong by up to ~10× and even anti-correlated with truth for compact coils. |
+| `optimize/ta_validate.py` — full per-layer T-A solve, true box peak-to-peak | ~60–150 s | The ground truth. Run on any finalist. |
+
+Never promote a design on the screen's uniformity number alone, and
+cross-check near-boundary designs against an **independently generated
+mesh** (a separate process) — gmsh is not bit-reproducible across
+processes, and one design once swung 0.79 % → 2.19 % between meshes.
+
+---
+
+## Legacy external-team entry point (`optimize/evaluate.py`)
+
+**Frozen 2026-07-14 contract, kept working and deliberately unchanged.**
+It implements a *different* problem from the one above — maximize field
+at a 1.15 safety factor over a 15×6 mm box — and reads its own dedicated
+`EVALUATE_SAFETY_FACTOR`/`EVALUATE_TARGET_X_M`/`EVALUATE_TARGET_Y_M`
+constants in `optimize/opt_config.py` so it does not drift when the
+shared constants are repurposed by the internal search. Its uniformity
+number comes from the same coarse Bean-state proxy flagged as unreliable
+above.
+
+**The problem it solves.**  Maximize the magnetic field in the target area, subject
 to (1) never exceeding the tape's quench limit anywhere in the winding
 (with a 1.15 safety factor) and (2) keeping the field uniform to < 1 %
 peak-to-peak over the target box.  Mechanical stress limits exist in the
@@ -97,7 +152,7 @@ your algorithms.
 
 ---
 
-## Internal CMA-ES search (`optimize/cmaes_search.py`, 2026-07-21, updated 2026-07-23)
+## Internal CMA-ES search (`optimize/cmaes_search.py`, 2026-07-21, updated 2026-07-30)
 
 A separate, actively-evolving internal design study under a different
 objective — **do not confuse this with the frozen `evaluate.py` handoff
@@ -112,18 +167,21 @@ date predates all three of the following and is no longer valid/buildable
 — see CLAUDE.md's "Practical manufacturing constraints" section for the
 full reasoning.
 
-**Current best design overall (6 pancake layers, i.e. 3 double
+**First genuinely validated design (6 pancake layers, i.e. 3 double
 pancakes): tape = 0.2258 km, B_target = 10.00 T, hoop = 114 MPa, box
-peak-to-peak uniformity = 0.731 % — a real, T-A-validated PASS** —
+peak-to-peak uniformity = 0.83 % — a real, T-A-validated PASS** —
 a=22.20mm, b=27.27mm, coil_half_gap=13.50mm,
-n_turns=[285,285,379,379,2,2] (found 2026-07-24). **This is the first
+n_turns=[285,285,379,379,2,2] (found 2026-07-24). **Superseded
+2026-07-30** by the same geometry with the turn split shifted to
+[295,295,369,369,2,2] — better on all four metrics; see the perturbation
+study below. **This was the first
 genuinely validated design of the entire optimization effort** — every
 earlier "champion" (10, 8, and a rejected 4-layer design) turned out to
 be an artifact of a broken proxy once actually checked against the real
 30×6mm target box.
 
 **2026-07-27 — widened search re-confirms this design as the best found
-anywhere.** A follow-up search (`optimize/day_search.py`) re-ran the
+anywhere.** A follow-up search (`optimize/studies/day_search.py`) re-ran the
 discrete n_layers outer loop (6, 8, 10, 12, and two new counts, 14 and
 16) with a coil-radius floor tuned against real T-A checks, then
 T-A-validated every winner. Every alternative came in at 3.1–4.5% true
@@ -135,16 +193,94 @@ conservative extrapolation instead, B_target drops from 10.00 T to
 6.51 T.** This is now the top-priority open item — see [Known
 limitations](#known-limitations) below.
 
+**2026-07-30 — perturbation study: the champion is a real point in a
+well-behaved landscape, but it is NOT a converged local optimum.**
+`optimize/studies/perturbation_study.py` perturbed the champion by small,
+*buildable* amounts along each axis independently and along all axes at
+once — 23 candidates, each given a full T-A box-uniformity solve with 2
+independent-mesh repeats (`visualization/perturbation_study.png`).
+
+*What held up:* every solve converged, and repeat-to-repeat spread was
+≤0.003 pp for 22 of 23 candidates (the champion itself reproduced at
+0.828 %, matching the earlier re-check exactly). Every axis varies
+smoothly and monotonically — none of the knife-edge mesh fragility that
+invalidated an earlier 4-layer design. The design region is genuine.
+
+*What did not:* the champion is **dominated** by a neighbour just 10
+turns per pancake away —
+
+| design | tape | B_target | hoop | box uniformity |
+|---|---|---|---|---|
+| champion `[285,285,379,379,2,2]` | 0.2259 km | 10.005 T | 114 MPa | 0.828 % |
+| **`[295,295,369,369,2,2]`** | **0.2235 km** | **10.215 T** | **111 MPa** | **0.687 %** |
+
+better on *all four* metrics simultaneously. 8 of 22 perturbations had
+better uniformity than the champion. This is the expected consequence of
+searching with no uniformity signal: CMA-ES stopped where the tape and
+field constraints cornered it, and 0.83 % was luck in the narrow sense
+that it happened to pass.
+
+*Where the champion sits in the uniformity bowl:* on the **inner wall**
+in `a` (minimum ≈ +1 mm outward, 0.487 %) and below the optimum in `b`
+(minimum ≈ +1.5 mm, 0.591 %). Only `coil_half_gap` is genuinely optimal
+— it is the steepest axis (≈ 0.7 pp/mm, monotone worsening upward) and
+the 3 mm face-gap manufacturing floor pins it exactly at its best value.
+
+*Tolerance sensitivity (practical concern):* all four all-axes jitter
+samples — perturbations of ≲0.3 mm plus a few turns — **failed** the 1 %
+target (1.09, 1.23, 1.25, 1.93 %). Stated plainly, that group is
+**biased pessimistic**: the face-gap floor means jitter could only
+*increase* gap, the single steepest axis. It is not a symmetric
+tolerance estimate, but it does say assembly gap tolerance is tight in
+the direction one can actually err.
+
+**2026-07-30 — local polish (`optimize/studies/local_polish.py`): the
+dominating neighbour is promoted, and the tape/uniformity tradeoff is
+now quantified.** A tightly-scoped 1000-evaluation CMA-ES refinement was
+warm-started from `[295,295,369,369,2,2]` with *proportional* step sizes
+(5 % of `a`/`b`, 15 turns), then its six best distinct candidates were
+T-A-validated alongside both references on the same pipeline:
+
+| design | tape | B_target | hoop | T-A box p2p | verdict |
+|---|---|---|---|---|---|
+| **`[295,295,369,369,2,2]`** | **0.2235 km** | **10.215 T** | **111 MPa** | **0.688 %** | **PASS — new champion** |
+| `[285,285,379,379,2,2]` (old) | 0.2259 km | 10.005 T | 114 MPa | 0.828 % | PASS |
+| polish1 `[291,291,291,291,1,1]` | 0.1863 km | 10.001 T | 97 MPa | 3.660 % | FAIL |
+| polish2 … polish6 (flat profiles) | 0.187–0.191 km | ~10.0 T | 97–98 MPa | 3.59–8.59 % | FAIL |
+
+The search — which optimizes tape/field/hoop with **no uniformity term**
+— reliably drove the turn profile toward *equal* pairs, buying a genuine
+**17 % tape reduction** (0.1863 vs 0.2235 km) at 10 T and lower hoop
+stress. Every one of those designs fails real box uniformity by 3.6–8.6×
+the target. The champion's steep taper (295 → 369 → 2) is not incidental;
+it is doing essential uniformity work, and **tape length and uniformity
+are in direct conflict along this axis.** Both references reproduced
+their known values exactly (0.828 %, 0.688 %), confirming the failures
+are physics, not a pipeline artifact.
+
+Net result: the perturbation study's dominating neighbour is confirmed
+and promoted (a −1.1 % tape, +2.1 % field, −3 MPa, −0.14 pp uniformity
+improvement over the old champion, all at once), and no flatter profile
+is admissible without a uniformity-aware objective.
+
 **Important — the coarse optimizer screen's `uniformity_pct` metric was
 found unreliable by up to ~10x**, and a same-day replacement heuristic
 (penalizing peak per-layer turn concentration) was *also* found wrong
 once real box uniformity was measured: the design with the best on-axis
 SCIF (10 layers, 1.37%) has the *worst* true box uniformity of every
 design tried (9.18%, vs. 0.44-1.06% for 4/6/8 layers) — on-axis SCIF is
-a near-cancelling sum that does not represent the real target. What
-*does* track true box uniformity, cleanly, across every layer count
-tested: coil radius `a` (bigger = better, since the box is a fixed size
-regardless of coil scale). `cmaes_search.py`'s fitness function currently
+a near-cancelling sum that does not represent the real target.
+
+An initial follow-up concluded that coil radius `a` cleanly tracked true
+box uniformity ("bigger = better", since the target box is a fixed size
+regardless of coil scale). **That conclusion was wrong and has been
+retracted** — it came from comparing 5 designs that differed in `a`
+*and* layer count *and* gap *and* turn distribution at once. Isolating
+`a` properly (translating the whole coil radially, everything else held
+fixed) gives a **V-shaped bowl with an interior minimum**, not a
+monotone trend: moving `a` either smaller *or* larger degrades
+uniformity. There is still no known fast proxy for box uniformity.
+`cmaes_search.py`'s fitness function currently
 carries **no uniformity signal at all** — deliberately, rather than a
 third guessed proxy. **See CLAUDE.md's "Box uniformity is the real
 target" section for the full investigation, 5-design data table, and
@@ -206,14 +342,14 @@ conda run -n fenicsx-env python3 optimize/cmaes_search.py
 ```
 
 ~5–10 s per evaluation (one coarse-mesh FEM solve). Outputs
-`optimize/cmaes_results.csv` (this run's best design), `optimize/
-cmaes_history.csv` (this run's full history — overwritten each run), and
+`optimize/runs/cmaes_results.csv` (this run's best design), `optimize/
+runs/cmaes_history.csv` (this run's full history — overwritten each run), and
 five figures in `visualization/`: `cmaes_convergence.png`,
 `cmaes_constraints.png`, `cmaes_variables.png`, `cmaes_overview.png` (all
 this-run-only), plus `cmaes_param_map.png`.
 
 **Cumulative log across runs:** every run also appends to
-`optimize/cmaes_all_evaluations.csv` (never overwritten, each row tagged
+`optimize/runs/cmaes_all_evaluations.csv` (never overwritten, each row tagged
 with the run's start timestamp) — this is the persistent record of every
 design point ever evaluated, good or bad, across every run of this search.
 `cmaes_param_map.png` is built from that cumulative file, not just the
@@ -252,6 +388,31 @@ conda run -n fenicsx-env python3 visualization/plot_3d.py
 conda run -n fenicsx-env python3 visualization/field_uniformity.py
 ```
 
+**Validate one candidate design's true box uniformity** (the check that
+matters — see [the design problem](#the-design-problem--start-here)):
+
+```bash
+TA_VALIDATE_JSON='{"label":"champion","a":0.022227,"b":0.027268,
+  "coil_half_gap":0.013500,"n_turns":[295,295,369,369,2,2],
+  "I_design":223.88}' \
+/home/gerrityjack/miniconda3/envs/fenicsx-env/bin/python3 optimize/ta_validate.py
+```
+
+> **Launch long runs via the environment's python binary directly, not
+> `conda run`.** `conda run` buffers *all* subprocess output until the
+> process exits — confirmed independent of anything in the script, and
+> not fixable with `--no-capture-output`/`--live-stream` or
+> `sys.stdout.reconfigure()`. Use
+> `/home/gerrityjack/miniconda3/envs/fenicsx-env/bin/python3 <script>`
+> for anything you need to monitor mid-run (every CMA-ES search, sweep
+> or study). The short commands above are fine either way.
+>
+> **Do not pause a run with `SIGSTOP` if it was launched as a Claude
+> Code background task** — the resulting exit code is read as a failure
+> and the whole process tree is reaped, so the run ends rather than
+> suspending. `SIGSTOP`/`SIGCONT` remains safe for a `disown`ed shell
+> job (verified on a 1.5 h pause with zero progress lost).
+
 ## Repository layout
 
 ```
@@ -272,9 +433,42 @@ Racetrack_v4/
 ├── sweep/
 │   ├── solve_sweep.py         ← uniform-J field sweep
 │   └── quench_sweep.py        ← per-cell quench currents + performance summary
+├── optimize/                  ← design search (see below)
 ├── validation/                ← Biot-Savart cross-check, mesh convergence, …
 └── visualization/             ← output figures (ta_* = T-A results)
 ```
+
+`optimize/` is split three ways (reorganized 2026-07-30) — the top level
+holds only the reusable tools, so one-off study scripts and run
+artifacts don't bury them:
+
+```
+optimize/
+├── opt_config.py              ← the ONLY file to edit for a new search
+├── optimize_geometry.py       ← coarse uniform-J screen (~5 s/design)
+├── cmaes_search.py            ← the CMA-ES search itself
+├── evaluate.py                ← frozen external-team entry point
+├── ta_validate.py             ← full T-A box-uniformity ground truth
+├── studies/                   ← one-off orchestrators, each a historical run
+│   ├── day_search.py                 ← 2026-07-27 widened 6–16 layer search
+│   ├── double_pancake_search.py      ← 2026-07-23 re-search under new constraints
+│   ├── perturbation_study.py         ← 2026-07-30 champion robustness study
+│   ├── sweep_n_layers.py             ← discrete layer-count outer loop
+│   ├── sweep_restarts.py             ← random cold-start sweep
+│   ├── overnight_refinement.py, focused_refinement_6_9.py, floor_test.py
+│   └── regenerate_champion_plots.py  ← rebuild cmaes_*.png from the master log
+└── runs/                      ← every log + CSV, grouped by study
+    ├── cmaes_all_evaluations.csv     ← CUMULATIVE master log, append-only,
+    │                                   ~101k evaluations, never overwritten
+    ├── cmaes_results.csv / cmaes_history.csv   ← latest run only (overwritten)
+    ├── perturbation/, day_search/, double_pancake/, sweep_n_layers/,
+    └── sweep_restarts/, overnight/, floor_test/, n4_trial/, n8_focused/, …
+```
+
+Every artifact path flows through constants in `opt_config.py`
+(`CMAES_MASTER_LOG`, `CMAES_OUT_CSV`, `CMAES_OUT_LOG`, `OUT_CSV`), so
+the visualization scripts needed no changes and future moves only touch
+that one file.
 
 ---
 
@@ -288,18 +482,18 @@ worked example and the physics-explanation section further down use —
 but are no longer what a fresh solve/visualization run in this repo
 actually produces.
 
-| Parameter | Current champion (params.py, as of 2026-07-24) | Original baseline (evaluate.py example) |
+| Parameter | Current champion (params.py, as of 2026-07-30) | Original baseline (evaluate.py example) |
 |---|---|---|
-| `n_turns` | `[285, 285, 379, 379, 2, 2]`  (6 layers = 3 double pancakes, top→bottom) | `[500, 500, 500, 400, 400, 250, 100]`  (7 layers) |
-| `n_turns_total` | 1332 | 2650 |
+| `n_turns` | `[295, 295, 369, 369, 2, 2]`  (6 layers = 3 double pancakes, top→bottom) | `[500, 500, 500, 400, 400, 250, 100]`  (7 layers) |
+| `n_turns_total` | 1330 | 2650 |
 | `a` / `b` | 22.227 mm / 27.268 mm | 50 mm / 80 mm |
 | `t` / `w` | 75 µm / 4 mm  (tape pitch Λ / tape width) | same |
 | `delta_SC` | 1 µm  (REBCO superconducting layer thickness) | same |
-| `I_design` | 224.29 A/turn | 200 A/turn |
+| `I_design` | 223.88 A/turn | 200 A/turn |
 | `coil_half_gap` | 13.500 mm  (face-to-face gap 3.0 mm, at the manufacturing floor) | 30 mm |
-| Tape length | 0.2258 km | ~1194 m |
+| Tape length | 0.2235 km | ~1194 m |
 | B_target @ I_op | 10.00 T (optimistic Ic extrapolation — see [Known limitations](#known-limitations)) | 13.4 T @ I_op=339A |
-| Box peak-to-peak uniformity | 0.731% (T-A validated PASS) | 0.21% |
+| Box peak-to-peak uniformity | 0.83% (T-A validated PASS; 0.731% on its original validation, 0.828% on two later independent re-checks — use 0.83%) | 0.21% |
 | Hoop stress | 114 MPa | — |
 | `ramp_duration` | 600 s  (ramp 0 → I; sets screening-current depth) | same |
 | `mesh_z_grading` | `[0.075, 0.15, 0.55, 0.15, 0.075]`  (graded sub-slabs per tape width: 0.3 mm edge cells, coarse bulk) | same |
@@ -426,7 +620,7 @@ measurements (15–20 T) are planned; until then apply an extra safety factor.
   `clip_B=True`, flat-clamping Ic to its measured 8 T value for any cell
   above that field — this is *optimistic*, not conservative, since Ic
   decreases with B in the measured range. Re-evaluating the champion's
-  fixed geometry (`optimize/day_search.py` Phase C, `ConservativeIcModel`)
+  fixed geometry (`optimize/studies/day_search.py` Phase C, `ConservativeIcModel`)
   under a conservative linear continuation of the measured 8 T slope
   instead drops B_target from 10.00 T to **6.51 T (-34.9 %)**, below the
   design floor. 11.8 % of the champion's own quench-point Ic evaluations
@@ -435,6 +629,18 @@ measurements (15–20 T) are planned; until then apply an extra safety factor.
   re-optimizing under the conservative extrapolation (see CLAUDE.md's
   2026-07-27 section for the one extra data point gathered so far: at
   safety factor 1.3 the same geometry reaches 14.71 T, clip_frac 0.231).
+- **HIGH, found 2026-07-30 — the champion is not a converged local
+  optimum, and its uniformity margin is thin against build tolerance.**
+  The perturbation study (`optimize/studies/perturbation_study.py`, 23
+  designs × full T-A) found a neighbour, `n_turns=[295,295,369,369,2,2]`,
+  that beats it on tape *and* field *and* hoop stress *and* uniformity
+  simultaneously; 8 of 22 perturbations had better uniformity. Separately,
+  all four all-axes jitter samples (≲0.3 mm plus a few turns) exceeded the
+  1 % uniformity target — biased pessimistic, since the face-gap floor
+  lets jitter only *increase* gap, the steepest axis (≈0.7 pp/mm), but it
+  means **assembly gap tolerance is tight**. Re-optimize locally before
+  treating this geometry as final; the obvious untested candidate is
+  `turns_shift_in` scaled slightly down to land exactly on 10 T.
 - **Ic dataset inconsistency** (see above) — resolve before trusting
   operating-point conclusions
 - **CSV ceiling at 8 T** — quench limit unreliable above that field
@@ -452,8 +658,13 @@ measurements (15–20 T) are planned; until then apply an extra safety factor.
   within ~10 % (validation/ta_per_layer_comparison.py)
 - **1/8 symmetry assumes equal-sense coils** (Helmholtz pair) and that the
   screening pattern shares the transport current's mirror symmetry
-- **Bore-box homogeneity not yet re-evaluated** with the fixed model —
-  only the on-axis SCIF point has been computed
+- **RESOLVED 2026-07-24 — bore-box homogeneity is now computed properly**
+  (it was previously only the on-axis SCIF point). `ta_validate.py`
+  evaluates `dB_bore_from_dJ()` over a grid spanning the real 30×6 mm
+  target box. This mattered enormously: on-axis SCIF and true box
+  peak-to-peak are *anti*-correlated across the designs tested — the
+  design with the best on-axis number (10 layers, 1.37 %) had the worst
+  box uniformity (9.18 %). **Always use the box metric.**
 - **RESOLVED 2026-07-22 — single-filament Biot-Savart broke down at small
   coil scale:** `physics/coil2_field.py`'s original
   `compute_both_coils_field()` treats the whole winding as one filament at
@@ -704,5 +915,6 @@ structural review.
 | Mesh sufficiency | z-resolution study nz = 1…5 + graded; SCIF converged (strong tape ±5 %); in-plane converged at 0.5 % |
 | Per-layer vs replicated T-A | Agree within ~10 % once the tape width is resolved |
 | Solver convergence real | Observable frozen to < 0.01 mT across runs and 500-iteration continuation |
-| Bean optimizer proxy | +92.3 vs +82.0 mT against converged T-A (13 %) |
+| Bean optimizer proxy | +92.3 vs +82.0 mT against converged T-A (13 %) at the original ~50–80 mm coil scale — **breaks down badly (up to ~10×, sign-inverted ranking) for the compact a ≈ 15–25 mm designs the search converges to; do not trust its `uniformity_pct`** |
 | Warm-start unbiased | Warm vs cold starts agree to 0.01 % at tight tolerance |
+| Champion is a real optimum, not numerical luck | 23-design perturbation study, full T-A each with 2 independent-mesh repeats: all converged, spread ≤ 0.003 pp on 22 of 23, every axis smooth and monotone. **But it is not converged** — a neighbour dominates it on all four metrics (2026-07-30) |

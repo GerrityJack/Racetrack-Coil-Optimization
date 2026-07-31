@@ -4,7 +4,7 @@ plot_basin_analysis.py
 Answers "how many local minima did the CMA-ES search find, and how
 similar are they?" by taking the best (all-constraints-passing) result
 from EVERY independent cmaes_search.py run in the cumulative log
-(optimize/cmaes_all_evaluations.csv -- 84 runs as of 2026-07-22: manual
+(optimize/runs/cmaes_all_evaluations.csv -- 84 runs as of 2026-07-22: manual
 runs 1-3, the 4 diverse restarts, and 76 from the overnight
 sweep_restarts.py sweep) and analyzing that population of ~82 "run
 optima" directly, rather than the raw 26k-evaluation cloud.

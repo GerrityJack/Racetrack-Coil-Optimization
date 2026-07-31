@@ -1,0 +1,78 @@
+[14:42:49] perturbation study around the 6-layer champion: 23 candidates, 2 T-A repeats each
+[14:42:49] PHASE 1: coarse screen (tape / I_op / B_target / hoop) ...
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[14:42:59]   champion             tape=0.2259km I_op=224.3A B=10.005T hoop=114MPa
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:05]   a-0.50mm             tape=0.2217km I_op=223.6A B=10.032T hoop=111MPa
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:13]   a-0.25mm             tape=0.2238km I_op=223.8A B=10.056T hoop=114MPa
+  [a=22 b=28 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:17]   a+0.25mm             tape=0.2280km I_op=223.7A B=9.937T hoop=115MPa
+  [a=23 b=28 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:21]   a+0.50mm             tape=0.2300km I_op=223.8A B=9.930T hoop=117MPa
+  [a=23 b=28 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:27]   a+1.00mm             tape=0.2342km I_op=223.7A B=9.882T hoop=120MPa
+  [a=24 b=29 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:31]   a+2.00mm             tape=0.2426km I_op=224.0A B=9.744T hoop=123MPa
+  [a=22 b=28 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:35]   b+0.50mm             tape=0.2285km I_op=223.6A B=9.920T hoop=114MPa
+  [a=22 b=29 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:40]   b+1.50mm             tape=0.2339km I_op=224.0A B=9.856T hoop=115MPa
+  [a=22 b=30 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:45]   b+3.00mm             tape=0.2418km I_op=223.7A B=9.774T hoop=116MPa
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:50]   gap+0.50mm           tape=0.2259km I_op=224.4A B=9.903T hoop=112MPa
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[14:43:56]   gap+1.00mm           tape=0.2259km I_op=223.7A B=9.672T hoop=108MPa
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[14:44:03]   gap+2.00mm           tape=0.2259km I_op=223.6A B=9.301T hoop=104MPa
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[14:44:08]   gap+4.00mm           tape=0.2259km I_op=225.2A B=8.772T hoop=99MPa
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[14:44:14]   turns_shift_out      tape=0.2280km I_op=223.7A B=9.748T hoop=114MPa
+  [a=22 b=27 nt=1332] KSP converged reason: 4, iterations: 1
+[14:44:19]   turns_shift_in       tape=0.2235km I_op=223.9A B=10.215T hoop=111MPa
+  [a=22 b=27 nt=1348] KSP converged reason: 4, iterations: 1
+[14:44:23]   turns_grow_pair3     tape=0.2298km I_op=223.5A B=10.016T hoop=115MPa
+  [a=22 b=27 nt=1266] KSP converged reason: 4, iterations: 1
+[14:44:30]   turns_scale-5pct     tape=0.2140km I_op=223.7A B=9.522T hoop=112MPa
+  [a=22 b=27 nt=1386] KSP converged reason: 4, iterations: 1
+[14:44:37]   turns_scale+4pct     tape=0.2350km I_op=224.5A B=10.426T hoop=118MPa
+  [a=22 b=28 nt=1328] KSP converged reason: 4, iterations: 1
+[14:44:41]   jitter1              tape=0.2291km I_op=224.0A B=9.770T hoop=114MPa
+  [a=22 b=28 nt=1326] KSP converged reason: 4, iterations: 1
+[14:44:46]   jitter2              tape=0.2275km I_op=223.7A B=9.765T hoop=114MPa
+  [a=22 b=27 nt=1344] KSP converged reason: 4, iterations: 1
+[14:44:51]   jitter3              tape=0.2302km I_op=223.7A B=9.924T hoop=115MPa
+  [a=22 b=27 nt=1318] KSP converged reason: 4, iterations: 1
+[14:44:56]   jitter4              tape=0.2242km I_op=223.7A B=9.862T hoop=112MPa
+[14:44:56] PHASE 2: T-A box uniformity on 23 candidates, 3 concurrent ...
+[14:50:04]   [1/23] a-0.25mm             box_ptp=0.981% (spread 0.002) converged=True
+[14:50:36]   [2/23] a-0.50mm             box_ptp=1.140% (spread 0.001) converged=True
+[14:51:19]   [3/23] champion             box_ptp=0.828% (spread 0.000) converged=True
+[14:54:26]   [4/23] a+0.50mm             box_ptp=0.675% (spread 0.000) converged=True
+[14:54:33]   [5/23] a+1.00mm             box_ptp=0.487% (spread 0.001) converged=True
+[14:54:35]   [6/23] a+0.25mm             box_ptp=0.832% (spread 0.001) converged=True
+[14:58:23]   [7/23] b+1.50mm             box_ptp=0.591% (spread 0.003) converged=True
+[14:58:45]   [8/23] b+0.50mm             box_ptp=0.742% (spread 0.000) converged=True
+[15:00:19]   [9/23] a+2.00mm             box_ptp=0.705% (spread 0.000) converged=True
+[15:02:11]   [10/23] b+3.00mm             box_ptp=0.946% (spread 0.001) converged=True
+[15:03:24]   [11/23] gap+0.50mm           box_ptp=1.191% (spread 0.001) converged=True
+[15:04:07]   [12/23] gap+1.00mm           box_ptp=1.624% (spread 0.001) converged=True
+[15:06:54]   [13/23] gap+2.00mm           box_ptp=2.612% (spread 0.000) converged=True
+[15:08:11]   [14/23] turns_shift_out      box_ptp=1.982% (spread 0.000) converged=True
+[15:08:24]   [15/23] gap+4.00mm           box_ptp=5.129% (spread 0.000) converged=True
+[15:11:27]   [16/23] turns_shift_in       box_ptp=0.687% (spread 0.001) converged=True
+[15:12:54]   [17/23] turns_grow_pair3     box_ptp=0.897% (spread 0.000) converged=True
+[15:13:22]   [18/23] turns_scale-5pct     box_ptp=0.563% (spread 0.000) converged=True
+[15:15:31]   [19/23] turns_scale+4pct     box_ptp=0.774% (spread 0.003) converged=True
+[15:16:59]   [20/23] jitter2              box_ptp=1.085% (spread 0.003) converged=True
+[15:17:34]   [21/23] jitter1              box_ptp=1.230% (spread 0.000) converged=True
+[15:19:07]   [22/23] jitter3              box_ptp=1.247% (spread 0.001) converged=True
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0

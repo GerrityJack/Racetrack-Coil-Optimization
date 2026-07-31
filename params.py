@@ -56,8 +56,14 @@ delta_SC = 1.0e-6   # m — REBCO superconducting layer thickness (~1 µm).
 # ── Layer definition  [top → bottom] ────────────────────────────────────────
 # Each entry is the number of turns in that z-layer.
 # All layers share the SAME outer radial edge; inner edge = a_out − n_i·t.
-# Double-pancake pairs: (285,285),(379,379),(2,2).
-n_turns = [285, 285, 379, 379, 2, 2]
+# Double-pancake pairs: (295,295),(369,369),(2,2).
+# 2026-07-30: was [285,285,379,379,2,2]. The perturbation study found that
+# shifting 10 turns per pancake from the inner pair to the outer pair
+# improves tape AND B_target AND hoop AND T-A box uniformity all at once
+# (0.2259->0.2235km, 10.005->10.215T, 114->111MPa, 0.828->0.687%).
+# Confirmed on four independent mesh realizations (0.687/0.688/0.686%).
+# a, b and coil_half_gap are UNCHANGED -- only the turn split moved.
+n_turns = [295, 295, 369, 369, 2, 2]
 
 # ── Derived winding quantities ────────────────────────────────────────────────
 # Computed by recompute_derived() at the BOTTOM of this file.  To change
@@ -66,8 +72,10 @@ n_turns = [285, 285, 379, 379, 2, 2]
 # quantity below (and the mesh sizing) is refreshed.
 
 # ── Current ───────────────────────────────────────────────────────────────────
-I_design = 224.28825989070785    # A/turn — quench/SF-limited I_op for the
-                                 # n_layers=6 champion (was 200.0 default).
+I_design = 223.88086308072167    # A/turn — quench/SF-limited I_op for the
+                                 # n_layers=6 champion (was 200.0 default;
+                                 # 224.28825989070785 for the superseded
+                                 # [285,285,379,379,2,2] turn split).
 # J_mag (homogenised current density) is set by recompute_derived()
 
 # ── Two-coil configuration ────────────────────────────────────────────────────

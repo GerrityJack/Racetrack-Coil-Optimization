@@ -1,0 +1,36 @@
+[16:00:53] PHASE 1: local CMA-ES polish, 1000 evals, seed 73024
+[16:00:53]   x0 = a=22.227mm b=27.268mm gap=13.500mm n_turns=[295, 295, 369, 369, 2, 2]
+[16:00:53]   step: a=1.111mm b=1.363mm turns=15 (proportional -- NOT the bound-range defaults)
+[16:23:31] PHASE 1 done in 22.6 min (rc=0, full log -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/local_polish/cmaes_stdout.log)
+[16:23:31]   471 evaluations satisfy B>=10.0T and hoop<=400.0MPa
+[16:23:31] PHASE 2: T-A box uniformity on 8 candidates (2 independent-mesh repeats each)
+[16:23:31]   polish1        tape=0.1863km B=10.001T hoop=97MPa a=22.223 b=27.239 gap=13.541 n=[291, 291, 291, 291, 1, 1]
+[16:23:31]   polish2        tape=0.1871km B=10.019T hoop=98MPa a=22.213 b=27.261 gap=13.591 n=[293, 293, 290, 290, 1, 1]
+[16:23:31]   polish3        tape=0.1880km B=10.014T hoop=97MPa a=22.220 b=27.280 gap=13.584 n=[294, 294, 289, 289, 2, 2]
+[16:23:31]   polish4        tape=0.1888km B=10.042T hoop=97MPa a=22.256 b=27.339 gap=13.545 n=[295, 295, 289, 289, 2, 2]
+[16:23:31]   polish5        tape=0.1897km B=10.048T hoop=97MPa a=22.212 b=27.347 gap=13.521 n=[299, 299, 287, 287, 1, 1]
+[16:23:31]   polish6        tape=0.1905km B=10.026T hoop=97MPa a=22.256 b=27.624 gap=13.726 n=[296, 296, 291, 291, 1, 1]
+[16:23:31]   ref_champion   tape=0.2259km B=10.005T hoop=114MPa a=22.227 b=27.268 gap=13.500 n=[285, 285, 379, 379, 2, 2]
+[16:23:31]   ref_shift_in   tape=0.2235km B=10.215T hoop=111MPa a=22.227 b=27.268 gap=13.500 n=[295, 295, 369, 369, 2, 2]
+[16:26:18]   [polish1] box p2p = 3.659, 3.660 -> FAIL
+[16:39:09]   [polish2] box p2p = 4.487, 4.470 -> FAIL
+[16:42:17]   [polish3] box p2p = 8.587, 8.552 -> FAIL
+[16:45:13]   [polish4] box p2p = 3.902, 3.899 -> FAIL
+[16:47:42]   [polish5] box p2p = 4.772, 4.772 -> FAIL
+[16:50:36]   [polish6] box p2p = 3.591, 3.594 -> FAIL
+[16:53:23]   [ref_champion] box p2p = 0.828, 0.828 -> PASS
+[16:55:29]   [ref_shift_in] box p2p = 0.688, 0.686 -> PASS
+[16:55:29] 
+[16:55:29] label           tape_km     B_T  hoop  box%(worst)  verdict
+[16:55:29] ref_shift_in     0.2235  10.215   111        0.688  PASS
+[16:55:29] ref_champion     0.2259  10.005   114        0.828  PASS
+[16:55:29] polish6          0.1905  10.026    97        3.594  FAIL
+[16:55:29] polish1          0.1863  10.001    97        3.660  FAIL
+[16:55:29] polish4          0.1888  10.042    97        3.902  FAIL
+[16:55:29] polish2          0.1871  10.019    98        4.487  FAIL
+[16:55:29] polish5          0.1897  10.048    97        4.772  FAIL
+[16:55:29] polish3          0.1880  10.014    97        8.587  FAIL
+[16:55:29] 
+[16:55:29] WINNER (lowest tape that actually passes T-A box uniformity): ref_shift_in tape=0.2235km B=10.215T hoop=111MPa box=0.688%
+[16:55:29]   a=22.2270mm b=27.2682mm gap=13.5003mm n_turns=[295, 295, 369, 369, 2, 2]
+[16:55:29] total 54.6 min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/local_polish/finalists.csv

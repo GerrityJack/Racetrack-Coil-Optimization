@@ -48,7 +48,7 @@ independent and can be parallelized later if the budget needs to grow
 Run from Racetrack_v4 root:
     conda run -n fenicsx-env python3 optimize/cmaes_search.py
 
-Outputs: optimize/cmaes_results.csv (best design), optimize/cmaes_history.csv
+Outputs: optimize/runs/cmaes_results.csv (best design), optimize/runs/cmaes_history.csv
 (every evaluation), and four figures in visualization/ (cmaes_convergence,
 cmaes_constraints, cmaes_variables, cmaes_overview).
 """
@@ -163,9 +163,18 @@ def bounds_and_stds():
     # known-good design instead sampled turn counts essentially uniformly
     # across the whole bound range from eval 1, and after 3000+ evals had
     # drifted to a WORSE optimum than its own starting point without
-    # finding its way back. CMAES_N_STD0_OVERRIDE lets an orchestrator set
-    # this proportionally (like the a/b overrides) for that case.
-    n_std_override = getattr(cfg, "CMAES_N_STD0_OVERRIDE", None)
+    # finding its way back. The CMAES_N_STD0_OVERRIDE env var lets an
+    # orchestrator set this proportionally (like the a/b overrides).
+    #
+    # 2026-07-30 BUGFIX: this read `cfg.CMAES_N_STD0_OVERRIDE`, but
+    # opt_config.py parses that env var into `cfg.CMAES_N_STD0` (no
+    # _OVERRIDE suffix) -- the attribute read here never existed, so
+    # getattr always returned None and the oversized bound-range default
+    # was used no matter what the caller set. In other words the fix
+    # added on 2026-07-23 to prevent exactly the regression described
+    # above was itself inert until now; any "polish" run since then
+    # silently got the ~150-turn cold-start step.
+    n_std_override = getattr(cfg, "CMAES_N_STD0", None)
     n_std = (n_std_override if n_std_override is not None
              else cfg.CMAES_SIGMA0_FRAC * (n_bounds[1] - n_bounds[0]))
     stds = [cfg.CMAES_A_STD0, cfg.CMAES_B_STD0, gap_std] + [n_std] * N_PAIRS
