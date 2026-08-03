@@ -356,9 +356,18 @@ OUT_PNG = "visualization/opt_overview.png"
 # hoop=102MPa, I_op=204.57A at 65% of local Ic.
 #
 # Set CMAES_IC_EXTRAP=kim when searching, or B_target will be optimistic.
-CMAES_X0 = dict(a=0.023227029065529628, b=0.02826822715975084,
-               coil_half_gap=0.013500289306395013,
-               n_turns=[329, 329, 411, 411, 2, 2])
+#
+# 2026-07-31 (later): replaced by the MARGIN-AWARE design. The previous
+# entry (a=23.227, n_turns=[329,329,411,411,2,2]) reached 10.03 T nominal
+# but FAILED the build-tolerance test: 0 of 14 perturbed builds reached
+# 10 T, because the search had converged exactly onto the B>=10T
+# constraint. **Any future search must target a nominal ABOVE the floor.**
+# This design: tape=0.3372km, B=10.49T, box uniformity 0.495%,
+# hoop=113MPa, I_op=196.0A at 65% Ic -- and 15/15 jitter samples hold both
+# 10 T and 1% uniformity.
+CMAES_X0 = dict(a=0.0260, b=0.0314,
+               coil_half_gap=0.0137,
+               n_turns=[382, 382, 478, 478, 3, 3])
 
 # 2026-07-21: the first run pinned a and b at their box bounds (30/60 mm)
 # for most of the search -- per project direction, a and b now have NO

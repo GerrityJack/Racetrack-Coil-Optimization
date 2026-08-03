@@ -1,22 +1,22 @@
 {
   "header": {
     "mode": "single solve (solve.py)",
-    "num_coil_cells": 4400,
-    "num_V_dofs": 10897,
-    "mesh_nodes": 1777,
-    "mesh_cells": 8376,
+    "num_coil_cells": 4463,
+    "num_V_dofs": 10551,
+    "mesh_nodes": 1718,
+    "mesh_cells": 8136,
     "petsc_options": {
       "ksp_type": "preonly",
       "pc_type": "lu",
       "pc_factor_mat_solver_type": "mumps"
     },
     "gauge_regularization": 0.001,
-    "I_design": 204.57
+    "I_design": 196.0
   },
   "records": [
     {
       "label": "single solve",
-      "I_amps": 204.57,
+      "I_amps": 196.0,
       "ksp_type": "preonly",
       "pc_type": "lu",
       "converged_reason": 4,
@@ -25,23 +25,23 @@
       "residual_history": [
         [
           0,
-          59639.0696057672
+          66165.76968889762
         ],
         [
           1,
-          41478.77927611069
+          8796.974615498157
         ]
       ],
-      "true_abs_residual": 41478.77927611069,
-      "true_rel_residual": 0.695496753223991,
-      "B_min_T": 0.05583884689853056,
-      "B_max_T": 11.348360292451055,
-      "B_mean_T": 4.3142572776336525,
-      "B_p50_T": 3.3954534370670997,
-      "B_p99_T": 10.212861167399241,
-      "outlier_ratio": 1.1111832528064194,
-      "A_norm": 18917055859.759228,
-      "wall_time_s": 0.4984550476074219
+      "true_abs_residual": 8796.974615498157,
+      "true_rel_residual": 0.13295355977660844,
+      "B_min_T": 0.10437934672168765,
+      "B_max_T": 11.88583683492454,
+      "B_mean_T": 4.4505036128121125,
+      "B_p50_T": 3.42876363863023,
+      "B_p99_T": 10.402866395922626,
+      "outlier_ratio": 1.1425540214169394,
+      "A_norm": 3050658236.7596,
+      "wall_time_s": 0.9329771995544434
     }
   ]
 }

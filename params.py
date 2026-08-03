@@ -5,54 +5,55 @@ All other scripts import this module; nothing is hardcoded elsewhere.
 import os, math
 
 # ── Tape / winding geometry ──────────────────────────────────────────────────
-# 2026-07-31: n_layers=6 double-pancake design, tape=0.2596 km,
-# a=23.227mm, b=28.268mm, gap=13.500mm, n_turns=[329,329,411,411,2,2],
-# I_op=204.57 A (65% of local Ic).
+# 2026-07-31 (FINAL): n_layers=6 double-pancake, tape=0.3372 km,
+# a=26.0mm, b=31.4mm, gap=13.7mm, n_turns=[382,382,478,478,3,3],
+# I_op=196.0 A (65% of local Ic).
 #
-# This is the first design validated against a REALISTIC critical-current
-# model. Everything before it was optimized with clip_B=True, which
-# flat-clamps Ic at the measured 8 T ceiling -- hold-out validation against
-# the measured data itself showed that clamp OVER-predicts Ic by +26.7% at
-# a 1.6x extrapolation and +54% at 2.7x (it is optimistic, not
-# conservative, because Ic decreases with B). Under the best-validated
-# extrapolation (Kim, Jc0/(1+B/B0); hold-out MAPE 4.1%, bias -3.3%) the
-# previous champion reached only 9.40 T, not the 10.2 T the flat clamp
-# claimed.
+# This is the first design validated against BOTH a realistic
+# critical-current model AND build tolerance.
 #
-#   metric                     value      limit     status
-#   B_target (Kim Ic model)    10.03 T    >= 10 T   PASS
-#   box p2p uniformity (T-A)    0.442%    <= 1%     PASS (2 meshes: .442/.442)
-#   hoop stress                 102 MPa   <= 400    PASS
-#   operating point             65% Ic    60-65%    PASS
-#   bend radius                 7.82 mm   >= 7.5    PASS
+#   metric                    nominal    limit     jitter (15 samples)
+#   B_target (Kim Ic)         10.49 T    >= 10 T   10.10-10.49  15/15 PASS
+#   box p2p uniformity (T-A)   0.495%    <= 1%     0.338-0.517  15/15 PASS
+#   hoop stress                113 MPa   <= 400    102-113      PASS
+#   bend radius               8.075 mm   >= 7.5    7.545-8.434  PASS
+#   face gap                   3.40 mm   >= 3.0    3.00-3.84    PASS
 #
-# CAVEAT: under a deliberately more conservative extrapolation
-# (pinning-force scaling law, Bc2=45T, hold-out bias -5.8%) this design
-# gives 9.34 T. Kim is the measurably better model AND is itself slightly
-# conservative, so 10.03 T is the better estimate -- but the honest
-# statement is ~10 T with about +-0.5 T of MODEL uncertainty. Closing that
-# requires measured Ic data above 8 T; no amount of computation can.
+# WHY IT LOOKS "OVERSIZED" vs earlier designs: it is deliberately NOT
+# sitting on its constraint floors. Its predecessor (a=23.227,
+# [329,329,411,411,2,2], 0.2596 km) hit 10.03 T nominal -- 0.3% margin --
+# and then FAILED build tolerance completely: 0 of 14 perturbed builds
+# reached 10 T, 5 of 6 were out of spec on a clearance floor, and 2
+# violated the 7.5mm bend radius. That happened because the search
+# minimized tape subject to B >= 10 T and so converged EXACTLY ONTO the
+# constraint; nothing asked for margin, so none was bought.
 #
-# Found by optimize/studies/ta_in_loop_search.py. Growing `a` is what makes
-# this work: it improves box uniformity AND raises the bend-radius ceiling
-# (max_pair = 2(a-7.5mm)/t), so more turns fit -- buying field and
-# uniformity together. Adding turns at fixed `a` is far weaker (0.2330 km
-# only reached 9.77 T).
+# This design was instead optimized against margin-aware constraints
+# derived from that measured jitter response (assumed tolerances: a, b,
+# gap +-0.2mm; tape thickness +-2%; turns exact):
+#   B >= 10.3 T nominal            (worst measured jitter cost -0.21 T)
+#   bend >= 7.5mm at a-0.2mm AND t+2% simultaneously
+#   face gap 3.4mm nominal, straight 5.4mm nominal
+# TAPE THICKNESS is the dominant build error and is asymmetric -- on the
+# predecessor, t+2% alone failed uniformity (1.33%), ate the entire
+# bend-radius margin, and cost 0.15 T. Here it is benign (0.356%, 10.15T).
 #
-# NOTE on an earlier retracted claim: a previous version of this comment
-# said box uniformity "tracks coil radius `a` almost perfectly (bigger a =
-# better)". That was WRONG -- it came from comparing designs that differed
-# in `a` AND layer count AND gap AND turn distribution at once. Isolating
-# `a` properly gives a V-shaped bowl with an interior minimum. See
-# CLAUDE.md.
+# ~Half the tape increase over the original 0.2235km design is the
+# realistic Ic model; the other half is build tolerance that was never
+# budgeted before. The tolerance half scales directly with the assumed
+# +-0.2mm / +-2% figures -- tighter machining would recover much of it.
 #
-# There is NO fast proxy for box uniformity. Four have been tried and
-# falsified against T-A: on-axis SCIF (anti-correlated), peak turns/pair,
-# the Bean-state correction (~10x error), and the uniform-J box field
-# (screening spans -1.50 to +0.57 pp). Always validate finalists with
-# optimize/ta_validate.py.
-a  = 0.023227029065529628    # m
-b  = 0.02826822715975084     # m
+# CAVEAT: under the more conservative `scaling:45` Ic extrapolation this
+# gives 9.44 T. Kim is the measurably better model (hold-out MAPE 4.1% vs
+# 6.1%) AND itself slightly conservative, so ~10.5 T is the better
+# estimate; state it as ~10.5 T with about +-0.5 T of MODEL uncertainty,
+# closable only by measured Ic data above 8 T.
+#
+# There is NO fast proxy for box uniformity -- four have been falsified
+# against T-A (on-axis SCIF, peak turns/pair, Bean-state, uniform-J box
+# field). Always validate finalists with optimize/ta_validate.py.
+a  = 0.0260                  # m
+b  = 0.0314                  # m
 t  = 75e-6     # m — single tape thickness (radial pitch, no gap)
 w  = 0.004     # m — tape width (out-of-plane depth per layer)
 
@@ -62,14 +63,14 @@ delta_SC = 1.0e-6   # m — REBCO superconducting layer thickness (~1 µm).
 # ── Layer definition  [top → bottom] ────────────────────────────────────────
 # Each entry is the number of turns in that z-layer.
 # All layers share the SAME outer radial edge; inner edge = a_out − n_i·t.
-# Double-pancake pairs: (329,329),(411,411),(2,2).
+# Double-pancake pairs: (382,382),(478,478),(3,3).
 # 2026-07-30: was [285,285,379,379,2,2]. The perturbation study found that
 # shifting 10 turns per pancake from the inner pair to the outer pair
 # improves tape AND B_target AND hoop AND T-A box uniformity all at once
 # (0.2259->0.2235km, 10.005->10.215T, 114->111MPa, 0.828->0.687%).
 # Confirmed on four independent mesh realizations (0.687/0.688/0.686%).
 # a, b and coil_half_gap are UNCHANGED -- only the turn split moved.
-n_turns = [329, 329, 411, 411, 2, 2]
+n_turns = [382, 382, 478, 478, 3, 3]
 
 # ── Derived winding quantities ────────────────────────────────────────────────
 # Computed by recompute_derived() at the BOTTOM of this file.  To change
@@ -78,7 +79,7 @@ n_turns = [329, 329, 411, 411, 2, 2]
 # quantity below (and the mesh sizing) is refreshed.
 
 # ── Current ───────────────────────────────────────────────────────────────────
-I_design = 204.57            # A/turn — quench/SF-limited I_op for the
+I_design = 196.00            # A/turn — quench/SF-limited I_op for the
                                  # n_layers=6 champion (was 200.0 default;
                                  # 224.28825989070785 for the superseded
                                  # [285,285,379,379,2,2] turn split).
@@ -86,7 +87,7 @@ I_design = 204.57            # A/turn — quench/SF-limited I_op for the
 
 # ── Two-coil configuration ────────────────────────────────────────────────────
 two_coil_mode  = True
-coil_half_gap  = 0.013500289306395013    # m
+coil_half_gap  = 0.0137                  # m
                            # (coil 1 at z=0, coil 2 at z=2g, midplane at z=g)
 
 # ── Eighth-symmetry mode ──────────────────────────────────────────────────────

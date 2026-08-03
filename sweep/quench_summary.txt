@@ -5,7 +5,7 @@ Locations analyzed: 56224
   status=never_quenched: 13376 (23.8%)
   status=quenched_at_min: 0 (0.0%)
 
-Weakest point: quench current = 389.61 A at (x=0.0073, y=0.0543, z=0.0353), s=0.0373 m
+Weakest point: quench current = 389.61 A at (x=0.0073, y=0.0543, z=0.0357), s=0.0373 m
 Quench current distribution: min=389.61 A, 5th pct=399.65 A, median=451.06 A, max=599.97 A
 
 Some locations never quenched within the solved current range ([50.0, 600.0] A) -- add higher currents to params.sweep_currents and rerun solve_sweep.py to find their quench current.

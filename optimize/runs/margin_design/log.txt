@@ -1,0 +1,44 @@
+[15:23:31] Margin-aware design search (the previous design had 0.3% field margin and 0/14 builds reached 10 T)
+[15:23:31]   targets: B >= 10.3 T, worst-case bend >= 7.5mm, face gap 3.4mm nominal, straight 5.4mm nominal
+[15:23:31]   Ic=kim at 65% of local Ic
+[15:23:31] 
+[15:23:31] STAGE 1: FEM scan over (a, turn fill fraction)
+[15:23:35]   -- a=23.5 fill=1.00 tape=0.2655 B=  9.79T hoop= 100 worstbend= 7.50 pairs=[330, 413, 2]
+[15:23:39]   -- a=23.5 fill=0.92 tape=0.2435 B=  9.34T hoop= 102 worstbend= 8.77 pairs=[304, 380, 2]
+[15:23:43]   -- a=23.5 fill=0.85 tape=0.2242 B=  8.91T hoop= 103 worstbend= 9.87 pairs=[281, 351, 2]
+[15:23:47]   -- a=24.0 fill=1.00 tape=0.2792 B=  9.94T hoop= 101 worstbend= 7.51 pairs=[341, 426, 2]
+[15:23:51]   -- a=24.0 fill=0.92 tape=0.2558 B=  9.60T hoop= 107 worstbend= 8.81 pairs=[313, 392, 2]
+[15:23:55]   -- a=24.0 fill=0.85 tape=0.2354 B=  9.09T hoop= 106 worstbend= 9.95 pairs=[289, 362, 2]
+[15:23:59]   -- a=24.5 fill=1.00 tape=0.2930 B= 10.06T hoop= 104 worstbend= 7.51 pairs=[351, 439, 2]
+[15:24:03]   -- a=24.5 fill=0.92 tape=0.2686 B=  9.54T hoop= 105 worstbend= 8.85 pairs=[323, 404, 2]
+[15:24:06]   -- a=24.5 fill=0.85 tape=0.2472 B=  9.18T hoop= 108 worstbend=10.03 pairs=[298, 373, 2]
+[15:24:10]   -- a=25.0 fill=1.00 tape=0.3072 B= 10.11T hoop= 105 worstbend= 7.51 pairs=[361, 452, 2]
+[15:24:14]   -- a=25.0 fill=0.92 tape=0.2818 B=  9.55T hoop= 106 worstbend= 8.89 pairs=[333, 416, 2]
+[15:24:18]   -- a=25.0 fill=0.85 tape=0.2591 B=  9.20T hoop= 108 worstbend=10.11 pairs=[307, 384, 2]
+[15:24:22]   -- a=25.5 fill=1.00 tape=0.3224 B= 10.21T hoop= 107 worstbend= 7.51 pairs=[372, 465, 3]
+[15:24:27]   -- a=25.5 fill=0.92 tape=0.2950 B=  9.74T hoop= 110 worstbend= 8.93 pairs=[342, 428, 2]
+[15:24:31]   -- a=25.5 fill=0.85 tape=0.2714 B=  9.38T hoop= 113 worstbend=10.19 pairs=[316, 395, 2]
+[15:24:35]   OK a=26.0 fill=1.00 tape=0.3372 B= 10.49T hoop= 113 worstbend= 7.52 pairs=[382, 478, 3]
+[15:24:39]   -- a=26.0 fill=0.92 tape=0.3087 B=  9.81T hoop= 110 worstbend= 8.97 pairs=[352, 440, 2]
+[15:24:43]   -- a=26.0 fill=0.85 tape=0.2839 B=  9.41T hoop= 113 worstbend=10.27 pairs=[325, 406, 2]
+[15:24:48]   OK a=27.0 fill=1.00 tape=0.3680 B= 10.57T hoop= 113 worstbend= 7.52 pairs=[403, 504, 3]
+[15:24:52]   -- a=27.0 fill=0.92 tape=0.3374 B= 10.02T hoop= 113 worstbend= 9.05 pairs=[371, 464, 3]
+[15:24:56]   -- a=27.0 fill=0.85 tape=0.3095 B=  9.58T hoop= 117 worstbend=10.43 pairs=[342, 428, 2]
+[15:25:00]   OK a=28.0 fill=1.00 tape=0.4000 B= 10.67T hoop= 115 worstbend= 7.53 pairs=[424, 530, 3]
+[15:25:04]   -- a=28.0 fill=0.92 tape=0.3667 B= 10.12T hoop= 117 worstbend= 9.13 pairs=[390, 488, 3]
+[15:25:08]   -- a=28.0 fill=0.85 tape=0.3365 B=  9.86T hoop= 124 worstbend=10.59 pairs=[360, 450, 2]
+[15:25:08] 
+[15:25:08]   3 designs meet B >= 10.3 T with full build margin; cheapest 0.3372 km
+[15:25:08] 
+[15:25:08] STAGE 2: T-A box uniformity on 3 finalists
+[15:29:20]   a26.0_f1.00    tape=0.3372 B= 10.49T -> box = 0.495, 0.495  PASS
+[15:29:22]   a27.0_f1.00    tape=0.3680 B= 10.57T -> box = 0.486, 0.486  PASS
+[15:32:26]   a28.0_f1.00    tape=0.4000 B= 10.67T -> box = 0.415, 0.414  PASS
+[15:32:27] 
+[15:32:27] WINNER: a26.0_f1.00 tape=0.3372km B=10.49T hoop=113MPa box=0.495% worst-case bend=7.52mm
+[15:32:27]   a=26.0000mm b=31.4000mm gap=13.7000mm I_op=196.00A
+[15:32:27]   n_turns=[382, 382, 478, 478, 3, 3]
+[15:32:27] 
+[15:32:27] conservative Ic cross-check ('scaling:45'):
+[15:32:31]   B_target=9.44T (below 10T)
+[15:32:31] total 9.0 min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/margin_design/results.csv

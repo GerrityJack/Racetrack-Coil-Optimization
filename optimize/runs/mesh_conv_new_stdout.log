@@ -1,0 +1,25 @@
+[14:29:34] mesh convergence of the champion's box uniformity: 8 mesh configs, geometry FIXED
+[14:29:34]   design: a=23.227mm b=28.268mm gap=13.500mm n_turns=[329, 329, 411, 411, 2, 2] I=204.59A
+[14:32:19]   [gapA_prod      ] box_ptp=0.416%  cells=  4375 dofs=  10868  iters= 80 conv=True 153s
+[14:32:21]   [gapB_prod      ] box_ptp=0.416%  cells=  4375 dofs=  10868  iters= 81 conv=True 157s
+[14:34:36]   [z_nz3          ] box_ptp=0.360%  cells=  2693 dofs=   8013  iters= 81 conv=True 124s
+[14:35:45]   [z_graded7      ] box_ptp=0.406%  cells=  6103 dofs=  13577  iters= 78 conv=True 180s
+[14:38:44]   [z_graded9      ] box_ptp=0.385%  cells=  7906 dofs=  16577  iters= 81 conv=True 223s
+[14:43:21]   [inplane_fine   ] box_ptp=0.438%  cells= 15252 dofs=  45178  iters= 83 conv=True 423s
+[14:51:58]   [both_fine      ] box_ptp=0.386%  cells= 21003 dofs=  53345  iters= 75 conv=True 483s
+[15:13:47]   [inplane_finer  ] box_ptp=3.460%  cells= 53089 dofs= 229713  iters=150 conv=False 2050s
+[15:13:47] 
+[15:13:47] label           axis        cells    dofs    box%  conv
+[15:13:47] both_fine       both        21003   53345   0.386  True
+[15:13:47] gapA_prod       gap-discontinuity   4375   10868   0.416  True
+[15:13:47] gapB_prod       gap-discontinuity   4375   10868   0.416  True
+[15:13:47] inplane_fine    in-plane    15252   45178   0.438  True
+[15:13:47] inplane_finer   in-plane    53089  229713   3.460 False
+[15:13:47] z_nz3           z            2693    8013   0.360  True
+[15:13:47] z_graded7       z            6103   13577   0.406  True
+[15:13:47] z_graded9       z            7906   16577   0.385  True
+[15:13:47] 
+[15:13:47] spread across ALL mesh configs: 0.360 - 3.460% (range 3.100pp)
+[15:13:47] all configs below the 1.0% target: False
+[15:13:47] spread among the 7 FINEST configs: 0.385 - 3.460% (range 3.076pp)
+[15:13:47] total 44.2 min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/mesh_conv_new_design/results.csv

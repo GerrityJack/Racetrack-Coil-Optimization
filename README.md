@@ -44,30 +44,37 @@ every major assumption, read [The physics, explained](#the-physics-explained).**
 `coil_half_gap`, and one turn count per double-pancake pair.
 
 **Current best design — 6 layers (3 double pancakes), 2026-07-31:**
-tape = 0.2596 km, B_target = 10.03 T, hoop = 102 MPa, T-A box uniformity
-= 0.442%. `a` = 23.227 mm, `b` = 28.268 mm, `coil_half_gap` = 13.500 mm,
-`n_turns = [329,329,411,411,2,2]`, I_op = 204.57 A at 65% of local Ic.
+tape = 0.3372 km, B_target = 10.49 T, hoop = 113 MPa, T-A box uniformity
+= 0.495%. `a` = 26.0 mm, `b` = 31.4 mm, `coil_half_gap` = 13.7 mm,
+`n_turns = [382,382,478,478,3,3]`, I_op = 196.0 A at 65% of local Ic.
 
-**This is the first design validated against a realistic critical-current
-model.** Every earlier design was optimized with `clip_B=True`, which
-flat-clamps Ic at the measured 8 T ceiling — hold-out validation against
-the measured data showed that clamp **over-predicts Ic by +26.7%** at a
-1.6× extrapolation and +54% at 2.7×. Under the best-validated
-extrapolation the previous champion reaches only 9.40 T, not the 10.2 T
-the clamp claimed.
+**This is the first design validated against both a realistic
+critical-current model and build tolerance.**
 
-> **Open caveat.** Under a deliberately more conservative extrapolation
-> (pinning-force scaling law, B_c2 = 45 T) this design gives 9.34 T. Kim
-> is the measurably better model *and* is itself slightly conservative, so
-> 10.03 T is the better estimate — but state it honestly as **~10 T with
-> about ±0.5 T of model uncertainty**. Only measured Ic data above 8 T can
-> close that; no amount of computation will.
+| metric | nominal | limit | across 15 jitter samples |
+|---|---|---|---|
+| B_target (Kim Ic) | 10.49 T | ≥ 10 T | 10.10–10.49 — **15/15 pass** |
+| box uniformity (T-A) | 0.495% | ≤ 1% | 0.338–0.517 — **15/15 pass** |
+| hoop stress | 113 MPa | ≤ 400 | 102–113 |
+| bend radius | 8.075 mm | ≥ 7.5 | 7.545–8.434 |
+| face gap | 3.40 mm | ≥ 3.0 | 3.00–3.84 |
 
-> **There is no fast proxy for box uniformity.** Four have been tried and
-> falsified against T-A: on-axis SCIF (anti-correlated), peak turns per
-> pair, the Bean-state correction (~10× error), and the uniform-current
-> box field (screening spans −1.50 to +0.57 pp). Validate every finalist
-> with `optimize/ta_validate.py` — a solve is only ~3–5 min.
+> **Why it is deliberately not minimal.** Its predecessor
+> (`a`=23.227 mm, `[329,329,411,411,2,2]`, 0.2596 km) reached 10.03 T —
+> a 0.3% margin — and then failed build tolerance outright: **0 of 14**
+> perturbed builds reached 10 T, 5 of 6 were out of spec on a clearance
+> floor, and 2 violated the bend radius. The cause was structural: the
+> search minimized tape subject to B ≥ 10 T and converged *exactly onto*
+> the constraint. This design targets margin explicitly (B ≥ 10.3 T
+> nominal; bend radius ≥ 7.5 mm under simultaneous −0.2 mm radius and
+> +2% tape thickness). Tape thickness is the dominant build error and is
+> asymmetric — on the predecessor `t+2%` alone failed uniformity (1.33%);
+> here it is benign (0.356%).
+>
+> Roughly half the increase over the original 0.2235 km design is the
+> realistic Ic model, half is build tolerance never previously budgeted.
+> The tolerance half scales with the assumed ±0.2 mm / ±2% figures —
+> tighter machining recovers much of it.
 
 **How to evaluate a design.** Two tools, and the difference matters:
 

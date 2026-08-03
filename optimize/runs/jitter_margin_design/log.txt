@@ -1,0 +1,59 @@
+[15:33:06] Build-tolerance (jitter) study of the 2026-07-31 design
+[15:33:06]   Ic model=kim, operating point=65% of local Ic
+[15:33:06]   tolerances: a,b,gap +-0.2mm; tape thickness +-2%; turns EXACT
+[15:33:06] 
+[15:33:06] STEP 1: geometry margins + FEM (each design gets its OWN I_op)
+[15:33:10]   nominal     B= 10.48T I_op= 196.0A hoop= 112 bend=8.075 face=3.400
+[15:33:14]   a-0.2mm     B= 10.38T I_op= 193.9A hoop= 109 bend=7.875 face=3.400
+[15:33:18]   a+0.2mm     B= 10.34T I_op= 194.1A hoop= 111 bend=8.275 face=3.400
+[15:33:22]   b-0.2mm     B= 10.36T I_op= 193.9A hoop= 110 bend=8.075 face=3.400
+[15:33:27]   b+0.2mm     B= 10.32T I_op= 194.0A hoop= 110 bend=8.075 face=3.400
+[15:33:31]   gap-0.2mm   B= 10.46T I_op= 194.9A hoop= 112 bend=8.075 face=3.000  [gap 3.000<3.0]
+[15:33:36]   gap+0.2mm   B= 10.49T I_op= 196.5A hoop= 111 bend=8.075 face=3.800
+[15:33:40]   t-2pct      B= 10.30T I_op= 192.9A hoop= 113 bend=8.434 face=3.400
+[15:33:44]   t+2pct      B= 10.15T I_op= 191.5A hoop= 103 bend=7.717 face=3.400
+[15:33:48]   jit1        B= 10.34T I_op= 193.9A hoop= 108 bend=7.918 face=3.145
+[15:33:53]   jit2        B= 10.10T I_op= 191.2A hoop= 102 bend=7.622 face=3.302
+[15:33:58]   jit3        B= 10.30T I_op= 193.5A hoop= 108 bend=7.950 face=3.384
+[15:34:02]   jit4        B= 10.34T I_op= 193.7A hoop= 110 bend=8.146 face=3.308
+[15:34:07]   jit5        B= 10.13T I_op= 191.3A hoop= 102 bend=7.545 face=3.495
+[15:34:12]   jit6        B= 10.30T I_op= 194.2A hoop= 110 bend=8.223 face=3.840
+[15:34:12] 
+[15:34:12] STEP 2: T-A box uniformity on 15 designs (2 parallel, 2 meshes each)
+[15:39:27]   a-0.2mm     box = 0.445, 0.446     B= 10.38T  unif=OK field=OK
+[15:39:36]   nominal     box = 0.517, 0.516     B= 10.48T  unif=OK field=OK
+[15:44:00]   b-0.2mm     box = 0.432, 0.432     B= 10.36T  unif=OK field=OK
+[15:44:24]   a+0.2mm     box = 0.441, 0.441     B= 10.34T  unif=OK field=OK
+[15:48:43]   b+0.2mm     box = 0.517, 0.517     B= 10.32T  unif=OK field=OK
+[15:48:53]   gap-0.2mm   box = 0.387, 0.385     B= 10.46T  unif=OK field=OK
+[15:53:13]   gap+0.2mm   box = 0.394, 0.394     B= 10.49T  unif=OK field=OK
+[15:53:34]   t-2pct      box = 0.498, 0.497     B= 10.30T  unif=OK field=OK
+[15:57:50]   t+2pct      box = 0.356, 0.355     B= 10.15T  unif=OK field=OK
+[15:58:37]   jit1        box = 0.492, 0.492     B= 10.34T  unif=OK field=OK
+[16:02:20]   jit2        box = 0.482, 0.481     B= 10.10T  unif=OK field=OK
+[16:03:23]   jit3        box = 0.463, 0.463     B= 10.30T  unif=OK field=OK
+[16:07:22]   jit4        box = 0.428, 0.428     B= 10.34T  unif=OK field=OK
+[16:08:23]   jit5        box = 0.338, 0.338     B= 10.13T  unif=OK field=OK
+[16:11:06]   jit6        box = 0.415, 0.414     B= 10.30T  unif=OK field=OK
+[16:11:06] 
+[16:11:06] label      group       B_T    box%    dbox  spec  notes
+[16:11:06] a+0.2mm    axis      10.34   0.441  -0.076    ok  
+[16:11:06] a-0.2mm    axis      10.38   0.446  -0.071    ok  
+[16:11:06] b+0.2mm    axis      10.32   0.517  +0.000    ok  
+[16:11:06] b-0.2mm    axis      10.36   0.432  -0.085    ok  
+[16:11:06] gap+0.2mm  axis      10.49   0.394  -0.123    ok  
+[16:11:06] gap-0.2mm  axis      10.46   0.387  -0.130   OUT  gap 3.000<3.0
+[16:11:06] t+2pct     axis      10.15   0.356  -0.162    ok  
+[16:11:06] t-2pct     axis      10.30   0.498  -0.019    ok  
+[16:11:06] jit1       random    10.34   0.492  -0.025    ok  
+[16:11:06] jit2       random    10.10   0.482  -0.036    ok  
+[16:11:06] jit3       random    10.30   0.463  -0.054    ok  
+[16:11:06] jit4       random    10.34   0.428  -0.089    ok  
+[16:11:06] jit5       random    10.13   0.338  -0.179    ok  
+[16:11:06] jit6       random    10.30   0.415  -0.102    ok  
+[16:11:06] nominal    ref       10.48   0.517  +0.000    ok  
+[16:11:06] 
+[16:11:06] dominant single-axis error: t+2pct (-0.162pp)
+[16:11:06] all-axes samples: box 0.338-0.492% (nominal 0.517%), 6/6 meet BOTH uniformity and 10 T
+[16:11:06]   0/6 land OUT OF SPEC on a clearance floor (the nominal design sits on three of them)
+[16:11:06] total 38.0 min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/jitter_margin_design/results.csv

@@ -1,0 +1,5 @@
+TA_VALIDATE_RESULT label='inplane_fine' repeat=0 box_ptp_pct=0.4383 onaxis_scif_pct=5.8739 Bz_bore_uniform=-11.12953 Bz_bore_TA=-10.47580 converged=True n_iters=83 solve_s=423.0 n_coil_cells=15252 n_dofs=45178
+
+--- stderr ---
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
