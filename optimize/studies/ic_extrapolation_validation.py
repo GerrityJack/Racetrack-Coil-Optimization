@@ -18,6 +18,10 @@ application needs (8 T -> ~9-13 T peak conductor field, i.e. 1.1-1.6x):
                                                  analogue to the real use)
 
 **Candidate forms** (all fitted per angle, so anisotropy is preserved):
+  beta_long   Jc(B) = A*b^(a-1)*(1-b)^(B-1), b = B/B_irr  -- Long (2013),
+              Entropy 15(7) 2585, doi:10.3390/e15072585, Eq. 2. Derived from
+              maximum entropy with logarithmic constraints; B_irr (the
+              IRREVERSIBILITY field, where Jc -> 0) is FITTED, not fixed.
 
   flat        Jc(B) = Jc(B_fit_max)                 -- the current default
   power       Jc(B) = C * B^(-alpha)                -- pure power law
@@ -92,6 +96,15 @@ def _f_scaling(Bc2):
     return f
 
 
+def f_beta(B, A, alpha, beta, Birr):
+    """Long (2013) Eq. 2: Jc ~ b^(alpha-1)(1-b)^(beta-1), b = B/B_irr.
+    The normalizing field is the IRREVERSIBILITY field, fitted rather than
+    fixed -- unlike the scaling law's Bc2, which had to be pinned by hand
+    because it was degenerate with q."""
+    b = np.clip(B / Birr, 1e-12, 1.0 - 1e-12)
+    return A * b ** (alpha - 1.0) * (1.0 - b) ** (beta - 1.0)
+
+
 FORMS = [
     ("power", f_power, [1000.0, 0.5], ([1e-3, 0.0], [1e8, 3.0])),
     ("kim", f_kim, [2000.0, 2.0], ([1e-3, 1e-3], [1e8, 1e4])),
@@ -101,6 +114,9 @@ FORMS = [
      ([1e-3, 0.01, 0.1], [1e8, 3.0, 12.0])),
     ("scaling100", _f_scaling(100.0), [1000.0, 0.6, 2.0],
      ([1e-3, 0.01, 0.1], [1e8, 3.0, 12.0])),
+    # Long (2013) max-entropy Beta distribution, B_irr FITTED per angle
+    ("beta_long", f_beta, [1000.0, 0.7, 3.0, 60.0],
+     ([1e-6, 0.05, 1.0, 9.0], [1e9, 4.0, 40.0, 400.0])),
 ]
 
 

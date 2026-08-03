@@ -1,0 +1,21 @@
+[10:11:00] Long (2013) Beta model with SHARED (alpha, beta) across angles
+[10:11:00]   -- the paper's angular-scaling claim, hold-out validated
+[10:11:00]   43 angles
+[10:11:34] 
+[10:11:34] === fit<=3T: fit [np.float64(1.0), np.float64(1.5), np.float64(2.0), np.float64(3.0)] -> predict [5.0, 7.0, 8.0] ===
+[10:11:34]   shared alpha=0.891  beta=5.998
+[10:11:34]   B_irr fitted: min=26.5 T  median=28.4 T  max=400.0 T
+[10:11:34]   B_irr on a bound: 4/43 angles  <-- shape NOT constrained by the data
+[10:11:34]   MAPE=28.66%  bias=-26.36%  worst=-51.8%
+[10:11:34]   per-hold-field mean signed error: 5T: -13.0  7T: -29.1  8T: -37.0
+[10:14:39] 
+[10:14:39] === fit<=5T: fit [np.float64(1.0), np.float64(1.5), np.float64(2.0), np.float64(3.0), np.float64(5.0)] -> predict [7.0, 8.0] ===
+[10:14:39]   shared alpha=0.812  beta=4.729
+[10:14:39]   B_irr fitted: min=30.6 T  median=32.8 T  max=400.0 T
+[10:14:39]   B_irr on a bound: 5/43 angles  <-- shape NOT constrained by the data
+[10:14:39]   MAPE=14.26%  bias=-12.96%  worst=-24.5%
+[10:14:39]   per-hold-field mean signed error: 7T: -10.0  8T: -15.9
+[10:14:39] 
+[10:14:39] Compare against the per-angle results in optimize/runs/ic_extrap_validation/scores.csv
+[10:14:39]   (kim: MAPE 4.14% @1.6x, 6.98% @2.7x -- the incumbent to beat)
+[10:14:39] scores -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ic_beta_shared/scores.csv

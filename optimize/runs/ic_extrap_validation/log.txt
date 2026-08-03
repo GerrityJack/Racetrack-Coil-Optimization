@@ -1,25 +1,27 @@
-[10:19:01] Hold-out validation of Ic(B) extrapolation forms
-[10:19:01]   fit on low-field points only, score on unseen high-field points
-[10:19:01]   43 angles, signed error = (pred-meas)/meas (positive = OPTIMISTIC)
-[10:19:01] 
-[10:19:01] === fit<=3T: fit [np.float64(1.0), np.float64(1.5), np.float64(2.0), np.float64(3.0)] -> predict [5.0, 7.0, 8.0] ===
-[10:19:01]   form           MAPE%   bias%   worst%  per-hold-field mean signed error %
-[10:19:01]   flat           53.86  +53.86    +87.7  5T: +30.4  7T: +58.9  8T: +72.3
-[10:19:01]   power          12.86  +12.77    +43.0  5T:  +6.9  7T: +14.0  8T: +17.4
-[10:19:01]   kim             6.98   -5.38    +18.2  5T:  -3.1  7T:  -5.9  8T:  -7.2
-[10:19:01]   scaling25      15.04  -14.85    -42.9  5T:  -6.1  7T: -16.2  8T: -22.3
-[10:19:01]   scaling45      13.43  -13.18    -38.7  5T:  -5.6  7T: -14.4  8T: -19.6
-[10:19:01]   scaling100     11.09  -10.76    -25.3  5T:  -4.5  7T: -11.8  8T: -16.1
-[10:19:01] 
-[10:19:01] === fit<=5T: fit [np.float64(1.0), np.float64(1.5), np.float64(2.0), np.float64(3.0), np.float64(5.0)] -> predict [7.0, 8.0] ===
-[10:19:01]   form           MAPE%   bias%   worst%  per-hold-field mean signed error %
-[10:19:01]   flat           26.66  +26.66    +39.9  7T: +21.5  8T: +31.8
-[10:19:02]   power           6.89   +6.84    +20.0  7T:  +5.5  8T:  +8.1
-[10:19:02]   kim             4.14   -3.26     +8.9  7T:  -2.6  8T:  -3.9
-[10:19:02]   scaling25       6.98   -6.66    -16.9  7T:  -4.9  8T:  -8.5
-[10:19:02]   scaling45       6.08   -5.75    -15.0  7T:  -4.2  8T:  -7.3
-[10:19:02]   scaling100      5.47   -5.13    -14.0  7T:  -3.8  8T:  -6.5
-[10:19:02] 
-[10:19:02] scores -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ic_extrap_validation/scores.csv
-[10:19:02] Reading: bias > 0 means the form OVER-predicts Ic (optimistic, unsafe); bias < 0 means it under-predicts (conservative).
-[10:19:02] figure -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/visualization/ic_extrapolation_validation.png
+[10:09:47] Hold-out validation of Ic(B) extrapolation forms
+[10:09:47]   fit on low-field points only, score on unseen high-field points
+[10:09:47]   43 angles, signed error = (pred-meas)/meas (positive = OPTIMISTIC)
+[10:09:47] 
+[10:09:47] === fit<=3T: fit [np.float64(1.0), np.float64(1.5), np.float64(2.0), np.float64(3.0)] -> predict [5.0, 7.0, 8.0] ===
+[10:09:47]   form           MAPE%   bias%   worst%  per-hold-field mean signed error %
+[10:09:47]   flat           53.86  +53.86    +87.7  5T: +30.4  7T: +58.9  8T: +72.3
+[10:09:47]   power          12.86  +12.77    +43.0  5T:  +6.9  7T: +14.0  8T: +17.4
+[10:09:47]   kim             6.98   -5.38    +18.2  5T:  -3.1  7T:  -5.9  8T:  -7.2
+[10:09:47]   scaling25      15.04  -14.85    -42.9  5T:  -6.1  7T: -16.2  8T: -22.3
+[10:09:47]   scaling45      13.43  -13.18    -38.7  5T:  -5.6  7T: -14.4  8T: -19.6
+[10:09:47]   scaling100     11.09  -10.76    -25.3  5T:  -4.5  7T: -11.8  8T: -16.1
+[10:09:49]   beta_long      22.72  -22.72    -57.2  5T:  -7.5  7T: -23.7  8T: -36.9
+[10:09:49] 
+[10:09:49] === fit<=5T: fit [np.float64(1.0), np.float64(1.5), np.float64(2.0), np.float64(3.0), np.float64(5.0)] -> predict [7.0, 8.0] ===
+[10:09:49]   form           MAPE%   bias%   worst%  per-hold-field mean signed error %
+[10:09:49]   flat           26.66  +26.66    +39.9  7T: +21.5  8T: +31.8
+[10:09:50]   power           6.89   +6.84    +20.0  7T:  +5.5  8T:  +8.1
+[10:09:50]   kim             4.14   -3.26     +8.9  7T:  -2.6  8T:  -3.9
+[10:09:50]   scaling25       6.98   -6.66    -16.9  7T:  -4.9  8T:  -8.5
+[10:09:50]   scaling45       6.08   -5.75    -15.0  7T:  -4.2  8T:  -7.3
+[10:09:50]   scaling100      5.47   -5.13    -14.0  7T:  -3.8  8T:  -6.5
+[10:09:51]   beta_long       5.46   -5.12    -13.5  7T:  -3.8  8T:  -6.4
+[10:09:51] 
+[10:09:51] scores -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ic_extrap_validation/scores.csv
+[10:09:51] Reading: bias > 0 means the form OVER-predicts Ic (optimistic, unsafe); bias < 0 means it under-predicts (conservative).
+[10:09:52] figure -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/visualization/ic_extrapolation_validation.png

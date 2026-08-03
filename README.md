@@ -76,6 +76,33 @@ critical-current model and build tolerance.**
 > The tolerance half scales with the assumed ±0.2 mm / ±2% figures —
 > tighter machining recovers much of it.
 
+> **Ic extrapolation — five models, bias-corrected, agree (2026-08-03).**
+> Long's maximum-entropy Beta model (*Entropy* 2013, 15(7), 2585,
+> doi:10.3390/e15072585, Eq. 2: `Jc ~ b^(α−1)(1−b)^(β−1)`, `b = B/B_irr`)
+> was implemented and hold-out tested. It does **not** beat the Kim model
+> here (MAPE 5.46% per-angle / 14.26% with α,β shared, vs Kim's 4.14%) —
+> the pinning force is still rising at 8 T, so B_irr is never pinned by a
+> visible peak. The paper's method is sound; our data does not reach the
+> field range that constrains it.
+>
+> Its value is as an independent check. Because the hold-out framework
+> *measures* each model's bias, each B_target can be corrected by its own:
+>
+> | Ic model | bias | B_raw | B_corrected |
+> |---|---|---|---|
+> | flat clamp | +26.7% | 14.69 T | 10.77 T |
+> | kim | −3.3% | 10.48 T | 10.82 T |
+> | scaling:45 | −5.8% | 9.43 T | 9.97 T |
+> | beta (Long) | −5.1% | 9.75 T | 10.25 T |
+> | beta_shared (Long) | −13.0% | 8.76 T | 9.89 T |
+>
+> Five models spanning a 6 T raw range collapse to **9.89–10.82 T** once
+> bias-corrected — including the flat clamp, from the opposite side. Best
+> estimate: **B_target ≈ 10.3 ± 0.5 T**, clearing the 10 T floor. The
+> biases were measured at a 1.6× extrapolation while the real use is
+> 1.34×, so the correction is slightly over-generous — a consistency
+> check, not a substitute for measured Ic data above 8 T.
+
 **How to evaluate a design.** Two tools, and the difference matters:
 
 | tool | speed | trust |
