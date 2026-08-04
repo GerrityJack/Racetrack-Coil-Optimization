@@ -1,0 +1,47 @@
+==============================================================================
+NI sudden discharge (supply opened) — DCN model
+==============================================================================
+<CoilGeometry champion: 6 layers, 1726 turns, a_out=43.92 mm, L=5.40 mm, two_coil=True>
+I_op = 196.00 A
+
+--- rho_c = 30 uOhm.cm^2 ----------------------------------------
+  <TurnGroups N=88 (~20 turns/group), 1726 turns total>
+  [M] cache hit: M_ceaf021fb8b46890.npz
+  [F] cache hit: F_7f2f441edfddf9ab.npz
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  L_total = 419.95 mH   rho_c = 30 uOhm.cm^2   Ic model = kim
+    solved in 0.7 s   tau=43.53 s   E_dissipated=8066.8 J   peak P=574.0 W
+    W_stored = 8066.5 J   dissipated = 8066.8 J   balance = 100.00%   OK
+--- rho_c = 100 uOhm.cm^2 ----------------------------------------
+  <TurnGroups N=88 (~20 turns/group), 1726 turns total>
+  [M] cache hit: M_ceaf021fb8b46890.npz
+  [F] cache hit: F_7f2f441edfddf9ab.npz
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  L_total = 419.95 mH   rho_c = 100 uOhm.cm^2   Ic model = kim
+    solved in 0.8 s   tau=13.06 s   E_dissipated=8067.1 J   peak P=1913.2 W
+    W_stored = 8066.5 J   dissipated = 8067.1 J   balance = 100.01%   OK
+--- rho_c = 400 uOhm.cm^2 ----------------------------------------
+  <TurnGroups N=88 (~20 turns/group), 1726 turns total>
+  [M] cache hit: M_ceaf021fb8b46890.npz
+  [F] cache hit: F_7f2f441edfddf9ab.npz
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  L_total = 419.95 mH   rho_c = 400 uOhm.cm^2   Ic model = kim
+    solved in 0.8 s   tau=3.27 s   E_dissipated=8072.7 J   peak P=7652.9 W
+    W_stored = 8066.5 J   dissipated = 8072.7 J   balance = 100.08%   OK
+
+wrote /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/circuit/runs/discharge_sweep.csv
+
+==============================================================================
+   rho_c       tau    W_stored      E_diss   balance     P_peak
+  uO.cm2         s           J           J         %          W
+------------------------------------------------------------------------------
+      30     43.53      8066.5      8066.8    100.00      574.0
+     100     13.06      8066.5      8067.1    100.01     1913.2
+     400      3.27      8066.5      8072.7    100.08     7652.9
+==============================================================================
+
+All of this energy lands in the winding -- an NI coil has no external dump path.
+The temperature rise it causes is NOT modelled here (isothermal, EM only).

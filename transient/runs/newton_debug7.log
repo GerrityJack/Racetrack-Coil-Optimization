@@ -1,0 +1,27 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+      [newton-bootstrap] ramp-up done -> alpha=0.15
+      [newton-bootstrap] CAP  in 30 iters, SCIF=+183.63 mT
+    [bootstrap] 30 Picard iterations (converged=False -- either is fine, this only needs to seed Newton's initial guess)
+      [debug layer 0] Jc range (this layer's cells): [4.3335e+11,4.9431e+11]  n range: [21.602,27.835]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=5  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [3.6700e+11,4.9413e+11]  n range: [20.073,27.825]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=8  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [2.4043e+11,4.9344e+11]  n range: [18.501,27.724]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=12  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [2.5162e+11,4.9332e+11]  n range: [18.300,27.751]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=9  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.9002e+11,4.5436e+11]  n range: [19.477,24.156]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=15  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.9451e+11,4.8361e+11]  n range: [19.806,26.399]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=13  T finite: True
+    [newton k=  1] SCIF=  +150.63 mT  layer_snes_iters=[5, 8, 12, 9, 15, 13]  clip_frac_max=0.000
+    [newton k=  2] SCIF=  +171.49 mT  layer_snes_iters=[1, 1, 1, 2, 2, 2]  clip_frac_max=0.000
+    [newton k=  3] SCIF=   +21.94 mT  layer_snes_iters=[29, 13, 5, 10, 2, 3]  clip_frac_max=0.000
+Traceback (most recent call last):
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/newton_debug2_tmp.py", line 24, in <module>
+    info = newton_ta.step(ta, domain, ic, nm, I, 600.0, uniform,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/newton_ta.py", line 437, in step
+    raise RuntimeError(
+RuntimeError: Newton did not converge, layer 0, outer iter 3, reason=-9

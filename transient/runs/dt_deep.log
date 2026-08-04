@@ -1,0 +1,69 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+=== TEST A: dt=100, I=32.667 (1/6 jump), BIG budget (1000 iters) ===
+  [bigbudget k=   1] SCIF= +4007.18 mT  stall=     nan
+  [bigbudget k=  51] SCIF=  +299.13 mT  stall=  82.214
+  [bigbudget k= 101] SCIF=  +119.62 mT  stall=  20.186
+  [bigbudget k= 151] SCIF=  +378.79 mT  stall= 159.815
+  [bigbudget k= 201] SCIF=  +234.47 mT  stall=  41.493
+  [bigbudget k= 251] SCIF=  +207.82 mT  stall= 113.596
+  [bigbudget k= 301] SCIF=  +301.96 mT  stall=  73.649
+  [bigbudget k= 351] SCIF=  +299.62 mT  stall= 188.837
+  [bigbudget k= 401] SCIF=  -112.22 mT  stall= 387.786
+  [bigbudget k= 451] SCIF=  +166.71 mT  stall=  31.630
+  [bigbudget k= 501] SCIF=   +86.92 mT  stall= 153.075
+  [bigbudget k= 551] SCIF=  +302.31 mT  stall=  82.897
+  [bigbudget k= 601] SCIF=  +272.74 mT  stall= 107.146
+  [bigbudget k= 651] SCIF=    +1.20 mT  stall= 149.277
+  [bigbudget k= 701] SCIF=  +116.77 mT  stall=  39.599
+  [bigbudget k= 751] SCIF=  +248.99 mT  stall=  67.302
+  [bigbudget k= 801] SCIF=  +270.70 mT  stall=  35.804
+  [bigbudget k= 851] SCIF=   +21.78 mT  stall=  14.165
+  [bigbudget k= 901] SCIF=  +148.15 mT  stall=  85.083
+  [bigbudget k= 951] SCIF=  +197.79 mT  stall=  60.388
+  [bigbudget k= 998] SCIF=  +347.97 mT  stall=  99.390
+  [bigbudget k= 999] SCIF=  +327.07 mT  stall=  88.595
+  [bigbudget k=1000] SCIF=  +311.10 mT  stall=   9.763
+  [bigbudget] did NOT converge within 1000 iters. Last-100 range: [-22.17,519.93] mT, std=100.33
+
+=== TEST B: finer schedule first-step sizes, 150-iter budget each ===
+--- n_steps=6: dt=100.00s, I_first=32.667A ---
+  [n6 k=   1] SCIF= +4007.13 mT  stall=     nan
+  [n6 k=  31] SCIF=  +260.74 mT  stall=  34.666
+  [n6 k=  61] SCIF=  +291.76 mT  stall= 110.932
+  [n6 k=  91] SCIF=  +252.90 mT  stall=  66.138
+  [n6 k= 121] SCIF=  +221.72 mT  stall=  37.132
+  [n6 k= 148] SCIF=  +202.94 mT  stall= 105.805
+  [n6 k= 149] SCIF=  +274.39 mT  stall=  31.089
+  [n6 k= 150] SCIF=  +268.42 mT  stall=  26.146
+  [n6] did NOT converge within 150 iters. Last-100 range: [21.34,581.41] mT, std=109.25
+--- n_steps=12: dt=50.00s, I_first=16.333A ---
+  [n12 k=   1] SCIF= +3890.42 mT  stall=     nan
+  [n12 k=  31] SCIF=  +103.10 mT  stall= 166.785
+  [n12 k=  61] SCIF=  +112.90 mT  stall=  15.243
+  [n12 k=  91] SCIF=  +483.18 mT  stall= 267.095
+  [n12 k= 121] SCIF=   +71.42 mT  stall=  48.595
+  [n12 k= 148] SCIF=  +173.59 mT  stall=  14.348
+  [n12 k= 149] SCIF=   +29.95 mT  stall= 211.326
+  [n12 k= 150] SCIF=   -58.01 mT  stall= 321.875
+  [n12] did NOT converge within 150 iters. Last-100 range: [-58.01,496.36] mT, std=128.33
+--- n_steps=24: dt=25.00s, I_first=8.167A ---
+  [n24 k=   1] SCIF= +3862.08 mT  stall=     nan
+  [n24 k=  31] SCIF=  +224.07 mT  stall= 328.675
+  [n24 k=  61] SCIF=  +100.38 mT  stall= 109.994
+  [n24 k=  91] SCIF=   -70.78 mT  stall= 171.101
+  [n24 k= 121] SCIF=  +126.90 mT  stall= 174.396
+  [n24 k= 148] SCIF=  +182.55 mT  stall= 202.672
+  [n24 k= 149] SCIF=  +209.55 mT  stall= 211.238
+  [n24 k= 150] SCIF=  +222.23 mT  stall= 197.148
+  [n24] did NOT converge within 150 iters. Last-100 range: [-194.45,378.20] mT, std=134.09
+--- n_steps=48: dt=12.50s, I_first=4.083A ---
+  [n48 k=   1] SCIF= +3795.90 mT  stall=     nan
+  [n48 k=  31] SCIF= -1122.34 mT  stall=  44.345
+  [n48 k=  61] SCIF=  -265.17 mT  stall=  90.419
+  [n48 k=  91] SCIF=  -175.50 mT  stall= 380.187
+  [n48 k= 121] SCIF=  +280.80 mT  stall= 381.468
+  [n48 k= 148] SCIF=  +136.85 mT  stall= 135.808
+  [n48 k= 149] SCIF=   +19.27 mT  stall= 260.884
+  [n48 k= 150] SCIF=   -22.21 mT  stall= 275.819
+  [n48] did NOT converge within 150 iters. Last-100 range: [-569.58,568.23] mT, std=261.66

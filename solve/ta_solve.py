@@ -80,7 +80,7 @@ def _coil_t_hat_array(domain, coil_cells):
 # ── One-time problem setup ───────────────────────────────────────────────────
 
 def setup_ta_problem(domain, cell_tags, facet_tags, uniform_setup,
-                     per_layer=None):
+                     per_layer=None, per_turn_bc=False):
     """
     Build function spaces, BCs, function containers, and DG0 arrays
     needed by the Picard loop.  Call once; pass result to
@@ -94,6 +94,15 @@ def setup_ta_problem(domain, cell_tags, facet_tags, uniform_setup,
     to its own local ρ(B)) instead of solving one representative central
     tape and replicating its J to the other layers.  Defaults to
     params.ta_per_layer (False if unset).
+
+    per_turn_bc: if True, the tape-edge Dirichlet values become FUNCTIONS
+    over V_T instead of single Constants, so the imposed current can vary
+    with radial position (turn index) instead of being one number for the
+    whole layer.  Needed only by the no-insulation transient model in
+    transient/, where each turn carries I − I_radial rather than I.
+    Leaves the default (Constant) path byte-identical when False — see
+    transient/validation/insulated_limit.py, which is the regression gate
+    that proves it.
     """
     if per_layer is None:
         per_layer = bool(getattr(params, "ta_per_layer", False))
@@ -133,6 +142,34 @@ def setup_ta_problem(domain, cell_tags, facet_tags, uniform_setup,
     T_top_val = fem.Constant(domain, PETSc.ScalarType(0.0))
     T_bot_val = fem.Constant(domain, PETSc.ScalarType(0.0))
 
+    # Per-turn BC carriers (per_turn_bc=True only).  dolfinx quirk: with a
+    # Function value dirichletbc takes NO function space argument, with a
+    # Constant it requires one — hence the _mk_edge_bc helper below.
+    T_top_fn = T_bot_fn = None
+    if per_turn_bc:
+        T_top_fn = fem.Function(V_T, name="T_top_bc")
+        T_bot_fn = fem.Function(V_T, name="T_bot_bc")
+        T_top_fn.x.array[:] = 0.0
+        T_bot_fn.x.array[:] = 0.0
+
+    def _mk_edge_bc(which, dofs, fn_pair=None):
+        """Tape-edge Dirichlet BC, Constant- or Function-valued.
+
+        fn_pair overrides the default BC Functions.  Per-layer mode MUST pass
+        its own pair: layer i's bottom plane and layer i+1's top plane are the
+        same z, so they share CG1 dofs, and those two tapes need OPPOSITE T
+        values there.  One shared Function cannot hold both -- the second
+        write would silently clobber the first.  (With Constants this never
+        arose, because T_top_val and T_bot_val are separate objects and each
+        layer's BC list simply names the right one.)
+        """
+        if per_turn_bc:
+            top_fn, bot_fn = fn_pair if fn_pair is not None \
+                else (T_top_fn, T_bot_fn)
+            return fem.dirichletbc(top_fn if which == "top" else bot_fn, dofs)
+        return fem.dirichletbc(T_top_val if which == "top" else T_bot_val,
+                               dofs, V_T)
+
     top_dofs = fem.locate_dofs_geometrical(
         V_T, lambda x: np.abs(x[2] - z_top) < tol_z)
     bot_dofs = fem.locate_dofs_geometrical(
@@ -145,8 +182,8 @@ def setup_ta_problem(domain, cell_tags, facet_tags, uniform_setup,
             f"  top_dofs={top_dofs.size}  bot_dofs={bot_dofs.size}\n"
             "Check that params.w is correct and the mesh has nodes at z=±w/2.")
 
-    bc_T_top = fem.dirichletbc(T_top_val, top_dofs, V_T)
-    bc_T_bot = fem.dirichletbc(T_bot_val, bot_dofs, V_T)
+    bc_T_top = _mk_edge_bc("top", top_dofs)
+    bc_T_bot = _mk_edge_bc("bot", bot_dofs)
 
     # ── Identify central-layer coil cells and build layer replication map ─
     tdim = domain.topology.dim
@@ -226,6 +263,9 @@ def setup_ta_problem(domain, cell_tags, facet_tags, uniform_setup,
 
     A_h = fem.Function(V_A, name="A")
     A_h.x.array[:] = 0.0
+    # Previous-time-step A.  Zero for every existing caller (see the ta dict).
+    A_prev = fem.Function(V_A, name="A_prev")
+    A_prev.x.array[:] = 0.0
 
     # ── n̂ UFL ─────────────────────────────────────────────────────────────
     n_hat_ufl = build_n_hat_ufl(domain)
@@ -250,6 +290,7 @@ def setup_ta_problem(domain, cell_tags, facet_tags, uniform_setup,
     # tape's bottom), so the layers cannot be solved in one system —
     # each layer gets its own solve with everything outside it pinned.
     layer_T_fns, layer_bcs, layer_gradT_exprs, layer_cell_idx = [], [], [], []
+    layer_top_dofs, layer_bot_dofs, layer_bc_fns = [], [], []
     if per_layer:
         for i in range(params.n_layers):
             idx_i   = np.nonzero(layer_assign == i)[0]    # rows in coil_cells
@@ -271,10 +312,20 @@ def setup_ta_problem(domain, cell_tags, facet_tags, uniform_setup,
                     f"top={top_i.size} bot={bot_i.size})")
 
             non_layer = np.setdiff1d(all_T_dofs, dofs_layer).astype(np.int32)
+            # own BC Function pair per layer -- see _mk_edge_bc's docstring
+            pair_i = None
+            if per_turn_bc:
+                pair_i = (fem.Function(V_T, name=f"T_top_bc{i}"),
+                          fem.Function(V_T, name=f"T_bot_bc{i}"))
+                pair_i[0].x.array[:] = 0.0
+                pair_i[1].x.array[:] = 0.0
+                layer_bc_fns.append(pair_i)
             # pin first (lower priority), tape-edge BCs last (win)
             bcs_i = [fem.dirichletbc(T_zero_fn, non_layer),
-                     fem.dirichletbc(T_top_val, top_i, V_T),
-                     fem.dirichletbc(T_bot_val, bot_i, V_T)]
+                     _mk_edge_bc("top", top_i, pair_i),
+                     _mk_edge_bc("bot", bot_i, pair_i)]
+            layer_top_dofs.append(top_i)
+            layer_bot_dofs.append(bot_i)
 
             T_i = fem.Function(V_T, name=f"T_layer{i}")
             T_i.x.array[:] = 0.0
@@ -310,6 +361,18 @@ def setup_ta_problem(domain, cell_tags, facet_tags, uniform_setup,
         layer_T_fns=layer_T_fns, layer_bcs=layer_bcs,
         layer_gradT_exprs=layer_gradT_exprs,
         layer_cell_idx=layer_cell_idx,   # rows in coil_cells per layer
+        # ── transient / no-insulation hooks (inert unless used) ───────────
+        # A_prev is the PREVIOUS TIME STEP's A.  It stays identically zero in
+        # every existing caller, which makes curl(A_h - A_prev) below exactly
+        # the original curl(A_h) — the single-BDF1-step-from-ZFC behaviour is
+        # unchanged.  transient/ advances it to turn the same forms into a
+        # real time march, and also reads it for E_induced = -(A - A_prev)/dt.
+        A_prev=A_prev,
+        per_turn_bc=per_turn_bc,
+        T_top_fn=T_top_fn, T_bot_fn=T_bot_fn,
+        layer_top_dofs=layer_top_dofs, layer_bot_dofs=layer_bot_dofs,
+        layer_bc_fns=layer_bc_fns,
+        T_dof_coords=V_T.tabulate_dof_coordinates(),
     )
 
     # Build the T/A solver objects ONCE — reused for every current in a
@@ -536,10 +599,17 @@ def _build_problems(domain, ta, uniform_setup):
     # Bilinear: weighted Laplacian in the n̂-perpendicular plane
     a_T = ta["rho_fn"] * ufl.inner(J_T_trial, J_T_test) * dx
 
-    # Linear (RHS): BDF1 history term — B^k · φ n̂ / Δt
+    # Linear (RHS): BDF1 history term — (B^{k+1} − B^k) · φ n̂ / Δt
     # coil_ind restricts the integral to the coil domain.
+    #
+    # ta["A_prev"] is the previous TIME STEP's A and is identically zero for
+    # every existing caller, so this reduces exactly to the original
+    # −(1/Δt)·curl(A_h)·φn̂ — the single-BDF1-step-from-ZFC behaviour.
+    # Differencing the vector potentials rather than storing a DG0 B_prev
+    # keeps the history term exact (no interpolation error).
     L_T = (-(1.0 / dt_const) * ta["coil_ind"] *
-           ufl.inner(ufl.curl(ta["A_h"]), phi_T * n_hat_ufl) * dx)
+           ufl.inner(ufl.curl(ta["A_h"] - ta["A_prev"]),
+                     phi_T * n_hat_ufl) * dx)
 
     mumps_opts = {"ksp_type": "preonly",
                   "pc_type": "lu",
@@ -594,7 +664,11 @@ def _build_problems(domain, ta, uniform_setup):
     ta.update(prob_T=prob_T, prob_T_layers=prob_T_layers,
               a_A_form=a_A_form, bc_A=bc_A,
               ksp_A=ksp_A, A_mat=A_mat, b_A=b_A,
-              L_A_form=L_A_form, L_seed_form=L_seed_form)
+              L_A_form=L_A_form, L_seed_form=L_seed_form,
+              # exposed so a time-stepping driver can change Δt per step;
+              # existing callers never touch it and it keeps
+              # params.ramp_duration
+              dt_const=dt_const)
 
 
 def _solve_A(ta, L_form):
@@ -658,6 +732,14 @@ def solve_ta_at_current(domain, ta, uniform_setup,
 
     # ── Set Dirichlet BC values on T ─────────────────────────────────────
     # T_bot > T_top so that J_x = -∂T/∂z > 0 in the top straight section
+    if ta.get("per_turn_bc"):
+        # The Constants below are not wired to anything in per-turn-BC mode,
+        # so this would silently solve with whatever the BC Functions happen
+        # to hold.  Fail loudly instead.
+        raise RuntimeError(
+            "solve_ta_at_current() cannot drive a per_turn_bc=True setup: "
+            "the tape-edge BCs are Functions there, not Constants. Use the "
+            "transient/ driver, which writes them per turn.")
     T_amp = I_amps / (2.0 * delta_SC)
     ta["T_bot_val"].value = +T_amp
     ta["T_top_val"].value = -T_amp

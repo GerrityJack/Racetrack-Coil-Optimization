@@ -1,0 +1,41 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+=== gentle10_steady010, N=800 ===
+  [gentle10_steady010 k=   1] SCIF= +2624.03 mT  stall=     nan  a=0.100
+  [gentle10_steady010 k=  26] SCIF=  +571.01 mT  stall=  82.026  a=0.100
+  [gentle10_steady010 k=  51] SCIF=  +174.20 mT  stall=  20.141  a=0.100
+  [gentle10_steady010 k=  76] SCIF=  +279.52 mT  stall=  67.812  a=0.100
+  [gentle10_steady010 k= 101] SCIF=  +225.62 mT  stall=  17.947  a=0.100
+  [gentle10_steady010 k= 126] SCIF=  +258.98 mT  stall= 110.648  a=0.100
+  [gentle10_steady010 k= 151] SCIF=  +201.36 mT  stall=  23.715  a=0.100
+  [gentle10_steady010 k= 176] SCIF=  +187.96 mT  stall=  69.812  a=0.100
+  [gentle10_steady010 k= 201] SCIF=   +21.90 mT  stall= 165.250  a=0.100
+  [gentle10_steady010 k= 226] SCIF=  +292.68 mT  stall=  84.015  a=0.100
+  [gentle10_steady010 k= 251] SCIF=  +257.31 mT  stall=  78.783  a=0.100
+  [gentle10_steady010 k= 276] SCIF=  +148.98 mT  stall=  11.355  a=0.100
+  [gentle10_steady010 k= 301] SCIF=   +97.81 mT  stall= 113.665  a=0.100
+  [gentle10_steady010 k= 326] SCIF=  +159.95 mT  stall=  57.000  a=0.100
+  [gentle10_steady010 k= 351] SCIF=  +205.47 mT  stall=  87.579  a=0.100
+  [gentle10_steady010 k= 376] SCIF=  +176.66 mT  stall=   8.533  a=0.100
+  [gentle10_steady010 k= 401] SCIF=   +71.97 mT  stall=  43.320  a=0.100
+  [gentle10_steady010 k= 426] SCIF=  +118.58 mT  stall=  42.828  a=0.100
+  [gentle10_steady010 k= 451] SCIF=  +252.09 mT  stall=   2.131  a=0.100
+  [gentle10_steady010 k= 476] SCIF=  +249.27 mT  stall= 133.399  a=0.100
+  [gentle10_steady010 k= 501] SCIF=  +124.29 mT  stall=   7.660  a=0.100
+  [gentle10_steady010 k= 526] SCIF=  +162.48 mT  stall=  22.202  a=0.100
+  [gentle10_steady010 k= 551] SCIF=   +63.34 mT  stall=  62.722  a=0.100
+  [gentle10_steady010 k= 576] SCIF=  +224.02 mT  stall=  11.707  a=0.100
+  [gentle10_steady010 k= 601] SCIF=  +249.36 mT  stall=  25.534  a=0.100
+  [gentle10_steady010 k= 626] SCIF=  +234.02 mT  stall=  16.395  a=0.100
+  [gentle10_steady010 k= 651] SCIF=   +55.55 mT  stall= 103.220  a=0.100
+  [gentle10_steady010 k= 676] SCIF=  +262.04 mT  stall=  37.356  a=0.100
+  [gentle10_steady010 k= 701] SCIF=  +146.75 mT  stall=  51.854  a=0.100
+  [gentle10_steady010 k= 726] SCIF=  +118.32 mT  stall=   8.741  a=0.100
+  [gentle10_steady010 k= 751] SCIF=    -1.66 mT  stall= 168.306  a=0.100
+  [gentle10_steady010 k= 776] SCIF=  +150.23 mT  stall=  19.283  a=0.100
+  [gentle10_steady010 k= 798] SCIF=  +240.04 mT  stall=  71.805  a=0.100
+  [gentle10_steady010 k= 799] SCIF=  +223.59 mT  stall=  22.792  a=0.100
+  [gentle10_steady010 k= 800] SCIF=  +210.83 mT  stall=   9.308  a=0.100
+  [gentle10_steady010] did NOT converge within 800 iters. Last-150 range: [-1.66,304.97] mT, std=65.23, mean=162.73
+=== gentle10_steady012, N=800 ===
+  [gentle10_steady012 k=   1] SCIF= +2623.99 mT  stall=     nan  a=0.100

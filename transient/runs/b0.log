@@ -1,0 +1,29 @@
+==========================================================================
+Tier B0 — ta_solve.py transient hooks must be INERT
+==========================================================================
+
+building mesh ...
+
+[1] A_prev identically zero at setup      : PASS  (max |A_prev| = 0.000e+00)
+[3] per_turn_bc=False keeps Constant BCs   : PASS
+
+running solve_ta_at_current at I_design (this is the state the RHS comparison uses) ...
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  converged=True in 77 iters
+
+[1b] A_prev still zero after the solve    : PASS
+
+[2] assembled T RHS, new form vs old form :
+      max |difference| = 0.000e+00   (RHS scale 5.622e-10)
+      BIT-IDENTICAL    : PASS
+
+[4] box peak-to-peak uniformity           : 0.517%
+      recorded champion value              : 0.495%
+      within documented mesh scatter (±0.20 pp): yes
+      (reported, not asserted — gmsh is not reproducible across processes,
+       so check [2] is the one that actually proves inertness)
+
+==========================================================================
+B0 VERDICT: PASS
+==========================================================================

@@ -1,0 +1,25 @@
+building mesh ...
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+==============================================================================
+Newton/Picard-hybrid T-A solver validation
+==============================================================================
+
+=== A. REGRESSION vs Picard (k=71, SCIF=172.77 mT): I=32.667 A, dt=600.0 s ===
+    [bootstrap] 15 Picard iterations done (not converged -- just seeding Newton's initial guess)
+Traceback (most recent call last):
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/validation/newton_ta_check.py", line 111, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/validation/newton_ta_check.py", line 83, in main
+    info_600 = run_case(domain, cell_tags, facet_tags, uniform, ic, nm,
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/validation/newton_ta_check.py", line 48, in run_case
+    info = newton_ta.step(ta, domain, ic, nm, I, dt_val, uniform,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/newton_ta.py", line 320, in step
+    ok, its, reason = newton_solve_layer(ta, layer)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/newton_ta.py", line 222, in newton_solve_layer
+    raise RuntimeError(f"Newton solve produced non-finite T, layer {layer}")
+RuntimeError: Newton solve produced non-finite T, layer 0

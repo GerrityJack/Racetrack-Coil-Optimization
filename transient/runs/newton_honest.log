@@ -1,0 +1,28 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+      [debug layer 0] Jc range (this layer's cells): [4.3296e+11,4.9426e+11]  n range: [21.581,27.836]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=5  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [3.6702e+11,4.9413e+11]  n range: [20.090,27.825]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=7  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [2.4045e+11,4.9344e+11]  n range: [18.504,27.724]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=12  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [2.5170e+11,4.9331e+11]  n range: [18.298,27.751]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=9  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.8993e+11,4.4164e+11]  n range: [19.474,23.519]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=15  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.9405e+11,4.8444e+11]  n range: [19.794,26.473]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=13  T finite: True
+A dt=600: converged=False  stop_reason=iteration_spike_reverted  SCIF=171.46 mT
+      [debug layer 0] Jc range (this layer's cells): [1.7094e+11,4.9316e+11]  n range: [17.862,27.674]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=12  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [1.8863e+11,4.9407e+11]  n range: [17.394,27.836]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=16  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.6381e+11,4.9389e+11]  n range: [16.081,27.764]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=16  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.7369e+11,4.9393e+11]  n range: [17.353,27.720]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=16  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.5685e+11,4.6029e+11]  n range: [18.069,23.940]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=11  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.4268e+11,4.8603e+11]  n range: [18.948,26.978]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=10  T finite: True
+B dt=100: converged=False  stop_reason=newton_failure_reverted  SCIF=194.13 mT

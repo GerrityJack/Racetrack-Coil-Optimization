@@ -1,0 +1,50 @@
+============================================================================
+Tier A2 — He et al., Energies 2025, 18, 3669, Table 2 (racetrack NI coil)
+============================================================================
+Published: L = 3.05 mH, field constant = 0.81 mT/A, tau = 13.53 s (measured)
+           115 turns, 0.2 mm x 12 mm tape, 49/73 mm radii, rho_c = 399 uOhm.cm^2
+The straight-leg length is NOT published; it is the single free parameter.
+
+bracket: field constant spans 0.768 - 1.188 mT/A over L = 300 - 0 mm
+         self-inductance spans 2.308 - 12.245 mH over the same range
+
+--- Fit A: straight length chosen to match the FIELD CONSTANT ---
+  straight half-length L   =  112.59 mm   (turn length 0.8336 m)
+  field constant           =   0.810 mT/A   published 0.81   error   -0.0%
+  self-inductance          =   5.855 mH     published 3.05   error  +92.0%
+  discharge tau            =  12.964 s      published 13.53  (MEASURED)  error   -4.2%
+  series contact R         =   0.454 mOhm  -> naive L/R = 12.90 s
+
+--- Fit B: straight length chosen to match the SELF-INDUCTANCE ---
+  straight half-length L   =   22.66 mm   (turn length 0.4739 m)
+  field constant           =   0.996 mT/A   published 0.81   error  +22.9%
+  self-inductance          =   3.050 mH     published 3.05   error   -0.0%
+  discharge tau            =   3.903 s      published 13.53  (MEASURED)  error  -71.2%
+  series contact R         =   0.800 mOhm  -> naive L/R = 3.81 s
+
+grouping convergence of L_self (fit A geometry):
+    turns/group= 10: 5.859 mH
+    turns/group=  5: 5.855 mH
+    turns/group=  2: 5.853 mH
+    turns/group=  1: 5.853 mH
+
+============================================================================
+VERDICT
+============================================================================
+Fit A reproduces the MEASURED tau to 4.2% but overshoots the published L by 92%.
+Fit B reproduces L exactly (by construction) but misses the measured tau by 71% and the field constant by 23%.
+
+Root cause — the published table is INTERNALLY INCONSISTENT under
+the standard NI relation tau = L / sum(R_ct):
+    L(published) / R(fit B) = 3.81 s, against a measured tau of 13.53 s -- a factor of 3.5.
+No choice of the one free geometric parameter can satisfy all
+three published numbers at once.  Either their rho_c was
+back-fitted through a different contact-area definition, or L and
+tau were measured under conditions this lumped relation does not
+describe.
+
+WHAT THIS DOES VALIDATE: the model structure and the tau prediction
+  (PASS: fit A predicts the measured tau to 4.2%).
+WHAT IT DOES NOT: an absolute rho_c -> tau calibration.  Carry a
+  factor ~2-3 uncertainty on any tau quoted from an ASSUMED rho_c.
+============================================================================

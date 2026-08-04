@@ -1,0 +1,72 @@
+==============================================================================
+NI charging transient — DCN model
+==============================================================================
+<CoilGeometry champion: 6 layers, 1726 turns, a_out=43.92 mm, L=5.40 mm, two_coil=True>
+I_op = 196.00 A   (params.I_design, the champion's quench-limited operating point)
+
+--- rho_c = 30 uOhm.cm^2 ----------------------------------------
+  <TurnGroups N=88 (~20 turns/group), 1726 turns total>
+  [M] cache hit: M_ceaf021fb8b46890.npz
+  [F] cache hit: F_7f2f441edfddf9ab.npz
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  L_total = 419.95 mH   rho_c = 30 uOhm.cm^2   Ic model = kim
+  ramp      60 s (hold 600 s):
+    solved in 0.7 s   tau=44.32 s   lag(99%)=166.1 s   E_contact=5145.4 J   E_sc=0.00 J
+  ramp     200 s (hold 1200 s):
+    solved in 0.8 s   tau=44.33 s   lag(99%)=121.4 s   E_contact=2647.0 J   E_sc=0.01 J
+  ramp     600 s (hold 3600 s):
+    solved in 0.8 s   tau=44.33 s   lag(99%)=73.8 s   E_contact=1044.8 J   E_sc=0.02 J
+  ramp    1800 s (hold 10800 s):
+    solved in 0.8 s   tau=44.30 s   lag(99%)=24.8 s   E_contact=366.7 J   E_sc=0.06 J
+--- rho_c = 100 uOhm.cm^2 ----------------------------------------
+  <TurnGroups N=88 (~20 turns/group), 1726 turns total>
+  [M] cache hit: M_ceaf021fb8b46890.npz
+  [F] cache hit: F_7f2f441edfddf9ab.npz
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  L_total = 419.95 mH   rho_c = 100 uOhm.cm^2   Ic model = kim
+  ramp      60 s (hold 600 s):
+    solved in 0.8 s   tau=13.30 s   lag(99%)=37.3 s   E_contact=2647.0 J   E_sc=0.00 J
+  ramp     200 s (hold 1200 s):
+    solved in 0.9 s   tau=13.30 s   lag(99%)=20.7 s   E_contact=947.8 J   E_sc=0.01 J
+  ramp     600 s (hold 3600 s):
+    solved in 0.8 s   tau=13.29 s   lag(99%)=5.9 s   E_contact=330.8 J   E_sc=0.02 J
+  ramp    1800 s (hold 10800 s):
+    solved in 0.8 s   tau=13.28 s   lag(99%)=0.0 s   E_contact=112.0 J   E_sc=0.06 J
+--- rho_c = 400 uOhm.cm^2 ----------------------------------------
+  <TurnGroups N=88 (~20 turns/group), 1726 turns total>
+  [M] cache hit: M_ceaf021fb8b46890.npz
+  [F] cache hit: F_7f2f441edfddf9ab.npz
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  L_total = 419.95 mH   rho_c = 400 uOhm.cm^2   Ic model = kim
+  ramp      60 s (hold 600 s):
+    solved in 0.9 s   tau=3.33 s   lag(99%)=4.5 s   E_contact=799.2 J   E_sc=0.00 J
+  ramp     200 s (hold 1200 s):
+    solved in 0.8 s   tau=3.32 s   lag(99%)=1.2 s   E_contact=249.5 J   E_sc=0.01 J
+  ramp     600 s (hold 3600 s):
+    solved in 0.8 s   tau=3.32 s   lag(99%)=0.0 s   E_contact=84.2 J   E_sc=0.02 J
+  ramp    1800 s (hold 10800 s):
+    solved in 0.8 s   tau=3.31 s   lag(99%)=0.0 s   E_contact=28.2 J   E_sc=0.06 J
+
+wrote /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/circuit/runs/charge_sweep.csv
+wrote /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/circuit/runs/charge_series.npz
+
+==============================================================================
+   rho_c   t_ramp       tau     lag99  deficit@end   E_contact      E_sc
+  uO.cm2        s         s         s            %           J         J
+------------------------------------------------------------------------------
+      30       60     44.32     166.1       40.865     5145.39     0.003
+      30      200     44.33     121.4       16.071     2647.01     0.006
+      30      600     44.33      73.8        5.413     1044.80     0.019
+      30     1800     44.30      24.8        1.804      366.65     0.058
+     100       60     13.30      37.3       16.071     2647.03     0.003
+     100      200     13.30      20.7        4.872      947.75     0.006
+     100      600     13.29       5.9        1.624      330.82     0.019
+     100     1800     13.28       0.0        0.541      111.98     0.058
+     400       60      3.33       4.5        4.060      799.16     0.003
+     400      200      3.32       1.2        1.218      249.53     0.006
+     400      600      3.32       0.0        0.406       84.16     0.019
+     400     1800      3.31       0.0        0.135       28.18     0.058
+==============================================================================

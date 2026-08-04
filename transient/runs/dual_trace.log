@@ -1,0 +1,25 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+=== CONSTANT-BC path ===
+  [const k= 1] SCIF= +1794.62 mT  alpha=0.30  dB=6.673e+01  T=[-1.530e+08,1.640e+07]
+  [const k= 2] SCIF=  +341.02 mT  alpha=0.30  dB=9.171e+01  T=[-1.530e+08,1.942e+08]
+  [const k= 3] SCIF= +1751.45 mT  alpha=0.30  dB=1.384e+02  T=[-3.090e+08,1.503e+08]
+  [const k= 4] SCIF=  -245.84 mT  alpha=0.30  dB=1.904e+02  T=[-3.016e+08,2.858e+08]
+  [const k= 5] SCIF= +1105.32 mT  alpha=0.30  dB=1.674e+02  T=[-3.799e+08,3.944e+08]
+  [const k= 6] SCIF=  +183.19 mT  alpha=0.30  dB=9.205e+01  T=[-3.052e+08,2.723e+08]
+  [const k= 7] SCIF=  +466.27 mT  alpha=0.30  dB=5.258e+01  T=[-3.099e+08,1.332e+08]
+  [const k= 8] SCIF=   +18.80 mT  alpha=0.15  dB=5.804e+01  T=[-3.386e+08,1.565e+08]
+  [const k= 9] SCIF=  +290.47 mT  alpha=0.15  dB=4.062e+01  T=[-3.408e+08,6.246e+07]
+  [const k=10] SCIF=  +235.14 mT  alpha=0.15  dB=1.273e+01  T=[-3.480e+08,4.423e+07]
+  [induction] bin inductance built: L_total = 423.27 mH (circuit/ reference 419.7 mH — the coarse 8-bin/layer grouping will read a few % high)
+=== FUNCTION-BC path (circuit.freeze) ===
+  [func k= 1] SCIF= +1794.61 mT  alpha=0.30  dB=6.673e+01  T=[-1.530e+08,1.652e+07]
+  [func k= 2] SCIF=  +341.00 mT  alpha=0.30  dB=9.171e+01  T=[-1.530e+08,1.942e+08]
+  [func k= 3] SCIF= +1751.45 mT  alpha=0.30  dB=1.384e+02  T=[-3.089e+08,1.504e+08]
+  [func k= 4] SCIF=  -245.53 mT  alpha=0.30  dB=1.904e+02  T=[-3.016e+08,2.858e+08]
+  [func k= 5] SCIF= +1105.78 mT  alpha=0.30  dB=1.674e+02  T=[-3.798e+08,3.942e+08]
+  [func k= 6] SCIF=  +183.50 mT  alpha=0.30  dB=9.206e+01  T=[-3.052e+08,2.723e+08]
+  [func k= 7] SCIF=  +466.31 mT  alpha=0.30  dB=5.259e+01  T=[-3.101e+08,1.333e+08]
+  [func k= 8] SCIF=   +18.76 mT  alpha=0.15  dB=5.804e+01  T=[-3.389e+08,1.567e+08]
+  [func k= 9] SCIF=  +290.57 mT  alpha=0.15  dB=4.063e+01  T=[-3.410e+08,6.247e+07]
+  [func k=10] SCIF=  +235.13 mT  alpha=0.15  dB=1.277e+01  T=[-3.480e+08,4.402e+07]

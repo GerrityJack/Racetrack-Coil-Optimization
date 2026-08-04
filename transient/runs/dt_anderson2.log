@@ -1,0 +1,53 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+=== Damped Anderson m=5, beta=0.3 ===
+  [beta0.3 k=   1] SCIF= +2623.94 mT  stall=     nan
+  [beta0.3 k=  26] SCIF=  +694.45 mT  stall= 283.254
+  [beta0.3 k=  51] SCIF=  +365.73 mT  stall= 156.113
+  [beta0.3 k=  76] SCIF=  +234.15 mT  stall=  26.549
+  [beta0.3 k= 101] SCIF=  +171.70 mT  stall=  39.013
+  [beta0.3 k= 126] SCIF=  +188.42 mT  stall=  18.770
+  [beta0.3 k= 151] SCIF=  +256.99 mT  stall= 100.389
+  [beta0.3 k= 176] SCIF=  +506.77 mT  stall= 222.090
+  [beta0.3 k= 201] SCIF=  +200.71 mT  stall=   3.236
+  [beta0.3 k= 226] SCIF=  +217.96 mT  stall=  11.079
+  [beta0.3 k= 251] SCIF=  +189.79 mT  stall=   6.298
+  [beta0.3 k= 276] SCIF=  +282.23 mT  stall=  89.410
+  [beta0.3 k= 298] SCIF=  +198.22 mT  stall=   1.502
+  [beta0.3 k= 299] SCIF=  +168.72 mT  stall=  37.592
+  [beta0.3 k= 300] SCIF=  +164.08 mT  stall=  24.515
+  [beta0.3] did NOT converge within 300 iters. Last-100 range: [24.89,316.52] mT, std=47.15
+=== Damped Anderson m=5, beta=0.5 ===
+  [beta0.5 k=   1] SCIF= +2623.93 mT  stall=     nan
+  [beta0.5 k=  26] SCIF=  +230.02 mT  stall=  46.867
+  [beta0.5 k=  51] SCIF=  +304.56 mT  stall=  95.967
+  [beta0.5 k=  76] SCIF=  +152.23 mT  stall=  67.770
+  [beta0.5 k= 101] SCIF=  +203.89 mT  stall=  32.191
+  [beta0.5 k= 126] SCIF=  +191.63 mT  stall=  36.165
+  [beta0.5 k= 151] SCIF=  +282.18 mT  stall=  57.545
+  [beta0.5 k= 176] SCIF=  +231.54 mT  stall= 101.021
+  [beta0.5 k= 201] SCIF=  +226.08 mT  stall=  80.011
+  [beta0.5 k= 226] SCIF=  +261.05 mT  stall=  66.648
+  [beta0.5 k= 251] SCIF=  +440.62 mT  stall= 301.842
+  [beta0.5 k= 276] SCIF=  +196.60 mT  stall=  54.699
+  [beta0.5 k= 298] SCIF=  +188.85 mT  stall=  72.093
+  [beta0.5 k= 299] SCIF=  +176.00 mT  stall=  54.952
+  [beta0.5 k= 300] SCIF=  +147.00 mT  stall=  15.778
+  [beta0.5] did NOT converge within 300 iters. Last-100 range: [-48.45,459.75] mT, std=97.11
+=== Damped Anderson m=5, beta=0.7 ===
+  [beta0.7 k=   1] SCIF= +2623.99 mT  stall=     nan
+  [beta0.7 k=  26] SCIF=   +47.90 mT  stall= 187.853
+  [beta0.7 k=  51] SCIF=  +152.18 mT  stall=  25.265
+  [beta0.7 k=  76] SCIF=  +310.80 mT  stall=  55.513
+  [beta0.7 k= 101] SCIF=  +231.69 mT  stall=  70.863
+  [beta0.7 k= 126] SCIF=  +312.99 mT  stall= 288.123
+  [beta0.7 k= 151] SCIF=  +205.98 mT  stall=  46.489
+  [beta0.7 k= 176] SCIF=  +110.42 mT  stall= 111.196
+  [beta0.7 k= 201] SCIF=  +150.13 mT  stall=  96.577
+  [beta0.7 k= 226] SCIF=  +176.58 mT  stall=  18.277
+  [beta0.7 k= 251] SCIF=  +136.72 mT  stall=  31.317
+  [beta0.7 k= 276] SCIF=  +164.26 mT  stall=  77.106
+  [beta0.7 k= 298] SCIF=  +190.23 mT  stall=  24.616
+  [beta0.7 k= 299] SCIF=  +203.03 mT  stall=  28.694
+  [beta0.7 k= 300] SCIF=   +95.39 mT  stall=  92.216
+  [beta0.7] did NOT converge within 300 iters. Last-100 range: [23.31,560.96] mT, std=86.73

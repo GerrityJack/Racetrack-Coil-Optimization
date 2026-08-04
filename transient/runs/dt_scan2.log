@@ -1,0 +1,12 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+=== dt=600.0 ===
+  [dt600] CONVERGED at k=65, SCIF=172.78 mT
+=== dt=400.0 ===
+  [dt400] did NOT converge within 150 iters (last SCIF=168.92 mT)
+=== dt=300.0 ===
+  [dt300] CONVERGED at k=53, SCIF=155.12 mT
+=== dt=200.0 ===
+  [dt200] did NOT converge within 150 iters (last SCIF=254.55 mT)
+=== dt=150.0 ===
+  [dt150] CONVERGED at k=89, SCIF=184.01 mT

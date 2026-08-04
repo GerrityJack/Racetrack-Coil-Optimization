@@ -1,0 +1,118 @@
+============================================================================
+Sanity check: hysteretic_power() on the CONVERGED steady solve
+============================================================================
+
+building mesh ...
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+
+solving at I_design = 196.00 A (the project's own well-converged reference point) ...
+
+[T-A] I = 196.0 A   Δt = 600.0 s   δ_SC = 1.0 µm   [per-layer T]
+[T-A] T BCs: T_bot = +9.800e+07,  T_top = -9.800e+07  (single-tape z = [-2.0, 2.0] mm)
+[T-A] Seeding A from uniform-J solve ...
+[T-A] Seed |B| mean at coil cells: 4.4505 T
+[T-A] Initial ρ_homog: min=2.71e-18  max=1.33e-17  mean=6.70e-18 Ω·m
+[T-A] Seed j/jc mean: 0.246  n mean: 18.43
+  [k=01] SCIF = +9251.74 mT (stall  -- )  |ΔB|/|B| = 2.86e+00  ⟨|J|/Jc⟩_central = 0.938  corr = +1.00
+  [k=02] SCIF = +8548.09 mT (stall  -- )  |ΔB|/|B| = 8.07e-01  ⟨|J|/Jc⟩_central = 0.770  corr = -0.87
+  [k=03] SCIF = +7774.37 mT (stall  -- )  |ΔB|/|B| = 5.62e-01  ⟨|J|/Jc⟩_central = 0.802  corr = -0.27
+  [k=04] SCIF = +6859.95 mT (stall  -- )  |ΔB|/|B| = 5.49e-01  ⟨|J|/Jc⟩_central = 0.882  corr = -0.72
+  [k=05] SCIF = +6021.30 mT (stall  -- )  |ΔB|/|B| = 4.20e-01  ⟨|J|/Jc⟩_central = 0.897  corr = -0.87
+  [k=06] SCIF = +5187.18 mT (stall  -- )  |ΔB|/|B| = 2.38e-01  ⟨|J|/Jc⟩_central = 0.880  corr = -0.83
+  [k=07] SCIF = +4482.33 mT (stall  -- )  |ΔB|/|B| = 1.83e-01  ⟨|J|/Jc⟩_central = 0.917  corr = -0.85
+  [T-A] ramp-up done — fixed fine relaxation α=0.15
+  [k=08] SCIF = +3833.87 mT (stall  -- )  |ΔB|/|B| = 1.73e-01  ⟨|J|/Jc⟩_central = 0.921  corr = -0.91
+  [k=09] SCIF = +3304.85 mT (stall  -- )  |ΔB|/|B| = 9.60e-02  ⟨|J|/Jc⟩_central = 0.924  corr = -0.95
+  [k=10] SCIF = +2867.28 mT (stall  -- )  |ΔB|/|B| = 1.66e-02  ⟨|J|/Jc⟩_central = 0.926  corr = -0.45
+  [k=11] SCIF = +2502.59 mT (stall 6749.151)  |ΔB|/|B| = 8.79e-03  ⟨|J|/Jc⟩_central = 0.926  corr = +0.13
+  [k=12] SCIF = +2198.83 mT (stall 6349.251)  |ΔB|/|B| = 7.45e-03  ⟨|J|/Jc⟩_central = 0.926  corr = +0.47
+  [k=13] SCIF = +1945.59 mT (stall 5828.780)  |ΔB|/|B| = 6.54e-03  ⟨|J|/Jc⟩_central = 0.928  corr = +0.44
+  [k=14] SCIF = +1734.26 mT (stall 5125.692)  |ΔB|/|B| = 5.88e-03  ⟨|J|/Jc⟩_central = 0.929  corr = +0.39
+  [k=15] SCIF = +1557.76 mT (stall 4463.547)  |ΔB|/|B| = 6.06e-03  ⟨|J|/Jc⟩_central = 0.929  corr = +0.13
+  [k=16] SCIF = +1410.23 mT (stall 3776.950)  |ΔB|/|B| = 4.72e-03  ⟨|J|/Jc⟩_central = 0.930  corr = +0.07
+  [k=17] SCIF = +1286.85 mT (stall 3195.478)  |ΔB|/|B| = 4.26e-03  ⟨|J|/Jc⟩_central = 0.930  corr = +0.11
+  [k=18] SCIF = +1183.55 mT (stall 2650.316)  |ΔB|/|B| = 4.56e-03  ⟨|J|/Jc⟩_central = 0.931  corr = +0.05
+  [k=19] SCIF = +1097.03 mT (stall 2207.821)  |ΔB|/|B| = 4.08e-03  ⟨|J|/Jc⟩_central = 0.931  corr = -0.02
+  [k=20] SCIF = +1024.53 mT (stall 1842.748)  |ΔB|/|B| = 5.30e-03  ⟨|J|/Jc⟩_central = 0.931  corr = -0.21
+  [k=21] SCIF =  +963.74 mT (stall 1538.843)  |ΔB|/|B| = 4.30e-03  ⟨|J|/Jc⟩_central = 0.931  corr = -0.34
+  [k=22] SCIF =  +912.71 mT (stall 1286.120)  |ΔB|/|B| = 4.07e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.38
+  [k=23] SCIF =  +869.85 mT (stall 1075.733)  |ΔB|/|B| = 4.12e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.37
+  [k=24] SCIF =  +833.83 mT (stall 900.427)  |ΔB|/|B| = 3.31e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.45
+  [k=25] SCIF =  +803.57 mT (stall 754.187)  |ΔB|/|B| = 3.44e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.27
+  [k=26] SCIF =  +778.13 mT (stall 632.096)  |ΔB|/|B| = 3.62e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.52
+  [k=27] SCIF =  +756.73 mT (stall 530.122)  |ΔB|/|B| = 3.81e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.44
+  [k=28] SCIF =  +738.71 mT (stall 444.837)  |ΔB|/|B| = 4.01e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.53
+  [k=29] SCIF =  +723.52 mT (stall 373.510)  |ΔB|/|B| = 3.48e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.40
+  [k=30] SCIF =  +710.72 mT (stall 313.815)  |ΔB|/|B| = 3.79e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.40
+  [k=31] SCIF =  +699.92 mT (stall 263.820)  |ΔB|/|B| = 2.96e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.30
+  [k=32] SCIF =  +690.83 mT (stall 221.883)  |ΔB|/|B| = 4.14e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.25
+  [k=33] SCIF =  +683.18 mT (stall 186.673)  |ΔB|/|B| = 4.36e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.55
+  [k=34] SCIF =  +676.72 mT (stall 157.111)  |ΔB|/|B| = 3.76e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.33
+  [k=35] SCIF =  +671.22 mT (stall 132.346)  |ΔB|/|B| = 4.16e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.56
+  [k=36] SCIF =  +666.59 mT (stall 111.541)  |ΔB|/|B| = 3.84e-03  ⟨|J|/Jc⟩_central = 0.932  corr = -0.55
+  [k=37] SCIF =  +662.66 mT (stall 94.063)  |ΔB|/|B| = 3.70e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.38
+  [k=38] SCIF =  +659.35 mT (stall 79.361)  |ΔB|/|B| = 3.65e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.65
+  [k=39] SCIF =  +656.56 mT (stall 66.960)  |ΔB|/|B| = 3.17e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.44
+  [k=40] SCIF =  +654.21 mT (stall 56.509)  |ΔB|/|B| = 3.45e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.54
+  [k=41] SCIF =  +652.21 mT (stall 47.709)  |ΔB|/|B| = 3.88e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.56
+  [k=42] SCIF =  +650.53 mT (stall 40.298)  |ΔB|/|B| = 3.53e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.46
+  [k=43] SCIF =  +649.10 mT (stall 34.081)  |ΔB|/|B| = 3.81e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.47
+  [k=44] SCIF =  +647.91 mT (stall 28.805)  |ΔB|/|B| = 3.20e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.54
+  [k=45] SCIF =  +646.91 mT (stall 24.316)  |ΔB|/|B| = 3.32e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.34
+  [k=46] SCIF =  +646.06 mT (stall 20.526)  |ΔB|/|B| = 3.99e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.57
+  [k=47] SCIF =  +645.32 mT (stall 17.340)  |ΔB|/|B| = 3.33e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.48
+  [k=48] SCIF =  +644.69 mT (stall 14.665)  |ΔB|/|B| = 3.67e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.41
+  [k=49] SCIF =  +644.16 mT (stall 12.402)  |ΔB|/|B| = 3.87e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.52
+  [k=50] SCIF =  +643.70 mT (stall 10.508)  |ΔB|/|B| = 4.04e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.54
+  [k=51] SCIF =  +643.31 mT (stall 8.902)  |ΔB|/|B| = 3.37e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.38
+  [k=52] SCIF =  +643.00 mT (stall 7.532)  |ΔB|/|B| = 3.92e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.24
+  [k=53] SCIF =  +642.75 mT (stall 6.354)  |ΔB|/|B| = 3.94e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.62
+  [k=54] SCIF =  +642.52 mT (stall 5.397)  |ΔB|/|B| = 3.22e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.36
+  [k=55] SCIF =  +642.33 mT (stall 4.581)  |ΔB|/|B| = 3.76e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.46
+  [k=56] SCIF =  +642.15 mT (stall 3.911)  |ΔB|/|B| = 3.22e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.27
+  [k=57] SCIF =  +642.00 mT (stall 3.324)  |ΔB|/|B| = 6.00e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.53
+  [k=58] SCIF =  +641.84 mT (stall 2.847)  |ΔB|/|B| = 4.79e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.75
+  [k=59] SCIF =  +641.72 mT (stall 2.433)  |ΔB|/|B| = 3.61e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.55
+  [k=60] SCIF =  +641.62 mT (stall 2.081)  |ΔB|/|B| = 3.21e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.55
+  [k=61] SCIF =  +641.54 mT (stall 1.767)  |ΔB|/|B| = 3.67e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.48
+  [k=62] SCIF =  +641.50 mT (stall 1.502)  |ΔB|/|B| = 3.44e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.57
+  [k=63] SCIF =  +641.47 mT (stall 1.278)  |ΔB|/|B| = 3.36e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.62
+  [k=64] SCIF =  +641.44 mT (stall 1.076)  |ΔB|/|B| = 3.45e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.42
+  [k=65] SCIF =  +641.41 mT (stall 0.920)  |ΔB|/|B| = 3.30e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.55
+  [k=66] SCIF =  +641.36 mT (stall 0.798)  |ΔB|/|B| = 2.95e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.29
+  [k=67] SCIF =  +641.32 mT (stall 0.674)  |ΔB|/|B| = 4.03e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.20
+  [k=68] SCIF =  +641.32 mT (stall 0.525)  |ΔB|/|B| = 4.68e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.75
+  [k=69] SCIF =  +641.30 mT (stall 0.423)  |ΔB|/|B| = 4.46e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.67
+  [k=70] SCIF =  +641.29 mT (stall 0.325)  |ΔB|/|B| = 4.36e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.70
+  [k=71] SCIF =  +641.32 mT (stall 0.225)  |ΔB|/|B| = 4.18e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.36
+  [k=72] SCIF =  +641.34 mT (stall 0.161)  |ΔB|/|B| = 3.54e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.34
+  [k=73] SCIF =  +641.32 mT (stall 0.147)  |ΔB|/|B| = 3.77e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.54
+  [k=74] SCIF =  +641.28 mT (stall 0.156)  |ΔB|/|B| = 3.30e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.51
+  [k=75] SCIF =  +641.26 mT (stall 0.146)  |ΔB|/|B| = 3.78e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.46
+  [k=76] SCIF =  +641.26 mT (stall 0.099)  |ΔB|/|B| = 4.36e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.35
+  [k=77] SCIF =  +641.26 mT (stall 0.063)  |ΔB|/|B| = 5.48e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.72
+  [k=78] SCIF =  +641.24 mT (stall 0.072)  |ΔB|/|B| = 4.15e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.74
+  [k=79] SCIF =  +641.24 mT (stall 0.060)  |ΔB|/|B| = 4.55e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.61
+  [k=80] SCIF =  +641.26 mT (stall 0.032)  |ΔB|/|B| = 4.61e-03  ⟨|J|/Jc⟩_central = 0.933  corr = -0.75
+[T-A] Converged at k=80 (50.3 s)
+
+converged=True  n_iters=80  rel_err=4.61e-03  scif_mT=641.26
+
+local j/jc over the coil: min=0.003 mean=0.586 median=0.533 max=1.239
+fraction of cells with j/jc > 1 (over-critical): 25.9%
+Ic clip fraction (evaluated above 8T): 11.8%
+
+P_sc (hysteretic_power(), converged steady state) = 34.58 W  (0.1025 W/m of tape)
+P_floor (E_c*Jc at j/jc=1, same cells/volumes)      = 6282 W  (18.63 W/m)
+ratio P_sc / P_floor = 0.006  (near 1 is physically sane at j/jc~1; >>1 tracks the over-critical fraction and its (n-1) power-law amplification)
+
+============================================================================
+VERDICT
+============================================================================
+P_sc within 100x of the critical-state floor estimate: PASS
+-> the FORMULA is sane on a converged state. The 1182 W
+   transient smoke-test number is therefore most likely a
+   TRANSIENT-SIDE artifact (steps hit their Picard cap
+   rather than converging), not a bug in loss.py itself.
+============================================================================

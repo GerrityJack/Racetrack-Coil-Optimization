@@ -1,0 +1,12 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+Seeded a realistic (non-trivial) T/J/rho state via 15 Picard iters.
+Current T range (layer 0): [-4.150e+08, 3.642e+08]
+
+Building NonlinearProblem (Jacobian auto-derived by dolfinx) ...
+Solving ...
+
+SNES converged reason: -4  (>0 means converged)
+SNES iterations: 0
+T range after Newton solve: [-4.1500e+08, 3.6419e+08]
+any NaN: False

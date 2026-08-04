@@ -1,0 +1,58 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+=== dt=600.0 ===
+  [dt600 k=  1] SCIF= +1794.54 mT  stall=     nan  alpha=0.30
+  [dt600 k= 11] SCIF=  +482.38 mT  stall= 495.124  alpha=0.15
+  [dt600 k= 21] SCIF=  +224.23 mT  stall=  73.437  alpha=0.15
+  [dt600 k= 31] SCIF=  +181.93 mT  stall=  12.413  alpha=0.15
+  [dt600 k= 41] SCIF=  +174.47 mT  stall=   2.235  alpha=0.15
+  [dt600 k= 51] SCIF=  +173.08 mT  stall=   0.426  alpha=0.15
+  [dt600 k= 61] SCIF=  +172.82 mT  stall=   0.084  alpha=0.15
+  [dt600] CONVERGED at k=64
+=== dt=100.0 ===
+  [dt100 k=  1] SCIF= +4006.99 mT  stall=     nan  alpha=0.30
+  [dt100 k= 11] SCIF=  +660.50 mT  stall= 946.223  alpha=0.15
+  [dt100 k= 21] SCIF=  +485.81 mT  stall=  31.796  alpha=0.15
+  [dt100 k= 31] SCIF=  +287.00 mT  stall= 118.633  alpha=0.15
+  [dt100 k= 41] SCIF=  +412.84 mT  stall= 168.544  alpha=0.15
+  [dt100 k= 51] SCIF=  +296.78 mT  stall=  31.564  alpha=0.15
+  [dt100 k= 61] SCIF=  +113.10 mT  stall=  46.015  alpha=0.15
+  [dt100 k= 71] SCIF=  +232.38 mT  stall= 104.941  alpha=0.15
+  [dt100 k= 81] SCIF=  +235.50 mT  stall= 111.875  alpha=0.15
+  [dt100 k= 91] SCIF=  +138.72 mT  stall=  66.855  alpha=0.15
+  [dt100 k=101] SCIF=  +152.76 mT  stall=  82.360  alpha=0.15
+  [dt100 k=111] SCIF=  +371.34 mT  stall=  36.186  alpha=0.15
+  [dt100 k=121] SCIF=   +14.51 mT  stall= 103.853  alpha=0.15
+  [dt100 k=131] SCIF=  +319.34 mT  stall=  93.442  alpha=0.15
+  [dt100 k=141] SCIF=  +103.47 mT  stall=  56.996  alpha=0.15
+  [dt100 k=151] SCIF=  +191.17 mT  stall=  53.189  alpha=0.15
+  [dt100 k=161] SCIF=   +80.49 mT  stall= 135.612  alpha=0.15
+  [dt100 k=171] SCIF=  +187.23 mT  stall=  77.533  alpha=0.15
+  [dt100 k=181] SCIF=  +140.60 mT  stall=   8.805  alpha=0.15
+  [dt100 k=191] SCIF=  +195.47 mT  stall=  31.426  alpha=0.15
+  [dt100 k=201] SCIF=  +306.18 mT  stall=  86.973  alpha=0.15
+  [dt100 k=211] SCIF=  +136.26 mT  stall= 180.150  alpha=0.15
+  [dt100 k=221] SCIF=   +11.52 mT  stall=  12.349  alpha=0.15
+  [dt100 k=231] SCIF=  +208.44 mT  stall=  83.399  alpha=0.15
+  [dt100 k=241] SCIF=  +214.84 mT  stall=  29.212  alpha=0.15
+  [dt100 k=251] SCIF=  +321.99 mT  stall= 200.216  alpha=0.15
+  [dt100 k=261] SCIF=  +289.84 mT  stall=  11.137  alpha=0.15
+  [dt100 k=271] SCIF=  +147.33 mT  stall= 103.877  alpha=0.15
+  [dt100 k=281] SCIF=  +112.57 mT  stall= 168.499  alpha=0.15
+  [dt100 k=291] SCIF=  +179.58 mT  stall=  62.960  alpha=0.15
+  [dt100 k=301] SCIF=  +160.71 mT  stall= 102.082  alpha=0.15
+  [dt100 k=311] SCIF=  +298.92 mT  stall=  67.119  alpha=0.15
+  [dt100 k=321] SCIF=   +67.76 mT  stall= 137.886  alpha=0.15
+  [dt100 k=331] SCIF=  +131.61 mT  stall=  63.776  alpha=0.15
+  [dt100 k=341] SCIF=  +126.35 mT  stall= 129.653  alpha=0.15
+  [dt100 k=351] SCIF=   +36.56 mT  stall=  44.359  alpha=0.15
+  [dt100 k=361] SCIF=  +197.52 mT  stall= 101.679  alpha=0.15
+  [dt100 k=371] SCIF=  +192.64 mT  stall= 225.450  alpha=0.15
+  [dt100 k=381] SCIF=  +308.48 mT  stall= 214.391  alpha=0.15
+  [dt100 k=391] SCIF=  +208.59 mT  stall=  73.440  alpha=0.15
+  [dt100 k=396] SCIF=  +158.30 mT  stall=  50.282  alpha=0.15
+  [dt100 k=397] SCIF=  +125.88 mT  stall=  94.620  alpha=0.15
+  [dt100 k=398] SCIF=  +189.19 mT  stall=  21.845  alpha=0.15
+  [dt100 k=399] SCIF=  +218.01 mT  stall=  18.767  alpha=0.15
+  [dt100 k=400] SCIF=  +264.59 mT  stall=  79.469  alpha=0.15
+  [dt100] did not converge within 400 iters

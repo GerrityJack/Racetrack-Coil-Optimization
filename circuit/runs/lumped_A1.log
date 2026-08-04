@@ -1,0 +1,48 @@
+==========================================================================
+DCN Tier-A1 validation — inductance and resistance build
+==========================================================================
+
+<CoilGeometry champion: 6 layers, 1726 turns, a_out=43.92 mm, L=5.40 mm, two_coil=True>
+tape length: geometry 337.1986 m   params 337.1986 m   (rel 4.44e-16)
+
+[1] Neumann + GMD vs textbook circular loop L = mu0*R*(ln(8R/a) - 2)
+    R=  10.0 mm  neumann=   31.19 nH  analytic=   31.10 nH  rel= +0.26%  OK 
+    R=  22.0 mm  neumann=   90.27 nH  analytic=   90.23 nH  rel= +0.05%  OK 
+    R=  44.0 mm  neumann=  218.81 nH  analytic=  218.78 nH  rel= +0.01%  OK 
+
+[2] Grouping convergence of L_total  (<CoilGeometry champion: 6 layers, 1726 turns, a_out=43.92 mm, L=5.40 mm, two_coil=True>)
+    turns/group= 100  N=  20  L_total=  432.527 mH  W(I_design)=   8308.0 J
+    turns/group=  50  N=  38  L_total=  422.386 mH  W(I_design)=   8113.2 J
+    turns/group=  25  N=  70  L_total=  420.203 mH  W(I_design)=   8071.3 J
+    turns/group=  12  N= 146  L_total=  419.753 mH  W(I_design)=   8062.6 J
+    turns/group=   6  N= 290  L_total=  419.699 mH  W(I_design)=   8061.6 J
+    last refinement moved L by 0.01%
+
+[3] INDEPENDENT cross-check against the FEM
+    building mesh ...
+    solving uniform-J A-form at I = 196.0 A ...
+  [L-check] KSP converged reason: 4, iterations: 1
+    3a. bore-axis Bz vs coil2_field (production path), 9 points:
+        median rel diff = 0.1773%, max = 0.4426%
+        at bore centre: circuit -11.52330 T   repo -11.53075 T
+    3b. |B| at 41 bore cells (rho < 6.9 mm): median rel diff = 9.55%, max = 20.74%
+        FEM  |B| 6.407 - 10.913 T   fil. |B| 6.558 - 11.681 T
+    3c. W (eighth domain) = 824.72 J -> full system 6597.8 J
+        L_FEM = 343.49 mH   (filament 419.70 mH, ratio 1.2219)
+        NB the air box is only 1.27x the coil's outer extent and carries a PEC boundary, so flux is confined and
+        this is a LOWER BOUND on L, not an independent measurement.  Use 3a as the sharp check.
+
+==========================================================================
+filament (Neumann, finest grouping) :   419.699 mH   W = 8062 J
+vs repo production Biot-Savart      : 0.1773% median, 0.4426% max   <- the sharp check
+vs FEM in the bore                  : 9.55% median, 20.74% max
+FEM energy inductance (lower bound) :   343.490 mH  (ratio 1.2219)
+VERDICT (vs production path < 1%)   : PASS
+==========================================================================
+
+[4] Analytic tau brackets (orientation only -- these are the estimates the DCN exists to replace)
+       rho_c     R_bypass/pancake [mOhm]   tau=L/R_min [s]   tau=L_i/R_i [s]
+          30     1.47    1.47    2.24    2.24    0.01    0.01           83133.2             14.37
+         100     4.91    4.91    7.47    7.47    0.02    0.02           24940.0              4.31
+         400    19.62   19.62   29.88   29.88    0.07    0.07            6235.0              1.08
+    (the two columns differ by ~100x -- that spread is the motivation for the coupled solve)

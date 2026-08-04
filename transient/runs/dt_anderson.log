@@ -1,0 +1,53 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+=== Anderson m=3, dt=100, I=32.667 ===
+  [anderson_m3 k=   1] SCIF= +2623.99 mT  stall=     nan  |f|=3.313e+10
+  [anderson_m3 k=  26] SCIF=   +81.40 mT  stall= 126.774  |f|=1.060e+10
+  [anderson_m3 k=  51] SCIF=   +34.40 mT  stall=  54.831  |f|=3.017e+10
+  [anderson_m3 k=  76] SCIF=   +72.09 mT  stall= 270.700  |f|=1.207e+10
+  [anderson_m3 k= 101] SCIF=   +61.76 mT  stall= 185.997  |f|=1.977e+10
+  [anderson_m3 k= 126] SCIF=  +165.43 mT  stall=  51.317  |f|=1.153e+10
+  [anderson_m3 k= 151] SCIF=   -10.25 mT  stall= 210.685  |f|=3.135e+10
+  [anderson_m3 k= 176] SCIF=   -11.35 mT  stall= 336.748  |f|=9.169e+09
+  [anderson_m3 k= 201] SCIF=  +281.15 mT  stall= 108.311  |f|=2.846e+10
+  [anderson_m3 k= 226] SCIF=  +197.77 mT  stall=  26.430  |f|=1.676e+10
+  [anderson_m3 k= 251] SCIF=  +178.94 mT  stall=  19.395  |f|=1.154e+10
+  [anderson_m3 k= 276] SCIF=  +183.70 mT  stall=  13.936  |f|=2.990e+10
+  [anderson_m3 k= 298] SCIF=  +132.05 mT  stall=  46.279  |f|=3.281e+10
+  [anderson_m3 k= 299] SCIF=  +232.55 mT  stall=  13.710  |f|=3.477e+10
+  [anderson_m3 k= 300] SCIF=  +246.31 mT  stall=  39.868  |f|=3.769e+10
+  [anderson_m3] did NOT converge within 300 iters. Last-100 range: [36.77,500.06] mT, std=67.92
+=== Anderson m=5, dt=100, I=32.667 ===
+  [anderson_m5 k=   1] SCIF= +2623.98 mT  stall=     nan  |f|=3.313e+10
+  [anderson_m5 k=  26] SCIF=  +275.73 mT  stall= 100.395  |f|=1.860e+10
+  [anderson_m5 k=  51] SCIF=  +183.51 mT  stall=  33.174  |f|=1.155e+10
+  [anderson_m5 k=  76] SCIF=  +222.99 mT  stall=  23.824  |f|=2.263e+10
+  [anderson_m5 k= 101] SCIF=   +87.41 mT  stall=  88.776  |f|=1.729e+10
+  [anderson_m5 k= 126] SCIF=  +141.89 mT  stall=   7.119  |f|=2.562e+10
+  [anderson_m5 k= 151] SCIF=  +267.47 mT  stall=  39.559  |f|=2.798e+10
+  [anderson_m5 k= 176] SCIF=  +168.02 mT  stall=  24.913  |f|=1.991e+10
+  [anderson_m5 k= 201] SCIF=  +340.06 mT  stall=  26.303  |f|=2.233e+10
+  [anderson_m5 k= 226] SCIF=  +208.70 mT  stall=  91.345  |f|=1.498e+10
+  [anderson_m5 k= 251] SCIF=   -53.68 mT  stall= 310.660  |f|=2.227e+10
+  [anderson_m5 k= 276] SCIF=  +179.31 mT  stall= 142.188  |f|=4.072e+10
+  [anderson_m5 k= 298] SCIF=  +121.23 mT  stall=  31.355  |f|=2.743e+10
+  [anderson_m5 k= 299] SCIF=  +110.85 mT  stall=  31.427  |f|=2.596e+10
+  [anderson_m5 k= 300] SCIF=  +169.10 mT  stall=  11.324  |f|=2.777e+10
+  [anderson_m5] did NOT converge within 300 iters. Last-100 range: [-66.72,364.07] mT, std=94.14
+=== Anderson m=8, dt=100, I=32.667 ===
+  [anderson_m8 k=   1] SCIF= +2623.99 mT  stall=     nan  |f|=3.313e+10
+  [anderson_m8 k=  26] SCIF=  +199.74 mT  stall=  15.191  |f|=2.455e+10
+  [anderson_m8 k=  51] SCIF=  +116.97 mT  stall=   5.774  |f|=1.929e+10
+  [anderson_m8 k=  76] SCIF=  +216.93 mT  stall=  12.869  |f|=2.885e+10
+  [anderson_m8 k= 101] SCIF=  +217.21 mT  stall=  19.299  |f|=3.969e+10
+  [anderson_m8 k= 126] SCIF=  +186.82 mT  stall=   6.750  |f|=3.076e+10
+  [anderson_m8 k= 151] SCIF=  +245.98 mT  stall=  85.445  |f|=2.459e+10
+  [anderson_m8 k= 176] SCIF=  +205.52 mT  stall=  24.670  |f|=1.809e+10
+  [anderson_m8 k= 201] SCIF=  +322.29 mT  stall= 123.892  |f|=1.839e+10
+  [anderson_m8 k= 226] SCIF=  +180.12 mT  stall=  56.909  |f|=3.008e+10
+  [anderson_m8 k= 251] SCIF=  +120.60 mT  stall=  92.406  |f|=3.200e+10
+  [anderson_m8 k= 276] SCIF=  +171.91 mT  stall=  31.339  |f|=4.418e+10
+  [anderson_m8 k= 298] SCIF=  +145.59 mT  stall=  50.437  |f|=2.938e+10
+  [anderson_m8 k= 299] SCIF=  +157.40 mT  stall=   9.810  |f|=3.626e+10
+  [anderson_m8 k= 300] SCIF=  +166.32 mT  stall=  19.289  |f|=2.948e+10
+  [anderson_m8] did NOT converge within 300 iters. Last-100 range: [6.37,470.97] mT, std=97.55

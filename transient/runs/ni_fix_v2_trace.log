@@ -1,0 +1,178 @@
+==============================================================================
+NI closure regression check: I=32.67 A, dt=100 s, rho_c=100.0 uOhm.cm2, EP_FACTOR_MODE=paper
+==============================================================================
+  [transient] NOTE 10/48 radial bins contain no coil cells (mesh coarser than the binning) — they carry no E_p/E_i average and simply follow the transport current
+  [induction] bin inductance built: L_total = 423.27 mH (circuit/ reference 419.7 mH — the coarse 8-bin/layer grouping will read a few % high)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+      [warmup k=  1] SCIF= +4007.43 mT  stall=    nan  alpha=0.30  |dB|=2.483e+02
+      [warmup k=  2] SCIF= +3446.23 mT  stall=    nan  alpha=0.30  |dB|=5.532e+02
+      [warmup k=  3] SCIF= +2922.34 mT  stall=    nan  alpha=0.30  |dB|=1.576e+02
+      [warmup k=  4] SCIF= +2430.00 mT  stall=    nan  alpha=0.30  |dB|=1.145e+02
+      [warmup k=  5] SCIF= +2006.04 mT  stall=    nan  alpha=0.30  |dB|=8.425e+01
+      [warmup k=  6] SCIF= +1607.27 mT  stall=2400.164  alpha=0.30  |dB|=7.902e+01
+      [warmup] ramp-up done -> alpha=0.15
+      [warmup k=  7] SCIF= +1286.29 mT  stall=2159.939  alpha=0.15  |dB|=1.425e+02
+      [warmup k=  8] SCIF=  +959.94 mT  stall=1962.399  alpha=0.15  |dB|=8.596e+01
+      [warmup k=  9] SCIF=  +860.54 mT  stall=1569.459  alpha=0.15  |dB|=1.219e+02
+      [warmup k= 10] SCIF=  +768.77 mT  stall=1237.272  alpha=0.15  |dB|=5.997e+01
+      [warmup k= 11] SCIF=  +659.83 mT  stall=947.442  alpha=0.15  |dB|=3.551e+01
+      [warmup k= 12] SCIF=  +623.78 mT  stall=662.510  alpha=0.15  |dB|=4.322e+01
+      [warmup k= 13] SCIF=  +462.61 mT  stall=497.331  alpha=0.15  |dB|=1.188e+02
+      [warmup k= 14] SCIF=  +512.00 mT  stall=348.548  alpha=0.15  |dB|=1.625e+02
+      [warmup k= 15] SCIF=  +498.95 mT  stall=269.822  alpha=0.15  |dB|=6.733e+01
+      [warmup k= 16] SCIF=  +456.83 mT  stall=202.994  alpha=0.15  |dB|=9.851e+01
+      [warmup k= 17] SCIF=  +490.39 mT  stall=133.396  alpha=0.15  |dB|=1.146e+02
+      [warmup k= 18] SCIF=  +565.32 mT  stall=102.711  alpha=0.15  |dB|=5.938e+01
+      [warmup k= 19] SCIF=  +529.19 mT  stall= 17.190  alpha=0.15  |dB|=9.102e+01
+      [warmup k= 20] SCIF=  +531.03 mT  stall= 32.084  alpha=0.15  |dB|=4.528e+01
+      [warmup k= 21] SCIF=  +469.31 mT  stall= 12.480  alpha=0.15  |dB|=6.406e+01
+      [warmup k= 22] SCIF=  +418.40 mT  stall= 71.990  alpha=0.15  |dB|=1.082e+02
+      [warmup k= 23] SCIF=  +365.28 mT  stall=200.044  alpha=0.15  |dB|=9.449e+01
+      [warmup k= 24] SCIF=  +370.62 mT  stall=158.566  alpha=0.15  |dB|=6.414e+01
+      [warmup k= 25] SCIF=  +367.82 mT  stall=163.212  alpha=0.15  |dB|=8.308e+01
+      [warmup k= 26] SCIF=  +339.35 mT  stall=129.969  alpha=0.15  |dB|=8.180e+01
+      [warmup k= 27] SCIF=  +270.02 mT  stall=148.377  alpha=0.15  |dB|=8.734e+01
+      [warmup k= 28] SCIF=  +294.73 mT  stall= 70.546  alpha=0.15  |dB|=8.923e+01
+      [warmup k= 29] SCIF=  +247.90 mT  stall=122.716  alpha=0.15  |dB|=8.656e+01
+      [warmup k= 30] SCIF=  +237.72 mT  stall=130.097  alpha=0.15  |dB|=8.395e+01
+      [warmup k= 31] SCIF=  +243.23 mT  stall= 96.112  alpha=0.15  |dB|=9.473e+01
+      [warmup k= 32] SCIF=  +279.41 mT  stall=  9.388  alpha=0.15  |dB|=8.627e+01
+      [warmup k= 33] SCIF=  +170.93 mT  stall=123.809  alpha=0.15  |dB|=1.101e+02
+      [warmup k= 34] SCIF=  +149.63 mT  stall= 98.273  alpha=0.15  |dB|=7.440e+01
+      [warmup k= 35] SCIF=  +109.72 mT  stall=127.998  alpha=0.15  |dB|=8.976e+01
+      [warmup k= 36] SCIF=   +87.12 mT  stall=156.116  alpha=0.15  |dB|=7.520e+01
+      [warmup k= 37] SCIF=   +86.52 mT  stall=192.884  alpha=0.15  |dB|=1.010e+02
+      [warmup k= 38] SCIF=  +146.46 mT  stall= 24.465  alpha=0.15  |dB|=9.588e+01
+      [warmup k= 39] SCIF=  +143.68 mT  stall=  5.952  alpha=0.15  |dB|=1.103e+02
+      [warmup k= 40] SCIF=  +160.09 mT  stall= 50.372  alpha=0.15  |dB|=5.526e+01
+      [warmup k= 41] SCIF=  +163.45 mT  stall= 76.330  alpha=0.15  |dB|=7.594e+01
+      [warmup k= 42] SCIF=  +177.43 mT  stall= 90.910  alpha=0.15  |dB|=7.722e+01
+      [warmup k= 43] SCIF=  +133.46 mT  stall= 13.005  alpha=0.15  |dB|=9.807e+01
+      [warmup k= 44] SCIF=  +148.13 mT  stall=  4.450  alpha=0.15  |dB|=1.010e+02
+      [warmup k= 45] SCIF=  +194.93 mT  stall= 34.832  alpha=0.15  |dB|=7.953e+01
+      [warmup k= 46] SCIF=  +257.09 mT  stall= 93.640  alpha=0.15  |dB|=7.958e+01
+      [warmup k= 47] SCIF=  +271.68 mT  stall= 94.243  alpha=0.15  |dB|=7.968e+01
+      [warmup k= 48] SCIF=  +256.51 mT  stall=123.051  alpha=0.15  |dB|=1.042e+02
+      [warmup k= 49] SCIF=  +253.62 mT  stall=105.488  alpha=0.15  |dB|=1.107e+02
+      [warmup k= 50] SCIF=  +332.38 mT  stall=137.456  alpha=0.15  |dB|=1.000e+02
+      [warmup k= 51] SCIF=  +371.75 mT  stall=114.661  alpha=0.15  |dB|=7.571e+01
+      [warmup k= 52] SCIF=  +404.76 mT  stall=133.082  alpha=0.15  |dB|=5.287e+01
+      [warmup k= 53] SCIF=  +397.02 mT  stall=140.511  alpha=0.15  |dB|=6.281e+01
+      [warmup k= 54] SCIF=  +394.75 mT  stall=141.128  alpha=0.15  |dB|=8.243e+01
+      [warmup k= 55] SCIF=  +370.43 mT  stall= 38.047  alpha=0.15  |dB|=1.090e+02
+      [warmup k= 56] SCIF=  +292.46 mT  stall= 79.292  alpha=0.15  |dB|=1.144e+02
+      [warmup k= 57] SCIF=  +267.13 mT  stall=137.627  alpha=0.15  |dB|=1.132e+02
+      [warmup k= 58] SCIF=  +260.20 mT  stall=136.821  alpha=0.15  |dB|=4.971e+01
+      [warmup k= 59] SCIF=  +244.43 mT  stall=150.316  alpha=0.15  |dB|=4.834e+01
+      [warmup k= 60] SCIF=  +258.28 mT  stall=112.146  alpha=0.15  |dB|=6.282e+01
+      [warmup k= 61] SCIF=  +227.59 mT  stall= 64.868  alpha=0.15  |dB|=1.131e+02
+      [warmup k= 62] SCIF=  +160.30 mT  stall=106.828  alpha=0.15  |dB|=8.287e+01
+      [warmup k= 63] SCIF=  +152.44 mT  stall=107.753  alpha=0.15  |dB|=9.559e+01
+      [warmup k= 64] SCIF=  +119.28 mT  stall=125.151  alpha=0.15  |dB|=9.198e+01
+      [warmup k= 65] SCIF=  +118.74 mT  stall=139.540  alpha=0.15  |dB|=6.983e+01
+      [warmup k= 66] SCIF=  +116.24 mT  stall=111.354  alpha=0.15  |dB|=6.141e+01
+      [warmup k= 67] SCIF=  +139.15 mT  stall= 21.156  alpha=0.15  |dB|=8.497e+01
+      [warmup k= 68] SCIF=  +197.08 mT  stall= 44.639  alpha=0.15  |dB|=1.132e+02
+      [warmup k= 69] SCIF=  +250.37 mT  stall=131.094  alpha=0.15  |dB|=1.203e+02
+      [warmup k= 70] SCIF=  +298.91 mT  stall=180.163  alpha=0.15  |dB|=9.780e+01
+      [warmup k= 71] SCIF=  +298.32 mT  stall=182.085  alpha=0.15  |dB|=5.088e+01
+      [warmup k= 72] SCIF=  +291.77 mT  stall=152.628  alpha=0.15  |dB|=3.782e+01
+      [warmup k= 73] SCIF=  +274.16 mT  stall= 77.078  alpha=0.15  |dB|=5.695e+01
+      [warmup k= 74] SCIF=  +246.13 mT  stall=  4.247  alpha=0.15  |dB|=8.759e+01
+      [warmup k= 75] SCIF=  +227.05 mT  stall= 71.856  alpha=0.15  |dB|=1.253e+02
+      [warmup k= 76] SCIF=  +280.85 mT  stall= 17.469  alpha=0.15  |dB|=9.802e+01
+      [warmup k= 77] SCIF=  +259.80 mT  stall= 31.978  alpha=0.15  |dB|=1.073e+02
+      [warmup k= 78] SCIF=  +295.58 mT  stall= 21.425  alpha=0.15  |dB|=7.037e+01
+      [warmup k= 79] SCIF=  +293.87 mT  stall= 47.744  alpha=0.15  |dB|=4.584e+01
+      [warmup k= 80] SCIF=  +275.38 mT  stall= 48.333  alpha=0.15  |dB|=6.588e+01
+      [warmup k= 81] SCIF=  +241.31 mT  stall= 39.538  alpha=0.15  |dB|=8.805e+01
+      [warmup k= 82] SCIF=  +244.77 mT  stall= 15.026  alpha=0.15  |dB|=9.340e+01
+      [warmup k= 83] SCIF=  +194.76 mT  stall=100.826  alpha=0.15  |dB|=1.087e+02
+      [warmup k= 84] SCIF=  +218.11 mT  stall= 75.761  alpha=0.15  |dB|=8.004e+01
+      [warmup k= 85] SCIF=  +190.05 mT  stall= 85.329  alpha=0.15  |dB|=7.976e+01
+      [warmup k= 86] SCIF=  +201.28 mT  stall= 40.039  alpha=0.15  |dB|=7.720e+01
+      [warmup k= 87] SCIF=  +160.70 mT  stall= 84.071  alpha=0.15  |dB|=6.502e+01
+      [warmup k= 88] SCIF=  +183.36 mT  stall= 11.396  alpha=0.15  |dB|=9.525e+01
+      [warmup k= 89] SCIF=  +204.69 mT  stall= 13.422  alpha=0.15  |dB|=1.440e+02
+      [warmup k= 90] SCIF=  +256.83 mT  stall= 66.779  alpha=0.15  |dB|=8.716e+01
+      [warmup k= 91] SCIF=  +259.90 mT  stall= 58.629  alpha=0.15  |dB|=7.669e+01
+      [warmup k= 92] SCIF=  +279.93 mT  stall=119.235  alpha=0.15  |dB|=8.460e+01
+      [warmup k= 93] SCIF=  +262.39 mT  stall= 79.026  alpha=0.15  |dB|=6.346e+01
+      [warmup k= 94] SCIF=  +265.09 mT  stall= 60.402  alpha=0.15  |dB|=7.321e+01
+      [warmup k= 95] SCIF=  +238.41 mT  stall= 18.420  alpha=0.15  |dB|=1.427e+02
+      [warmup k= 96] SCIF=  +182.30 mT  stall= 77.600  alpha=0.15  |dB|=1.127e+02
+      [warmup k= 97] SCIF=  +177.85 mT  stall=102.082  alpha=0.15  |dB|=6.202e+01
+      [warmup k= 98] SCIF=  +178.73 mT  stall= 83.662  alpha=0.15  |dB|=5.310e+01
+      [warmup k= 99] SCIF=  +184.22 mT  stall= 80.873  alpha=0.15  |dB|=5.526e+01
+      [warmup k=100] SCIF=  +172.02 mT  stall= 66.392  alpha=0.15  |dB|=6.077e+01
+      [warmup k=101] SCIF=  +193.20 mT  stall= 10.895  alpha=0.15  |dB|=5.097e+01
+      [warmup k=102] SCIF=  +176.08 mT  stall=  1.770  alpha=0.15  |dB|=7.272e+01
+      [warmup k=103] SCIF=  +173.83 mT  stall=  4.893  alpha=0.15  |dB|=1.560e+02
+      [warmup k=104] SCIF=  +216.48 mT  stall= 32.268  alpha=0.15  |dB|=1.161e+02
+      [warmup k=105] SCIF=  +220.22 mT  stall= 48.197  alpha=0.15  |dB|=1.066e+02
+      [warmup k=106] SCIF=  +201.59 mT  stall=  8.389  alpha=0.15  |dB|=4.416e+01
+      [warmup k=107] SCIF=  +195.48 mT  stall= 19.393  alpha=0.15  |dB|=3.939e+01
+      [warmup k=108] SCIF=  +180.32 mT  stall=  6.489  alpha=0.15  |dB|=4.454e+01
+      [warmup k=109] SCIF=  +176.40 mT  stall= 40.083  alpha=0.15  |dB|=6.547e+01
+      [warmup k=110] SCIF=  +181.64 mT  stall= 38.573  alpha=0.15  |dB|=1.061e+02
+      [warmup k=111] SCIF=  +189.38 mT  stall= 12.208  alpha=0.15  |dB|=1.104e+02
+      [warmup k=112] SCIF=  +165.53 mT  stall= 29.942  alpha=0.15  |dB|=1.060e+02
+      [warmup k=113] SCIF=  +139.60 mT  stall= 40.717  alpha=0.15  |dB|=7.912e+01
+      [warmup k=114] SCIF=  +167.04 mT  stall=  9.357  alpha=0.15  |dB|=5.943e+01
+      [warmup k=115] SCIF=  +153.12 mT  stall= 28.521  alpha=0.15  |dB|=6.750e+01
+      [warmup k=116] SCIF=  +177.21 mT  stall= 12.174  alpha=0.15  |dB|=7.729e+01
+      [warmup k=117] SCIF=  +107.25 mT  stall= 58.280  alpha=0.15  |dB|=1.159e+02
+      [warmup k=118] SCIF=  +138.78 mT  stall=  0.827  alpha=0.15  |dB|=1.065e+02
+      [warmup k=119] SCIF=  +120.26 mT  stall= 46.785  alpha=0.15  |dB|=8.514e+01
+      [warmup k=120] SCIF=  +116.79 mT  stall= 36.333  alpha=0.15  |dB|=6.712e+01
+      [warmup k=121] SCIF=  +159.81 mT  stall= 17.399  alpha=0.15  |dB|=7.325e+01
+      [warmup k=122] SCIF=  +189.62 mT  stall= 82.366  alpha=0.15  |dB|=7.784e+01
+      [warmup k=123] SCIF=  +198.32 mT  stall= 59.538  alpha=0.15  |dB|=7.861e+01
+      [warmup k=124] SCIF=  +226.48 mT  stall=106.219  alpha=0.15  |dB|=9.408e+01
+      [warmup k=125] SCIF=  +157.97 mT  stall= 41.176  alpha=0.15  |dB|=8.443e+01
+      [warmup k=126] SCIF=  +115.73 mT  stall= 44.078  alpha=0.15  |dB|=8.513e+01
+      [warmup k=127] SCIF=   +75.09 mT  stall=114.526  alpha=0.15  |dB|=1.324e+02
+      [warmup k=128] SCIF=   +40.73 mT  stall=157.590  alpha=0.15  |dB|=1.058e+02
+      [warmup k=129] SCIF=    +4.82 mT  stall=221.661  alpha=0.15  |dB|=7.714e+01
+      [warmup k=130] SCIF=    -2.00 mT  stall=159.962  alpha=0.15  |dB|=6.421e+01
+      [warmup k=131] SCIF=   -27.39 mT  stall=143.122  alpha=0.15  |dB|=5.340e+01
+      [warmup k=132] SCIF=   +54.74 mT  stall= 20.357  alpha=0.15  |dB|=8.964e+01
+      [warmup k=133] SCIF=  +114.54 mT  stall= 73.815  alpha=0.15  |dB|=1.057e+02
+      [warmup k=134] SCIF=  +135.33 mT  stall=130.513  alpha=0.15  |dB|=1.110e+02
+      [warmup k=135] SCIF=  +168.78 mT  stall=170.775  alpha=0.15  |dB|=6.472e+01
+      [warmup k=136] SCIF=  +168.10 mT  stall=195.494  alpha=0.15  |dB|=1.070e+02
+      [warmup k=137] SCIF=  +134.96 mT  stall= 80.224  alpha=0.15  |dB|=6.269e+01
+      [warmup k=138] SCIF=  +158.43 mT  stall= 43.888  alpha=0.15  |dB|=6.490e+01
+      [warmup k=139] SCIF=  +140.95 mT  stall=  5.617  alpha=0.15  |dB|=1.030e+02
+      [warmup k=140] SCIF=  +154.43 mT  stall= 14.352  alpha=0.15  |dB|=8.832e+01
+      [warmup k=141] SCIF=  +128.88 mT  stall= 39.224  alpha=0.15  |dB|=1.208e+02
+      [warmup k=142] SCIF=  +131.47 mT  stall=  3.487  alpha=0.15  |dB|=8.074e+01
+      [warmup k=143] SCIF=  +106.11 mT  stall= 52.316  alpha=0.15  |dB|=6.188e+01
+      [warmup k=144] SCIF=  +139.96 mT  stall=  0.991  alpha=0.15  |dB|=8.076e+01
+      [warmup k=145] SCIF=  +127.55 mT  stall= 26.873  alpha=0.15  |dB|=7.909e+01
+      [warmup k=146] SCIF=  +103.61 mT  stall= 25.271  alpha=0.15  |dB|=7.114e+01
+      [warmup k=147] SCIF=  +116.19 mT  stall= 15.282  alpha=0.15  |dB|=8.908e+01
+      [warmup k=148] SCIF=  +112.56 mT  stall=  6.448  alpha=0.15  |dB|=1.216e+02
+      [warmup k=149] SCIF=   +98.99 mT  stall= 40.963  alpha=0.15  |dB|=9.288e+01
+      [warmup k=150] SCIF=   +99.76 mT  stall= 27.797  alpha=0.15  |dB|=6.724e+01
+      [warmup] CAP  in 150 iters, SCIF=+99.76 mT
+      [closure k=  1] SCIF=   -42.09 mT  stall=    nan  alpha=0.30  |dB|=1.596e+02
+      [closure k=  2] SCIF=   +13.45 mT  stall=    nan  alpha=0.30  |dB|=1.722e+02
+      [closure k=  3] SCIF=   +82.96 mT  stall=    nan  alpha=0.30  |dB|=8.565e+01
+      [closure k=  4] SCIF=   +95.40 mT  stall=    nan  alpha=0.30  |dB|=8.190e+01
+      [closure] ramp-up done -> alpha=0.15
+      [closure k=  5] SCIF=   +90.50 mT  stall=    nan  alpha=0.15  |dB|=9.063e+01
+      [closure k=  6] SCIF=  +105.85 mT  stall=147.940  alpha=0.15  |dB|=3.028e+01
+      [closure] CAP  in 6 iters, SCIF=+105.85 mT
+    k=156 (warmup 150* + closure 6*)  CAP  SCIF= +167.24 mT  I_z=[  13.57,  40.32] A  I_r_mean=  6.970 A  clip=48  (98.9 s)
+
+==============================================================================
+RESULT
+==============================================================================
+warmup: 150 iters, converged=False
+closure: 6 iters, converged=False
+final: SCIF=+167.24 mT, I_z=[13.57,40.32] A, I_r_mean=6.9699 A, clip=48
+
+VERDICT: FAIL
+==============================================================================

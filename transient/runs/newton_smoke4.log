@@ -1,0 +1,24 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  0 SNES Function norm 2.970882669763e+15
+  1 SNES Function norm 7.428321715760e+14
+  2 SNES Function norm 1.857429719104e+14
+  3 SNES Function norm 4.644077175624e+13
+  4 SNES Function norm 1.182255120409e+13
+  5 SNES Function norm 3.756332923309e+12
+  6 SNES Function norm 3.284639734639e+12
+  7 SNES Function norm 1.537009751496e+12
+  8 SNES Function norm 2.951932736875e+11
+  9 SNES Function norm 3.096214200378e+10
+ 10 SNES Function norm 7.058401945660e+08
+ 11 SNES Function norm 4.428914521784e+05
+Seeded a realistic (non-trivial) T/J/rho state via 15 Picard iters.
+Current T range (layer 0): [-4.138e+08, 3.656e+08]
+
+Building NonlinearProblem (Jacobian auto-derived by dolfinx) ...
+Solving ...
+
+SNES converged reason: 3  (>0 means converged)
+SNES iterations: 11
+T range after Newton solve: [-1.1323e+08, 1.0740e+08]
+any NaN: False

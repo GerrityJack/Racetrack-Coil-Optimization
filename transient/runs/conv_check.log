@@ -1,0 +1,17 @@
+==============================================================================
+T-A transient with no-insulation coupling — charge
+==============================================================================
+rho_c = 100 uOhm.cm^2   ramp = 600 s   I_op = 196.00 A
+radial bins = 8/layer   E_p factor mode = paper
+
+building mesh ...
+  [transient] NOTE 10/48 radial bins contain no coil cells (mesh coarser than the binning) — they carry no E_p/E_i average and simply follow the transport current
+  [induction] bin inductance built: L_total = 423.27 mH (circuit/ reference 419.7 mH — the coarse 8-bin/layer grouping will read a few % high)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  coil cells = 4463, A-dofs = 10551
+  step 1/9  t=  100.0 s  I=  32.67 A  dt= 100.0 s
+    k=150 CAP  SCIF=+1063.04 mT  I_z=[  -2.78,  38.98] A  I_r_mean= 14.160 A  clip=20  (105.5 s)
+  step 2/9  t=  200.0 s  I=  65.33 A  dt= 100.0 s
+    k= 60 CAP  SCIF=+1248.65 mT  I_z=[  -1.42,  88.00] A  I_r_mean= 12.800 A  clip=15  (39.0 s)
+  step 3/9  t=  300.0 s  I=  98.00 A  dt= 100.0 s

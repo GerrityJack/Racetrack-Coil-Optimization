@@ -1,0 +1,22 @@
+==============================================================================
+NI closure regression check: I=32.67 A, dt=100 s, rho_c=100.0 uOhm.cm2, EP_FACTOR_MODE=paper
+==============================================================================
+  [transient] NOTE 10/48 radial bins contain no coil cells (mesh coarser than the binning) — they carry no E_p/E_i average and simply follow the transport current
+  [induction] bin inductance built: L_total = 423.27 mH (circuit/ reference 419.7 mH — the coarse 8-bin/layer grouping will read a few % high)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+      [warmup] ramp-up done -> alpha=0.15
+      [warmup] CAP  in 150 iters, SCIF=+194.78 mT
+      [closure] ramp-up done -> alpha=0.15
+      [closure] CAP  in 6 iters, SCIF=+513.38 mT
+    k=156 (warmup 150* + closure 6*)  CAP  SCIF=+1043.20 mT  I_z=[   9.71,  24.38] A  I_r_mean= 18.497 A  clip=48  (108.8 s)
+
+==============================================================================
+RESULT
+==============================================================================
+warmup: 150 iters, converged=False
+closure: 6 iters, converged=False
+final: SCIF=+1043.20 mT, I_z=[9.71,24.38] A, I_r_mean=18.4970 A, clip=48
+
+VERDICT: FAIL
+==============================================================================

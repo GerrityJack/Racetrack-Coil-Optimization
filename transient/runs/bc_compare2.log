@@ -1,0 +1,9 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+Comparing T solutions, layer by layer:
+  layer 0: max|diff|=2.9111e+05  rel=5.3167e-03  max|const|=5.4753e+07  max|func|=5.4462e+07
+  layer 1: max|diff|=3.3936e+05  rel=1.6642e-03  max|const|=2.0392e+08  max|func|=2.0387e+08
+  layer 2: max|diff|=4.1017e+05  rel=1.0941e-03  max|const|=3.7491e+08  max|func|=3.7495e+08
+  layer 3: max|diff|=5.7584e+05  rel=1.1293e-03  max|const|=5.0989e+08  max|func|=5.0990e+08
+  layer 4: max|diff|=2.3011e+05  rel=4.8029e-04  max|const|=4.7911e+08  max|func|=4.7915e+08
+  layer 5: max|diff|=3.7526e+04  rel=8.4539e-05  max|const|=4.4390e+08  max|func|=4.4389e+08

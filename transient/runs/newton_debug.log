@@ -1,0 +1,13 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+    [bootstrap] 15 Picard iterations done (not converged -- just seeding Newton's initial guess)
+B_coil finite: False  range: nan nan
+idx dtype/shape: int64 (971,) max idx: 4462 len(coil_cells): 4463
+n_hat_coil shape: (4463, 3)  coil_cells shape: (4463,)
+B_layer finite: False
+n_hat_layer finite: True  norms: 0.9999999999999999 1.0
+Bmag range: nan nan  any zero: False  finite: False
+theta finite: True  range: 90.0 90.0
+Ic_arr finite: False  range: nan nan
+ic.tape_width: 0.004
+n_arr finite: False  range: nan nan

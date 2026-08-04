@@ -1,0 +1,8 @@
+<string>:51: RuntimeWarning: invalid value encountered in subtract
+Comparing T solutions, layer by layer:
+  layer 0: max|diff|=nan  rel=nan  max|const|=inf  max|func|=inf
+  layer 1: max|diff|=nan  rel=nan  max|const|=inf  max|func|=inf
+  layer 2: max|diff|=nan  rel=nan  max|const|=inf  max|func|=inf
+  layer 3: max|diff|=nan  rel=nan  max|const|=inf  max|func|=inf
+  layer 4: max|diff|=nan  rel=nan  max|const|=inf  max|func|=inf
+  layer 5: max|diff|=nan  rel=nan  max|const|=inf  max|func|=inf

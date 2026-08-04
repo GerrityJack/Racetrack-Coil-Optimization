@@ -1,0 +1,26 @@
+==============================================================================
+T-A transient with no-insulation coupling — charge
+==============================================================================
+rho_c = 100 uOhm.cm^2   ramp = 600 s   I_op = 196.00 A
+radial bins = 8/layer   E_p factor mode = derived
+
+building mesh ...
+  [transient] NOTE 10/48 radial bins contain no coil cells (mesh coarser than the binning) — they carry no E_p/E_i average and simply follow the transport current
+  [induction] bin inductance built: L_total = 423.27 mH (circuit/ reference 419.7 mH — the coarse 8-bin/layer grouping will read a few % high)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  coil cells = 4463, A-dofs = 10551
+  step 1/6  t=  150.0 s  I=  49.00 A  dt= 150.0 s
+    k= 60 CAP  SCIF= +895.41 mT  I_z=[   2.74,  66.77] A  I_r_mean= 17.898 A  clip=29  (42.1 s)
+  step 2/6  t=  300.0 s  I=  98.00 A  dt= 150.0 s
+    k= 30 CAP  SCIF=+1648.70 mT  I_z=[ -17.03, 121.79] A  I_r_mean= 34.719 A  clip= 3  (23.6 s)
+  step 3/6  t=  450.0 s  I= 147.00 A  dt= 150.0 s
+    k= 30 CAP  SCIF=+1380.51 mT  I_z=[  32.19, 171.43] A  I_r_mean= 12.833 A  clip=12  (25.3 s)
+  step 4/6  t=  600.0 s  I= 196.00 A  dt= 150.0 s
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0

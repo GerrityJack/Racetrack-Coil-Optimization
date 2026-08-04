@@ -1,0 +1,297 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+
+======================================================================
+relax=0.3
+======================================================================
+      [newton-bootstrap] ramp-up done -> alpha=0.15
+      [newton-bootstrap] CAP  in 30 iters, SCIF=+182.67 mT
+    [bootstrap] 30 Picard iterations (converged=False -- either is fine, this only needs to seed Newton's initial guess)
+      [debug layer 0] Jc range (this layer's cells): [4.3294e+11,4.9439e+11]  n range: [21.579,27.830]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=5  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [3.6700e+11,4.9429e+11]  n range: [20.081,27.832]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=7  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [2.4047e+11,4.9344e+11]  n range: [18.504,27.724]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=11  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [2.5158e+11,4.9329e+11]  n range: [18.306,27.748]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=9  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.8977e+11,4.4219e+11]  n range: [19.460,23.600]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=15  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.9411e+11,4.8466e+11]  n range: [19.791,26.493]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=13  T finite: True
+    [newton k=  1] SCIF=  +150.89 mT  layer_snes_iters=[5, 7, 11, 9, 15, 13]  clip_frac_max=0.000
+    [newton k=  2] SCIF=  +171.37 mT  layer_snes_iters=[1, 2, 2, 2, 2, 2]  clip_frac_max=0.000
+    [newton k=  3] SCIF=   +12.98 mT  layer_snes_iters=[3, 3, 5, 10, 2, 3]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  4] SCIF=  -113.73 mT  layer_snes_iters=[1, 1, 0, 0, 0, 3]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  5] SCIF=  -215.10 mT  layer_snes_iters=[1, 1, 0, 0, 0, 3]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  6] SCIF=  -296.20 mT  layer_snes_iters=[1, 1, 0, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  7] SCIF=  -361.07 mT  layer_snes_iters=[1, 1, 0, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  8] SCIF=  -412.98 mT  layer_snes_iters=[1, 1, 0, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  9] SCIF=  -454.50 mT  layer_snes_iters=[1, 1, 0, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 10] SCIF=  -487.71 mT  layer_snes_iters=[1, 1, 0, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 11] SCIF=  -514.29 mT  layer_snes_iters=[1, 1, 0, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 12] SCIF=  -535.55 mT  layer_snes_iters=[1, 1, 0, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 13] SCIF=  -552.55 mT  layer_snes_iters=[1, 1, 0, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 14] SCIF=  -566.16 mT  layer_snes_iters=[1, 1, 0, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 15] SCIF=  -577.04 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 16] SCIF=  -585.75 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 17] SCIF=  -592.72 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 18] SCIF=  -598.29 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 19] SCIF=  -602.75 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 20] SCIF=  -606.31 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 21] SCIF=  -609.17 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 22] SCIF=  -611.45 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 23] SCIF=  -613.28 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 24] SCIF=  -614.74 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 25] SCIF=  -615.91 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 26] SCIF=  -616.84 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 27] SCIF=  -617.59 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 28] SCIF=  -618.19 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 29] SCIF=  -618.67 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 30] SCIF=  -619.05 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 31] SCIF=  -619.36 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 32] SCIF=  -619.60 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 33] SCIF=  -619.80 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 34] SCIF=  -619.95 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 35] SCIF=  -620.08 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 36] SCIF=  -620.18 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 37] SCIF=  -620.26 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 38] SCIF=  -620.32 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 39] SCIF=  -620.38 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 40] SCIF=  -620.42 mT  layer_snes_iters=[1, 1, 1, 1, 0, 0]  clip_frac_max=0.000
+RESULT relax=0.3: {'converged': False, 'n_outer': 40, 'total_snes_iters': 244, 'scif_mT': -620.4165894173241}
+
+======================================================================
+relax=0.2
+======================================================================
+      [newton-bootstrap] ramp-up done -> alpha=0.15
+      [newton-bootstrap] CAP  in 30 iters, SCIF=+189.95 mT
+    [bootstrap] 30 Picard iterations (converged=False -- either is fine, this only needs to seed Newton's initial guess)
+      [debug layer 0] Jc range (this layer's cells): [4.3335e+11,4.9438e+11]  n range: [21.602,27.840]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=5  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [3.6761e+11,4.9430e+11]  n range: [20.068,27.837]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=7  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [2.4071e+11,4.9344e+11]  n range: [18.509,27.725]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=11  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [2.5168e+11,4.9329e+11]  n range: [18.313,27.744]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=9  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.9026e+11,4.3899e+11]  n range: [19.481,23.558]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=15  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.9503e+11,4.8404e+11]  n range: [19.824,26.436]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=13  T finite: True
+    [newton k=  1] SCIF=  +151.28 mT  layer_snes_iters=[5, 7, 11, 9, 15, 13]  clip_frac_max=0.000
+    [newton k=  2] SCIF=  +171.16 mT  layer_snes_iters=[1, 2, 2, 2, 2, 2]  clip_frac_max=0.000
+    [newton k=  3] SCIF=   +16.20 mT  layer_snes_iters=[3, 3, 5, 9, 2, 3]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  4] SCIF=  -107.76 mT  layer_snes_iters=[1, 1, 1, 0, 3, 3]  clip_frac_max=0.000
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  5] SCIF=  -242.61 mT  layer_snes_iters=[27, 1, 1, 0, 3, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  6] SCIF=  -277.83 mT  layer_snes_iters=[1, 25, 1, 1, 0, 3]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  7] SCIF=  -306.00 mT  layer_snes_iters=[1, 1, 1, 1, 0, 3]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  8] SCIF=  -328.55 mT  layer_snes_iters=[1, 1, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k=  9] SCIF=  -346.58 mT  layer_snes_iters=[1, 1, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 10] SCIF=  -361.01 mT  layer_snes_iters=[2, 1, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 11] SCIF=  -372.55 mT  layer_snes_iters=[2, 1, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 12] SCIF=  -381.78 mT  layer_snes_iters=[5, 1, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 13] SCIF=  -389.17 mT  layer_snes_iters=[7, 1, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 14] SCIF=  -395.08 mT  layer_snes_iters=[11, 1, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 15] SCIF=  -399.80 mT  layer_snes_iters=[7, 8, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 16] SCIF=  -403.58 mT  layer_snes_iters=[12, 8, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 17] SCIF=  -406.61 mT  layer_snes_iters=[13, 13, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 18] SCIF=  -409.03 mT  layer_snes_iters=[8, 10, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 1] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 2] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+      [layer 3] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+    [newton k= 19] SCIF=  -410.97 mT  layer_snes_iters=[8, 13, 1, 1, 0, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9) -- keeping previous T, retrying next iteration
+[0]PETSC ERROR: 

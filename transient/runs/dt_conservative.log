@@ -1,0 +1,40 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+=== FIXED alpha=0.08, rho_relax=0.5, N=400 (no phase-1, no dt-scaling) ===
+  [a0.08_r0.5 k=   1] SCIF= +2485.63 mT  stall=     nan
+  [a0.08_r0.5 k=  26] SCIF=  +504.20 mT  stall=  32.069
+  [a0.08_r0.5 k=  51] SCIF=  +215.04 mT  stall=   4.080
+  [a0.08_r0.5 k=  76] SCIF=  +190.18 mT  stall=  31.632
+  [a0.08_r0.5 k= 101] SCIF=  +159.45 mT  stall=  21.953
+  [a0.08_r0.5 k= 126] SCIF=  +192.43 mT  stall=  19.416
+  [a0.08_r0.5 k= 151] SCIF=  +190.61 mT  stall=  14.067
+  [a0.08_r0.5 k= 176] SCIF=  +157.98 mT  stall=  72.559
+  [a0.08_r0.5 k= 201] SCIF=  +182.38 mT  stall=   0.304
+  [a0.08_r0.5 k= 226] SCIF=  +161.52 mT  stall=  42.929
+  [a0.08_r0.5 k= 251] SCIF=  +241.94 mT  stall=  33.369
+  [a0.08_r0.5 k= 276] SCIF=  +204.49 mT  stall=   5.084
+  [a0.08_r0.5 k= 301] SCIF=  +186.46 mT  stall=  20.930
+  [a0.08_r0.5 k= 326] SCIF=  +166.13 mT  stall=  27.112
+  [a0.08_r0.5 k= 351] SCIF=  +189.28 mT  stall=  26.780
+  [a0.08_r0.5 k= 376] SCIF=  +296.98 mT  stall=   0.231
+  [a0.08_r0.5 k= 398] SCIF=  +238.87 mT  stall=  21.563
+  [a0.08_r0.5 k= 399] SCIF=  +251.89 mT  stall=  34.063
+  [a0.08_r0.5 k= 400] SCIF=  +225.40 mT  stall=  88.080
+  [a0.08_r0.5] did NOT converge within 400 iters. Last-100 range: [158.85,345.16] mT, std=38.98
+=== FIXED alpha=0.05, rho_relax=0.5, N=500 (no phase-1, no dt-scaling) ===
+  [a0.05_r0.5 k=   1] SCIF= +2278.16 mT  stall=     nan
+  [a0.05_r0.5 k=  26] SCIF=  +709.80 mT  stall= 283.191
+  [a0.05_r0.5 k=  51] SCIF=  +402.58 mT  stall=  58.339
+  [a0.05_r0.5 k=  76] SCIF=  +193.61 mT  stall= 107.359
+  [a0.05_r0.5 k= 101] SCIF=  +258.04 mT  stall=  92.821
+  [a0.05_r0.5 k= 126] SCIF=  +157.76 mT  stall=  93.094
+  [a0.05_r0.5 k= 151] SCIF=  +245.04 mT  stall=  89.660
+  [a0.05_r0.5 k= 176] SCIF=  +154.70 mT  stall=  91.001
+  [a0.05_r0.5 k= 201] SCIF=  +244.76 mT  stall=  91.291
+  [a0.05_r0.5 k= 226] SCIF=  +155.22 mT  stall=  89.348
+  [a0.05_r0.5 k= 251] SCIF=  +246.17 mT  stall=  93.076
+  [a0.05_r0.5 k= 276] SCIF=  +152.31 mT  stall=  93.723
+  [a0.05_r0.5 k= 301] SCIF=  +244.47 mT  stall=  90.958
+  [a0.05_r0.5 k= 326] SCIF=  +154.14 mT  stall=  89.372
+  [a0.05_r0.5 k= 351] SCIF=  +244.98 mT  stall=  91.580
+  [a0.05_r0.5 k= 376] SCIF=  +152.98 mT  stall=  92.935

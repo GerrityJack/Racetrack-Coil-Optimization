@@ -1,0 +1,30 @@
+==============================================================================
+T-A transient with no-insulation coupling — charge
+==============================================================================
+rho_c = 100 uOhm.cm^2   ramp = 600 s   I_op = 196.00 A
+radial bins = 8/layer   E_p factor mode = paper
+
+building mesh ...
+  [transient] NOTE 10/48 radial bins contain no coil cells (mesh coarser than the binning) — they carry no E_p/E_i average and simply follow the transport current
+  [induction] bin inductance built: L_total = 423.27 mH (circuit/ reference 419.7 mH — the coarse 8-bin/layer grouping will read a few % high)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  coil cells = 4463, A-dofs = 10551
+  step 1/4  t=  200.0 s  I=  65.33 A  dt= 200.0 s
+    k= 45 CAP  SCIF= +680.52 mT  I_z=[  44.99,  70.84] A  I_r_mean=  3.896 A  clip= 0  (42.1 s)
+  step 2/4  t=  400.0 s  I= 130.67 A  dt= 200.0 s
+    k= 20 CAP  SCIF=+1090.55 mT  I_z=[ 122.36, 140.03] A  I_r_mean=  2.094 A  clip= 0  (20.4 s)
+  step 3/4  t=  600.0 s  I= 196.00 A  dt= 200.0 s
+    k= 20 CAP  SCIF=+1128.90 mT  I_z=[ 191.12, 208.80] A  I_r_mean=  2.067 A  clip= 0  (15.8 s)
+  step 4/4  t=  800.0 s  I= 196.00 A  dt= 200.0 s
+    k= 20 CAP  SCIF= +835.55 mT  I_z=[ 181.67, 197.46] A  I_r_mean=  0.401 A  clip= 0  (15.3 s)
+
+==============================================================================
+steps = 4   wall = 1.6 min   non-converged steps = 4
+final bore Bz (from the solved J) = -10.7587 T
+final hysteretic power  P_sc      = 1182 W
+final contact power     P_c       = 0.2086 W
+max |I_r| / I over the run        = 31.13%
+bins with I_z outside [0, 1.5 I]  = 0
+wrote /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/runs/smoke_paper_steps.csv
+==============================================================================

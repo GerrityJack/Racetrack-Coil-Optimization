@@ -1,0 +1,72 @@
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+Seeded a realistic (non-trivial) T/J/rho state via 15 Picard iters.
+Current T range (layer 0): [-4.103e+08, 3.611e+08]
+
+Building NonlinearProblem (Jacobian auto-derived by dolfinx) ...
+Traceback (most recent call last):
+  File "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/newton_smoke_tmp.py", line 136, in <module>
+    problem = NonlinearProblem(
+              ^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/dolfinx/fem/petsc.py", line 1236, in __init__
+    self._J = _create_form(
+              ^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/dolfinx/fem/forms.py", line 476, in form
+    return _create_form(form)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/dolfinx/fem/forms.py", line 468, in _create_form
+    return _form(form)
+           ^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/dolfinx/fem/forms.py", line 384, in _form
+    ufcx_form, module, code = jit.ffcx_jit(
+                              ^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/dolfinx/jit.py", line 61, in mpi_jit
+    return local_jit(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/dolfinx/jit.py", line 221, in ffcx_jit
+    r = ffcx.codegeneration.jit.compile_forms([ufl_object], options=p_ffcx, **p_jit)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/codegeneration/jit.py", line 244, in compile_forms
+    raise e
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/codegeneration/jit.py", line 224, in compile_forms
+    impl = _compile_objects(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/codegeneration/jit.py", line 349, in _compile_objects
+    code, _ = ffcx.compiler.compile_ufl_objects(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/compiler.py", line 116, in compile_ufl_objects
+    ir = compute_ir(analysis, _object_names, _namespace, options, visualise)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/ir/representation.py", line 260, in compute_ir
+    irs = [
+          ^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/ir/representation.py", line 261, in <listcomp>
+    _compute_integral_ir(
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/ir/representation.py", line 470, in _compute_integral_ir
+    integral_ir = compute_integral_ir(
+                  ^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/ir/integral.py", line 430, in compute_integral_ir
+    ) = _compute_integral_ir(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/ir/integral.py", line 178, in _compute_integral_ir
+    mt_table_reference = build_optimized_tables(
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/ir/elementtables.py", line 570, in build_optimized_tables
+    tabletype = analyse_table_type(tbl)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/ir/elementtables.py", line 710, in analyse_table_type
+    elif is_quadrature_table(table, rtol=rtol, atol=atol):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/ffcx/ir/elementtables.py", line 672, in is_quadrature_table
+    Id = np.eye(num_points)
+         ^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/numpy/lib/_twodim_base_impl.py", line 235, in eye
+    m = zeros((N, M), dtype=dtype, order=order, device=device)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+numpy._core._exceptions._ArrayMemoryError: Unable to allocate 116. GiB for an array with shape (125000, 125000) and data type float64
+Exception ignored in: <function NonlinearProblem.__del__ at 0x75c454f84220>
+Traceback (most recent call last):
+  File "/home/gerrityjack/miniconda3/envs/fenicsx-env/lib/python3.11/site-packages/dolfinx/fem/petsc.py", line 1358, in __del__
+    lambda obj: obj is not None, (self._snes, self._A, self._b, self._x, self._P_mat)
+                                  ^^^^^^^^^^
+AttributeError: 'NonlinearProblem' object has no attribute '_snes'
