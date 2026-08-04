@@ -709,3 +709,299 @@ def ta_transient_seed_cold(ta, uniform_setup, ic_model, n_model, I0):
     J_seed = ta["t_hat_coil"] * (I0 / (ta["delta_SC"] * params.w))
     ta_solve._update_Js(ta, J_seed)
     return J_seed
+
+
+# ── Newton-INFORMED Picard hybrid (2026-08-04, replaces the t_relax scheme) ─
+#
+# WHY THIS EXISTS, AND WHY IT REPLACES step()/march() ABOVE
+# -----------------------------------------------------------------------
+# step()/march() above (the t_relax scheme) were PROVEN WRONG, not just slow:
+# `picard_from_newton_state.py` transplanted a t_relax=0.15 run's drifted
+# state (SCIF=+52.9 mT, 240 outer iters in) into a fresh, UNMODIFIED Picard
+# solver, which converged cleanly back to +641.25 mT in 44 iterations --
+# matching the from-ZFC ground truth (641.26 mT) to 0.01 mT. That is
+# decisive: 641.26 mT is the ONE true fixed point, and t_relax's outer loop
+# is genuinely UNSTABLE near it (it started at +543.9 mT after 30 iterations
+# -- already reasonably close -- and moved MONOTONICALLY FURTHER away for
+# 200+ more, on a clean geometric trend, extrapolating to roughly -24 mT).
+# `small_trelax_trend.py` ruled out "just needs more damping of the same
+# kind": t_relax=0.05 (3x stronger) drifted away at a COMPARABLE rate.
+#
+# Root cause, best understanding: Picard's own scheme damps the FULL
+# rho(J,B) (a function of BOTH current and field, evaluated at the CURRENT
+# iterate) every iteration. step()/march() only damped Jc(B)/n(B)
+# (field-only) while letting Newton resolve rho's J-dependence EXACTLY and
+# self-consistently each iteration -- a structurally different, and
+# evidently far less stable, fixed-point map, even though each individual
+# per-layer Newton solve is itself exact and (per tight_tol_trend.py)
+# completely insensitive to inner-solve tolerance -- the instability lives
+# entirely in how the outer loop composes those exact solves over many
+# iterations, not in their individual accuracy.
+#
+# THE FIX: never let Newton's raw per-layer solution touch the persisted
+# state. Use it ONLY as an INFORMANT -- a more accurate estimate of J than
+# Picard's own linear (frozen-rho) solve would produce -- fed into Picard's
+# OWN, already-validated damping mechanism (_update_rho's log-space
+# relaxation) and Picard's OWN linear per-layer solve (`ta["prob_T_layers"]`,
+# reusing the exact objects ta_solve.py already built) plus Picard's OWN
+# T-relaxation (the two-phase alpha scheme). The actual state-advancing
+# mechanism is therefore IDENTICAL to the scheme already proven stable by
+# every existing production path in this project; Newton only improves the
+# INPUT that mechanism relaxes toward, on the theory that a more accurate J
+# estimate should make Picard's own iteration converge in fewer steps
+# without giving up any of its stability. This is a hypothesis to be
+# verified against ground truth, same as everything else in this
+# investigation -- not assumed correct because it "sounds more principled."
+#
+# BUG FOUND AND FIXED IN THE FIRST VERSION OF THIS FUNCTION (still
+# instructive, kept here rather than silently rewritten): the first attempt
+# computed Newton's informed J and used it to set rho_fn BEFORE that SAME
+# iteration's Picard T-solve. Tested against the I=196A ground truth
+# (hybrid_accuracy_check.py): NOT stable -- overshot to +910 mT, crossed
+# back down through the true 641 mT answer without stopping, and settled
+# into a long, still-moving descent through 240+ mT before being killed.
+# Root cause, on inspection: pure Picard's own iteration has a NATURAL
+# ONE-ITERATION LAG -- rho used to solve iteration k's T was computed from
+# iteration k-1's (J, B), not iteration k's own. Computing rho from the
+# CURRENT iteration's (Newton-informed) J and using it in that SAME
+# iteration's T-solve removes that lag, and the lag turns out to be load-
+# bearing for stability, not an incidental artifact of Picard's structure.
+# FIX: Newton's informing pass now runs AFTER Picard's own T-solve+relax
+# each iteration, and the rho it computes is used only by the FOLLOWING
+# iteration's T-solve -- preserving Picard's exact lag structure. Newton's
+# only remaining role is supplying a more accurate J (from an exact solve)
+# than Picard's own linear-solve J would give, as the input _update_rho
+# relaxes toward, one iteration later, same as always.
+def hybrid_step(ta, domain, ic_model, n_model, I_now, dt, uniform_setup,
+                max_outer=100, min_outer=6, stall_tol=0.05, first=False,
+                bootstrap_iters=30, verbose=True, newton_blend=0.15):
+    """Advance one time step with the Newton-informed Picard hybrid.
+
+    Per outer iteration (lag-preserving order -- see the bug note above):
+      1. Picard's own LINEAR per-layer solve (ta["prob_T_layers"], using
+         rho_fn as it stood at the END of the previous iteration) + the
+         two-phase alpha T-relaxation -- THIS is what actually advances
+         the persisted state, identical to the validated production path.
+      2. Recompute J/A/B from this relaxed T (needed for SCIF tracking).
+      3. Newton-solve each layer EXACTLY given its current frozen Jc/n,
+         informationally -- never written to the persisted T (snapshotted
+         and restored around this).
+      4. Picard-relax rho_fn (ta_solve._update_rho, unmodified) from
+         Newton's more-accurate (J, B) pair -- this rho_fn is what the
+         NEXT outer iteration's step 1 will use, preserving Picard's
+         natural one-iteration lag.
+      5. Refresh Newton's own frozen Jc/n from the current B, ready for
+         the next iteration's informing pass.
+
+    Returns a diagnostics dict with the same shape as step()'s.
+    """
+    import ta_solve
+
+    ta["dt_const"].value = float(dt)
+    B_h = ta["B_fn"]
+    coil = ta["coil_cells"]
+    eps = float(getattr(params, "ta_eps_reg", 1.0))
+    n_layers = len(ta["layer_T_fns"])
+
+    T_amp = I_now / (2.0 * ta["delta_SC"])
+    ta["T_bot_val"].value = +T_amp
+    ta["T_top_val"].value = -T_amp
+
+    if first:
+        J_seed = ta_transient_seed_cold(ta, uniform_setup, ic_model, n_model,
+                                        I_now)
+        B_h.interpolate(ta["curl_expr"])
+        B_seed = B_h.x.array.reshape(-1, 3)[coil]
+        ta["_rho_prev"] = None
+        ta_solve._update_rho(ta, J_seed, B_seed, ic_model, n_model, eps)
+        for layer in range(n_layers):
+            update_frozen_coefficients(ta, ic_model, n_model, layer, B_seed,
+                                       relax=1.0)
+        # Bootstrap with PURE Picard (no Newton at all) to move T out of
+        # the T=0 cold state before Newton's own per-layer solves are ever
+        # attempted -- reuses the identical, already-validated bootstrap
+        # step() used, for the identical reason (a cold T=0 start is too
+        # far from the solution for line-search Newton to handle in one
+        # shot; a hand-rolled fixed-alpha alternative diverged to NaN at
+        # dt=600 in an earlier attempt -- see _picard_bootstrap's own
+        # docstring). After this, T is warm enough that every subsequent
+        # per-outer-iteration Newton pass starts close to its own target.
+        _picard_bootstrap(ta, domain, ic_model, n_model, I_now, dt,
+                          n_iters=bootstrap_iters, verbose=verbose)
+        for layer in range(n_layers):
+            B_h.interpolate(ta["curl_expr"])
+            B_now = B_h.x.array.reshape(-1, 3)[coil]
+            update_frozen_coefficients(ta, ic_model, n_model, layer, B_now,
+                                       relax=1.0)
+
+    alpha_high = float(getattr(params, "ta_picard_alpha", 0.30))
+    alpha_low = float(getattr(params, "ta_picard_alpha_fine", 0.15))
+    rho_relax = float(getattr(params, "ta_rho_relax", 0.5))
+    J_unif = ta["t_hat_coil"] * (I_now / (ta["delta_SC"] * params.w))
+
+    alpha = alpha_high
+    phase2 = False
+    prev_dB_mag = np.inf
+    B_h.interpolate(ta["curl_expr"])
+    B_prev = B_h.x.array.reshape(-1, 3)[coil].copy()
+
+    scif_ema = None
+    scif_hist = []
+    converged = False
+    n_outer = max_outer
+    stop_reason = "max_outer"
+    n_newton_failures = 0
+
+    for k in range(max_outer):
+        # Step 1: Picard's own linear solve + two-phase alpha T-relaxation,
+        # using rho_fn EXACTLY as it stood at the end of the previous outer
+        # iteration -- the actual state-advancing mechanism, unchanged from
+        # every validated production path. This is where the persisted
+        # state actually moves; nothing Newton does below touches it this
+        # same iteration (see the lag-bug note above the function).
+        for T_i, prob in zip(ta["layer_T_fns"], ta["prob_T_layers"]):
+            sol = prob.solve()
+            if np.any(np.isnan(sol.x.array)):
+                raise RuntimeError(
+                    f"NaN in Picard-relaxation linear T solve, outer iter {k}")
+            T_i.x.array[:] = (1.0 - alpha) * T_i.x.array + alpha * sol.x.array
+            T_i.x.scatter_forward()
+
+        # Step 2: recompute J/A/B from this relaxed T -- the state that
+        # actually persists to the next outer iteration.
+        J_coil = ta_solve._J_from_T(ta, domain)
+        ta_solve._update_Js(ta, J_coil)
+        ta_solve._solve_A(ta, ta["L_A_form"])
+        if not np.all(np.isfinite(ta["A_h"].x.array)):
+            raise RuntimeError(f"NaN/inf in A solve, outer iter {k}")
+        B_h.interpolate(ta["curl_expr"])
+        B_coil = B_h.x.array.reshape(-1, 3)[coil]
+
+        # Step 3: Newton pass, informational only, run AFTER the state has
+        # already advanced this iteration. Snapshot/restore around it so
+        # its raw (undamped) solution never touches the persisted T. A
+        # per-layer failure is tolerated (Newton is advisory here, not
+        # load-bearing) -- worst case the NEXT iteration's rho target is
+        # informed by a poorer J estimate for one layer.
+        T_snap = [T_i.x.array.copy() for T_i in ta["layer_T_fns"]]
+        for layer in range(n_layers):
+            ok, its, reason = newton_solve_layer(ta, layer, debug=False)
+            if not ok:
+                n_newton_failures += 1
+        J_informed = ta_solve._J_from_T(ta, domain)
+        for T_i, snap in zip(ta["layer_T_fns"], T_snap):
+            T_i.x.array[:] = snap
+            T_i.x.scatter_forward()
+
+        # Step 4: Picard-relax rho_fn from a BLEND of Picard's own (J_coil,
+        # already inherits the alpha T-relaxation) and Newton's exact,
+        # UNDAMPED J_informed -- ta_solve._update_rho, unmodified. This
+        # rho_fn is what the NEXT outer iteration's step 1 uses, preserving
+        # Picard's own one-iteration lag exactly.
+        #
+        # newton_blend=1.0 (pure J_informed, tested first): the lag fix and
+        # the memoryless-Jc/n fix each helped (stayed close to the I=196A
+        # ground truth, 641.26 mT, for longer before drifting) but neither
+        # eliminated a persistent bias-then-drift down to ~530-550 mT.
+        # Root cause: Picard's OWN rho-informing J is computed from its
+        # DAMPED T (inherits alpha's relaxation), so it is itself an
+        # already-damped quantity -- Newton's fully undamped, exact
+        # J_informed is a stronger perturbation per iteration than Picard's
+        # careful T/rho co-damping balance assumes, even with the lag and
+        # Jc/n-memory issues fixed. Blending toward J_coil (Picard's own,
+        # already-damped estimate) restores that balance while still
+        # letting Newton's more-accurate resolve pull rho_fn part of the
+        # way toward a better target each iteration.
+        J_for_rho = (1.0 - newton_blend) * J_coil + newton_blend * J_informed
+        ta_solve._update_rho(ta, J_for_rho, B_coil, ic_model, n_model,
+                             eps, relax=rho_relax)
+
+        # Step 5: refresh Newton's own frozen Jc/n from the current B,
+        # ready for the next iteration's informing pass. relax=1.0 (full
+        # overwrite, memoryless) -- Jc/n are ONLY an input to Newton's
+        # advisory solve; giving them their OWN separate relaxation memory
+        # (on top of rho_fn's own log-space relaxation, which is the
+        # single damping point Picard actually relies on) let two
+        # independently-lagged coefficient tracks drift apart from each
+        # other. A first version used relax=None (the ta_rho_relax
+        # default, 0.5) here: tested against the I=196A ground truth, it
+        # stabilised (no longer diverged) but plateaued at a WRONG value
+        # (~545 mT vs 641.26 mT, a systematic ~15% low bias) -- a
+        # different failure mode than instability, and this is the fix
+        # being tested for it.
+        for layer in range(n_layers):
+            update_frozen_coefficients(ta, ic_model, n_model, layer, B_coil,
+                                       relax=1.0)
+
+        dB = np.linalg.norm((B_coil - B_prev).ravel())
+        if not phase2 and k >= 4 and dB >= 0.95 * prev_dB_mag:
+            phase2 = True
+            alpha = alpha_low
+            if verbose:
+                print(f"      [hybrid] ramp-up done -> alpha={alpha_low}",
+                      flush=True)
+        prev_dB_mag = dB
+        B_prev = B_coil.copy()
+
+        dJs = (J_coil - J_unif) * (ta["delta_SC"] / ta["Lambda"])
+        scif = ta_solve.dB_bore_from_dJ(ta["coil_centroids"], dJs,
+                                        ta["coil_vols"])[2] * 1e3
+        scif_ema = scif if scif_ema is None else 0.8 * scif_ema + 0.2 * scif
+        scif_hist.append(scif_ema)
+        if len(scif_hist) > 6:
+            scif_hist.pop(0)
+
+        if verbose:
+            print(f"    [hybrid k={k+1:3d}] SCIF={scif_ema:+9.2f} mT  "
+                  f"alpha={alpha:.2f}  |dB|={dB:.3e}  "
+                  f"newton_failures_so_far={n_newton_failures}", flush=True)
+
+        if (k + 1) >= min_outer and len(scif_hist) == 6:
+            if abs(scif_hist[-1] - scif_hist[0]) < stall_tol:
+                converged = True
+                n_outer = k + 1
+                stop_reason = "stall"
+                break
+
+    ta["A_prev"].x.array[:] = ta["A_h"].x.array
+    ta["A_prev"].x.scatter_forward()
+
+    if verbose:
+        scif_str = f"{scif_ema:+.2f} mT" if scif_ema is not None else "N/A"
+        print(f"    [hybrid] step done: stop_reason={stop_reason}  "
+              f"n_outer={n_outer}  SCIF={scif_str}  "
+              f"newton_failures={n_newton_failures}", flush=True)
+
+    return dict(converged=converged, n_outer=n_outer,
+               total_snes_iters=0, stop_reason=stop_reason,
+               scif_mT=float(scif_ema) if scif_ema is not None else float("nan"),
+               scif_hist_tail=[float(s) for s in scif_hist],
+               n_newton_failures=n_newton_failures)
+
+
+def hybrid_march(ta, domain, uniform_setup, ic_model, n_model, schedule,
+                 max_outer=100, min_outer=6, stall_tol=0.05,
+                 bootstrap_iters=30, verbose=True, newton_blend=0.15):
+    """Run a full multi-step schedule with hybrid_step. Same semantics as
+    march() above -- every step's converged/stop_reason is tracked
+    explicitly, a step is marched forward regardless of whether it hit the
+    formal stall criterion, per-step trustworthiness is never assumed.
+    """
+    hist = []
+    for n, (t, I_now, dt) in enumerate(schedule):
+        if verbose:
+            print(f"  step {n+1}/{len(schedule)}  t={t:7.1f} s  "
+                  f"I={I_now:7.2f} A  dt={dt:6.1f} s", flush=True)
+        info = hybrid_step(ta, domain, ic_model, n_model, I_now, dt,
+                           uniform_setup, max_outer=max_outer,
+                           min_outer=min_outer, stall_tol=stall_tol,
+                           first=(n == 0), bootstrap_iters=bootstrap_iters,
+                           verbose=verbose, newton_blend=newton_blend)
+        info.update(t=t, I=I_now, dt=dt, step_index=n)
+        hist.append(info)
+        if verbose:
+            print(f"  step {n+1}/{len(schedule)} SUMMARY: "
+                  f"converged={info['converged']}  "
+                  f"stop_reason={info['stop_reason']}  "
+                  f"SCIF={info['scif_mT']:+.2f} mT", flush=True)
+    return hist

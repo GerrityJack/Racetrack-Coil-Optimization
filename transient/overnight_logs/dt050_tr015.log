@@ -1,0 +1,1598 @@
+=== dt050_tr015 ===
+config: i_op=196.0 t_ramp=600.0 t_hold=0.0 n_ramp=12 n_hold=0 max_outer=150 min_outer=3 stall_tol=0.05 t_relax=0.15 spike_check=False
+building mesh ...
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+schedule:
+  t=50.0s  I=16.33A  dt=50.0s
+  t=100.0s  I=32.67A  dt=50.0s
+  t=150.0s  I=49.00A  dt=50.0s
+  t=200.0s  I=65.33A  dt=50.0s
+  t=250.0s  I=81.67A  dt=50.0s
+  t=300.0s  I=98.00A  dt=50.0s
+  t=350.0s  I=114.33A  dt=50.0s
+  t=400.0s  I=130.67A  dt=50.0s
+  t=450.0s  I=147.00A  dt=50.0s
+  t=500.0s  I=163.33A  dt=50.0s
+  t=550.0s  I=179.67A  dt=50.0s
+  t=600.0s  I=196.00A  dt=50.0s
+  step 1/12  t=   50.0 s  I=  16.33 A  dt=  50.0 s
+      [newton-bootstrap] ramp-up done -> alpha=0.15
+      [newton-bootstrap] CAP  in 30 iters, SCIF=-114.76 mT
+    [bootstrap] 30 Picard iterations (converged=False -- either is fine, this only needs to seed Newton's initial guess)
+      [debug layer 0] Jc range (this layer's cells): [1.2170e+11,4.9216e+11]  n range: [16.584,27.501]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=14  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [1.0664e+11,4.9390e+11]  n range: [17.709,27.831]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=21  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.5119e+11,4.9406e+11]  n range: [16.493,27.771]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=21  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.0864e+11,4.9405e+11]  n range: [17.981,27.790]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=21  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [3.0183e+11,4.9407e+11]  n range: [19.178,27.829]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=12  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.8496e+11,4.9412e+11]  n range: [19.689,27.804]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=12  T finite: True
+    [newton k=  1] SCIF=   -91.33 mT  layer_snes_iters=[14, 21, 21, 21, 12, 12]  clip_frac_max=0.000
+    [newton k=  2] SCIF=   -98.56 mT  layer_snes_iters=[16, 17, 17, 15, 11, 11]  clip_frac_max=0.000
+    [newton k=  3] SCIF=   -96.14 mT  layer_snes_iters=[16, 22, 14, 16, 13, 11]  clip_frac_max=0.000
+    [newton k=  4] SCIF=   -93.13 mT  layer_snes_iters=[12, 14, 12, 15, 15, 10]  clip_frac_max=0.000
+    [newton k=  5] SCIF=   -82.12 mT  layer_snes_iters=[16, 13, 16, 13, 13, 11]  clip_frac_max=0.000
+    [newton k=  6] SCIF=   -85.71 mT  layer_snes_iters=[18, 15, 12, 18, 10, 10]  clip_frac_max=0.000
+    [newton k=  7] SCIF=   -68.38 mT  layer_snes_iters=[15, 12, 15, 14, 10, 10]  clip_frac_max=0.000
+    [newton k=  8] SCIF=   -66.87 mT  layer_snes_iters=[17, 15, 15, 12, 12, 10]  clip_frac_max=0.000
+    [newton k=  9] SCIF=   -41.57 mT  layer_snes_iters=[13, 12, 17, 17, 12, 11]  clip_frac_max=0.000
+    [newton k= 10] SCIF=   -47.08 mT  layer_snes_iters=[11, 12, 14, 16, 10, 10]  clip_frac_max=0.000
+    [newton k= 11] SCIF=   -33.56 mT  layer_snes_iters=[11, 13, 12, 13, 10, 9]  clip_frac_max=0.000
+    [newton k= 12] SCIF=    -8.98 mT  layer_snes_iters=[19, 17, 11, 12, 9, 9]  clip_frac_max=0.000
+    [newton k= 13] SCIF=   +27.73 mT  layer_snes_iters=[10, 11, 16, 13, 12, 10]  clip_frac_max=0.000
+    [newton k= 14] SCIF=   +35.76 mT  layer_snes_iters=[13, 14, 11, 13, 10, 9]  clip_frac_max=0.000
+    [newton k= 15] SCIF=   +65.26 mT  layer_snes_iters=[11, 14, 14, 15, 12, 9]  clip_frac_max=0.000
+    [newton k= 16] SCIF=   +68.13 mT  layer_snes_iters=[11, 16, 10, 12, 8, 8]  clip_frac_max=0.000
+    [newton k= 17] SCIF=   +64.98 mT  layer_snes_iters=[10, 10, 13, 13, 12, 9]  clip_frac_max=0.000
+    [newton k= 18] SCIF=   +64.99 mT  layer_snes_iters=[9, 11, 11, 10, 10, 8]  clip_frac_max=0.000
+    [newton k= 19] SCIF=   +74.62 mT  layer_snes_iters=[10, 17, 16, 12, 11, 8]  clip_frac_max=0.000
+    [newton k= 20] SCIF=   +70.76 mT  layer_snes_iters=[10, 12, 10, 16, 7, 7]  clip_frac_max=0.000
+    [newton k= 21] SCIF=   +79.57 mT  layer_snes_iters=[10, 11, 16, 10, 11, 7]  clip_frac_max=0.000
+    [newton k= 22] SCIF=   +72.75 mT  layer_snes_iters=[9, 10, 14, 9, 8, 8]  clip_frac_max=0.000
+    [newton k= 23] SCIF=   +72.77 mT  layer_snes_iters=[9, 10, 16, 12, 10, 7]  clip_frac_max=0.000
+    [newton k= 24] SCIF=   +75.76 mT  layer_snes_iters=[9, 11, 11, 10, 9, 6]  clip_frac_max=0.000
+    [newton k= 25] SCIF=   +76.29 mT  layer_snes_iters=[9, 8, 9, 18, 8, 8]  clip_frac_max=0.000
+    [newton k= 26] SCIF=   +77.68 mT  layer_snes_iters=[10, 10, 12, 10, 7, 6]  clip_frac_max=0.000
+    [newton k= 27] SCIF=   +94.48 mT  layer_snes_iters=[8, 9, 12, 8, 6, 6]  clip_frac_max=0.000
+    [newton k= 28] SCIF=   +85.61 mT  layer_snes_iters=[8, 8, 9, 9, 5, 5]  clip_frac_max=0.000
+    [newton k= 29] SCIF=   +95.43 mT  layer_snes_iters=[7, 8, 8, 9, 6, 5]  clip_frac_max=0.000
+    [newton k= 30] SCIF=   +79.88 mT  layer_snes_iters=[7, 9, 8, 8, 6, 6]  clip_frac_max=0.000
+    [newton k= 31] SCIF=   +89.93 mT  layer_snes_iters=[6, 9, 7, 7, 4, 5]  clip_frac_max=0.000
+    [newton k= 32] SCIF=   +75.98 mT  layer_snes_iters=[6, 7, 8, 7, 5, 5]  clip_frac_max=0.000
+    [newton k= 33] SCIF=   +80.17 mT  layer_snes_iters=[8, 8, 7, 14, 4, 4]  clip_frac_max=0.000
+    [newton k= 34] SCIF=   +72.99 mT  layer_snes_iters=[6, 8, 6, 6, 4, 4]  clip_frac_max=0.000
+    [newton k= 35] SCIF=   +73.94 mT  layer_snes_iters=[6, 6, 7, 6, 4, 4]  clip_frac_max=0.000
+    [newton k= 36] SCIF=   +57.36 mT  layer_snes_iters=[6, 7, 6, 6, 4, 4]  clip_frac_max=0.000
+    [newton k= 37] SCIF=   +66.65 mT  layer_snes_iters=[7, 7, 6, 6, 3, 4]  clip_frac_max=0.000
+    [newton k= 38] SCIF=   +51.18 mT  layer_snes_iters=[6, 6, 6, 7, 3, 3]  clip_frac_max=0.000
+    [newton k= 39] SCIF=   +61.55 mT  layer_snes_iters=[11, 6, 6, 6, 3, 3]  clip_frac_max=0.000
+    [newton k= 40] SCIF=   +43.46 mT  layer_snes_iters=[13, 6, 6, 6, 3, 3]  clip_frac_max=0.000
+    [newton k= 41] SCIF=   +55.41 mT  layer_snes_iters=[5, 6, 7, 5, 3, 3]  clip_frac_max=0.000
+    [newton k= 42] SCIF=   +39.21 mT  layer_snes_iters=[7, 5, 8, 5, 3, 3]  clip_frac_max=0.000
+    [newton k= 43] SCIF=   +46.32 mT  layer_snes_iters=[5, 5, 5, 12, 3, 3]  clip_frac_max=0.000
+    [newton k= 44] SCIF=   +29.49 mT  layer_snes_iters=[5, 5, 5, 8, 3, 3]  clip_frac_max=0.000
+    [newton k= 45] SCIF=   +35.88 mT  layer_snes_iters=[5, 5, 6, 16, 3, 3]  clip_frac_max=0.000
+    [newton k= 46] SCIF=   +48.19 mT  layer_snes_iters=[8, 5, 5, 7, 3, 3]  clip_frac_max=0.000
+    [newton k= 47] SCIF=   +49.35 mT  layer_snes_iters=[5, 5, 7, 11, 3, 3]  clip_frac_max=0.000
+    [newton k= 48] SCIF=   +49.36 mT  layer_snes_iters=[10, 5, 5, 13, 3, 3]  clip_frac_max=0.000
+    [newton k= 49] SCIF=   +53.21 mT  layer_snes_iters=[5, 5, 5, 9, 3, 3]  clip_frac_max=0.000
+    [newton k= 50] SCIF=   +46.94 mT  layer_snes_iters=[6, 5, 6, 8, 3, 3]  clip_frac_max=0.000
+    [newton k= 51] SCIF=   +46.35 mT  layer_snes_iters=[5, 5, 9, 7, 2, 3]  clip_frac_max=0.000
+    [newton k= 52] SCIF=   +40.53 mT  layer_snes_iters=[5, 5, 5, 17, 2, 2]  clip_frac_max=0.000
+    [newton k= 53] SCIF=   +48.46 mT  layer_snes_iters=[11, 5, 5, 5, 2, 2]  clip_frac_max=0.000
+    [newton k= 54] SCIF=   +39.28 mT  layer_snes_iters=[7, 5, 6, 5, 2, 2]  clip_frac_max=0.000
+    [newton k= 55] SCIF=   +45.51 mT  layer_snes_iters=[5, 5, 16, 10, 2, 2]  clip_frac_max=0.000
+    [newton k= 56] SCIF=   +33.06 mT  layer_snes_iters=[11, 4, 4, 8, 2, 2]  clip_frac_max=0.000
+    [newton k= 57] SCIF=   +33.62 mT  layer_snes_iters=[5, 4, 7, 9, 2, 2]  clip_frac_max=0.000
+    [newton k= 58] SCIF=   +35.64 mT  layer_snes_iters=[9, 4, 8, 7, 2, 2]  clip_frac_max=0.000
+    [newton k= 59] SCIF=   +33.70 mT  layer_snes_iters=[4, 4, 7, 4, 2, 2]  clip_frac_max=0.000
+    [newton k= 60] SCIF=   +39.83 mT  layer_snes_iters=[8, 4, 4, 10, 2, 2]  clip_frac_max=0.000
+    [newton k= 61] SCIF=   +37.50 mT  layer_snes_iters=[5, 4, 14, 7, 2, 2]  clip_frac_max=0.000
+    [newton k= 62] SCIF=   +38.45 mT  layer_snes_iters=[10, 4, 9, 5, 2, 2]  clip_frac_max=0.000
+    [newton k= 63] SCIF=   +36.88 mT  layer_snes_iters=[4, 4, 6, 9, 2, 2]  clip_frac_max=0.000
+    [newton k= 64] SCIF=   +43.15 mT  layer_snes_iters=[4, 4, 11, 10, 2, 2]  clip_frac_max=0.000
+    [newton k= 65] SCIF=   +44.92 mT  layer_snes_iters=[4, 7, 12, 10, 2, 2]  clip_frac_max=0.000
+    [newton k= 66] SCIF=   +50.31 mT  layer_snes_iters=[8, 4, 5, 5, 2, 2]  clip_frac_max=0.000
+    [newton k= 67] SCIF=   +50.54 mT  layer_snes_iters=[5, 4, 14, 5, 2, 2]  clip_frac_max=0.000
+    [newton k= 68] SCIF=   +53.34 mT  layer_snes_iters=[9, 4, 9, 16, 2, 2]  clip_frac_max=0.000
+    [newton k= 69] SCIF=   +52.99 mT  layer_snes_iters=[4, 4, 6, 9, 2, 2]  clip_frac_max=0.000
+    [newton k= 70] SCIF=   +52.62 mT  layer_snes_iters=[4, 4, 10, 5, 2, 2]  clip_frac_max=0.000
+    [newton k= 71] SCIF=   +54.83 mT  layer_snes_iters=[4, 4, 4, 10, 2, 2]  clip_frac_max=0.000
+    [newton k= 72] SCIF=   +53.44 mT  layer_snes_iters=[9, 4, 14, 15, 2, 2]  clip_frac_max=0.000
+    [newton k= 73] SCIF=   +54.64 mT  layer_snes_iters=[5, 7, 10, 16, 2, 2]  clip_frac_max=0.000
+    [newton k= 74] SCIF=   +58.10 mT  layer_snes_iters=[10, 4, 14, 12, 2, 2]  clip_frac_max=0.000
+    [newton k= 75] SCIF=   +55.27 mT  layer_snes_iters=[4, 4, 12, 12, 2, 2]  clip_frac_max=0.000
+    [newton k= 76] SCIF=   +55.24 mT  layer_snes_iters=[4, 4, 9, 9, 2, 2]  clip_frac_max=0.000
+    [newton k= 77] SCIF=   +51.45 mT  layer_snes_iters=[4, 7, 9, 13, 2, 2]  clip_frac_max=0.000
+    [newton k= 78] SCIF=   +48.51 mT  layer_snes_iters=[11, 4, 9, 14, 2, 2]  clip_frac_max=0.000
+    [newton k= 79] SCIF=   +49.09 mT  layer_snes_iters=[9, 4, 13, 17, 2, 2]  clip_frac_max=0.000
+    [newton k= 80] SCIF=   +50.19 mT  layer_snes_iters=[6, 4, 4, 15, 2, 2]  clip_frac_max=0.000
+    [newton k= 81] SCIF=   +44.91 mT  layer_snes_iters=[13, 11, 9, 14, 2, 2]  clip_frac_max=0.000
+    [newton k= 82] SCIF=   +45.87 mT  layer_snes_iters=[4, 4, 11, 13, 2, 2]  clip_frac_max=0.000
+    [newton k= 83] SCIF=   +46.50 mT  layer_snes_iters=[13, 6, 8, 7, 2, 2]  clip_frac_max=0.000
+    [newton k= 84] SCIF=   +45.85 mT  layer_snes_iters=[4, 4, 8, 11, 2, 2]  clip_frac_max=0.000
+    [newton k= 85] SCIF=   +49.19 mT  layer_snes_iters=[11, 6, 11, 5, 2, 2]  clip_frac_max=0.000
+    [newton k= 86] SCIF=   +47.02 mT  layer_snes_iters=[4, 4, 12, 16, 2, 2]  clip_frac_max=0.000
+    [newton k= 87] SCIF=   +47.29 mT  layer_snes_iters=[11, 8, 16, 10, 2, 2]  clip_frac_max=0.000
+    [newton k= 88] SCIF=   +33.96 mT  layer_snes_iters=[4, 4, 7, 10, 2, 2]  clip_frac_max=0.000
+    [newton k= 89] SCIF=   +34.92 mT  layer_snes_iters=[10, 4, 15, 7, 2, 2]  clip_frac_max=0.000
+    [newton k= 90] SCIF=   +48.49 mT  layer_snes_iters=[4, 4, 9, 11, 2, 2]  clip_frac_max=0.000
+    [newton k= 91] SCIF=   +40.13 mT  layer_snes_iters=[7, 4, 12, 12, 2, 2]  clip_frac_max=0.000
+    [newton k= 92] SCIF=   +47.26 mT  layer_snes_iters=[10, 4, 12, 16, 2, 2]  clip_frac_max=0.000
+    [newton] step done: stop_reason=stall  n_outer=92  SCIF=+47.26 mT
+  step 1/12 SUMMARY: converged=True  stop_reason=stall  SCIF=+47.26 mT
+  step 2/12  t=  100.0 s  I=  32.67 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [3.3887e+11,4.9356e+11]  n range: [20.517,27.713]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=2  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [3.3402e+11,4.9308e+11]  n range: [20.662,27.629]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=2  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [2.8177e+11,4.9180e+11]  n range: [20.064,27.559]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=2  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [3.1295e+11,4.8888e+11]  n range: [20.359,27.253]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=2  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [4.3131e+11,4.7780e+11]  n range: [23.485,26.355]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=2  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [4.4878e+11,4.7748e+11]  n range: [24.397,26.361]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=2  T finite: True
+    [newton k=  1] SCIF=  +885.74 mT  layer_snes_iters=[2, 2, 2, 2, 2, 2]  clip_frac_max=0.000
+    [newton k=  2] SCIF=  +925.49 mT  layer_snes_iters=[2, 2, 2, 2, 2, 2]  clip_frac_max=0.000
+    [newton k=  3] SCIF=  +881.01 mT  layer_snes_iters=[5, 3, 12, 10, 2, 2]  clip_frac_max=0.000
+    [newton k=  4] SCIF=  +815.02 mT  layer_snes_iters=[4, 4, 10, 17, 2, 2]  clip_frac_max=0.000
+    [newton k=  5] SCIF=  +749.60 mT  layer_snes_iters=[4, 4, 7, 4, 2, 2]  clip_frac_max=0.000
+    [newton k=  6] SCIF=  +696.69 mT  layer_snes_iters=[9, 16, 12, 6, 2, 2]  clip_frac_max=0.000
+    [newton k=  7] SCIF=  +618.49 mT  layer_snes_iters=[4, 8, 4, 11, 2, 2]  clip_frac_max=0.000
+    [newton k=  8] SCIF=  +586.67 mT  layer_snes_iters=[8, 8, 4, 4, 2, 2]  clip_frac_max=0.000
+    [newton k=  9] SCIF=  +517.97 mT  layer_snes_iters=[4, 10, 6, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 10] SCIF=  +481.37 mT  layer_snes_iters=[5, 8, 4, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 11] SCIF=  +418.43 mT  layer_snes_iters=[4, 6, 7, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 12] SCIF=  +385.19 mT  layer_snes_iters=[13, 2, 15, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 13] SCIF=  +345.80 mT  layer_snes_iters=[6, 3, 4, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 14] SCIF=  +319.00 mT  layer_snes_iters=[8, 11, 13, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 15] SCIF=  +298.69 mT  layer_snes_iters=[4, 7, 14, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 16] SCIF=  +272.20 mT  layer_snes_iters=[8, 3, 8, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 17] SCIF=  +258.20 mT  layer_snes_iters=[5, 8, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 18] SCIF=  +251.74 mT  layer_snes_iters=[5, 3, 10, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 19] SCIF=  +212.84 mT  layer_snes_iters=[8, 3, 6, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 20] SCIF=  +192.47 mT  layer_snes_iters=[3, 4, 5, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 21] SCIF=  +187.23 mT  layer_snes_iters=[4, 3, 6, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 22] SCIF=  +192.27 mT  layer_snes_iters=[12, 3, 17, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 23] SCIF=  +168.43 mT  layer_snes_iters=[4, 12, 7, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 24] SCIF=  +180.52 mT  layer_snes_iters=[12, 6, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 25] SCIF=  +144.23 mT  layer_snes_iters=[7, 9, 9, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 26] SCIF=  +148.20 mT  layer_snes_iters=[3, 4, 7, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 27] SCIF=  +137.07 mT  layer_snes_iters=[8, 5, 4, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 28] SCIF=  +127.36 mT  layer_snes_iters=[3, 3, 12, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 29] SCIF=  +143.50 mT  layer_snes_iters=[7, 10, 6, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 30] SCIF=  +116.05 mT  layer_snes_iters=[5, 10, 10, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 31] SCIF=  +137.54 mT  layer_snes_iters=[6, 8, 4, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 32] SCIF=  +130.73 mT  layer_snes_iters=[4, 16, 11, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 33] SCIF=  +125.31 mT  layer_snes_iters=[7, 9, 6, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 34] SCIF=  +121.75 mT  layer_snes_iters=[11, 7, 9, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 35] SCIF=  +125.99 mT  layer_snes_iters=[7, 11, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 36] SCIF=  +129.55 mT  layer_snes_iters=[3, 3, 15, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 37] SCIF=  +131.13 mT  layer_snes_iters=[6, 3, 3, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 38] SCIF=  +135.63 mT  layer_snes_iters=[11, 3, 4, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 39] SCIF=  +134.29 mT  layer_snes_iters=[9, 3, 3, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 40] SCIF=  +130.46 mT  layer_snes_iters=[5, 3, 7, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 41] SCIF=  +125.11 mT  layer_snes_iters=[5, 3, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 42] SCIF=  +122.18 mT  layer_snes_iters=[7, 3, 4, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 43] SCIF=  +119.44 mT  layer_snes_iters=[3, 3, 3, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 44] SCIF=  +109.92 mT  layer_snes_iters=[12, 3, 4, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 45] SCIF=  +105.70 mT  layer_snes_iters=[14, 3, 3, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 46] SCIF=  +102.08 mT  layer_snes_iters=[14, 3, 3, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 47] SCIF=   +92.25 mT  layer_snes_iters=[14, 3, 10, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 48] SCIF=   +99.28 mT  layer_snes_iters=[5, 3, 11, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 49] SCIF=  +101.08 mT  layer_snes_iters=[6, 7, 6, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 50] SCIF=  +100.00 mT  layer_snes_iters=[6, 3, 6, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 51] SCIF=   +93.91 mT  layer_snes_iters=[10, 3, 11, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 52] SCIF=   +92.12 mT  layer_snes_iters=[3, 10, 9, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 53] SCIF=   +94.94 mT  layer_snes_iters=[10, 15, 3, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 54] SCIF=   +89.49 mT  layer_snes_iters=[6, 12, 5, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 55] SCIF=   +93.36 mT  layer_snes_iters=[5, 4, 3, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 56] SCIF=   +96.62 mT  layer_snes_iters=[8, 3, 5, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 57] SCIF=   +96.54 mT  layer_snes_iters=[10, 9, 8, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 58] SCIF=  +103.08 mT  layer_snes_iters=[6, 3, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 59] SCIF=  +105.00 mT  layer_snes_iters=[9, 3, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 60] SCIF=  +111.41 mT  layer_snes_iters=[6, 3, 9, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 61] SCIF=  +112.17 mT  layer_snes_iters=[8, 3, 3, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 62] SCIF=  +109.25 mT  layer_snes_iters=[8, 3, 3, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 63] SCIF=  +107.53 mT  layer_snes_iters=[9, 3, 4, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 64] SCIF=  +110.07 mT  layer_snes_iters=[8, 3, 17, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 65] SCIF=  +109.23 mT  layer_snes_iters=[9, 3, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 66] SCIF=  +105.56 mT  layer_snes_iters=[6, 3, 4, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 67] SCIF=  +104.23 mT  layer_snes_iters=[9, 3, 3, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 68] SCIF=  +107.66 mT  layer_snes_iters=[8, 3, 12, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 69] SCIF=  +106.46 mT  layer_snes_iters=[11, 3, 3, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 70] SCIF=   +99.74 mT  layer_snes_iters=[7, 3, 5, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 71] SCIF=  +101.58 mT  layer_snes_iters=[8, 3, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 72] SCIF=  +105.39 mT  layer_snes_iters=[8, 3, 11, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 73] SCIF=  +101.80 mT  layer_snes_iters=[11, 3, 3, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 74] SCIF=  +105.64 mT  layer_snes_iters=[8, 3, 13, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 75] SCIF=  +108.18 mT  layer_snes_iters=[8, 3, 3, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 76] SCIF=  +111.05 mT  layer_snes_iters=[10, 3, 11, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 77] SCIF=  +110.11 mT  layer_snes_iters=[17, 3, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 78] SCIF=  +110.70 mT  layer_snes_iters=[6, 3, 9, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 79] SCIF=  +106.87 mT  layer_snes_iters=[11, 3, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 80] SCIF=  +106.65 mT  layer_snes_iters=[6, 3, 8, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 81] SCIF=  +103.25 mT  layer_snes_iters=[14, 3, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 82] SCIF=  +101.30 mT  layer_snes_iters=[3, 3, 7, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 83] SCIF=  +101.05 mT  layer_snes_iters=[13, 3, 3, 18, 1, 1]  clip_frac_max=0.000
+    [newton k= 84] SCIF=   +95.73 mT  layer_snes_iters=[3, 3, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 85] SCIF=   +96.20 mT  layer_snes_iters=[12, 3, 4, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 86] SCIF=   +98.60 mT  layer_snes_iters=[4, 3, 12, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 87] SCIF=   +97.45 mT  layer_snes_iters=[12, 3, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 88] SCIF=   +98.32 mT  layer_snes_iters=[5, 3, 12, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 89] SCIF=   +99.09 mT  layer_snes_iters=[11, 3, 3, 18, 1, 1]  clip_frac_max=0.000
+    [newton k= 90] SCIF=  +101.16 mT  layer_snes_iters=[8, 3, 13, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 91] SCIF=  +101.26 mT  layer_snes_iters=[16, 3, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 92] SCIF=   +99.23 mT  layer_snes_iters=[6, 3, 9, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 93] SCIF=  +100.14 mT  layer_snes_iters=[11, 3, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 94] SCIF=   +96.57 mT  layer_snes_iters=[7, 3, 4, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 95] SCIF=   +94.19 mT  layer_snes_iters=[9, 3, 5, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 96] SCIF=   +98.48 mT  layer_snes_iters=[11, 3, 15, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 97] SCIF=  +100.73 mT  layer_snes_iters=[9, 3, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 98] SCIF=  +104.01 mT  layer_snes_iters=[15, 3, 9, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 99] SCIF=  +107.69 mT  layer_snes_iters=[4, 3, 3, 20, 1, 1]  clip_frac_max=0.000
+    [newton k=100] SCIF=  +108.06 mT  layer_snes_iters=[13, 3, 4, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=101] SCIF=  +107.57 mT  layer_snes_iters=[9, 3, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=102] SCIF=  +103.25 mT  layer_snes_iters=[10, 3, 4, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=103] SCIF=  +116.05 mT  layer_snes_iters=[12, 3, 3, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=104] SCIF=  +109.63 mT  layer_snes_iters=[10, 3, 11, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=105] SCIF=  +119.09 mT  layer_snes_iters=[9, 3, 3, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=106] SCIF=  +114.14 mT  layer_snes_iters=[8, 3, 17, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=107] SCIF=  +126.03 mT  layer_snes_iters=[8, 3, 3, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=108] SCIF=  +120.67 mT  layer_snes_iters=[12, 3, 15, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=109] SCIF=  +128.82 mT  layer_snes_iters=[14, 3, 3, 26, 1, 1]  clip_frac_max=0.000
+    [newton k=110] SCIF=  +119.88 mT  layer_snes_iters=[12, 4, 13, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=111] SCIF=  +125.56 mT  layer_snes_iters=[11, 3, 7, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=112] SCIF=  +113.48 mT  layer_snes_iters=[14, 5, 7, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=113] SCIF=  +119.60 mT  layer_snes_iters=[13, 9, 9, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=114] SCIF=  +108.34 mT  layer_snes_iters=[12, 3, 13, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=115] SCIF=  +116.11 mT  layer_snes_iters=[13, 3, 5, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=116] SCIF=  +104.29 mT  layer_snes_iters=[12, 5, 15, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=117] SCIF=  +106.20 mT  layer_snes_iters=[10, 3, 11, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=118] SCIF=  +104.63 mT  layer_snes_iters=[12, 7, 14, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=119] SCIF=  +105.73 mT  layer_snes_iters=[12, 7, 7, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=120] SCIF=  +104.60 mT  layer_snes_iters=[12, 6, 13, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=121] SCIF=  +104.09 mT  layer_snes_iters=[14, 16, 7, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=122] SCIF=  +101.47 mT  layer_snes_iters=[13, 5, 11, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=123] SCIF=   +98.17 mT  layer_snes_iters=[14, 9, 8, 18, 1, 1]  clip_frac_max=0.000
+    [newton k=124] SCIF=   +97.16 mT  layer_snes_iters=[14, 5, 9, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=125] SCIF=   +95.23 mT  layer_snes_iters=[11, 9, 7, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=126] SCIF=   +92.60 mT  layer_snes_iters=[4, 5, 15, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=127] SCIF=   +90.24 mT  layer_snes_iters=[13, 6, 8, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=128] SCIF=   +87.55 mT  layer_snes_iters=[4, 7, 14, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=129] SCIF=   +86.36 mT  layer_snes_iters=[4, 6, 8, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=130] SCIF=   +84.00 mT  layer_snes_iters=[4, 9, 15, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=131] SCIF=   +82.53 mT  layer_snes_iters=[4, 13, 9, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=132] SCIF=   +81.34 mT  layer_snes_iters=[4, 8, 16, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=133] SCIF=   +80.44 mT  layer_snes_iters=[4, 16, 13, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=134] SCIF=   +81.11 mT  layer_snes_iters=[4, 8, 16, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=135] SCIF=   +81.60 mT  layer_snes_iters=[4, 15, 11, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=136] SCIF=   +79.33 mT  layer_snes_iters=[4, 9, 12, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=137] SCIF=   +77.37 mT  layer_snes_iters=[4, 5, 10, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=138] SCIF=   +78.31 mT  layer_snes_iters=[4, 11, 18, 12, 1, 1]  clip_frac_max=0.000
+      [layer 3] Newton failed this outer iteration (reason=-9)
+      reverting outer iteration 139 entirely, returning the state from iteration 138 (NOT auto-validated -- check against independent ground truth before trusting this SCIF)
+    [newton] step done: stop_reason=newton_failure_reverted  n_outer=138  SCIF=+78.31 mT
+  step 2/12 SUMMARY: converged=False  stop_reason=newton_failure_reverted  SCIF=+78.31 mT
+  step 3/12  t=  150.0 s  I=  49.00 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [2.9917e+11,4.9282e+11]  n range: [18.700,27.637]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [3.1111e+11,4.9307e+11]  n range: [18.910,27.722]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [2.2010e+11,4.8853e+11]  n range: [18.367,27.047]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [2.5431e+11,4.8442e+11]  n range: [18.422,26.559]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [3.4566e+11,4.2959e+11]  n range: [20.497,23.594]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [3.7397e+11,4.2859e+11]  n range: [22.081,23.617]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF=  +890.88 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=  2] SCIF=  +908.03 mT  layer_snes_iters=[2, 7, 1, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=  3] SCIF=  +843.67 mT  layer_snes_iters=[12, 2, 14, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=  4] SCIF=  +783.31 mT  layer_snes_iters=[3, 3, 12, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=  5] SCIF=  +701.49 mT  layer_snes_iters=[3, 3, 3, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=  6] SCIF=  +649.78 mT  layer_snes_iters=[9, 11, 3, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=  7] SCIF=  +597.22 mT  layer_snes_iters=[16, 3, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=  8] SCIF=  +551.33 mT  layer_snes_iters=[7, 5, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=  9] SCIF=  +498.10 mT  layer_snes_iters=[17, 3, 13, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 10] SCIF=  +474.01 mT  layer_snes_iters=[14, 3, 7, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 11] SCIF=  +439.39 mT  layer_snes_iters=[13, 3, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 12] SCIF=  +412.81 mT  layer_snes_iters=[15, 5, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 13] SCIF=  +369.45 mT  layer_snes_iters=[12, 3, 4, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 14] SCIF=  +343.46 mT  layer_snes_iters=[7, 3, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 15] SCIF=  +318.06 mT  layer_snes_iters=[3, 3, 3, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 16] SCIF=  +290.42 mT  layer_snes_iters=[3, 3, 6, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 17] SCIF=  +258.61 mT  layer_snes_iters=[8, 7, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 18] SCIF=  +232.95 mT  layer_snes_iters=[12, 8, 5, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 19] SCIF=  +232.64 mT  layer_snes_iters=[7, 11, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 20] SCIF=  +215.50 mT  layer_snes_iters=[15, 3, 13, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 21] SCIF=  +177.81 mT  layer_snes_iters=[10, 4, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 22] SCIF=  +162.58 mT  layer_snes_iters=[12, 5, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 23] SCIF=  +144.61 mT  layer_snes_iters=[6, 13, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 24] SCIF=  +156.08 mT  layer_snes_iters=[13, 2, 3, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 25] SCIF=  +146.61 mT  layer_snes_iters=[6, 3, 13, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 26] SCIF=  +156.02 mT  layer_snes_iters=[3, 9, 5, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 27] SCIF=  +146.77 mT  layer_snes_iters=[6, 11, 3, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 28] SCIF=  +167.57 mT  layer_snes_iters=[10, 13, 5, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 29] SCIF=  +149.38 mT  layer_snes_iters=[8, 8, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 30] SCIF=  +152.47 mT  layer_snes_iters=[4, 3, 6, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 31] SCIF=  +153.74 mT  layer_snes_iters=[9, 3, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 32] SCIF=  +137.57 mT  layer_snes_iters=[9, 6, 8, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 33] SCIF=  +155.10 mT  layer_snes_iters=[13, 11, 3, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 34] SCIF=  +153.26 mT  layer_snes_iters=[8, 3, 8, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 35] SCIF=  +152.03 mT  layer_snes_iters=[16, 4, 14, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 36] SCIF=  +149.62 mT  layer_snes_iters=[3, 11, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 37] SCIF=  +135.29 mT  layer_snes_iters=[11, 13, 4, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 38] SCIF=  +138.68 mT  layer_snes_iters=[3, 2, 4, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 39] SCIF=  +148.19 mT  layer_snes_iters=[6, 3, 8, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 40] SCIF=  +146.17 mT  layer_snes_iters=[12, 9, 5, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 41] SCIF=  +150.17 mT  layer_snes_iters=[13, 13, 5, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 42] SCIF=  +142.14 mT  layer_snes_iters=[5, 5, 8, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 43] SCIF=  +148.09 mT  layer_snes_iters=[7, 11, 3, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 44] SCIF=  +144.54 mT  layer_snes_iters=[3, 3, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 45] SCIF=  +144.36 mT  layer_snes_iters=[14, 3, 7, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 46] SCIF=  +134.97 mT  layer_snes_iters=[3, 10, 6, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 47] SCIF=  +135.84 mT  layer_snes_iters=[7, 13, 4, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 48] SCIF=  +128.81 mT  layer_snes_iters=[14, 16, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 49] SCIF=  +125.51 mT  layer_snes_iters=[13, 12, 5, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 50] SCIF=  +126.09 mT  layer_snes_iters=[13, 13, 12, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 51] SCIF=  +120.86 mT  layer_snes_iters=[15, 12, 9, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 52] SCIF=  +118.82 mT  layer_snes_iters=[16, 5, 9, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 53] SCIF=  +113.49 mT  layer_snes_iters=[10, 12, 4, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 54] SCIF=  +118.26 mT  layer_snes_iters=[12, 7, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 55] SCIF=  +114.39 mT  layer_snes_iters=[15, 15, 4, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 56] SCIF=  +120.20 mT  layer_snes_iters=[6, 14, 8, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 57] SCIF=  +114.86 mT  layer_snes_iters=[6, 11, 8, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 58] SCIF=  +118.00 mT  layer_snes_iters=[14, 14, 9, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 59] SCIF=  +139.48 mT  layer_snes_iters=[3, 11, 10, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 60] SCIF=  +127.86 mT  layer_snes_iters=[15, 14, 13, 19, 1, 1]  clip_frac_max=0.000
+    [newton k= 61] SCIF=  +136.16 mT  layer_snes_iters=[12, 16, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 62] SCIF=  +117.17 mT  layer_snes_iters=[14, 7, 9, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 63] SCIF=  +106.82 mT  layer_snes_iters=[13, 11, 10, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 64] SCIF=  +119.51 mT  layer_snes_iters=[12, 3, 12, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 65] SCIF=  +104.75 mT  layer_snes_iters=[18, 14, 9, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 66] SCIF=  +110.28 mT  layer_snes_iters=[15, 3, 12, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 67] SCIF=  +114.54 mT  layer_snes_iters=[16, 14, 11, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 68] SCIF=  +112.33 mT  layer_snes_iters=[3, 15, 16, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 69] SCIF=  +108.86 mT  layer_snes_iters=[11, 4, 6, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 70] SCIF=   +95.18 mT  layer_snes_iters=[3, 5, 12, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 71] SCIF=  +104.09 mT  layer_snes_iters=[8, 8, 3, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 72] SCIF=  +123.87 mT  layer_snes_iters=[14, 8, 17, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 73] SCIF=  +109.26 mT  layer_snes_iters=[4, 5, 9, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 74] SCIF=  +119.42 mT  layer_snes_iters=[12, 13, 11, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 75] SCIF=  +134.98 mT  layer_snes_iters=[15, 17, 12, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 76] SCIF=  +127.09 mT  layer_snes_iters=[10, 5, 10, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 77] SCIF=  +126.84 mT  layer_snes_iters=[11, 16, 6, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 78] SCIF=  +139.50 mT  layer_snes_iters=[10, 6, 12, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 79] SCIF=  +131.94 mT  layer_snes_iters=[7, 14, 5, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 80] SCIF=  +136.07 mT  layer_snes_iters=[15, 10, 12, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 81] SCIF=  +130.30 mT  layer_snes_iters=[4, 12, 9, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 82] SCIF=  +128.55 mT  layer_snes_iters=[11, 8, 11, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 83] SCIF=  +112.78 mT  layer_snes_iters=[10, 17, 9, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 84] SCIF=  +113.61 mT  layer_snes_iters=[17, 16, 11, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 85] SCIF=  +115.35 mT  layer_snes_iters=[3, 7, 9, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 86] SCIF=  +121.40 mT  layer_snes_iters=[10, 11, 14, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 87] SCIF=  +125.43 mT  layer_snes_iters=[8, 11, 13, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 88] SCIF=  +130.64 mT  layer_snes_iters=[4, 5, 10, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 89] SCIF=  +129.98 mT  layer_snes_iters=[13, 4, 16, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 90] SCIF=  +126.23 mT  layer_snes_iters=[5, 4, 13, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 91] SCIF=  +122.75 mT  layer_snes_iters=[11, 5, 11, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 92] SCIF=  +122.54 mT  layer_snes_iters=[11, 4, 14, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 93] SCIF=  +115.55 mT  layer_snes_iters=[6, 9, 15, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 94] SCIF=  +115.73 mT  layer_snes_iters=[7, 15, 13, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 95] SCIF=  +102.61 mT  layer_snes_iters=[16, 9, 9, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 96] SCIF=   +99.00 mT  layer_snes_iters=[16, 13, 5, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 97] SCIF=  +103.00 mT  layer_snes_iters=[8, 10, 9, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 98] SCIF=  +101.50 mT  layer_snes_iters=[9, 11, 8, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 99] SCIF=  +104.62 mT  layer_snes_iters=[9, 6, 12, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=100] SCIF=  +107.66 mT  layer_snes_iters=[11, 7, 4, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=101] SCIF=  +110.56 mT  layer_snes_iters=[10, 2, 14, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=102] SCIF=  +111.41 mT  layer_snes_iters=[8, 16, 6, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=103] SCIF=  +118.01 mT  layer_snes_iters=[7, 3, 10, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=104] SCIF=  +115.51 mT  layer_snes_iters=[11, 15, 14, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=105] SCIF=  +117.00 mT  layer_snes_iters=[9, 3, 11, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=106] SCIF=  +110.22 mT  layer_snes_iters=[14, 15, 15, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=107] SCIF=  +116.76 mT  layer_snes_iters=[4, 3, 15, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=108] SCIF=  +113.37 mT  layer_snes_iters=[12, 14, 12, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=109] SCIF=  +116.25 mT  layer_snes_iters=[10, 3, 14, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=110] SCIF=  +109.09 mT  layer_snes_iters=[14, 4, 10, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=111] SCIF=  +120.53 mT  layer_snes_iters=[11, 5, 12, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=112] SCIF=  +119.54 mT  layer_snes_iters=[17, 13, 14, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=113] SCIF=  +122.81 mT  layer_snes_iters=[15, 6, 16, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=114] SCIF=  +116.80 mT  layer_snes_iters=[14, 13, 17, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=115] SCIF=  +115.42 mT  layer_snes_iters=[6, 7, 14, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=116] SCIF=  +103.64 mT  layer_snes_iters=[10, 10, 15, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=117] SCIF=  +112.52 mT  layer_snes_iters=[10, 7, 4, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=118] SCIF=  +110.16 mT  layer_snes_iters=[14, 17, 14, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=119] SCIF=  +117.54 mT  layer_snes_iters=[10, 5, 12, 18, 1, 1]  clip_frac_max=0.000
+    [newton k=120] SCIF=  +114.13 mT  layer_snes_iters=[17, 12, 14, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=121] SCIF=  +114.44 mT  layer_snes_iters=[7, 5, 16, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=122] SCIF=  +111.11 mT  layer_snes_iters=[15, 16, 10, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=123] SCIF=  +120.59 mT  layer_snes_iters=[9, 5, 6, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=124] SCIF=  +114.19 mT  layer_snes_iters=[14, 14, 4, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=125] SCIF=  +113.22 mT  layer_snes_iters=[6, 7, 7, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=126] SCIF=  +104.95 mT  layer_snes_iters=[15, 16, 13, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=127] SCIF=  +113.35 mT  layer_snes_iters=[12, 7, 10, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=128] SCIF=  +109.25 mT  layer_snes_iters=[17, 5, 11, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=129] SCIF=  +111.20 mT  layer_snes_iters=[14, 9, 16, 19, 1, 1]  clip_frac_max=0.000
+    [newton k=130] SCIF=  +105.10 mT  layer_snes_iters=[15, 13, 14, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=131] SCIF=  +107.55 mT  layer_snes_iters=[9, 16, 7, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=132] SCIF=   +99.83 mT  layer_snes_iters=[18, 12, 17, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=133] SCIF=  +117.12 mT  layer_snes_iters=[11, 11, 8, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=134] SCIF=  +112.93 mT  layer_snes_iters=[6, 17, 13, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=135] SCIF=  +119.37 mT  layer_snes_iters=[14, 14, 9, 17, 3, 2]  clip_frac_max=0.000
+    [newton k=136] SCIF=  +114.40 mT  layer_snes_iters=[17, 17, 8, 10, 4, 2]  clip_frac_max=0.000
+    [newton k=137] SCIF=  +118.90 mT  layer_snes_iters=[16, 12, 9, 15, 4, 3]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9)
+      reverting outer iteration 138 entirely, returning the state from iteration 137 (NOT auto-validated -- check against independent ground truth before trusting this SCIF)
+    [newton] step done: stop_reason=newton_failure_reverted  n_outer=137  SCIF=+118.90 mT
+  step 3/12 SUMMARY: converged=False  stop_reason=newton_failure_reverted  SCIF=+118.90 mT
+  step 4/12  t=  200.0 s  I=  65.33 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [2.5534e+11,4.8941e+11]  n range: [17.193,27.213]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [2.7615e+11,4.8999e+11]  n range: [17.864,27.407]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.8461e+11,4.8840e+11]  n range: [16.590,26.894]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [2.1235e+11,4.7571e+11]  n range: [16.699,26.257]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.9462e+11,3.7949e+11]  n range: [19.575,22.066]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [3.2499e+11,3.8089e+11]  n range: [21.140,22.510]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF=  +937.23 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=  2] SCIF=  +967.88 mT  layer_snes_iters=[10, 14, 1, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=  3] SCIF=  +917.12 mT  layer_snes_iters=[5, 3, 14, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=  4] SCIF=  +869.01 mT  layer_snes_iters=[17, 3, 7, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=  5] SCIF=  +826.82 mT  layer_snes_iters=[6, 3, 12, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=  6] SCIF=  +769.30 mT  layer_snes_iters=[15, 8, 14, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=  7] SCIF=  +706.17 mT  layer_snes_iters=[3, 13, 3, 18, 1, 1]  clip_frac_max=0.000
+    [newton k=  8] SCIF=  +646.30 mT  layer_snes_iters=[8, 15, 5, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=  9] SCIF=  +616.23 mT  layer_snes_iters=[3, 10, 12, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 10] SCIF=  +561.13 mT  layer_snes_iters=[16, 10, 3, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 11] SCIF=  +487.96 mT  layer_snes_iters=[4, 8, 12, 18, 1, 1]  clip_frac_max=0.000
+    [newton k= 12] SCIF=  +438.36 mT  layer_snes_iters=[8, 11, 5, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 13] SCIF=  +417.97 mT  layer_snes_iters=[7, 10, 11, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 14] SCIF=  +393.93 mT  layer_snes_iters=[11, 3, 7, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 15] SCIF=  +341.38 mT  layer_snes_iters=[2, 9, 11, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 16] SCIF=  +325.65 mT  layer_snes_iters=[3, 13, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 17] SCIF=  +314.79 mT  layer_snes_iters=[2, 2, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 18] SCIF=  +285.63 mT  layer_snes_iters=[5, 4, 12, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 19] SCIF=  +266.60 mT  layer_snes_iters=[14, 2, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 20] SCIF=  +241.54 mT  layer_snes_iters=[3, 9, 19, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 21] SCIF=  +235.84 mT  layer_snes_iters=[8, 2, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 22] SCIF=  +236.01 mT  layer_snes_iters=[12, 4, 9, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 23] SCIF=  +232.28 mT  layer_snes_iters=[14, 5, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 24] SCIF=  +218.41 mT  layer_snes_iters=[6, 9, 7, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 25] SCIF=  +212.41 mT  layer_snes_iters=[2, 4, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 26] SCIF=  +200.53 mT  layer_snes_iters=[8, 9, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 27] SCIF=  +169.12 mT  layer_snes_iters=[7, 7, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 28] SCIF=  +173.50 mT  layer_snes_iters=[11, 14, 8, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 29] SCIF=  +163.72 mT  layer_snes_iters=[4, 5, 10, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 30] SCIF=  +180.03 mT  layer_snes_iters=[10, 11, 15, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 31] SCIF=  +182.38 mT  layer_snes_iters=[4, 6, 9, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 32] SCIF=  +208.79 mT  layer_snes_iters=[9, 13, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 33] SCIF=  +208.58 mT  layer_snes_iters=[6, 2, 5, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 34] SCIF=  +223.97 mT  layer_snes_iters=[10, 14, 13, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 35] SCIF=  +213.75 mT  layer_snes_iters=[7, 2, 8, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 36] SCIF=  +237.53 mT  layer_snes_iters=[13, 3, 15, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 37] SCIF=  +223.86 mT  layer_snes_iters=[2, 2, 10, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 38] SCIF=  +233.11 mT  layer_snes_iters=[7, 13, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 39] SCIF=  +225.55 mT  layer_snes_iters=[8, 4, 10, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 40] SCIF=  +228.81 mT  layer_snes_iters=[10, 13, 3, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 41] SCIF=  +232.50 mT  layer_snes_iters=[6, 2, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 42] SCIF=  +222.48 mT  layer_snes_iters=[16, 8, 4, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 43] SCIF=  +197.54 mT  layer_snes_iters=[3, 12, 9, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 44] SCIF=  +199.46 mT  layer_snes_iters=[11, 11, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 45] SCIF=  +192.94 mT  layer_snes_iters=[14, 3, 3, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 46] SCIF=  +190.17 mT  layer_snes_iters=[10, 9, 11, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 47] SCIF=  +174.24 mT  layer_snes_iters=[15, 8, 13, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 48] SCIF=  +170.85 mT  layer_snes_iters=[16, 16, 4, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 49] SCIF=  +170.03 mT  layer_snes_iters=[10, 10, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 50] SCIF=  +156.36 mT  layer_snes_iters=[12, 12, 14, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 51] SCIF=  +159.51 mT  layer_snes_iters=[9, 17, 16, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 52] SCIF=  +161.97 mT  layer_snes_iters=[14, 6, 12, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 53] SCIF=  +154.23 mT  layer_snes_iters=[13, 14, 14, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 54] SCIF=  +178.33 mT  layer_snes_iters=[7, 8, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 55] SCIF=  +182.37 mT  layer_snes_iters=[13, 12, 13, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 56] SCIF=  +199.93 mT  layer_snes_iters=[3, 15, 12, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 57] SCIF=  +189.93 mT  layer_snes_iters=[16, 7, 9, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 58] SCIF=  +196.60 mT  layer_snes_iters=[7, 5, 7, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 59] SCIF=  +178.56 mT  layer_snes_iters=[12, 13, 12, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 60] SCIF=  +192.37 mT  layer_snes_iters=[14, 12, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 61] SCIF=  +191.70 mT  layer_snes_iters=[17, 4, 15, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 62] SCIF=  +184.89 mT  layer_snes_iters=[6, 11, 6, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 63] SCIF=  +178.06 mT  layer_snes_iters=[7, 15, 10, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 64] SCIF=  +186.89 mT  layer_snes_iters=[6, 16, 7, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 65] SCIF=  +189.18 mT  layer_snes_iters=[17, 9, 16, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 66] SCIF=  +186.38 mT  layer_snes_iters=[14, 14, 13, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 67] SCIF=  +192.15 mT  layer_snes_iters=[12, 10, 15, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 68] SCIF=  +189.73 mT  layer_snes_iters=[3, 4, 11, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 69] SCIF=  +186.60 mT  layer_snes_iters=[8, 14, 11, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 70] SCIF=  +191.59 mT  layer_snes_iters=[15, 18, 7, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 71] SCIF=  +182.72 mT  layer_snes_iters=[12, 7, 15, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 72] SCIF=  +195.00 mT  layer_snes_iters=[18, 16, 6, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 73] SCIF=  +166.47 mT  layer_snes_iters=[6, 12, 13, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 74] SCIF=  +184.95 mT  layer_snes_iters=[4, 8, 7, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 75] SCIF=  +172.30 mT  layer_snes_iters=[3, 7, 6, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 76] SCIF=  +178.87 mT  layer_snes_iters=[16, 14, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 77] SCIF=  +164.96 mT  layer_snes_iters=[6, 3, 15, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 78] SCIF=  +177.39 mT  layer_snes_iters=[17, 14, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 79] SCIF=  +162.82 mT  layer_snes_iters=[6, 9, 12, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 80] SCIF=  +169.59 mT  layer_snes_iters=[13, 16, 3, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 81] SCIF=  +167.20 mT  layer_snes_iters=[7, 11, 6, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 82] SCIF=  +168.49 mT  layer_snes_iters=[8, 10, 5, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 83] SCIF=  +166.20 mT  layer_snes_iters=[8, 7, 10, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 84] SCIF=  +166.07 mT  layer_snes_iters=[11, 12, 3, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 85] SCIF=  +161.11 mT  layer_snes_iters=[4, 15, 10, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 86] SCIF=  +165.94 mT  layer_snes_iters=[8, 13, 3, 18, 1, 1]  clip_frac_max=0.000
+    [newton k= 87] SCIF=  +156.42 mT  layer_snes_iters=[3, 13, 7, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 88] SCIF=  +150.22 mT  layer_snes_iters=[10, 12, 15, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 89] SCIF=  +168.31 mT  layer_snes_iters=[3, 13, 13, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 90] SCIF=  +168.46 mT  layer_snes_iters=[9, 15, 14, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 91] SCIF=  +177.39 mT  layer_snes_iters=[4, 17, 11, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 92] SCIF=  +175.99 mT  layer_snes_iters=[13, 10, 6, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 93] SCIF=  +178.78 mT  layer_snes_iters=[3, 10, 4, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 94] SCIF=  +179.62 mT  layer_snes_iters=[12, 12, 7, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 95] SCIF=  +182.54 mT  layer_snes_iters=[14, 11, 4, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 96] SCIF=  +171.92 mT  layer_snes_iters=[4, 15, 4, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 97] SCIF=  +175.49 mT  layer_snes_iters=[12, 7, 6, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 98] SCIF=  +167.90 mT  layer_snes_iters=[4, 12, 16, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 99] SCIF=  +170.95 mT  layer_snes_iters=[10, 4, 8, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=100] SCIF=  +154.52 mT  layer_snes_iters=[11, 17, 11, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=101] SCIF=  +172.49 mT  layer_snes_iters=[16, 3, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=102] SCIF=  +154.59 mT  layer_snes_iters=[12, 13, 10, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=103] SCIF=  +168.71 mT  layer_snes_iters=[6, 2, 12, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=104] SCIF=  +156.30 mT  layer_snes_iters=[10, 14, 12, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=105] SCIF=  +162.51 mT  layer_snes_iters=[7, 2, 13, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=106] SCIF=  +157.53 mT  layer_snes_iters=[14, 12, 12, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=107] SCIF=  +161.40 mT  layer_snes_iters=[6, 15, 10, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=108] SCIF=  +166.98 mT  layer_snes_iters=[17, 13, 12, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=109] SCIF=  +158.93 mT  layer_snes_iters=[4, 16, 12, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=110] SCIF=  +156.33 mT  layer_snes_iters=[16, 17, 10, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=111] SCIF=  +155.65 mT  layer_snes_iters=[4, 12, 12, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=112] SCIF=  +174.95 mT  layer_snes_iters=[10, 15, 13, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=113] SCIF=  +168.18 mT  layer_snes_iters=[15, 9, 11, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=114] SCIF=  +177.37 mT  layer_snes_iters=[4, 15, 15, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=115] SCIF=  +183.18 mT  layer_snes_iters=[17, 10, 16, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=116] SCIF=  +188.22 mT  layer_snes_iters=[14, 15, 16, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=117] SCIF=  +179.37 mT  layer_snes_iters=[14, 8, 16, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=118] SCIF=  +174.54 mT  layer_snes_iters=[15, 5, 12, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=119] SCIF=  +174.52 mT  layer_snes_iters=[14, 7, 13, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=120] SCIF=  +176.50 mT  layer_snes_iters=[12, 15, 16, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=121] SCIF=  +179.78 mT  layer_snes_iters=[15, 6, 9, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=122] SCIF=  +178.60 mT  layer_snes_iters=[17, 14, 17, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=123] SCIF=  +177.20 mT  layer_snes_iters=[19, 7, 16, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=124] SCIF=  +169.25 mT  layer_snes_iters=[9, 9, 12, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=125] SCIF=  +170.10 mT  layer_snes_iters=[16, 10, 13, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=126] SCIF=  +176.75 mT  layer_snes_iters=[12, 16, 15, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=127] SCIF=  +173.55 mT  layer_snes_iters=[15, 12, 13, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=128] SCIF=  +176.55 mT  layer_snes_iters=[13, 10, 16, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=129] SCIF=  +170.00 mT  layer_snes_iters=[11, 8, 15, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=130] SCIF=  +169.18 mT  layer_snes_iters=[17, 18, 14, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=131] SCIF=  +167.25 mT  layer_snes_iters=[9, 11, 12, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=132] SCIF=  +170.81 mT  layer_snes_iters=[16, 17, 13, 18, 1, 1]  clip_frac_max=0.000
+    [newton k=133] SCIF=  +175.73 mT  layer_snes_iters=[11, 16, 10, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=134] SCIF=  +170.12 mT  layer_snes_iters=[17, 6, 16, 15, 2, 1]  clip_frac_max=0.000
+    [newton k=135] SCIF=  +178.24 mT  layer_snes_iters=[9, 9, 17, 12, 2, 4]  clip_frac_max=0.000
+      [layer 2] Newton failed this outer iteration (reason=-9)
+      reverting outer iteration 136 entirely, returning the state from iteration 135 (NOT auto-validated -- check against independent ground truth before trusting this SCIF)
+    [newton] step done: stop_reason=newton_failure_reverted  n_outer=135  SCIF=+178.24 mT
+  step 4/12 SUMMARY: converged=False  stop_reason=newton_failure_reverted  SCIF=+178.24 mT
+  step 5/12  t=  250.0 s  I=  81.67 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [2.2901e+11,4.8952e+11]  n range: [16.788,27.362]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [2.4341e+11,4.9188e+11]  n range: [16.642,27.584]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.6313e+11,4.8507e+11]  n range: [15.864,26.498]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.8100e+11,4.7677e+11]  n range: [15.899,26.051]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.6152e+11,3.3979e+11]  n range: [18.934,21.239]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.9154e+11,3.4503e+11]  n range: [20.991,21.801]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF= +1001.47 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=  2] SCIF= +1043.05 mT  layer_snes_iters=[9, 14, 1, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=  3] SCIF= +1007.87 mT  layer_snes_iters=[3, 9, 15, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=  4] SCIF=  +936.11 mT  layer_snes_iters=[13, 4, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=  5] SCIF=  +873.76 mT  layer_snes_iters=[11, 2, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=  6] SCIF=  +776.04 mT  layer_snes_iters=[4, 10, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=  7] SCIF=  +739.18 mT  layer_snes_iters=[2, 2, 3, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=  8] SCIF=  +679.91 mT  layer_snes_iters=[3, 10, 15, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=  9] SCIF=  +616.14 mT  layer_snes_iters=[2, 2, 8, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 10] SCIF=  +580.85 mT  layer_snes_iters=[8, 8, 11, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 11] SCIF=  +540.72 mT  layer_snes_iters=[4, 2, 7, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 12] SCIF=  +513.57 mT  layer_snes_iters=[8, 5, 3, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 13] SCIF=  +479.21 mT  layer_snes_iters=[2, 5, 6, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 14] SCIF=  +441.06 mT  layer_snes_iters=[3, 15, 9, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 15] SCIF=  +405.40 mT  layer_snes_iters=[2, 7, 4, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 16] SCIF=  +387.93 mT  layer_snes_iters=[8, 11, 11, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 17] SCIF=  +352.29 mT  layer_snes_iters=[2, 2, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 18] SCIF=  +357.92 mT  layer_snes_iters=[3, 4, 10, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 19] SCIF=  +334.49 mT  layer_snes_iters=[4, 2, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 20] SCIF=  +307.11 mT  layer_snes_iters=[15, 14, 14, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 21] SCIF=  +299.96 mT  layer_snes_iters=[3, 2, 16, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 22] SCIF=  +288.64 mT  layer_snes_iters=[12, 14, 10, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 23] SCIF=  +284.16 mT  layer_snes_iters=[2, 2, 5, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 24] SCIF=  +301.54 mT  layer_snes_iters=[10, 11, 11, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 25] SCIF=  +290.29 mT  layer_snes_iters=[2, 5, 4, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 26] SCIF=  +290.02 mT  layer_snes_iters=[13, 12, 15, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 27] SCIF=  +273.11 mT  layer_snes_iters=[6, 2, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 28] SCIF=  +278.38 mT  layer_snes_iters=[9, 5, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 29] SCIF=  +267.60 mT  layer_snes_iters=[2, 2, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 30] SCIF=  +283.81 mT  layer_snes_iters=[13, 4, 10, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 31] SCIF=  +280.81 mT  layer_snes_iters=[9, 2, 9, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 32] SCIF=  +274.91 mT  layer_snes_iters=[8, 16, 13, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 33] SCIF=  +250.78 mT  layer_snes_iters=[13, 2, 8, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 34] SCIF=  +235.45 mT  layer_snes_iters=[11, 11, 12, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 35] SCIF=  +233.93 mT  layer_snes_iters=[5, 8, 8, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 36] SCIF=  +241.87 mT  layer_snes_iters=[12, 13, 16, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 37] SCIF=  +226.39 mT  layer_snes_iters=[4, 15, 4, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 38] SCIF=  +246.51 mT  layer_snes_iters=[10, 11, 13, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 39] SCIF=  +234.05 mT  layer_snes_iters=[3, 4, 7, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 40] SCIF=  +237.91 mT  layer_snes_iters=[12, 10, 6, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 41] SCIF=  +237.79 mT  layer_snes_iters=[2, 15, 8, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 42] SCIF=  +248.21 mT  layer_snes_iters=[5, 4, 3, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 43] SCIF=  +239.26 mT  layer_snes_iters=[8, 14, 10, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 44] SCIF=  +244.69 mT  layer_snes_iters=[4, 3, 14, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 45] SCIF=  +241.41 mT  layer_snes_iters=[13, 12, 8, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 46] SCIF=  +250.75 mT  layer_snes_iters=[13, 2, 14, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 47] SCIF=  +247.45 mT  layer_snes_iters=[8, 8, 5, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 48] SCIF=  +245.16 mT  layer_snes_iters=[14, 2, 4, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 49] SCIF=  +248.91 mT  layer_snes_iters=[8, 17, 9, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 50] SCIF=  +238.84 mT  layer_snes_iters=[17, 2, 9, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 51] SCIF=  +254.44 mT  layer_snes_iters=[14, 17, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 52] SCIF=  +245.12 mT  layer_snes_iters=[15, 4, 8, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 53] SCIF=  +254.88 mT  layer_snes_iters=[3, 12, 4, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 54] SCIF=  +238.40 mT  layer_snes_iters=[3, 2, 5, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 55] SCIF=  +235.40 mT  layer_snes_iters=[9, 17, 15, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 56] SCIF=  +235.22 mT  layer_snes_iters=[8, 2, 9, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 57] SCIF=  +229.94 mT  layer_snes_iters=[13, 14, 4, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 58] SCIF=  +225.39 mT  layer_snes_iters=[5, 5, 14, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 59] SCIF=  +231.89 mT  layer_snes_iters=[13, 16, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 60] SCIF=  +235.83 mT  layer_snes_iters=[6, 6, 14, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 61] SCIF=  +235.36 mT  layer_snes_iters=[13, 14, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 62] SCIF=  +234.29 mT  layer_snes_iters=[9, 2, 8, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 63] SCIF=  +238.08 mT  layer_snes_iters=[13, 10, 17, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 64] SCIF=  +235.35 mT  layer_snes_iters=[7, 2, 4, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 65] SCIF=  +237.44 mT  layer_snes_iters=[13, 13, 7, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 66] SCIF=  +246.40 mT  layer_snes_iters=[14, 2, 15, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 67] SCIF=  +244.82 mT  layer_snes_iters=[15, 13, 8, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 68] SCIF=  +233.05 mT  layer_snes_iters=[3, 2, 4, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 69] SCIF=  +237.60 mT  layer_snes_iters=[9, 12, 4, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 70] SCIF=  +234.80 mT  layer_snes_iters=[8, 5, 7, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 71] SCIF=  +247.61 mT  layer_snes_iters=[13, 12, 7, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 72] SCIF=  +242.57 mT  layer_snes_iters=[5, 2, 12, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 73] SCIF=  +260.09 mT  layer_snes_iters=[5, 15, 4, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 74] SCIF=  +248.15 mT  layer_snes_iters=[8, 2, 4, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 75] SCIF=  +261.86 mT  layer_snes_iters=[11, 5, 16, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 76] SCIF=  +259.51 mT  layer_snes_iters=[3, 2, 13, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 77] SCIF=  +267.21 mT  layer_snes_iters=[10, 13, 6, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 78] SCIF=  +249.09 mT  layer_snes_iters=[7, 10, 15, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 79] SCIF=  +257.04 mT  layer_snes_iters=[15, 10, 6, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 80] SCIF=  +257.14 mT  layer_snes_iters=[12, 18, 14, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 81] SCIF=  +258.16 mT  layer_snes_iters=[4, 14, 7, 19, 1, 1]  clip_frac_max=0.000
+    [newton k= 82] SCIF=  +260.22 mT  layer_snes_iters=[8, 15, 10, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 83] SCIF=  +258.80 mT  layer_snes_iters=[18, 15, 13, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 84] SCIF=  +250.80 mT  layer_snes_iters=[5, 14, 14, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 85] SCIF=  +264.55 mT  layer_snes_iters=[6, 13, 4, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 86] SCIF=  +258.84 mT  layer_snes_iters=[7, 4, 16, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 87] SCIF=  +261.08 mT  layer_snes_iters=[13, 17, 14, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 88] SCIF=  +256.88 mT  layer_snes_iters=[10, 7, 15, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 89] SCIF=  +247.88 mT  layer_snes_iters=[13, 12, 6, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 90] SCIF=  +250.72 mT  layer_snes_iters=[11, 6, 16, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 91] SCIF=  +254.80 mT  layer_snes_iters=[15, 9, 14, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 92] SCIF=  +249.38 mT  layer_snes_iters=[16, 14, 14, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 93] SCIF=  +250.17 mT  layer_snes_iters=[8, 17, 3, 18, 1, 1]  clip_frac_max=0.000
+    [newton k= 94] SCIF=  +239.00 mT  layer_snes_iters=[14, 17, 12, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 95] SCIF=  +251.32 mT  layer_snes_iters=[13, 11, 7, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 96] SCIF=  +241.83 mT  layer_snes_iters=[3, 5, 9, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 97] SCIF=  +243.93 mT  layer_snes_iters=[12, 14, 9, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 98] SCIF=  +248.00 mT  layer_snes_iters=[12, 15, 14, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 99] SCIF=  +247.18 mT  layer_snes_iters=[15, 15, 9, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=100] SCIF=  +245.94 mT  layer_snes_iters=[5, 9, 14, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=101] SCIF=  +252.43 mT  layer_snes_iters=[12, 10, 9, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=102] SCIF=  +250.37 mT  layer_snes_iters=[14, 3, 4, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=103] SCIF=  +254.67 mT  layer_snes_iters=[17, 11, 11, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=104] SCIF=  +250.55 mT  layer_snes_iters=[10, 9, 16, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=105] SCIF=  +260.25 mT  layer_snes_iters=[15, 10, 10, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=106] SCIF=  +259.74 mT  layer_snes_iters=[7, 16, 10, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=107] SCIF=  +263.24 mT  layer_snes_iters=[14, 14, 11, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=108] SCIF=  +258.60 mT  layer_snes_iters=[9, 3, 11, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=109] SCIF=  +254.08 mT  layer_snes_iters=[13, 7, 4, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=110] SCIF=  +246.02 mT  layer_snes_iters=[9, 10, 8, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=111] SCIF=  +254.49 mT  layer_snes_iters=[4, 16, 10, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=112] SCIF=  +256.75 mT  layer_snes_iters=[3, 15, 17, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=113] SCIF=  +257.56 mT  layer_snes_iters=[14, 16, 15, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=114] SCIF=  +256.92 mT  layer_snes_iters=[15, 8, 10, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=115] SCIF=  +248.00 mT  layer_snes_iters=[10, 16, 9, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=116] SCIF=  +256.65 mT  layer_snes_iters=[9, 11, 10, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=117] SCIF=  +263.05 mT  layer_snes_iters=[12, 12, 9, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=118] SCIF=  +256.03 mT  layer_snes_iters=[15, 8, 11, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=119] SCIF=  +253.80 mT  layer_snes_iters=[16, 22, 11, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=120] SCIF=  +254.96 mT  layer_snes_iters=[11, 15, 18, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=121] SCIF=  +257.59 mT  layer_snes_iters=[16, 17, 11, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=122] SCIF=  +257.58 mT  layer_snes_iters=[4, 7, 5, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=123] SCIF=  +260.68 mT  layer_snes_iters=[12, 18, 13, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=124] SCIF=  +253.42 mT  layer_snes_iters=[8, 7, 10, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=125] SCIF=  +250.68 mT  layer_snes_iters=[16, 16, 13, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=126] SCIF=  +244.33 mT  layer_snes_iters=[4, 10, 11, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=127] SCIF=  +250.98 mT  layer_snes_iters=[11, 14, 6, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=128] SCIF=  +256.36 mT  layer_snes_iters=[15, 9, 16, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=129] SCIF=  +259.87 mT  layer_snes_iters=[14, 16, 8, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=130] SCIF=  +259.64 mT  layer_snes_iters=[16, 9, 14, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=131] SCIF=  +261.89 mT  layer_snes_iters=[10, 15, 14, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=132] SCIF=  +259.71 mT  layer_snes_iters=[11, 11, 16, 9, 2, 1]  clip_frac_max=0.000
+      [layer 2] Newton failed this outer iteration (reason=-9)
+      reverting outer iteration 133 entirely, returning the state from iteration 132 (NOT auto-validated -- check against independent ground truth before trusting this SCIF)
+    [newton] step done: stop_reason=newton_failure_reverted  n_outer=132  SCIF=+259.71 mT
+  step 5/12 SUMMARY: converged=False  stop_reason=newton_failure_reverted  SCIF=+259.71 mT
+  step 6/12  t=  300.0 s  I=  98.00 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [2.2474e+11,4.9271e+11]  n range: [16.096,27.667]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [2.1914e+11,4.9261e+11]  n range: [15.856,27.591]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.4162e+11,4.8573e+11]  n range: [15.289,26.510]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.6184e+11,4.7785e+11]  n range: [15.305,26.072]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.3608e+11,3.1011e+11]  n range: [18.508,21.131]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.6485e+11,3.2027e+11]  n range: [20.776,21.483]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF= +1037.59 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=  2] SCIF= +1068.33 mT  layer_snes_iters=[6, 2, 1, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=  3] SCIF= +1028.33 mT  layer_snes_iters=[5, 5, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=  4] SCIF=  +964.57 mT  layer_snes_iters=[8, 6, 10, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=  5] SCIF=  +910.01 mT  layer_snes_iters=[2, 2, 7, 2, 1, 1]  clip_frac_max=0.000
+    [newton k=  6] SCIF=  +849.75 mT  layer_snes_iters=[16, 2, 12, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=  7] SCIF=  +798.38 mT  layer_snes_iters=[2, 2, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=  8] SCIF=  +765.87 mT  layer_snes_iters=[4, 5, 7, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=  9] SCIF=  +712.25 mT  layer_snes_iters=[2, 2, 11, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 10] SCIF=  +650.87 mT  layer_snes_iters=[5, 9, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 11] SCIF=  +596.00 mT  layer_snes_iters=[7, 2, 13, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 12] SCIF=  +538.87 mT  layer_snes_iters=[10, 15, 3, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 13] SCIF=  +524.14 mT  layer_snes_iters=[7, 2, 13, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 14] SCIF=  +477.63 mT  layer_snes_iters=[16, 11, 14, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 15] SCIF=  +441.45 mT  layer_snes_iters=[2, 2, 14, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 16] SCIF=  +426.28 mT  layer_snes_iters=[6, 16, 3, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 17] SCIF=  +417.04 mT  layer_snes_iters=[3, 2, 14, 17, 1, 1]  clip_frac_max=0.000
+    [newton k= 18] SCIF=  +393.15 mT  layer_snes_iters=[7, 15, 15, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 19] SCIF=  +395.21 mT  layer_snes_iters=[2, 2, 9, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 20] SCIF=  +365.87 mT  layer_snes_iters=[7, 3, 14, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 21] SCIF=  +341.72 mT  layer_snes_iters=[2, 2, 7, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 22] SCIF=  +341.94 mT  layer_snes_iters=[15, 6, 12, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 23] SCIF=  +318.78 mT  layer_snes_iters=[9, 2, 4, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 24] SCIF=  +306.89 mT  layer_snes_iters=[5, 13, 8, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 25] SCIF=  +313.01 mT  layer_snes_iters=[15, 2, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 26] SCIF=  +299.99 mT  layer_snes_iters=[15, 13, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 27] SCIF=  +304.16 mT  layer_snes_iters=[5, 2, 3, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 28] SCIF=  +288.60 mT  layer_snes_iters=[16, 10, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 29] SCIF=  +276.13 mT  layer_snes_iters=[3, 14, 5, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 30] SCIF=  +287.63 mT  layer_snes_iters=[12, 14, 15, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 31] SCIF=  +267.17 mT  layer_snes_iters=[4, 4, 15, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 32] SCIF=  +260.84 mT  layer_snes_iters=[13, 4, 15, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 33] SCIF=  +285.71 mT  layer_snes_iters=[3, 15, 12, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 34] SCIF=  +278.19 mT  layer_snes_iters=[2, 2, 15, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 35] SCIF=  +272.01 mT  layer_snes_iters=[12, 9, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 36] SCIF=  +305.86 mT  layer_snes_iters=[7, 2, 10, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 37] SCIF=  +292.80 mT  layer_snes_iters=[6, 4, 7, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 38] SCIF=  +295.54 mT  layer_snes_iters=[15, 2, 14, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 39] SCIF=  +283.16 mT  layer_snes_iters=[9, 16, 9, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 40] SCIF=  +268.54 mT  layer_snes_iters=[15, 2, 12, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 41] SCIF=  +267.08 mT  layer_snes_iters=[8, 14, 8, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 42] SCIF=  +271.07 mT  layer_snes_iters=[3, 2, 3, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 43] SCIF=  +271.32 mT  layer_snes_iters=[13, 15, 14, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 44] SCIF=  +269.05 mT  layer_snes_iters=[17, 2, 3, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 45] SCIF=  +281.10 mT  layer_snes_iters=[16, 12, 14, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 46] SCIF=  +260.33 mT  layer_snes_iters=[9, 2, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 47] SCIF=  +257.10 mT  layer_snes_iters=[13, 14, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 48] SCIF=  +255.93 mT  layer_snes_iters=[15, 2, 16, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 49] SCIF=  +250.17 mT  layer_snes_iters=[13, 14, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 50] SCIF=  +245.72 mT  layer_snes_iters=[10, 2, 11, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 51] SCIF=  +254.40 mT  layer_snes_iters=[9, 5, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 52] SCIF=  +259.69 mT  layer_snes_iters=[3, 2, 4, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 53] SCIF=  +261.30 mT  layer_snes_iters=[8, 5, 8, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 54] SCIF=  +274.02 mT  layer_snes_iters=[7, 4, 13, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 55] SCIF=  +261.95 mT  layer_snes_iters=[10, 7, 10, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 56] SCIF=  +270.63 mT  layer_snes_iters=[4, 11, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 57] SCIF=  +281.19 mT  layer_snes_iters=[14, 8, 6, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 58] SCIF=  +286.24 mT  layer_snes_iters=[12, 8, 4, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 59] SCIF=  +269.36 mT  layer_snes_iters=[14, 4, 14, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 60] SCIF=  +286.85 mT  layer_snes_iters=[8, 4, 16, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 61] SCIF=  +285.14 mT  layer_snes_iters=[6, 3, 5, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 62] SCIF=  +292.80 mT  layer_snes_iters=[12, 16, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 63] SCIF=  +287.97 mT  layer_snes_iters=[11, 6, 11, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 64] SCIF=  +291.26 mT  layer_snes_iters=[8, 16, 16, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 65] SCIF=  +291.94 mT  layer_snes_iters=[10, 2, 10, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 66] SCIF=  +291.64 mT  layer_snes_iters=[6, 12, 4, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 67] SCIF=  +293.67 mT  layer_snes_iters=[10, 2, 15, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 68] SCIF=  +303.96 mT  layer_snes_iters=[16, 8, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 69] SCIF=  +305.31 mT  layer_snes_iters=[11, 2, 19, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 70] SCIF=  +307.18 mT  layer_snes_iters=[15, 13, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 71] SCIF=  +300.63 mT  layer_snes_iters=[12, 9, 13, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 72] SCIF=  +309.84 mT  layer_snes_iters=[11, 10, 7, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 73] SCIF=  +295.34 mT  layer_snes_iters=[3, 13, 9, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 74] SCIF=  +299.39 mT  layer_snes_iters=[16, 13, 6, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 75] SCIF=  +295.35 mT  layer_snes_iters=[3, 2, 14, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 76] SCIF=  +306.49 mT  layer_snes_iters=[16, 9, 14, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 77] SCIF=  +311.14 mT  layer_snes_iters=[13, 2, 12, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 78] SCIF=  +304.25 mT  layer_snes_iters=[14, 14, 7, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 79] SCIF=  +296.27 mT  layer_snes_iters=[13, 2, 11, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 80] SCIF=  +307.30 mT  layer_snes_iters=[15, 14, 5, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 81] SCIF=  +292.03 mT  layer_snes_iters=[3, 2, 4, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 82] SCIF=  +301.80 mT  layer_snes_iters=[6, 6, 6, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 83] SCIF=  +297.97 mT  layer_snes_iters=[14, 2, 14, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 84] SCIF=  +293.61 mT  layer_snes_iters=[15, 7, 15, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 85] SCIF=  +297.56 mT  layer_snes_iters=[10, 2, 6, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 86] SCIF=  +301.36 mT  layer_snes_iters=[7, 17, 7, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 87] SCIF=  +297.64 mT  layer_snes_iters=[4, 10, 15, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 88] SCIF=  +319.56 mT  layer_snes_iters=[12, 3, 3, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 89] SCIF=  +313.10 mT  layer_snes_iters=[3, 16, 11, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 90] SCIF=  +326.87 mT  layer_snes_iters=[15, 3, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 91] SCIF=  +313.65 mT  layer_snes_iters=[5, 14, 16, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 92] SCIF=  +318.77 mT  layer_snes_iters=[14, 4, 7, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 93] SCIF=  +308.02 mT  layer_snes_iters=[17, 14, 9, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 94] SCIF=  +315.62 mT  layer_snes_iters=[16, 3, 11, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 95] SCIF=  +303.91 mT  layer_snes_iters=[4, 14, 10, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 96] SCIF=  +298.36 mT  layer_snes_iters=[10, 6, 14, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 97] SCIF=  +307.95 mT  layer_snes_iters=[16, 14, 9, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 98] SCIF=  +303.00 mT  layer_snes_iters=[4, 4, 13, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 99] SCIF=  +308.45 mT  layer_snes_iters=[17, 10, 4, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=100] SCIF=  +302.19 mT  layer_snes_iters=[7, 6, 13, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=101] SCIF=  +314.05 mT  layer_snes_iters=[13, 16, 10, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=102] SCIF=  +293.70 mT  layer_snes_iters=[3, 9, 13, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=103] SCIF=  +300.27 mT  layer_snes_iters=[14, 7, 12, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=104] SCIF=  +294.45 mT  layer_snes_iters=[3, 11, 16, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=105] SCIF=  +293.83 mT  layer_snes_iters=[14, 17, 11, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=106] SCIF=  +296.54 mT  layer_snes_iters=[3, 13, 14, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=107] SCIF=  +299.12 mT  layer_snes_iters=[4, 16, 14, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=108] SCIF=  +304.87 mT  layer_snes_iters=[12, 13, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=109] SCIF=  +296.97 mT  layer_snes_iters=[12, 15, 11, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=110] SCIF=  +289.85 mT  layer_snes_iters=[16, 14, 15, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=111] SCIF=  +300.88 mT  layer_snes_iters=[3, 7, 11, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=112] SCIF=  +303.07 mT  layer_snes_iters=[8, 16, 18, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=113] SCIF=  +301.78 mT  layer_snes_iters=[3, 13, 9, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=114] SCIF=  +301.34 mT  layer_snes_iters=[13, 15, 4, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=115] SCIF=  +301.71 mT  layer_snes_iters=[3, 16, 6, 17, 1, 1]  clip_frac_max=0.000
+    [newton k=116] SCIF=  +304.88 mT  layer_snes_iters=[11, 9, 14, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=117] SCIF=  +302.49 mT  layer_snes_iters=[4, 12, 12, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=118] SCIF=  +297.69 mT  layer_snes_iters=[14, 16, 16, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=119] SCIF=  +299.18 mT  layer_snes_iters=[6, 11, 11, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=120] SCIF=  +294.92 mT  layer_snes_iters=[14, 14, 8, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=121] SCIF=  +301.09 mT  layer_snes_iters=[3, 14, 15, 19, 1, 1]  clip_frac_max=0.000
+    [newton k=122] SCIF=  +300.74 mT  layer_snes_iters=[17, 17, 16, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=123] SCIF=  +302.91 mT  layer_snes_iters=[3, 13, 16, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=124] SCIF=  +304.27 mT  layer_snes_iters=[12, 15, 17, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=125] SCIF=  +300.29 mT  layer_snes_iters=[15, 11, 8, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=126] SCIF=  +304.58 mT  layer_snes_iters=[16, 16, 14, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=127] SCIF=  +303.19 mT  layer_snes_iters=[8, 12, 16, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=128] SCIF=  +306.64 mT  layer_snes_iters=[7, 16, 9, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=129] SCIF=  +307.96 mT  layer_snes_iters=[15, 13, 16, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=130] SCIF=  +304.62 mT  layer_snes_iters=[16, 10, 15, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=131] SCIF=  +299.08 mT  layer_snes_iters=[14, 16, 14, 4, 2, 2]  clip_frac_max=0.000
+    [newton k=132] SCIF=  +301.71 mT  layer_snes_iters=[15, 4, 8, 14, 2, 2]  clip_frac_max=0.000
+      [layer 0] Newton failed this outer iteration (reason=-9)
+      reverting outer iteration 133 entirely, returning the state from iteration 132 (NOT auto-validated -- check against independent ground truth before trusting this SCIF)
+    [newton] step done: stop_reason=newton_failure_reverted  n_outer=132  SCIF=+301.71 mT
+  step 6/12 SUMMARY: converged=False  stop_reason=newton_failure_reverted  SCIF=+301.71 mT
+  step 7/12  t=  350.0 s  I= 114.33 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [2.1903e+11,4.8871e+11]  n range: [15.808,27.202]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [2.0020e+11,4.9051e+11]  n range: [15.317,27.443]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.2522e+11,4.7866e+11]  n range: [14.742,25.773]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.4210e+11,4.7841e+11]  n range: [14.809,25.787]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.1900e+11,2.9125e+11]  n range: [18.316,21.017]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.4506e+11,2.9777e+11]  n range: [20.440,21.415]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF= +1095.28 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=  2] SCIF= +1123.67 mT  layer_snes_iters=[7, 15, 1, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=  3] SCIF= +1086.55 mT  layer_snes_iters=[4, 13, 8, 7, 1, 1]  clip_frac_max=0.000
+    [newton k=  4] SCIF= +1026.16 mT  layer_snes_iters=[6, 7, 2, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=  5] SCIF=  +950.73 mT  layer_snes_iters=[14, 5, 13, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=  6] SCIF=  +866.35 mT  layer_snes_iters=[4, 15, 15, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=  7] SCIF=  +822.33 mT  layer_snes_iters=[3, 7, 7, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=  8] SCIF=  +778.28 mT  layer_snes_iters=[3, 9, 3, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=  9] SCIF=  +729.08 mT  layer_snes_iters=[3, 8, 2, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 10] SCIF=  +683.74 mT  layer_snes_iters=[11, 2, 3, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 11] SCIF=  +635.15 mT  layer_snes_iters=[3, 16, 14, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 12] SCIF=  +607.58 mT  layer_snes_iters=[9, 2, 13, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 13] SCIF=  +564.97 mT  layer_snes_iters=[2, 9, 11, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 14] SCIF=  +543.73 mT  layer_snes_iters=[8, 2, 14, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 15] SCIF=  +516.04 mT  layer_snes_iters=[12, 4, 3, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 16] SCIF=  +479.19 mT  layer_snes_iters=[13, 14, 3, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 17] SCIF=  +471.42 mT  layer_snes_iters=[4, 2, 13, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 18] SCIF=  +449.05 mT  layer_snes_iters=[4, 8, 15, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 19] SCIF=  +447.56 mT  layer_snes_iters=[4, 2, 14, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 20] SCIF=  +419.65 mT  layer_snes_iters=[11, 8, 13, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 21] SCIF=  +427.29 mT  layer_snes_iters=[3, 2, 14, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 22] SCIF=  +398.59 mT  layer_snes_iters=[3, 16, 14, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 23] SCIF=  +389.28 mT  layer_snes_iters=[4, 5, 12, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 24] SCIF=  +399.13 mT  layer_snes_iters=[11, 7, 8, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 25] SCIF=  +382.51 mT  layer_snes_iters=[3, 4, 15, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 26] SCIF=  +370.25 mT  layer_snes_iters=[3, 8, 6, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 27] SCIF=  +388.82 mT  layer_snes_iters=[3, 10, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 28] SCIF=  +375.22 mT  layer_snes_iters=[13, 11, 13, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 29] SCIF=  +377.35 mT  layer_snes_iters=[6, 2, 3, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 30] SCIF=  +376.70 mT  layer_snes_iters=[8, 15, 8, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 31] SCIF=  +371.33 mT  layer_snes_iters=[14, 6, 7, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 32] SCIF=  +377.25 mT  layer_snes_iters=[14, 1, 3, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 33] SCIF=  +367.78 mT  layer_snes_iters=[3, 4, 14, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 34] SCIF=  +366.13 mT  layer_snes_iters=[6, 14, 3, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 35] SCIF=  +358.50 mT  layer_snes_iters=[5, 21, 15, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 36] SCIF=  +345.61 mT  layer_snes_iters=[14, 12, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 37] SCIF=  +351.84 mT  layer_snes_iters=[3, 8, 13, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 38] SCIF=  +334.86 mT  layer_snes_iters=[14, 5, 3, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 39] SCIF=  +327.48 mT  layer_snes_iters=[5, 2, 12, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 40] SCIF=  +317.51 mT  layer_snes_iters=[4, 16, 3, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 41] SCIF=  +332.26 mT  layer_snes_iters=[5, 4, 12, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 42] SCIF=  +332.07 mT  layer_snes_iters=[12, 13, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 43] SCIF=  +346.21 mT  layer_snes_iters=[9, 2, 15, 21, 1, 1]  clip_frac_max=0.000
+    [newton k= 44] SCIF=  +340.95 mT  layer_snes_iters=[8, 8, 4, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 45] SCIF=  +340.45 mT  layer_snes_iters=[16, 2, 16, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 46] SCIF=  +321.60 mT  layer_snes_iters=[13, 10, 3, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 47] SCIF=  +332.35 mT  layer_snes_iters=[5, 12, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 48] SCIF=  +330.21 mT  layer_snes_iters=[11, 11, 3, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 49] SCIF=  +335.33 mT  layer_snes_iters=[14, 15, 7, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 50] SCIF=  +349.03 mT  layer_snes_iters=[3, 15, 3, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 51] SCIF=  +328.48 mT  layer_snes_iters=[10, 18, 15, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 52] SCIF=  +336.23 mT  layer_snes_iters=[3, 11, 4, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 53] SCIF=  +337.12 mT  layer_snes_iters=[8, 7, 2, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 54] SCIF=  +325.00 mT  layer_snes_iters=[7, 12, 16, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 55] SCIF=  +328.77 mT  layer_snes_iters=[5, 2, 5, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 56] SCIF=  +333.66 mT  layer_snes_iters=[15, 15, 8, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 57] SCIF=  +339.19 mT  layer_snes_iters=[13, 5, 3, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 58] SCIF=  +347.79 mT  layer_snes_iters=[7, 13, 15, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 59] SCIF=  +336.60 mT  layer_snes_iters=[10, 10, 12, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 60] SCIF=  +347.29 mT  layer_snes_iters=[13, 13, 16, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 61] SCIF=  +343.02 mT  layer_snes_iters=[3, 9, 11, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 62] SCIF=  +347.07 mT  layer_snes_iters=[10, 16, 6, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 63] SCIF=  +339.06 mT  layer_snes_iters=[3, 14, 4, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 64] SCIF=  +360.46 mT  layer_snes_iters=[13, 3, 5, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 65] SCIF=  +341.81 mT  layer_snes_iters=[3, 4, 6, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 66] SCIF=  +350.60 mT  layer_snes_iters=[17, 7, 7, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 67] SCIF=  +357.44 mT  layer_snes_iters=[3, 14, 14, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 68] SCIF=  +352.44 mT  layer_snes_iters=[5, 8, 15, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 69] SCIF=  +358.28 mT  layer_snes_iters=[10, 2, 12, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 70] SCIF=  +348.76 mT  layer_snes_iters=[3, 14, 11, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 71] SCIF=  +352.55 mT  layer_snes_iters=[14, 15, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 72] SCIF=  +350.49 mT  layer_snes_iters=[17, 4, 12, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 73] SCIF=  +354.87 mT  layer_snes_iters=[11, 17, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 74] SCIF=  +344.78 mT  layer_snes_iters=[11, 10, 7, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 75] SCIF=  +338.68 mT  layer_snes_iters=[15, 8, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 76] SCIF=  +331.06 mT  layer_snes_iters=[10, 10, 9, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 77] SCIF=  +331.93 mT  layer_snes_iters=[8, 8, 11, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 78] SCIF=  +340.81 mT  layer_snes_iters=[16, 14, 9, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 79] SCIF=  +344.40 mT  layer_snes_iters=[15, 11, 9, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 80] SCIF=  +343.54 mT  layer_snes_iters=[7, 11, 14, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 81] SCIF=  +351.04 mT  layer_snes_iters=[14, 14, 6, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 82] SCIF=  +347.62 mT  layer_snes_iters=[10, 11, 7, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 83] SCIF=  +346.69 mT  layer_snes_iters=[10, 14, 11, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 84] SCIF=  +343.80 mT  layer_snes_iters=[7, 10, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 85] SCIF=  +339.37 mT  layer_snes_iters=[6, 16, 10, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 86] SCIF=  +349.63 mT  layer_snes_iters=[8, 15, 10, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 87] SCIF=  +338.08 mT  layer_snes_iters=[8, 17, 10, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 88] SCIF=  +347.84 mT  layer_snes_iters=[15, 2, 8, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 89] SCIF=  +348.82 mT  layer_snes_iters=[16, 10, 6, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 90] SCIF=  +351.47 mT  layer_snes_iters=[13, 6, 4, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 91] SCIF=  +352.70 mT  layer_snes_iters=[12, 8, 13, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 92] SCIF=  +350.71 mT  layer_snes_iters=[7, 14, 8, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 93] SCIF=  +349.17 mT  layer_snes_iters=[15, 16, 10, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 94] SCIF=  +353.48 mT  layer_snes_iters=[12, 13, 5, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 95] SCIF=  +355.22 mT  layer_snes_iters=[6, 11, 4, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 96] SCIF=  +353.20 mT  layer_snes_iters=[6, 11, 12, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 97] SCIF=  +347.68 mT  layer_snes_iters=[5, 13, 14, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 98] SCIF=  +355.94 mT  layer_snes_iters=[5, 12, 12, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 99] SCIF=  +358.37 mT  layer_snes_iters=[16, 15, 11, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=100] SCIF=  +362.73 mT  layer_snes_iters=[3, 11, 16, 4, 1, 1]  clip_frac_max=0.000
+    [newton k=101] SCIF=  +355.89 mT  layer_snes_iters=[15, 12, 9, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=102] SCIF=  +355.19 mT  layer_snes_iters=[3, 3, 16, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=103] SCIF=  +361.84 mT  layer_snes_iters=[15, 15, 10, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=104] SCIF=  +366.37 mT  layer_snes_iters=[4, 4, 8, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=105] SCIF=  +359.85 mT  layer_snes_iters=[12, 12, 12, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=106] SCIF=  +357.67 mT  layer_snes_iters=[3, 5, 14, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=107] SCIF=  +360.52 mT  layer_snes_iters=[13, 11, 12, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=108] SCIF=  +362.05 mT  layer_snes_iters=[6, 5, 15, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=109] SCIF=  +359.18 mT  layer_snes_iters=[15, 13, 9, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=110] SCIF=  +360.79 mT  layer_snes_iters=[4, 5, 8, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=111] SCIF=  +362.84 mT  layer_snes_iters=[13, 17, 9, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=112] SCIF=  +361.98 mT  layer_snes_iters=[16, 10, 7, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=113] SCIF=  +366.33 mT  layer_snes_iters=[13, 8, 12, 2, 1, 1]  clip_frac_max=0.000
+    [newton k=114] SCIF=  +361.45 mT  layer_snes_iters=[13, 14, 15, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=115] SCIF=  +362.28 mT  layer_snes_iters=[13, 16, 9, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=116] SCIF=  +360.52 mT  layer_snes_iters=[4, 12, 16, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=117] SCIF=  +361.29 mT  layer_snes_iters=[16, 15, 9, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=118] SCIF=  +357.35 mT  layer_snes_iters=[14, 10, 15, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=119] SCIF=  +357.76 mT  layer_snes_iters=[6, 16, 12, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=120] SCIF=  +351.19 mT  layer_snes_iters=[18, 14, 10, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=121] SCIF=  +355.62 mT  layer_snes_iters=[12, 12, 9, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=122] SCIF=  +361.48 mT  layer_snes_iters=[13, 13, 14, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=123] SCIF=  +360.87 mT  layer_snes_iters=[17, 6, 10, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=124] SCIF=  +360.95 mT  layer_snes_iters=[10, 17, 13, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=125] SCIF=  +360.86 mT  layer_snes_iters=[8, 15, 13, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=126] SCIF=  +349.07 mT  layer_snes_iters=[16, 14, 11, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=127] SCIF=  +358.74 mT  layer_snes_iters=[13, 16, 13, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=128] SCIF=  +357.41 mT  layer_snes_iters=[15, 8, 10, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=129] SCIF=  +358.88 mT  layer_snes_iters=[16, 6, 10, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=130] SCIF=  +360.28 mT  layer_snes_iters=[13, 14, 8, 13, 1, 1]  clip_frac_max=0.000
+    [newton k=131] SCIF=  +365.63 mT  layer_snes_iters=[14, 15, 17, 7, 2, 3]  clip_frac_max=0.000
+      [layer 1] Newton failed this outer iteration (reason=-9)
+      reverting outer iteration 132 entirely, returning the state from iteration 131 (NOT auto-validated -- check against independent ground truth before trusting this SCIF)
+    [newton] step done: stop_reason=newton_failure_reverted  n_outer=131  SCIF=+365.63 mT
+  step 7/12 SUMMARY: converged=False  stop_reason=newton_failure_reverted  SCIF=+365.63 mT
+  step 8/12  t=  400.0 s  I= 130.67 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [2.2036e+11,4.7796e+11]  n range: [15.384,26.362]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [1.9098e+11,4.8961e+11]  n range: [14.852,27.091]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.1291e+11,4.7879e+11]  n range: [14.295,25.714]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.2880e+11,4.8028e+11]  n range: [14.349,25.896]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [2.0351e+11,2.7200e+11]  n range: [18.268,20.909]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.2764e+11,2.8294e+11]  n range: [20.087,21.349]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF= +1165.96 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=  2] SCIF= +1193.82 mT  layer_snes_iters=[1, 2, 1, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=  3] SCIF= +1140.77 mT  layer_snes_iters=[3, 4, 4, 16, 1, 1]  clip_frac_max=0.000
+    [newton k=  4] SCIF= +1086.15 mT  layer_snes_iters=[11, 8, 8, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=  5] SCIF= +1031.74 mT  layer_snes_iters=[3, 2, 3, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=  6] SCIF=  +960.36 mT  layer_snes_iters=[12, 14, 14, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=  7] SCIF=  +915.99 mT  layer_snes_iters=[8, 3, 11, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=  8] SCIF=  +862.31 mT  layer_snes_iters=[9, 2, 9, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=  9] SCIF=  +797.22 mT  layer_snes_iters=[6, 13, 9, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 10] SCIF=  +755.37 mT  layer_snes_iters=[9, 2, 14, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 11] SCIF=  +721.56 mT  layer_snes_iters=[3, 15, 10, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 12] SCIF=  +684.41 mT  layer_snes_iters=[14, 2, 11, 2, 1, 1]  clip_frac_max=0.001
+    [newton k= 13] SCIF=  +645.49 mT  layer_snes_iters=[3, 9, 9, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 14] SCIF=  +595.71 mT  layer_snes_iters=[3, 7, 9, 14, 1, 1]  clip_frac_max=0.001
+    [newton k= 15] SCIF=  +596.97 mT  layer_snes_iters=[15, 2, 14, 13, 1, 1]  clip_frac_max=0.001
+    [newton k= 16] SCIF=  +566.96 mT  layer_snes_iters=[2, 13, 13, 8, 1, 1]  clip_frac_max=0.003
+    [newton k= 17] SCIF=  +557.22 mT  layer_snes_iters=[15, 2, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 18] SCIF=  +534.71 mT  layer_snes_iters=[11, 3, 14, 13, 1, 1]  clip_frac_max=0.001
+    [newton k= 19] SCIF=  +518.09 mT  layer_snes_iters=[18, 2, 11, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 20] SCIF=  +505.57 mT  layer_snes_iters=[4, 13, 8, 14, 1, 1]  clip_frac_max=0.001
+    [newton k= 21] SCIF=  +492.75 mT  layer_snes_iters=[3, 2, 3, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 22] SCIF=  +490.62 mT  layer_snes_iters=[3, 9, 8, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 23] SCIF=  +477.94 mT  layer_snes_iters=[6, 2, 9, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 24] SCIF=  +467.61 mT  layer_snes_iters=[3, 7, 2, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 25] SCIF=  +457.20 mT  layer_snes_iters=[14, 2, 8, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 26] SCIF=  +447.69 mT  layer_snes_iters=[3, 10, 10, 8, 1, 1]  clip_frac_max=0.001
+    [newton k= 27] SCIF=  +439.65 mT  layer_snes_iters=[14, 2, 3, 5, 1, 1]  clip_frac_max=0.000
+    [newton k= 28] SCIF=  +435.18 mT  layer_snes_iters=[3, 9, 12, 3, 1, 1]  clip_frac_max=0.001
+    [newton k= 29] SCIF=  +418.41 mT  layer_snes_iters=[15, 2, 3, 16, 1, 1]  clip_frac_max=0.000
+    [newton k= 30] SCIF=  +410.70 mT  layer_snes_iters=[12, 13, 3, 2, 1, 1]  clip_frac_max=0.001
+    [newton k= 31] SCIF=  +410.86 mT  layer_snes_iters=[5, 2, 12, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 32] SCIF=  +406.64 mT  layer_snes_iters=[6, 12, 3, 14, 1, 1]  clip_frac_max=0.002
+    [newton k= 33] SCIF=  +417.08 mT  layer_snes_iters=[16, 4, 2, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 34] SCIF=  +410.95 mT  layer_snes_iters=[13, 3, 6, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 35] SCIF=  +400.63 mT  layer_snes_iters=[15, 4, 9, 4, 1, 1]  clip_frac_max=0.003
+    [newton k= 36] SCIF=  +410.59 mT  layer_snes_iters=[7, 4, 9, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 37] SCIF=  +410.58 mT  layer_snes_iters=[15, 7, 3, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 38] SCIF=  +423.53 mT  layer_snes_iters=[3, 13, 11, 8, 1, 1]  clip_frac_max=0.001
+    [newton k= 39] SCIF=  +399.45 mT  layer_snes_iters=[14, 3, 15, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 40] SCIF=  +391.79 mT  layer_snes_iters=[8, 16, 12, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 41] SCIF=  +407.44 mT  layer_snes_iters=[3, 2, 3, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 42] SCIF=  +405.65 mT  layer_snes_iters=[6, 13, 9, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 43] SCIF=  +407.34 mT  layer_snes_iters=[14, 2, 12, 1, 1, 1]  clip_frac_max=0.002
+    [newton k= 44] SCIF=  +398.70 mT  layer_snes_iters=[5, 12, 13, 2, 1, 1]  clip_frac_max=0.002
+    [newton k= 45] SCIF=  +423.06 mT  layer_snes_iters=[11, 2, 9, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 46] SCIF=  +416.73 mT  layer_snes_iters=[3, 15, 8, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 47] SCIF=  +426.92 mT  layer_snes_iters=[4, 2, 6, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 48] SCIF=  +416.78 mT  layer_snes_iters=[3, 4, 11, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 49] SCIF=  +423.50 mT  layer_snes_iters=[5, 2, 8, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 50] SCIF=  +420.84 mT  layer_snes_iters=[14, 18, 9, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 51] SCIF=  +424.71 mT  layer_snes_iters=[14, 2, 3, 4, 1, 1]  clip_frac_max=0.001
+    [newton k= 52] SCIF=  +405.50 mT  layer_snes_iters=[10, 17, 14, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 53] SCIF=  +417.94 mT  layer_snes_iters=[3, 2, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 54] SCIF=  +411.55 mT  layer_snes_iters=[5, 13, 11, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 55] SCIF=  +414.23 mT  layer_snes_iters=[3, 2, 11, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 56] SCIF=  +406.29 mT  layer_snes_iters=[7, 10, 12, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 57] SCIF=  +407.67 mT  layer_snes_iters=[4, 2, 13, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 58] SCIF=  +414.67 mT  layer_snes_iters=[8, 18, 3, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 59] SCIF=  +415.48 mT  layer_snes_iters=[15, 2, 11, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 60] SCIF=  +405.45 mT  layer_snes_iters=[3, 9, 3, 2, 1, 1]  clip_frac_max=0.000
+    [newton k= 61] SCIF=  +400.57 mT  layer_snes_iters=[8, 2, 7, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 62] SCIF=  +397.18 mT  layer_snes_iters=[11, 12, 15, 9, 1, 1]  clip_frac_max=0.001
+    [newton k= 63] SCIF=  +405.76 mT  layer_snes_iters=[10, 2, 13, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 64] SCIF=  +400.04 mT  layer_snes_iters=[8, 16, 4, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 65] SCIF=  +399.66 mT  layer_snes_iters=[13, 12, 13, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 66] SCIF=  +407.22 mT  layer_snes_iters=[3, 10, 11, 5, 1, 1]  clip_frac_max=0.001
+    [newton k= 67] SCIF=  +407.86 mT  layer_snes_iters=[10, 12, 3, 12, 1, 1]  clip_frac_max=0.000
+    [newton k= 68] SCIF=  +413.83 mT  layer_snes_iters=[5, 18, 15, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 69] SCIF=  +421.78 mT  layer_snes_iters=[7, 8, 12, 3, 1, 1]  clip_frac_max=0.001
+    [newton k= 70] SCIF=  +414.86 mT  layer_snes_iters=[13, 16, 15, 12, 1, 1]  clip_frac_max=0.002
+    [newton k= 71] SCIF=  +414.30 mT  layer_snes_iters=[15, 10, 13, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 72] SCIF=  +412.34 mT  layer_snes_iters=[7, 8, 12, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 73] SCIF=  +421.65 mT  layer_snes_iters=[13, 13, 5, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 74] SCIF=  +418.23 mT  layer_snes_iters=[9, 4, 13, 11, 1, 1]  clip_frac_max=0.000
+    [newton k= 75] SCIF=  +415.01 mT  layer_snes_iters=[15, 8, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 76] SCIF=  +411.15 mT  layer_snes_iters=[3, 2, 12, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 77] SCIF=  +408.13 mT  layer_snes_iters=[9, 10, 15, 6, 1, 1]  clip_frac_max=0.000
+    [newton k= 78] SCIF=  +403.13 mT  layer_snes_iters=[11, 4, 14, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 79] SCIF=  +412.43 mT  layer_snes_iters=[13, 1, 7, 4, 1, 1]  clip_frac_max=0.000
+    [newton k= 80] SCIF=  +405.96 mT  layer_snes_iters=[7, 18, 17, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 81] SCIF=  +414.23 mT  layer_snes_iters=[16, 13, 3, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 82] SCIF=  +413.38 mT  layer_snes_iters=[8, 2, 14, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 83] SCIF=  +415.97 mT  layer_snes_iters=[12, 12, 14, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 84] SCIF=  +412.34 mT  layer_snes_iters=[3, 4, 16, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 85] SCIF=  +420.87 mT  layer_snes_iters=[11, 11, 3, 1, 1, 1]  clip_frac_max=0.000
+    [newton k= 86] SCIF=  +419.01 mT  layer_snes_iters=[4, 12, 14, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 87] SCIF=  +426.14 mT  layer_snes_iters=[10, 14, 16, 1, 1, 1]  clip_frac_max=0.000
+    [newton k= 88] SCIF=  +423.79 mT  layer_snes_iters=[3, 3, 14, 14, 1, 1]  clip_frac_max=0.000
+    [newton k= 89] SCIF=  +430.72 mT  layer_snes_iters=[4, 9, 3, 7, 1, 1]  clip_frac_max=0.000
+    [newton k= 90] SCIF=  +420.05 mT  layer_snes_iters=[7, 4, 9, 10, 1, 1]  clip_frac_max=0.000
+    [newton k= 91] SCIF=  +416.09 mT  layer_snes_iters=[10, 15, 16, 3, 1, 1]  clip_frac_max=0.001
+    [newton k= 92] SCIF=  +421.80 mT  layer_snes_iters=[8, 2, 3, 8, 1, 1]  clip_frac_max=0.000
+    [newton k= 93] SCIF=  +417.56 mT  layer_snes_iters=[10, 9, 13, 15, 1, 1]  clip_frac_max=0.000
+    [newton k= 94] SCIF=  +421.91 mT  layer_snes_iters=[6, 7, 6, 9, 1, 1]  clip_frac_max=0.000
+    [newton k= 95] SCIF=  +412.28 mT  layer_snes_iters=[11, 14, 10, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 96] SCIF=  +407.21 mT  layer_snes_iters=[11, 14, 12, 8, 1, 1]  clip_frac_max=0.001
+    [newton k= 97] SCIF=  +414.05 mT  layer_snes_iters=[5, 14, 12, 13, 1, 1]  clip_frac_max=0.000
+    [newton k= 98] SCIF=  +413.47 mT  layer_snes_iters=[8, 14, 13, 3, 1, 1]  clip_frac_max=0.000
+    [newton k= 99] SCIF=  +420.62 mT  layer_snes_iters=[16, 18, 11, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=100] SCIF=  +420.80 mT  layer_snes_iters=[14, 9, 7, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=101] SCIF=  +425.34 mT  layer_snes_iters=[16, 16, 14, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=102] SCIF=  +416.97 mT  layer_snes_iters=[7, 3, 13, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=103] SCIF=  +416.55 mT  layer_snes_iters=[15, 4, 10, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=104] SCIF=  +415.17 mT  layer_snes_iters=[11, 7, 14, 2, 1, 1]  clip_frac_max=0.000
+    [newton k=105] SCIF=  +415.41 mT  layer_snes_iters=[4, 18, 15, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=106] SCIF=  +413.36 mT  layer_snes_iters=[5, 10, 10, 14, 1, 1]  clip_frac_max=0.001
+    [newton k=107] SCIF=  +413.46 mT  layer_snes_iters=[4, 18, 5, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=108] SCIF=  +420.22 mT  layer_snes_iters=[4, 5, 3, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=109] SCIF=  +414.58 mT  layer_snes_iters=[15, 11, 16, 14, 1, 1]  clip_frac_max=0.000
+    [newton k=110] SCIF=  +424.77 mT  layer_snes_iters=[3, 16, 5, 2, 1, 1]  clip_frac_max=0.000
+    [newton k=111] SCIF=  +423.09 mT  layer_snes_iters=[4, 15, 5, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=112] SCIF=  +433.50 mT  layer_snes_iters=[8, 13, 4, 9, 1, 1]  clip_frac_max=0.001
+    [newton k=113] SCIF=  +430.25 mT  layer_snes_iters=[10, 3, 10, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=114] SCIF=  +431.75 mT  layer_snes_iters=[15, 15, 5, 14, 1, 1]  clip_frac_max=0.001
+    [newton k=115] SCIF=  +428.51 mT  layer_snes_iters=[17, 9, 13, 14, 1, 1]  clip_frac_max=0.001
+    [newton k=116] SCIF=  +435.42 mT  layer_snes_iters=[8, 12, 5, 7, 1, 1]  clip_frac_max=0.001
+    [newton k=117] SCIF=  +429.65 mT  layer_snes_iters=[10, 6, 10, 15, 1, 1]  clip_frac_max=0.000
+    [newton k=118] SCIF=  +439.42 mT  layer_snes_iters=[13, 14, 10, 3, 1, 1]  clip_frac_max=0.000
+    [newton k=119] SCIF=  +430.15 mT  layer_snes_iters=[13, 13, 11, 6, 1, 1]  clip_frac_max=0.000
+    [newton k=120] SCIF=  +434.65 mT  layer_snes_iters=[15, 10, 10, 9, 1, 1]  clip_frac_max=0.001
+    [newton k=121] SCIF=  +428.56 mT  layer_snes_iters=[5, 12, 16, 12, 1, 1]  clip_frac_max=0.000
+    [newton k=122] SCIF=  +431.78 mT  layer_snes_iters=[11, 8, 5, 5, 1, 1]  clip_frac_max=0.000
+    [newton k=123] SCIF=  +434.40 mT  layer_snes_iters=[10, 3, 16, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=124] SCIF=  +429.14 mT  layer_snes_iters=[10, 9, 8, 10, 1, 1]  clip_frac_max=0.001
+    [newton k=125] SCIF=  +428.20 mT  layer_snes_iters=[17, 12, 20, 8, 1, 1]  clip_frac_max=0.000
+    [newton k=126] SCIF=  +430.29 mT  layer_snes_iters=[6, 13, 11, 9, 1, 1]  clip_frac_max=0.000
+    [newton k=127] SCIF=  +426.05 mT  layer_snes_iters=[9, 17, 15, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=128] SCIF=  +431.45 mT  layer_snes_iters=[7, 3, 9, 11, 1, 1]  clip_frac_max=0.000
+    [newton k=129] SCIF=  +425.81 mT  layer_snes_iters=[7, 6, 16, 10, 1, 1]  clip_frac_max=0.000
+    [newton k=130] SCIF=  +431.05 mT  layer_snes_iters=[6, 8, 14, 10, 2, 2]  clip_frac_max=0.000
+    [newton k=131] SCIF=  +430.71 mT  layer_snes_iters=[12, 11, 13, 9, 1, 2]  clip_frac_max=0.000
+      [layer 1] Newton failed this outer iteration (reason=-9)
+      reverting outer iteration 132 entirely, returning the state from iteration 131 (NOT auto-validated -- check against independent ground truth before trusting this SCIF)
+    [newton] step done: stop_reason=newton_failure_reverted  n_outer=131  SCIF=+430.71 mT
+  step 8/12 SUMMARY: converged=False  stop_reason=newton_failure_reverted  SCIF=+430.71 mT
+  step 9/12  t=  450.0 s  I= 147.00 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [2.3743e+11,4.6200e+11]  n range: [15.253,25.317]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [1.8467e+11,4.8729e+11]  n range: [14.513,26.896]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.0461e+11,4.6807e+11]  n range: [13.870,24.990]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.1771e+11,4.7825e+11]  n range: [13.931,25.629]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [1.8876e+11,2.5618e+11]  n range: [18.226,20.813]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.1529e+11,2.6797e+11]  n range: [19.803,21.349]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF= +1210.55 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=  2] SCIF= +1227.81 mT  layer_snes_iters=[1, 15, 1, 1, 1, 1]  clip_frac_max=0.000
+    [newton k=  3] SCIF= +1180.57 mT  layer_snes_iters=[3, 5, 4, 1, 1, 1]  clip_frac_max=0.001
+    [newton k=  4] SCIF= +1138.20 mT  layer_snes_iters=[9, 13, 8, 11, 1, 1]  clip_frac_max=0.002
+    [newton k=  5] SCIF= +1082.91 mT  layer_snes_iters=[3, 3, 3, 4, 1, 1]  clip_frac_max=0.002
+    [newton k=  6] SCIF= +1010.29 mT  layer_snes_iters=[15, 5, 4, 2, 1, 1]  clip_frac_max=0.003
+    [newton k=  7] SCIF=  +949.01 mT  layer_snes_iters=[14, 13, 11, 1, 1, 1]  clip_frac_max=0.004
+    [newton k=  8] SCIF=  +906.04 mT  layer_snes_iters=[8, 13, 14, 1, 1, 1]  clip_frac_max=0.002
+    [newton k=  9] SCIF=  +867.63 mT  layer_snes_iters=[11, 2, 2, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 10] SCIF=  +830.83 mT  layer_snes_iters=[3, 11, 10, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 11] SCIF=  +791.29 mT  layer_snes_iters=[13, 15, 5, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 12] SCIF=  +763.25 mT  layer_snes_iters=[12, 18, 9, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 13] SCIF=  +719.33 mT  layer_snes_iters=[14, 17, 11, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 14] SCIF=  +699.63 mT  layer_snes_iters=[3, 11, 2, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 15] SCIF=  +664.90 mT  layer_snes_iters=[13, 4, 9, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 16] SCIF=  +625.62 mT  layer_snes_iters=[3, 14, 12, 7, 1, 1]  clip_frac_max=0.005
+    [newton k= 17] SCIF=  +609.76 mT  layer_snes_iters=[12, 2, 11, 5, 1, 1]  clip_frac_max=0.003
+    [newton k= 18] SCIF=  +578.75 mT  layer_snes_iters=[15, 16, 15, 8, 1, 1]  clip_frac_max=0.005
+    [newton k= 19] SCIF=  +575.44 mT  layer_snes_iters=[3, 2, 7, 3, 1, 1]  clip_frac_max=0.004
+    [newton k= 20] SCIF=  +565.45 mT  layer_snes_iters=[3, 9, 15, 15, 1, 1]  clip_frac_max=0.005
+    [newton k= 21] SCIF=  +558.94 mT  layer_snes_iters=[12, 3, 5, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 22] SCIF=  +552.38 mT  layer_snes_iters=[13, 11, 15, 2, 1, 1]  clip_frac_max=0.004
+    [newton k= 23] SCIF=  +534.87 mT  layer_snes_iters=[3, 14, 10, 2, 1, 1]  clip_frac_max=0.004
+    [newton k= 24] SCIF=  +529.35 mT  layer_snes_iters=[3, 2, 3, 7, 1, 1]  clip_frac_max=0.004
+    [newton k= 25] SCIF=  +508.95 mT  layer_snes_iters=[14, 13, 7, 5, 1, 1]  clip_frac_max=0.005
+    [newton k= 26] SCIF=  +489.77 mT  layer_snes_iters=[9, 2, 3, 13, 1, 1]  clip_frac_max=0.003
+    [newton k= 27] SCIF=  +493.49 mT  layer_snes_iters=[13, 1, 3, 2, 1, 1]  clip_frac_max=0.004
+    [newton k= 28] SCIF=  +493.88 mT  layer_snes_iters=[10, 9, 12, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 29] SCIF=  +494.75 mT  layer_snes_iters=[15, 2, 14, 1, 1, 1]  clip_frac_max=0.003
+    [newton k= 30] SCIF=  +491.61 mT  layer_snes_iters=[8, 12, 10, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 31] SCIF=  +479.92 mT  layer_snes_iters=[4, 2, 12, 8, 1, 1]  clip_frac_max=0.004
+    [newton k= 32] SCIF=  +462.70 mT  layer_snes_iters=[3, 12, 11, 6, 1, 1]  clip_frac_max=0.005
+    [newton k= 33] SCIF=  +464.88 mT  layer_snes_iters=[3, 2, 3, 3, 1, 1]  clip_frac_max=0.003
+    [newton k= 34] SCIF=  +479.42 mT  layer_snes_iters=[3, 16, 7, 6, 1, 1]  clip_frac_max=0.005
+    [newton k= 35] SCIF=  +470.07 mT  layer_snes_iters=[5, 2, 13, 5, 1, 1]  clip_frac_max=0.004
+    [newton k= 36] SCIF=  +467.28 mT  layer_snes_iters=[16, 14, 10, 7, 1, 1]  clip_frac_max=0.005
+    [newton k= 37] SCIF=  +462.88 mT  layer_snes_iters=[8, 2, 14, 3, 1, 1]  clip_frac_max=0.004
+    [newton k= 38] SCIF=  +459.34 mT  layer_snes_iters=[7, 3, 10, 3, 1, 1]  clip_frac_max=0.004
+    [newton k= 39] SCIF=  +455.75 mT  layer_snes_iters=[15, 3, 4, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 40] SCIF=  +455.04 mT  layer_snes_iters=[11, 5, 9, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 41] SCIF=  +454.57 mT  layer_snes_iters=[3, 3, 3, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 42] SCIF=  +465.49 mT  layer_snes_iters=[16, 8, 13, 8, 1, 1]  clip_frac_max=0.005
+    [newton k= 43] SCIF=  +454.29 mT  layer_snes_iters=[6, 9, 13, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 44] SCIF=  +473.23 mT  layer_snes_iters=[3, 2, 10, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 45] SCIF=  +464.62 mT  layer_snes_iters=[8, 8, 3, 3, 1, 1]  clip_frac_max=0.004
+    [newton k= 46] SCIF=  +468.69 mT  layer_snes_iters=[3, 9, 15, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 47] SCIF=  +460.14 mT  layer_snes_iters=[4, 3, 5, 13, 1, 1]  clip_frac_max=0.004
+    [newton k= 48] SCIF=  +461.98 mT  layer_snes_iters=[6, 5, 11, 8, 1, 1]  clip_frac_max=0.005
+    [newton k= 49] SCIF=  +454.68 mT  layer_snes_iters=[3, 14, 11, 3, 1, 1]  clip_frac_max=0.004
+    [newton k= 50] SCIF=  +462.47 mT  layer_snes_iters=[3, 11, 14, 7, 1, 1]  clip_frac_max=0.004
+    [newton k= 51] SCIF=  +459.33 mT  layer_snes_iters=[3, 14, 6, 15, 1, 1]  clip_frac_max=0.004
+    [newton k= 52] SCIF=  +457.86 mT  layer_snes_iters=[3, 14, 3, 7, 1, 1]  clip_frac_max=0.004
+    [newton k= 53] SCIF=  +456.16 mT  layer_snes_iters=[6, 14, 11, 2, 1, 1]  clip_frac_max=0.004
+    [newton k= 54] SCIF=  +465.68 mT  layer_snes_iters=[7, 6, 10, 10, 1, 1]  clip_frac_max=0.005
+    [newton k= 55] SCIF=  +463.82 mT  layer_snes_iters=[16, 14, 8, 11, 1, 1]  clip_frac_max=0.004
+    [newton k= 56] SCIF=  +471.26 mT  layer_snes_iters=[3, 14, 8, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 57] SCIF=  +477.83 mT  layer_snes_iters=[10, 14, 16, 2, 1, 1]  clip_frac_max=0.004
+    [newton k= 58] SCIF=  +475.98 mT  layer_snes_iters=[3, 7, 13, 2, 1, 1]  clip_frac_max=0.004
+    [newton k= 59] SCIF=  +471.17 mT  layer_snes_iters=[4, 3, 9, 11, 1, 1]  clip_frac_max=0.004
+    [newton k= 60] SCIF=  +468.08 mT  layer_snes_iters=[7, 11, 12, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 61] SCIF=  +467.35 mT  layer_snes_iters=[7, 9, 5, 1, 1, 1]  clip_frac_max=0.003
+    [newton k= 62] SCIF=  +463.72 mT  layer_snes_iters=[6, 19, 14, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 63] SCIF=  +465.54 mT  layer_snes_iters=[3, 14, 12, 6, 1, 1]  clip_frac_max=0.004
+    [newton k= 64] SCIF=  +467.94 mT  layer_snes_iters=[9, 3, 13, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 65] SCIF=  +456.06 mT  layer_snes_iters=[4, 14, 9, 4, 1, 1]  clip_frac_max=0.005
+    [newton k= 66] SCIF=  +454.64 mT  layer_snes_iters=[3, 7, 15, 5, 1, 1]  clip_frac_max=0.006
+    [newton k= 67] SCIF=  +454.99 mT  layer_snes_iters=[6, 11, 10, 14, 1, 1]  clip_frac_max=0.005
+    [newton k= 68] SCIF=  +452.59 mT  layer_snes_iters=[12, 5, 3, 2, 1, 1]  clip_frac_max=0.005
+    [newton k= 69] SCIF=  +453.71 mT  layer_snes_iters=[8, 9, 3, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 70] SCIF=  +468.09 mT  layer_snes_iters=[15, 14, 3, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 71] SCIF=  +462.57 mT  layer_snes_iters=[6, 10, 7, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 72] SCIF=  +461.66 mT  layer_snes_iters=[10, 5, 8, 4, 1, 1]  clip_frac_max=0.004
+    [newton k= 73] SCIF=  +458.38 mT  layer_snes_iters=[3, 6, 14, 15, 1, 1]  clip_frac_max=0.005
+    [newton k= 74] SCIF=  +463.91 mT  layer_snes_iters=[10, 13, 2, 2, 1, 1]  clip_frac_max=0.004
+    [newton k= 75] SCIF=  +467.62 mT  layer_snes_iters=[5, 11, 14, 3, 1, 1]  clip_frac_max=0.004
+    [newton k= 76] SCIF=  +466.69 mT  layer_snes_iters=[3, 10, 3, 11, 1, 1]  clip_frac_max=0.005
+    [newton k= 77] SCIF=  +460.65 mT  layer_snes_iters=[13, 14, 13, 2, 1, 1]  clip_frac_max=0.004
+    [newton k= 78] SCIF=  +462.58 mT  layer_snes_iters=[10, 3, 7, 5, 1, 1]  clip_frac_max=0.005
+    [newton k= 79] SCIF=  +464.09 mT  layer_snes_iters=[6, 13, 14, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 80] SCIF=  +468.23 mT  layer_snes_iters=[8, 6, 16, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 81] SCIF=  +464.83 mT  layer_snes_iters=[10, 12, 13, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 82] SCIF=  +460.81 mT  layer_snes_iters=[3, 19, 4, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 83] SCIF=  +463.46 mT  layer_snes_iters=[9, 11, 12, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 84] SCIF=  +461.92 mT  layer_snes_iters=[10, 11, 11, 11, 1, 1]  clip_frac_max=0.005
+    [newton k= 85] SCIF=  +468.05 mT  layer_snes_iters=[9, 11, 16, 11, 1, 1]  clip_frac_max=0.005
+    [newton k= 86] SCIF=  +465.06 mT  layer_snes_iters=[5, 12, 16, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 87] SCIF=  +474.16 mT  layer_snes_iters=[8, 12, 4, 7, 1, 1]  clip_frac_max=0.004
+    [newton k= 88] SCIF=  +466.82 mT  layer_snes_iters=[13, 15, 10, 9, 1, 1]  clip_frac_max=0.005
+    [newton k= 89] SCIF=  +473.28 mT  layer_snes_iters=[10, 8, 3, 3, 1, 1]  clip_frac_max=0.005
+    [newton k= 90] SCIF=  +463.61 mT  layer_snes_iters=[7, 13, 3, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 91] SCIF=  +473.66 mT  layer_snes_iters=[14, 3, 4, 9, 1, 1]  clip_frac_max=0.005
+    [newton k= 92] SCIF=  +454.98 mT  layer_snes_iters=[8, 16, 16, 7, 1, 1]  clip_frac_max=0.005
+    [newton k= 93] SCIF=  +460.66 mT  layer_snes_iters=[11, 5, 10, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 94] SCIF=  +458.58 mT  layer_snes_iters=[12, 13, 11, 5, 1, 1]  clip_frac_max=0.005
+    [newton k= 95] SCIF=  +464.00 mT  layer_snes_iters=[10, 15, 13, 1, 1, 1]  clip_frac_max=0.004
+    [newton k= 96] SCIF=  +463.92 mT  layer_snes_iters=[12, 5, 13, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 97] SCIF=  +470.24 mT  layer_snes_iters=[10, 15, 8, 1, 1, 1]  clip_frac_max=0.005
+    [newton k= 98] SCIF=  +456.48 mT  layer_snes_iters=[8, 15, 15, 15, 1, 1]  clip_frac_max=0.004
+    [newton k= 99] SCIF=  +461.01 mT  layer_snes_iters=[11, 16, 8, 5, 1, 1]  clip_frac_max=0.004
+    [newton k=100] SCIF=  +464.99 mT  layer_snes_iters=[10, 8, 12, 1, 1, 1]  clip_frac_max=0.004
+    [newton k=101] SCIF=  +464.33 mT  layer_snes_iters=[13, 15, 6, 1, 1, 1]  clip_frac_max=0.005
+    [newton k=102] SCIF=  +460.44 mT  layer_snes_iters=[7, 12, 10, 1, 1, 1]  clip_frac_max=0.005
+    [newton k=103] SCIF=  +469.98 mT  layer_snes_iters=[11, 14, 3, 3, 1, 1]  clip_frac_max=0.005
+    [newton k=104] SCIF=  +462.73 mT  layer_snes_iters=[13, 17, 10, 10, 1, 1]  clip_frac_max=0.004
+    [newton k=105] SCIF=  +469.61 mT  layer_snes_iters=[15, 4, 7, 15, 1, 1]  clip_frac_max=0.005
+    [newton k=106] SCIF=  +463.22 mT  layer_snes_iters=[12, 10, 16, 9, 1, 1]  clip_frac_max=0.004
+    [newton k=107] SCIF=  +469.63 mT  layer_snes_iters=[14, 14, 7, 7, 1, 1]  clip_frac_max=0.004
+    [newton k=108] SCIF=  +465.60 mT  layer_snes_iters=[11, 6, 14, 1, 1, 1]  clip_frac_max=0.004
+    [newton k=109] SCIF=  +470.63 mT  layer_snes_iters=[10, 4, 7, 1, 1, 1]  clip_frac_max=0.005
+    [newton k=110] SCIF=  +467.01 mT  layer_snes_iters=[16, 9, 12, 10, 1, 1]  clip_frac_max=0.004
+    [newton k=111] SCIF=  +470.61 mT  layer_snes_iters=[15, 15, 3, 1, 1, 1]  clip_frac_max=0.004
+    [newton k=112] SCIF=  +463.37 mT  layer_snes_iters=[11, 13, 12, 11, 1, 1]  clip_frac_max=0.005
+    [newton k=113] SCIF=  +467.03 mT  layer_snes_iters=[10, 4, 13, 4, 1, 1]  clip_frac_max=0.004
+    [newton k=114] SCIF=  +467.62 mT  layer_snes_iters=[10, 6, 5, 1, 1, 1]  clip_frac_max=0.005
+    [newton k=115] SCIF=  +465.37 mT  layer_snes_iters=[15, 14, 16, 1, 1, 1]  clip_frac_max=0.004
+    [newton k=116] SCIF=  +464.48 mT  layer_snes_iters=[16, 4, 14, 1, 1, 1]  clip_frac_max=0.005
+    [newton k=117] SCIF=  +465.14 mT  layer_snes_iters=[12, 14, 10, 3, 1, 1]  clip_frac_max=0.004
+    [newton k=118] SCIF=  +460.95 mT  layer_snes_iters=[12, 3, 11, 2, 1, 1]  clip_frac_max=0.005
+    [newton k=119] SCIF=  +463.57 mT  layer_snes_iters=[14, 15, 4, 12, 1, 1]  clip_frac_max=0.004
+    [newton k=120] SCIF=  +458.68 mT  layer_snes_iters=[12, 3, 10, 5, 1, 1]  clip_frac_max=0.005
+    [newton k=121] SCIF=  +457.53 mT  layer_snes_iters=[15, 19, 17, 5, 1, 1]  clip_frac_max=0.005
+    [newton k=122] SCIF=  +459.86 mT  layer_snes_iters=[8, 3, 9, 1, 1, 1]  clip_frac_max=0.004
+    [newton k=123] SCIF=  +457.64 mT  layer_snes_iters=[13, 12, 6, 13, 1, 1]  clip_frac_max=0.004
+    [newton k=124] SCIF=  +465.19 mT  layer_snes_iters=[14, 3, 8, 8, 1, 1]  clip_frac_max=0.005
+    [newton k=125] SCIF=  +461.70 mT  layer_snes_iters=[13, 15, 11, 5, 1, 1]  clip_frac_max=0.005
+    [newton k=126] SCIF=  +470.00 mT  layer_snes_iters=[12, 4, 8, 1, 1, 1]  clip_frac_max=0.004
+    [newton k=127] SCIF=  +466.78 mT  layer_snes_iters=[13, 15, 20, 3, 1, 1]  clip_frac_max=0.004
+    [newton k=128] SCIF=  +471.63 mT  layer_snes_iters=[13, 3, 9, 1, 1, 1]  clip_frac_max=0.005
+    [newton k=129] SCIF=  +464.54 mT  layer_snes_iters=[15, 14, 12, 16, 1, 1]  clip_frac_max=0.005
+    [newton k=130] SCIF=  +469.83 mT  layer_snes_iters=[14, 5, 11, 13, 1, 2]  clip_frac_max=0.004
+    [newton k=131] SCIF=  +466.58 mT  layer_snes_iters=[13, 19, 29, 18, 3, 2]  clip_frac_max=0.004
+      [layer 2] Newton failed this outer iteration (reason=-9)
+      reverting outer iteration 132 entirely, returning the state from iteration 131 (NOT auto-validated -- check against independent ground truth before trusting this SCIF)
+    [newton] step done: stop_reason=newton_failure_reverted  n_outer=131  SCIF=+466.58 mT
+  step 9/12 SUMMARY: converged=False  stop_reason=newton_failure_reverted  SCIF=+466.58 mT
+  step 10/12  t=  500.0 s  I= 163.33 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [2.1177e+11,4.6463e+11]  n range: [14.626,25.005]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [1.6856e+11,4.8899e+11]  n range: [14.167,27.232]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.0208e+11,4.7662e+11]  n range: [13.491,25.462]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.0847e+11,4.3506e+11]  n range: [13.555,21.992]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [1.8073e+11,2.4263e+11]  n range: [18.164,20.745]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [2.0313e+11,2.5363e+11]  n range: [19.530,21.382]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF= +1241.86 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.005
+    [newton k=  2] SCIF= +1251.34 mT  layer_snes_iters=[1, 9, 1, 1, 1, 1]  clip_frac_max=0.005
+    [newton k=  3] SCIF= +1195.25 mT  layer_snes_iters=[8, 20, 15, 1, 1, 1]  clip_frac_max=0.006
+    [newton k=  4] SCIF= +1161.80 mT  layer_snes_iters=[4, 16, 2, 1, 1, 1]  clip_frac_max=0.010
+    [newton k=  5] SCIF= +1112.98 mT  layer_snes_iters=[3, 6, 3, 1, 1, 1]  clip_frac_max=0.005
+    [newton k=  6] SCIF= +1058.39 mT  layer_snes_iters=[3, 4, 2, 1, 1, 1]  clip_frac_max=0.027
+    [newton k=  7] SCIF=  +990.59 mT  layer_snes_iters=[8, 12, 4, 1, 1, 1]  clip_frac_max=0.036
+    [newton k=  8] SCIF=  +947.68 mT  layer_snes_iters=[2, 15, 4, 1, 1, 1]  clip_frac_max=0.044
+    [newton k=  9] SCIF=  +889.02 mT  layer_snes_iters=[15, 8, 3, 1, 1, 1]  clip_frac_max=0.040
+    [newton k= 10] SCIF=  +856.54 mT  layer_snes_iters=[3, 3, 2, 1, 1, 1]  clip_frac_max=0.053
+    [newton k= 11] SCIF=  +803.40 mT  layer_snes_iters=[15, 3, 6, 1, 1, 1]  clip_frac_max=0.048
+    [newton k= 12] SCIF=  +767.62 mT  layer_snes_iters=[2, 6, 7, 1, 1, 1]  clip_frac_max=0.061
+    [newton k= 13] SCIF=  +729.61 mT  layer_snes_iters=[3, 3, 17, 1, 1, 1]  clip_frac_max=0.068
+    [newton k= 14] SCIF=  +697.88 mT  layer_snes_iters=[13, 16, 4, 1, 1, 1]  clip_frac_max=0.072
+    [newton k= 15] SCIF=  +659.03 mT  layer_snes_iters=[3, 3, 11, 1, 1, 1]  clip_frac_max=0.074
+    [newton k= 16] SCIF=  +647.87 mT  layer_snes_iters=[9, 7, 7, 1, 1, 1]  clip_frac_max=0.079
+    [newton k= 17] SCIF=  +612.67 mT  layer_snes_iters=[21, 9, 15, 1, 1, 1]  clip_frac_max=0.080
+    [newton k= 18] SCIF=  +599.74 mT  layer_snes_iters=[16, 5, 14, 1, 1, 1]  clip_frac_max=0.073
+    [newton k= 19] SCIF=  +575.67 mT  layer_snes_iters=[3, 3, 2, 1, 1, 1]  clip_frac_max=0.082
+    [newton k= 20] SCIF=  +571.74 mT  layer_snes_iters=[15, 10, 6, 1, 1, 1]  clip_frac_max=0.085
+    [newton k= 21] SCIF=  +552.88 mT  layer_snes_iters=[12, 11, 13, 1, 1, 1]  clip_frac_max=0.079
+    [newton k= 22] SCIF=  +552.18 mT  layer_snes_iters=[15, 12, 15, 1, 1, 1]  clip_frac_max=0.088
+    [newton k= 23] SCIF=  +540.37 mT  layer_snes_iters=[3, 10, 14, 1, 1, 1]  clip_frac_max=0.091
+    [newton k= 24] SCIF=  +534.24 mT  layer_snes_iters=[15, 4, 2, 1, 1, 1]  clip_frac_max=0.081
+    [newton k= 25] SCIF=  +512.84 mT  layer_snes_iters=[3, 8, 14, 1, 1, 1]  clip_frac_max=0.081
+    [newton k= 26] SCIF=  +513.00 mT  layer_snes_iters=[15, 6, 3, 1, 1, 1]  clip_frac_max=0.082
+    [newton k= 27] SCIF=  +508.80 mT  layer_snes_iters=[3, 5, 2, 1, 1, 1]  clip_frac_max=0.092
+    [newton k= 28] SCIF=  +506.86 mT  layer_snes_iters=[15, 2, 8, 1, 1, 1]  clip_frac_max=0.081
+    [newton k= 29] SCIF=  +490.07 mT  layer_snes_iters=[15, 16, 9, 1, 1, 1]  clip_frac_max=0.091
+    [newton k= 30] SCIF=  +501.88 mT  layer_snes_iters=[15, 9, 4, 1, 1, 1]  clip_frac_max=0.082
+    [newton k= 31] SCIF=  +503.32 mT  layer_snes_iters=[3, 7, 3, 1, 1, 1]  clip_frac_max=0.082
+    [newton k= 32] SCIF=  +499.57 mT  layer_snes_iters=[10, 3, 4, 1, 1, 1]  clip_frac_max=0.091
+    [newton k= 33] SCIF=  +499.34 mT  layer_snes_iters=[13, 2, 15, 1, 1, 1]  clip_frac_max=0.078
+    [newton k= 34] SCIF=  +490.08 mT  layer_snes_iters=[3, 11, 9, 1, 1, 1]  clip_frac_max=0.088
+    [newton] step done: stop_reason=stall  n_outer=34  SCIF=+490.08 mT
+  step 10/12 SUMMARY: converged=True  stop_reason=stall  SCIF=+490.08 mT
+  step 11/12  t=  550.0 s  I= 179.67 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [1.7072e+11,4.5969e+11]  n range: [14.069,24.599]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [1.5784e+11,4.8054e+11]  n range: [13.807,26.448]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.0208e+11,4.6116e+11]  n range: [13.214,24.263]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.0245e+11,4.1079e+11]  n range: [13.216,21.584]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [1.7291e+11,2.2985e+11]  n range: [18.162,20.704]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [1.9149e+11,2.4362e+11]  n range: [19.363,21.415]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF= +1248.60 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.081
+    [newton k=  2] SCIF= +1258.66 mT  layer_snes_iters=[1, 3, 1, 1, 1, 1]  clip_frac_max=0.102
+    [newton k=  3] SCIF= +1189.43 mT  layer_snes_iters=[12, 19, 10, 1, 1, 1]  clip_frac_max=0.119
+    [newton k=  4] SCIF= +1110.43 mT  layer_snes_iters=[9, 4, 7, 1, 1, 1]  clip_frac_max=0.120
+    [newton k=  5] SCIF= +1060.63 mT  layer_snes_iters=[4, 4, 7, 1, 1, 1]  clip_frac_max=0.121
+    [newton k=  6] SCIF= +1008.57 mT  layer_snes_iters=[3, 18, 3, 1, 1, 1]  clip_frac_max=0.135
+    [newton k=  7] SCIF=  +957.39 mT  layer_snes_iters=[5, 2, 12, 1, 1, 1]  clip_frac_max=0.144
+    [newton k=  8] SCIF=  +906.41 mT  layer_snes_iters=[13, 9, 12, 1, 1, 1]  clip_frac_max=0.160
+    [newton k=  9] SCIF=  +856.05 mT  layer_snes_iters=[4, 2, 8, 1, 1, 1]  clip_frac_max=0.161
+    [newton k= 10] SCIF=  +824.22 mT  layer_snes_iters=[12, 5, 2, 1, 1, 1]  clip_frac_max=0.162
+    [newton k= 11] SCIF=  +780.25 mT  layer_snes_iters=[12, 9, 14, 1, 1, 1]  clip_frac_max=0.170
+    [newton k= 12] SCIF=  +746.14 mT  layer_snes_iters=[12, 7, 9, 1, 1, 1]  clip_frac_max=0.165
+    [newton k= 13] SCIF=  +719.23 mT  layer_snes_iters=[3, 6, 8, 1, 1, 1]  clip_frac_max=0.173
+    [newton k= 14] SCIF=  +679.04 mT  layer_snes_iters=[9, 16, 3, 1, 1, 1]  clip_frac_max=0.173
+    [newton k= 15] SCIF=  +667.19 mT  layer_snes_iters=[11, 2, 5, 1, 1, 1]  clip_frac_max=0.171
+    [newton k= 16] SCIF=  +612.41 mT  layer_snes_iters=[10, 13, 9, 1, 1, 1]  clip_frac_max=0.174
+    [newton k= 17] SCIF=  +571.87 mT  layer_snes_iters=[8, 16, 10, 1, 1, 1]  clip_frac_max=0.172
+    [newton k= 18] SCIF=  +562.35 mT  layer_snes_iters=[15, 2, 15, 1, 1, 1]  clip_frac_max=0.168
+    [newton k= 19] SCIF=  +562.27 mT  layer_snes_iters=[3, 10, 11, 1, 1, 1]  clip_frac_max=0.177
+    [newton k= 20] SCIF=  +546.11 mT  layer_snes_iters=[11, 11, 4, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 21] SCIF=  +539.39 mT  layer_snes_iters=[14, 11, 6, 1, 1, 1]  clip_frac_max=0.175
+    [newton k= 22] SCIF=  +520.49 mT  layer_snes_iters=[3, 6, 15, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 23] SCIF=  +510.14 mT  layer_snes_iters=[14, 4, 16, 1, 1, 1]  clip_frac_max=0.174
+    [newton k= 24] SCIF=  +502.06 mT  layer_snes_iters=[14, 7, 13, 1, 1, 1]  clip_frac_max=0.172
+    [newton k= 25] SCIF=  +499.34 mT  layer_snes_iters=[3, 7, 3, 1, 1, 1]  clip_frac_max=0.179
+    [newton k= 26] SCIF=  +485.49 mT  layer_snes_iters=[15, 6, 15, 1, 1, 1]  clip_frac_max=0.175
+    [newton k= 27] SCIF=  +484.98 mT  layer_snes_iters=[17, 9, 11, 1, 1, 1]  clip_frac_max=0.175
+    [newton k= 28] SCIF=  +478.38 mT  layer_snes_iters=[15, 9, 14, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 29] SCIF=  +484.19 mT  layer_snes_iters=[11, 5, 7, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 30] SCIF=  +464.10 mT  layer_snes_iters=[3, 13, 11, 1, 1, 1]  clip_frac_max=0.177
+    [newton k= 31] SCIF=  +454.14 mT  layer_snes_iters=[14, 11, 4, 1, 1, 1]  clip_frac_max=0.175
+    [newton k= 32] SCIF=  +452.59 mT  layer_snes_iters=[9, 9, 3, 1, 1, 1]  clip_frac_max=0.174
+    [newton k= 33] SCIF=  +460.83 mT  layer_snes_iters=[4, 5, 10, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 34] SCIF=  +454.76 mT  layer_snes_iters=[4, 4, 11, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 35] SCIF=  +451.00 mT  layer_snes_iters=[11, 7, 11, 1, 1, 1]  clip_frac_max=0.179
+    [newton k= 36] SCIF=  +456.19 mT  layer_snes_iters=[3, 4, 14, 1, 1, 1]  clip_frac_max=0.174
+    [newton k= 37] SCIF=  +456.56 mT  layer_snes_iters=[13, 15, 3, 1, 1, 1]  clip_frac_max=0.179
+    [newton k= 38] SCIF=  +465.63 mT  layer_snes_iters=[3, 3, 4, 1, 1, 1]  clip_frac_max=0.177
+    [newton k= 39] SCIF=  +464.72 mT  layer_snes_iters=[12, 4, 14, 1, 1, 1]  clip_frac_max=0.180
+    [newton k= 40] SCIF=  +470.55 mT  layer_snes_iters=[14, 7, 11, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 41] SCIF=  +461.46 mT  layer_snes_iters=[13, 14, 13, 1, 1, 1]  clip_frac_max=0.179
+    [newton k= 42] SCIF=  +467.10 mT  layer_snes_iters=[3, 8, 4, 1, 1, 1]  clip_frac_max=0.176
+    [newton k= 43] SCIF=  +463.88 mT  layer_snes_iters=[10, 16, 8, 1, 1, 1]  clip_frac_max=0.182
+    [newton k= 44] SCIF=  +460.32 mT  layer_snes_iters=[3, 7, 12, 1, 1, 1]  clip_frac_max=0.174
+    [newton k= 45] SCIF=  +454.96 mT  layer_snes_iters=[4, 11, 16, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 46] SCIF=  +462.88 mT  layer_snes_iters=[10, 16, 11, 1, 1, 1]  clip_frac_max=0.176
+    [newton k= 47] SCIF=  +451.96 mT  layer_snes_iters=[4, 15, 7, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 48] SCIF=  +458.01 mT  layer_snes_iters=[6, 9, 3, 1, 1, 1]  clip_frac_max=0.176
+    [newton k= 49] SCIF=  +453.31 mT  layer_snes_iters=[15, 11, 3, 1, 1, 1]  clip_frac_max=0.179
+    [newton k= 50] SCIF=  +458.80 mT  layer_snes_iters=[14, 7, 15, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 51] SCIF=  +460.38 mT  layer_snes_iters=[7, 14, 15, 1, 1, 1]  clip_frac_max=0.179
+    [newton k= 52] SCIF=  +454.62 mT  layer_snes_iters=[16, 9, 5, 1, 1, 1]  clip_frac_max=0.179
+    [newton k= 53] SCIF=  +453.56 mT  layer_snes_iters=[6, 9, 3, 1, 1, 1]  clip_frac_max=0.178
+    [newton k= 54] SCIF=  +451.76 mT  layer_snes_iters=[5, 6, 2, 1, 1, 1]  clip_frac_max=0.173
+    [newton k= 55] SCIF=  +457.91 mT  layer_snes_iters=[17, 9, 8, 1, 1, 1]  clip_frac_max=0.177
+    [newton k= 56] SCIF=  +460.40 mT  layer_snes_iters=[16, 10, 12, 1, 1, 1]  clip_frac_max=0.178
+    [newton] step done: stop_reason=stall  n_outer=56  SCIF=+460.40 mT
+  step 11/12 SUMMARY: converged=True  stop_reason=stall  SCIF=+460.40 mT
+  step 12/12  t=  600.0 s  I= 196.00 A  dt=  50.0 s
+      [debug layer 0] Jc range (this layer's cells): [1.7389e+11,4.8839e+11]  n range: [13.770,27.371]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 0] SNES reason=3  its=1  T finite: True
+      [debug layer 1] Jc range (this layer's cells): [1.4542e+11,4.7883e+11]  n range: [13.365,26.649]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 1] SNES reason=3  its=1  T finite: True
+      [debug layer 2] Jc range (this layer's cells): [1.0200e+11,4.7045e+11]  n range: [13.214,24.813]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 2] SNES reason=3  its=1  T finite: True
+      [debug layer 3] Jc range (this layer's cells): [1.0202e+11,3.9619e+11]  n range: [13.207,21.615]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 3] SNES reason=3  its=1  T finite: True
+      [debug layer 4] Jc range (this layer's cells): [1.6546e+11,2.2097e+11]  n range: [18.161,20.679]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 4] SNES reason=3  its=1  T finite: True
+      [debug layer 5] Jc range (this layer's cells): [1.8182e+11,2.3376e+11]  n range: [19.270,21.445]  any Jc<=0: False  any nonfinite Jc: False  any nonfinite n: False
+      [debug layer 5] SNES reason=3  its=1  T finite: True
+    [newton k=  1] SCIF= +1266.81 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.181
+    [newton k=  2] SCIF= +1277.32 mT  layer_snes_iters=[1, 1, 1, 1, 1, 1]  clip_frac_max=0.187
+    [newton k=  3] SCIF= +1212.45 mT  layer_snes_iters=[11, 13, 11, 1, 1, 1]  clip_frac_max=0.208
+    [newton k=  4] SCIF= +1151.17 mT  layer_snes_iters=[3, 3, 3, 1, 1, 1]  clip_frac_max=0.207
+    [newton k=  5] SCIF= +1109.47 mT  layer_snes_iters=[11, 5, 10, 1, 1, 1]  clip_frac_max=0.208
+    [newton k=  6] SCIF= +1047.54 mT  layer_snes_iters=[11, 4, 15, 1, 1, 1]  clip_frac_max=0.216
+    [newton k=  7] SCIF=  +994.29 mT  layer_snes_iters=[11, 12, 2, 1, 1, 1]  clip_frac_max=0.222
+    [newton k=  8] SCIF=  +933.52 mT  layer_snes_iters=[14, 6, 11, 1, 1, 1]  clip_frac_max=0.223
+    [newton k=  9] SCIF=  +899.28 mT  layer_snes_iters=[12, 7, 1, 1, 1, 1]  clip_frac_max=0.221
+    [newton k= 10] SCIF=  +846.08 mT  layer_snes_iters=[14, 15, 13, 1, 1, 1]  clip_frac_max=0.226
+    [newton k= 11] SCIF=  +805.93 mT  layer_snes_iters=[7, 6, 9, 1, 1, 1]  clip_frac_max=0.225
+    [newton k= 12] SCIF=  +759.76 mT  layer_snes_iters=[15, 8, 3, 1, 1, 1]  clip_frac_max=0.231
+    [newton k= 13] SCIF=  +731.61 mT  layer_snes_iters=[13, 11, 15, 1, 1, 1]  clip_frac_max=0.237
+    [newton k= 14] SCIF=  +672.42 mT  layer_snes_iters=[14, 3, 5, 1, 1, 1]  clip_frac_max=0.229
+    [newton k= 15] SCIF=  +626.63 mT  layer_snes_iters=[9, 15, 10, 1, 1, 1]  clip_frac_max=0.245
+    [newton k= 16] SCIF=  +593.01 mT  layer_snes_iters=[7, 2, 13, 1, 1, 1]  clip_frac_max=0.235
+    [newton k= 17] SCIF=  +575.23 mT  layer_snes_iters=[13, 14, 17, 1, 1, 1]  clip_frac_max=0.246
+    [newton k= 18] SCIF=  +568.81 mT  layer_snes_iters=[13, 3, 13, 1, 1, 1]  clip_frac_max=0.245
+    [newton k= 19] SCIF=  +551.79 mT  layer_snes_iters=[10, 11, 9, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 20] SCIF=  +554.54 mT  layer_snes_iters=[8, 2, 3, 1, 1, 1]  clip_frac_max=0.239
+    [newton k= 21] SCIF=  +536.69 mT  layer_snes_iters=[6, 16, 10, 1, 1, 1]  clip_frac_max=0.246
+    [newton k= 22] SCIF=  +526.97 mT  layer_snes_iters=[8, 2, 2, 1, 1, 1]  clip_frac_max=0.238
+    [newton k= 23] SCIF=  +516.97 mT  layer_snes_iters=[3, 17, 5, 1, 1, 1]  clip_frac_max=0.238
+    [newton k= 24] SCIF=  +515.43 mT  layer_snes_iters=[15, 2, 7, 1, 1, 1]  clip_frac_max=0.237
+    [newton k= 25] SCIF=  +516.18 mT  layer_snes_iters=[12, 16, 2, 1, 1, 1]  clip_frac_max=0.252
+    [newton k= 26] SCIF=  +499.58 mT  layer_snes_iters=[3, 3, 3, 1, 1, 1]  clip_frac_max=0.251
+    [newton k= 27] SCIF=  +489.61 mT  layer_snes_iters=[16, 3, 12, 1, 1, 1]  clip_frac_max=0.254
+    [newton k= 28] SCIF=  +495.14 mT  layer_snes_iters=[14, 2, 11, 1, 1, 1]  clip_frac_max=0.251
+    [newton k= 29] SCIF=  +484.86 mT  layer_snes_iters=[12, 12, 3, 1, 1, 1]  clip_frac_max=0.240
+    [newton k= 30] SCIF=  +484.24 mT  layer_snes_iters=[3, 9, 8, 1, 1, 1]  clip_frac_max=0.240
+    [newton k= 31] SCIF=  +475.37 mT  layer_snes_iters=[11, 11, 6, 1, 1, 1]  clip_frac_max=0.239
+    [newton k= 32] SCIF=  +479.75 mT  layer_snes_iters=[15, 9, 14, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 33] SCIF=  +469.84 mT  layer_snes_iters=[3, 8, 14, 1, 1, 1]  clip_frac_max=0.239
+    [newton k= 34] SCIF=  +478.04 mT  layer_snes_iters=[2, 9, 3, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 35] SCIF=  +471.27 mT  layer_snes_iters=[13, 2, 12, 1, 1, 1]  clip_frac_max=0.244
+    [newton k= 36] SCIF=  +469.94 mT  layer_snes_iters=[3, 3, 14, 1, 1, 1]  clip_frac_max=0.247
+    [newton k= 37] SCIF=  +464.83 mT  layer_snes_iters=[13, 8, 12, 1, 1, 1]  clip_frac_max=0.237
+    [newton k= 38] SCIF=  +469.40 mT  layer_snes_iters=[12, 5, 6, 1, 1, 1]  clip_frac_max=0.247
+    [newton k= 39] SCIF=  +465.36 mT  layer_snes_iters=[3, 10, 15, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 40] SCIF=  +467.81 mT  layer_snes_iters=[3, 3, 2, 1, 1, 1]  clip_frac_max=0.245
+    [newton k= 41] SCIF=  +464.89 mT  layer_snes_iters=[12, 2, 2, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 42] SCIF=  +465.88 mT  layer_snes_iters=[10, 4, 2, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 43] SCIF=  +466.11 mT  layer_snes_iters=[15, 2, 11, 1, 1, 1]  clip_frac_max=0.236
+    [newton k= 44] SCIF=  +466.75 mT  layer_snes_iters=[11, 3, 3, 1, 1, 1]  clip_frac_max=0.251
+    [newton k= 45] SCIF=  +467.25 mT  layer_snes_iters=[3, 11, 9, 1, 1, 1]  clip_frac_max=0.246
+    [newton k= 46] SCIF=  +459.58 mT  layer_snes_iters=[3, 4, 13, 1, 1, 1]  clip_frac_max=0.240
+    [newton k= 47] SCIF=  +459.26 mT  layer_snes_iters=[13, 8, 3, 1, 1, 1]  clip_frac_max=0.244
+    [newton k= 48] SCIF=  +459.33 mT  layer_snes_iters=[3, 14, 15, 1, 1, 1]  clip_frac_max=0.246
+    [newton k= 49] SCIF=  +462.56 mT  layer_snes_iters=[15, 12, 13, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 50] SCIF=  +459.21 mT  layer_snes_iters=[7, 12, 15, 1, 1, 1]  clip_frac_max=0.246
+    [newton k= 51] SCIF=  +462.17 mT  layer_snes_iters=[9, 3, 11, 1, 1, 1]  clip_frac_max=0.240
+    [newton k= 52] SCIF=  +466.63 mT  layer_snes_iters=[3, 12, 15, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 53] SCIF=  +461.95 mT  layer_snes_iters=[16, 17, 11, 1, 1, 1]  clip_frac_max=0.247
+    [newton k= 54] SCIF=  +462.33 mT  layer_snes_iters=[2, 16, 11, 1, 1, 1]  clip_frac_max=0.235
+    [newton k= 55] SCIF=  +462.03 mT  layer_snes_iters=[3, 13, 3, 1, 1, 1]  clip_frac_max=0.244
+    [newton k= 56] SCIF=  +462.60 mT  layer_snes_iters=[13, 11, 4, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 57] SCIF=  +459.49 mT  layer_snes_iters=[3, 15, 11, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 58] SCIF=  +465.09 mT  layer_snes_iters=[11, 13, 7, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 59] SCIF=  +466.73 mT  layer_snes_iters=[3, 2, 10, 1, 1, 1]  clip_frac_max=0.245
+    [newton k= 60] SCIF=  +466.47 mT  layer_snes_iters=[7, 12, 11, 1, 1, 1]  clip_frac_max=0.239
+    [newton k= 61] SCIF=  +467.74 mT  layer_snes_iters=[5, 10, 10, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 62] SCIF=  +464.11 mT  layer_snes_iters=[8, 4, 14, 1, 1, 1]  clip_frac_max=0.240
+    [newton k= 63] SCIF=  +467.93 mT  layer_snes_iters=[14, 15, 3, 1, 1, 1]  clip_frac_max=0.245
+    [newton k= 64] SCIF=  +464.67 mT  layer_snes_iters=[11, 2, 13, 1, 1, 1]  clip_frac_max=0.238
+    [newton k= 65] SCIF=  +470.52 mT  layer_snes_iters=[9, 15, 3, 1, 1, 1]  clip_frac_max=0.246
+    [newton k= 66] SCIF=  +459.77 mT  layer_snes_iters=[8, 7, 9, 1, 1, 1]  clip_frac_max=0.238
+    [newton k= 67] SCIF=  +462.76 mT  layer_snes_iters=[6, 9, 9, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 68] SCIF=  +456.80 mT  layer_snes_iters=[7, 16, 13, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 69] SCIF=  +462.57 mT  layer_snes_iters=[8, 12, 6, 1, 1, 1]  clip_frac_max=0.244
+    [newton k= 70] SCIF=  +458.50 mT  layer_snes_iters=[16, 4, 7, 1, 1, 1]  clip_frac_max=0.245
+    [newton k= 71] SCIF=  +467.47 mT  layer_snes_iters=[12, 2, 2, 1, 1, 1]  clip_frac_max=0.244
+    [newton k= 72] SCIF=  +462.11 mT  layer_snes_iters=[9, 10, 14, 1, 1, 1]  clip_frac_max=0.251
+    [newton k= 73] SCIF=  +465.87 mT  layer_snes_iters=[6, 10, 3, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 74] SCIF=  +461.84 mT  layer_snes_iters=[13, 10, 13, 1, 1, 1]  clip_frac_max=0.239
+    [newton k= 75] SCIF=  +464.83 mT  layer_snes_iters=[10, 13, 17, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 76] SCIF=  +467.18 mT  layer_snes_iters=[3, 13, 10, 1, 1, 1]  clip_frac_max=0.240
+    [newton k= 77] SCIF=  +467.90 mT  layer_snes_iters=[6, 16, 9, 1, 1, 1]  clip_frac_max=0.245
+    [newton k= 78] SCIF=  +465.63 mT  layer_snes_iters=[18, 3, 6, 1, 1, 1]  clip_frac_max=0.238
+    [newton k= 79] SCIF=  +465.78 mT  layer_snes_iters=[10, 2, 7, 1, 1, 1]  clip_frac_max=0.250
+    [newton k= 80] SCIF=  +463.77 mT  layer_snes_iters=[16, 3, 5, 1, 1, 1]  clip_frac_max=0.238
+    [newton k= 81] SCIF=  +463.10 mT  layer_snes_iters=[8, 15, 12, 1, 1, 1]  clip_frac_max=0.253
+    [newton k= 82] SCIF=  +468.04 mT  layer_snes_iters=[3, 12, 2, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 83] SCIF=  +467.49 mT  layer_snes_iters=[10, 11, 13, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 84] SCIF=  +471.33 mT  layer_snes_iters=[3, 3, 16, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 85] SCIF=  +464.60 mT  layer_snes_iters=[6, 12, 12, 1, 1, 1]  clip_frac_max=0.247
+    [newton k= 86] SCIF=  +462.59 mT  layer_snes_iters=[3, 10, 7, 1, 1, 1]  clip_frac_max=0.234
+    [newton k= 87] SCIF=  +465.74 mT  layer_snes_iters=[8, 7, 9, 1, 1, 1]  clip_frac_max=0.248
+    [newton k= 88] SCIF=  +463.44 mT  layer_snes_iters=[8, 16, 13, 1, 1, 1]  clip_frac_max=0.244
+    [newton k= 89] SCIF=  +464.57 mT  layer_snes_iters=[8, 3, 2, 1, 1, 1]  clip_frac_max=0.239
+    [newton k= 90] SCIF=  +463.13 mT  layer_snes_iters=[9, 5, 14, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 91] SCIF=  +465.95 mT  layer_snes_iters=[17, 5, 12, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 92] SCIF=  +466.92 mT  layer_snes_iters=[9, 16, 14, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 93] SCIF=  +465.89 mT  layer_snes_iters=[12, 14, 12, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 94] SCIF=  +464.04 mT  layer_snes_iters=[11, 11, 10, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 95] SCIF=  +470.35 mT  layer_snes_iters=[13, 15, 13, 1, 1, 1]  clip_frac_max=0.243
+    [newton k= 96] SCIF=  +464.39 mT  layer_snes_iters=[10, 11, 15, 1, 1, 1]  clip_frac_max=0.242
+    [newton k= 97] SCIF=  +471.57 mT  layer_snes_iters=[5, 3, 2, 1, 1, 1]  clip_frac_max=0.244
+    [newton k= 98] SCIF=  +464.72 mT  layer_snes_iters=[8, 2, 12, 1, 1, 1]  clip_frac_max=0.239
+    [newton k= 99] SCIF=  +463.86 mT  layer_snes_iters=[11, 20, 16, 1, 1, 1]  clip_frac_max=0.247
+    [newton k=100] SCIF=  +465.18 mT  layer_snes_iters=[13, 6, 2, 1, 1, 1]  clip_frac_max=0.242
+    [newton k=101] SCIF=  +461.94 mT  layer_snes_iters=[7, 12, 15, 1, 1, 1]  clip_frac_max=0.239
+    [newton k=102] SCIF=  +463.82 mT  layer_snes_iters=[12, 18, 11, 1, 1, 1]  clip_frac_max=0.245
+    [newton k=103] SCIF=  +466.56 mT  layer_snes_iters=[6, 3, 12, 1, 1, 1]  clip_frac_max=0.239
+    [newton k=104] SCIF=  +469.67 mT  layer_snes_iters=[7, 15, 15, 1, 1, 1]  clip_frac_max=0.246
+    [newton k=105] SCIF=  +466.19 mT  layer_snes_iters=[11, 6, 15, 1, 1, 1]  clip_frac_max=0.240
+    [newton k=106] SCIF=  +468.05 mT  layer_snes_iters=[14, 10, 13, 1, 1, 1]  clip_frac_max=0.245
+    [newton k=107] SCIF=  +467.94 mT  layer_snes_iters=[6, 6, 13, 1, 1, 1]  clip_frac_max=0.238
+    [newton k=108] SCIF=  +472.97 mT  layer_snes_iters=[14, 4, 11, 1, 1, 1]  clip_frac_max=0.244
+    [newton k=109] SCIF=  +468.60 mT  layer_snes_iters=[8, 7, 8, 1, 1, 1]  clip_frac_max=0.242
+    [newton k=110] SCIF=  +465.94 mT  layer_snes_iters=[13, 6, 15, 1, 1, 1]  clip_frac_max=0.243
+    [newton k=111] SCIF=  +465.14 mT  layer_snes_iters=[7, 11, 16, 1, 1, 1]  clip_frac_max=0.238
+    [newton k=112] SCIF=  +466.40 mT  layer_snes_iters=[15, 14, 14, 1, 1, 1]  clip_frac_max=0.247
+    [newton k=113] SCIF=  +464.88 mT  layer_snes_iters=[15, 14, 11, 1, 1, 1]  clip_frac_max=0.239
+    [newton k=114] SCIF=  +465.47 mT  layer_snes_iters=[15, 8, 12, 1, 1, 1]  clip_frac_max=0.245
+    [newton k=115] SCIF=  +464.99 mT  layer_snes_iters=[8, 13, 8, 1, 1, 1]  clip_frac_max=0.242
+    [newton k=116] SCIF=  +466.25 mT  layer_snes_iters=[14, 15, 17, 1, 1, 1]  clip_frac_max=0.245
+    [newton k=117] SCIF=  +465.82 mT  layer_snes_iters=[7, 8, 15, 1, 1, 1]  clip_frac_max=0.240
+    [newton k=118] SCIF=  +468.96 mT  layer_snes_iters=[14, 8, 14, 1, 1, 1]  clip_frac_max=0.244
+    [newton k=119] SCIF=  +467.78 mT  layer_snes_iters=[16, 5, 14, 1, 1, 1]  clip_frac_max=0.243
+    [newton k=120] SCIF=  +468.99 mT  layer_snes_iters=[14, 11, 10, 1, 1, 1]  clip_frac_max=0.242
+    [newton k=121] SCIF=  +470.18 mT  layer_snes_iters=[11, 3, 14, 1, 1, 1]  clip_frac_max=0.237
+    [newton k=122] SCIF=  +469.09 mT  layer_snes_iters=[6, 15, 13, 1, 1, 1]  clip_frac_max=0.250
+    [newton k=123] SCIF=  +467.23 mT  layer_snes_iters=[13, 3, 10, 1, 1, 1]  clip_frac_max=0.237
+    [newton k=124] SCIF=  +469.54 mT  layer_snes_iters=[4, 13, 4, 1, 1, 1]  clip_frac_max=0.246
+    [newton k=125] SCIF=  +467.12 mT  layer_snes_iters=[14, 3, 16, 1, 1, 1]  clip_frac_max=0.239
+    [newton k=126] SCIF=  +468.19 mT  layer_snes_iters=[16, 16, 19, 2, 1, 2]  clip_frac_max=0.245
+    [newton k=127] SCIF=  +468.58 mT  layer_snes_iters=[16, 15, 10, 1, 2, 2]  clip_frac_max=0.239
+      [layer 2] Newton failed this outer iteration (reason=-9)
+      reverting outer iteration 128 entirely, returning the state from iteration 127 (NOT auto-validated -- check against independent ground truth before trusting this SCIF)
+    [newton] step done: stop_reason=newton_failure_reverted  n_outer=127  SCIF=+468.58 mT
+  step 12/12 SUMMARY: converged=False  stop_reason=newton_failure_reverted  SCIF=+468.58 mT
+
+=== dt050_tr015 DONE: 3/12 steps genuinely converged (stall) ===
+wall time: 2702.4s

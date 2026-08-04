@@ -1,0 +1,177 @@
+{
+  "tag": "dt075_tr015",
+  "args": {
+    "tag": "dt075_tr015",
+    "i_op": 196.0,
+    "t_ramp": 600.0,
+    "t_hold": 0.0,
+    "n_ramp": 8,
+    "n_hold": 0,
+    "max_outer": 130,
+    "min_outer": 3,
+    "stall_tol": 0.05,
+    "t_relax": 0.15,
+    "bootstrap_iters": 30,
+    "spike_check": false,
+    "out_json": "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/runs/newton_overnight/dt075_tr015.json"
+  },
+  "ok": true,
+  "error": null,
+  "steps": [
+    {
+      "step_index": 0,
+      "t": 75.0,
+      "I": 24.5,
+      "dt": 75.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 130,
+      "scif_mT": 102.9153259408277,
+      "scif_hist_tail": [
+        95.7567726383525,
+        97.76929859909498,
+        102.98989409174551,
+        106.0548086147173,
+        103.8896119307231,
+        102.9153259408277
+      ],
+      "total_snes_iters": 6437
+    },
+    {
+      "step_index": 1,
+      "t": 150.0,
+      "I": 49.0,
+      "dt": 75.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 130,
+      "scif_mT": 194.36250753031413,
+      "scif_hist_tail": [
+        188.28314710901032,
+        187.30915822544839,
+        183.13726787838186,
+        179.06461008313613,
+        180.9942477191878,
+        194.36250753031413
+      ],
+      "total_snes_iters": 5450
+    },
+    {
+      "step_index": 2,
+      "t": 225.0,
+      "I": 73.5,
+      "dt": 75.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 130,
+      "scif_mT": 332.90989327060703,
+      "scif_hist_tail": [
+        320.5733610651426,
+        322.3953531673406,
+        329.20588223927206,
+        323.504123275547,
+        333.5339000614933,
+        332.90989327060703
+      ],
+      "total_snes_iters": 5226
+    },
+    {
+      "step_index": 3,
+      "t": 300.0,
+      "I": 98.0,
+      "dt": 75.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 130,
+      "scif_mT": 418.6423015471147,
+      "scif_hist_tail": [
+        411.68227812422515,
+        407.16752070162266,
+        413.46725390371324,
+        412.51577851873685,
+        411.302499224751,
+        418.6423015471147
+      ],
+      "total_snes_iters": 4996
+    },
+    {
+      "step_index": 4,
+      "t": 375.0,
+      "I": 122.5,
+      "dt": 75.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 130,
+      "scif_mT": 522.0309025579165,
+      "scif_hist_tail": [
+        522.270792454044,
+        520.6549704131628,
+        521.8459545977503,
+        522.8318261462174,
+        522.269180947293,
+        522.0309025579165
+      ],
+      "total_snes_iters": 4691
+    },
+    {
+      "step_index": 5,
+      "t": 450.0,
+      "I": 147.0,
+      "dt": 75.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 130,
+      "scif_mT": 584.9398564521985,
+      "scif_hist_tail": [
+        583.7745949033845,
+        580.8384106833486,
+        584.8385475339504,
+        581.6041880381766,
+        589.8786777041084,
+        584.9398564521985
+      ],
+      "total_snes_iters": 3825
+    },
+    {
+      "step_index": 6,
+      "t": 525.0,
+      "I": 171.5,
+      "dt": 75.0,
+      "converged": true,
+      "stop_reason": "stall",
+      "n_outer": 120,
+      "scif_mT": 579.7982029906516,
+      "scif_hist_tail": [
+        579.8188227079141,
+        580.0464515527183,
+        582.1872372035916,
+        583.309366962384,
+        581.6586047076916,
+        579.7982029906516
+      ],
+      "total_snes_iters": 3394
+    },
+    {
+      "step_index": 7,
+      "t": 600.0,
+      "I": 196.0,
+      "dt": 75.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 130,
+      "scif_mT": 569.2650722599741,
+      "scif_hist_tail": [
+        567.1177265507093,
+        570.4990499943198,
+        566.0655215969613,
+        569.9432385056285,
+        564.4219486475524,
+        569.2650722599741
+      ],
+      "total_snes_iters": 3009
+    }
+  ],
+  "wall_s": 1892.0000634750031,
+  "n_converged": 1,
+  "n_steps": 8
+}

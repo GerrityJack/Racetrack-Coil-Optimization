@@ -1,0 +1,162 @@
+{
+  "tag": "full_ramp_hold_dt150",
+  "args": {
+    "tag": "full_ramp_hold_dt150",
+    "i_op": 196.0,
+    "t_ramp": 600.0,
+    "t_hold": 200.0,
+    "n_ramp": 4,
+    "n_hold": 4,
+    "max_outer": 100,
+    "min_outer": 3,
+    "stall_tol": 0.05,
+    "t_relax": 0.15,
+    "bootstrap_iters": 30,
+    "spike_check": false,
+    "out_json": "/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/runs/newton_overnight/full_ramp_hold_dt150.json"
+  },
+  "ok": true,
+  "error": null,
+  "steps": [
+    {
+      "step_index": 0,
+      "t": 150.0,
+      "I": 49.0,
+      "dt": 150.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 100,
+      "scif_mT": 219.70304659756061,
+      "scif_hist_tail": [
+        223.34398313018158,
+        227.90742308597643,
+        228.1698008190883,
+        219.70282002783273,
+        221.85941977307976,
+        219.70304659756061
+      ],
+      "total_snes_iters": 4833
+    },
+    {
+      "step_index": 1,
+      "t": 300.0,
+      "I": 98.0,
+      "dt": 150.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 100,
+      "scif_mT": 430.6093334596084,
+      "scif_hist_tail": [
+        428.9497036859659,
+        433.9899820443303,
+        434.52948711933607,
+        431.0944340371393,
+        430.41491419533565,
+        430.6093334596084
+      ],
+      "total_snes_iters": 3103
+    },
+    {
+      "step_index": 2,
+      "t": 450.0,
+      "I": 147.0,
+      "dt": 150.0,
+      "converged": true,
+      "stop_reason": "stall",
+      "n_outer": 82,
+      "scif_mT": 537.5995604661075,
+      "scif_hist_tail": [
+        537.5656199833925,
+        534.6079655901889,
+        540.3949139189051,
+        538.2936458264489,
+        540.0048638549474,
+        537.5995604661075
+      ],
+      "total_snes_iters": 1617
+    },
+    {
+      "step_index": 3,
+      "t": 600.0,
+      "I": 196.0,
+      "dt": 150.0,
+      "converged": false,
+      "stop_reason": "max_outer",
+      "n_outer": 100,
+      "scif_mT": 507.51047534261113,
+      "scif_hist_tail": [
+        507.5889549832531,
+        507.4881525181083,
+        506.24447031870676,
+        509.2286232172419,
+        509.1935198480792,
+        507.51047534261113
+      ],
+      "total_snes_iters": 1630
+    },
+    {
+      "step_index": 4,
+      "t": 650.0,
+      "I": 196.0,
+      "dt": 50.0,
+      "converged": false,
+      "stop_reason": "newton_failure_reverted",
+      "n_outer": 34,
+      "scif_mT": 447.33316098547584,
+      "scif_hist_tail": [
+        455.02459895949835,
+        451.2010873422405,
+        456.8542282400215,
+        452.1795921673236,
+        451.4893615039373,
+        447.33316098547584
+      ],
+      "total_snes_iters": 1220
+    },
+    {
+      "step_index": 5,
+      "t": 700.0,
+      "I": 196.0,
+      "dt": 50.0,
+      "converged": false,
+      "stop_reason": "newton_failure_reverted",
+      "n_outer": 1,
+      "scif_mT": 395.4270455927272,
+      "scif_hist_tail": [
+        395.4270455927272
+      ],
+      "total_snes_iters": 29
+    },
+    {
+      "step_index": 6,
+      "t": 750.0,
+      "I": 196.0,
+      "dt": 50.0,
+      "converged": false,
+      "stop_reason": "newton_failure_reverted",
+      "n_outer": 1,
+      "scif_mT": 330.2139040976862,
+      "scif_hist_tail": [
+        330.2139040976862
+      ],
+      "total_snes_iters": 104
+    },
+    {
+      "step_index": 7,
+      "t": 800.0,
+      "I": 196.0,
+      "dt": 50.0,
+      "converged": false,
+      "stop_reason": "newton_failure_reverted",
+      "n_outer": 1,
+      "scif_mT": 274.97007234267045,
+      "scif_hist_tail": [
+        274.97007234267045
+      ],
+      "total_snes_iters": 94
+    }
+  ],
+  "wall_s": 692.7419193940004,
+  "n_converged": 1,
+  "n_steps": 8
+}

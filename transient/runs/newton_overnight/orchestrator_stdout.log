@@ -1,0 +1,20 @@
+[2026-08-03 21:17:57] === overnight Newton-hybrid validation starting, 9 jobs, budget 11.0h ===
+[2026-08-03 21:17:57] START dt150_tr015_run1  n_ramp=4 n_hold=0 t_hold=0.0 max_outer=100 t_relax=0.15 timeout=60min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/overnight_logs/dt150_tr015_run1.log
+[2026-08-03 21:28:29] FINISH dt150_tr015_run1  status=OK  0/4 steps converged  wall=621s  error=None
+[2026-08-03 21:28:29] START dt150_tr015_run2  n_ramp=4 n_hold=0 t_hold=0.0 max_outer=100 t_relax=0.15 timeout=60min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/overnight_logs/dt150_tr015_run2.log
+[2026-08-03 21:36:45] FINISH dt150_tr015_run2  status=OK  2/4 steps converged  wall=488s  error=None
+[2026-08-03 21:36:45] START dt100_tr015  n_ramp=6 n_hold=0 t_hold=0.0 max_outer=130 t_relax=0.15 timeout=80min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/overnight_logs/dt100_tr015.log
+[2026-08-03 21:57:50] FINISH dt100_tr015  status=OK  3/6 steps converged  wall=1241s  error=None
+[2026-08-03 21:57:50] START dt075_tr015  n_ramp=8 n_hold=0 t_hold=0.0 max_outer=130 t_relax=0.15 timeout=95min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/overnight_logs/dt075_tr015.log
+[2026-08-03 22:29:58] FINISH dt075_tr015  status=OK  1/8 steps converged  wall=1892s  error=None
+[2026-08-03 22:29:58] START dt050_tr015  n_ramp=12 n_hold=0 t_hold=0.0 max_outer=150 t_relax=0.15 timeout=130min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/overnight_logs/dt050_tr015.log
+[2026-08-03 23:15:55] FINISH dt050_tr015  status=OK  3/12 steps converged  wall=2703s  error=None
+[2026-08-03 23:15:55] START dt025_tr015  n_ramp=24 n_hold=0 t_hold=0.0 max_outer=150 t_relax=0.15 timeout=180min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/overnight_logs/dt025_tr015.log
+[2026-08-04 00:41:37] FINISH dt025_tr015  status=OK  7/24 steps converged  wall=5036s  error=None
+[2026-08-04 00:41:37] START full_ramp_hold_dt150  n_ramp=4 n_hold=4 t_hold=200.0 max_outer=100 t_relax=0.15 timeout=90min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/overnight_logs/full_ramp_hold_dt150.log
+[2026-08-04 00:53:24] FINISH full_ramp_hold_dt150  status=OK  1/8 steps converged  wall=693s  error=None
+[2026-08-04 00:53:24] START dt150_tr010  n_ramp=4 n_hold=0 t_hold=0.0 max_outer=100 t_relax=0.1 timeout=60min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/overnight_logs/dt150_tr010.log
+[2026-08-04 01:02:00] FINISH dt150_tr010  status=OK  0/4 steps converged  wall=506s  error=None
+[2026-08-04 01:02:00] START dt150_tr020  n_ramp=4 n_hold=0 t_hold=0.0 max_outer=100 t_relax=0.2 timeout=60min -> /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/overnight_logs/dt150_tr020.log
+[2026-08-04 01:14:30] FINISH dt150_tr020  status=OK  0/4 steps converged  wall=735s  error=None
+[2026-08-04 01:14:30] === overnight run finished: 9/9 jobs completed, 3.87h elapsed. Summary: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/transient/runs/newton_overnight/summary.csv ===
