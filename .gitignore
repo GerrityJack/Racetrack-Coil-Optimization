@@ -29,6 +29,15 @@ outcmaes/
 # Presentation slide decks (binary, not diffable)
 *.pptx
 
+# FFCx JIT compilation cache artifacts (accidentally committed once as
+# part of a diagnostic dump directory, see fd6c6e3 / CLAUDE.md) -- "fenics"
+# is FFCx's own JIT cache directory name, matching ~/.cache/fenics
+**/fenics/
+*.so
+*.o
+*.c.cached
+mumps_verbose*.log
+
 # Misc OS / editor cruft
 .DS_Store
 *.swp
