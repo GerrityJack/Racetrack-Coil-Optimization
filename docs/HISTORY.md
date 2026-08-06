@@ -4116,3 +4116,56 @@ Run: `<env>/bin/python3 transient/validation/first_step_diagnostic.py 60 19.6`
 a consistent answer).
 
 ---
+
+## 2026-08-05/06 (continued across two more sessions, full detail NOT
+## folded into this file -- see the pointers below): the bit-for-bit
+## diagnostic recommended just above WAS eventually done, and it led to a
+## real fix
+
+This file's own last recommendation (immediately above) -- bit-for-bit
+comparison of assembled matrices/RHS between a successful and failed
+run -- was picked up in later sessions, but the full narrative from here
+onward lives in `transient/validation/monolithic_diff_investigation_
+2026-08-05.md` (Parts 6-9: real PCFIELDSPLIT, a direct-assembly bypass
+for the SNES introspection crash, and localising the divergence's origin
+to the Picard bootstrap seed phase) and `transient/validation/
+nondeterminism_investigation_2026-08-05.md`'s later dated continuations
+(through 2026-08-06), rather than being transcribed here -- read those
+files directly for the complete, dated, self-correcting arc (each
+contains its own retractions, same as everything else in this project's
+history).
+
+**The short version, since it changes this file's own standing
+conclusion:** the "genuine floating-point-chaos with no external cause"
+candidate this file left as untested-but-suspected was investigated
+further and found to be the WRONG framing. Tracing the fully
+deterministic (forced single-threaded, bit-identical across repeats)
+failing trajectory directly showed it is not chaos in any deep,
+irreducible sense -- `T` overshoots to ~100-150x its own
+boundary-condition scale within the first 5 Picard iterations and then
+stays trapped in a persistent, bounded attractor, because the project's
+`dt=600s`-tuned relaxation factors (`alpha=0.30`/`0.15`) provide
+literally zero damping at `dt=60s`. A ~10x smaller, still-fixed
+(non-adaptive) relaxation pair, `alpha=(0.03, 0.01)`, restores genuine
+contraction: verified bit-identical convergence single-threaded AND 5/5
+genuine convergence under normal multi-threaded execution, landing on
+SCIF values within 0.15% of each other -- the first remedy in the
+project's whole multi-session non-determinism investigation to fix both
+the determinism problem and the accuracy problem, with no jitter, retry,
+or noise-reliance at all. Several noise-control remedies (n-value
+continuation, an analytic Bean-like seed, jitter-retry) were tried first
+and each gave real-but-inconclusive mid-run effects that did not survive
+to the point that mattered -- the eventual fix came from abandoning
+noise-control entirely and root-causing the deterministic failure
+instead, which is why it is recorded here rather than as one more entry
+in this file's long list of noise-control attempts.
+
+**Still open, so this is a fix at one point, not a closed problem**: only
+validated at the single `(dt=60s, I=19.6A)` canonical repro case: whether
+it generalises across the `(dt, I)` range a real ramp needs, and whether
+it holds up within an actual multi-step time-march (everything tested so
+far, in every session, has only ever been a single first step from cold
+start), are both untested. See CLAUDE.md's "NI (no-insulation) transient
+work" section's final dated entry for the current standing summary.
+
+---

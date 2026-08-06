@@ -617,3 +617,435 @@ answer.
 *Raw per-rep evidence for every count above: `nd_runs/*.log` (one file per
 repeat, named `<label>_<NN>.log`) and `nd_runs/run_batch*.sh` /
 `nd_runs/candidate_*.sh` for the exact commands run.*
+
+---
+
+## 2026-08-06 (continuation, coordinator-directed): controlled-jitter retry prototyped -- raises the success rate, but the specific contribution of the jitter itself (vs. just retrying) is not established by this round
+
+Follow-up to this file's own flagged-but-unstarted lever: "deliberately
+engineering a small controlled perturbation as an escape mechanism in
+place of relying on uncontrolled thread noise." Prototype: attempt the
+canonical repro case (dt=60s, I=19.6A, cold start, identical to
+`first_step_diagnostic.py`) once unmodified; if it fails to converge
+(`_picard_phase`, `max_iters=150, min_iters=6, scif_tol=0.5`, same as the
+canonical case), cold-reset and retry with a small explicit random
+perturbation (1e-3 relative to T_amp, seeded and logged) added to the T
+seed, up to 4 retries (5 attempts total) within the SAME process launch.
+New file: `transient/validation/jitter_retry_check.py`.
+
+### Result: 8 independent process launches
+
+| launch | attempt-0 alone | overall (up to 5 attempts) | attempts used |
+|---|---|---|---|
+| 1 | converged | converged | 1 |
+| 2 | converged | converged | 1 |
+| 3 | FAILED | converged | 4 |
+| 4 | FAILED | converged | 3 |
+| 5 | FAILED | **still failed** | 5 (exhausted) |
+| 6 | FAILED | converged | 2 |
+| 7 | converged | converged | 1 |
+| 8 | FAILED | **still failed** | 5 (exhausted) |
+
+**Attempt-0-only success: 3/8 = 37.5%** -- a good calibration check,
+consistent with this file's own historical ~40% single-attempt baseline
+for this exact repro case (confirms the harness faithfully reproduces
+the known benchmark before drawing any conclusion from the retry
+mechanism).
+
+**Overall success within 5 attempts: 6/8 = 75%.** Retrying clearly helps
+in absolute terms -- doubling the odds of eventually getting a converged
+first step for this case, a genuinely useful practical result on its
+own. Two of eight launches (25%) never converged even after exhausting
+the full retry budget, so this is an improvement in odds, not a
+reliable fix.
+
+### The honest caveat: this does NOT cleanly demonstrate the JITTER is doing the work, as opposed to just retrying
+
+If each attempt (whether jittered or not) had an independent ~37.5%
+chance of success purely from whatever ambient thread-scheduling
+variability exists between separate `_picard_phase` calls -- which this
+design does NOT rule out, since attempts 1-4 still involve fresh
+mesh-independent recomputation with its own genuine thread noise on top
+of the added jitter -- the naive expectation for 5 independent attempts
+at p=0.375 would be 1-(0.625)^5 ≈ 90%. The observed 75% is BELOW that
+naive-independence prediction, not above it (though with only 8 samples
+the confidence interval on a 75% observed rate is wide enough -- roughly
+±30 points -- that this is not a strong claim of underperformance
+either, just clearly not evidence of jitter adding value beyond plain
+retrying).
+
+**This experiment therefore established the RETRY strategy works (real,
+useful, ~2x odds improvement) but did NOT isolate whether the explicit
+controlled jitter contributes anything beyond what repeated attempts
+would already get from ambient noise alone.** The clean follow-up,
+not done here: a head-to-head control arm with `jitter_scale=0` (retries
+that only cold-reset, with no added perturbation) run through the exact
+same harness, to see whether the jittered arm's success curve actually
+exceeds the zero-jitter retry arm's, rather than comparing against a
+single-attempt baseline that both arms would beat.
+
+### Practical recommendation
+
+**Adopt the retry wrapper regardless of the jitter question** -- cold-
+resetting and re-attempting a non-converged short-dt first step up to
+~5 times is cheap relative to the cost of a single attempt (~50-150s
+here) and roughly doubles the odds of eventually getting a converged
+result for this specific repro case, with no evidence of it doing harm.
+Whether to bother adding the explicit jitter on top of plain retries is
+NOT resolved by this round -- worth the zero-jitter control run before
+concluding jitter itself is worth the added complexity, but the retry
+loop itself is a low-risk, positive-expected-value practical wrapper
+independent of that question.
+
+Scripts: `transient/validation/jitter_retry_check.py`. Raw per-launch
+JSON results under a session scratch directory, not checked into the
+repo.
+
+---
+
+## 2026-08-06 (continuation, coordinator-directed pivot): the deterministic single-threaded failure traced -- it is not a slow drift or a period-2 limit cycle, it is a persistent large-amplitude chaotic attractor with T overshooting ~100x its own boundary-condition scale, from iteration 5 onward, never decaying
+
+Directed pivot away from the jitter-retry line (which was raising the
+success rate but not resolving whether that was a real fix or just
+selection among noise, and could not establish that a jitter-forced
+"converged" run was landing on a trustworthy answer -- see the
+just-preceding section). Redirected to the more fundamental question this
+file's own "Not yet done" item pointed at: what does the deterministic
+failing trajectory actually DO, mechanistically, when every source of
+run-to-run noise is removed?
+
+### Method
+
+Reused this file's own verified single-threaded recipe exactly
+(`OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+NUMEXPR_NUM_THREADS=1 OMP_THREAD_LIMIT=1`, `TA_MUMPS_EXTRA_OPTS` forcing
+sequential MUMPS analysis/ordering, isolated `XDG_CACHE_HOME`), on the
+SAME canonical repro case (`dt=60s, I=19.6A`, cold start) this file's
+0/18 result was measured on. New file:
+`transient/validation/jitter_retry_trace_check.py` (built the previous
+round for a different purpose, reused here with `jitter_scale=0` -- no
+injected perturbation, no retry, ONE deterministic run), instrumented via
+`_picard_phase`'s own `closure` hook to independently record, every
+iteration: relative field change `|dB|/|B|` (recomputed independently,
+not read from `_picard_phase`'s internal state), the RAW (non-EMA)
+instantaneous SCIF, and `T_max`/`T_min` across all layer T-functions.
+
+**Reproducibility re-confirmed, at the full trajectory level this time
+(not just the pass/fail outcome):** two independent process launches
+under this config produced BIT-IDENTICAL 150-iteration traces -- every
+recorded value, at every iteration, matched exactly. This extends the
+prior 0/18 pass/fail confirmation to the strongest possible form: not
+just "both runs fail," but "both runs fail via the literal same sequence
+of states."
+
+### What the trajectory actually looks like
+
+**It never approaches anything resembling the physical solution.**
+`T_max`/`T_min` (normalized by `T_amp = I/(2*delta_SC) = 9.8e6`, the
+actual boundary-condition scale) overshoot to roughly **+150x/-98x
+T_amp by iteration 5** -- extremely early, not a late-stage blowup --
+and then stay parked in a persistent, bounded, large-amplitude band
+(roughly +55x to +150x on the high side, -80x to -125x on the low side)
+for the ENTIRE REMAINING 145 iterations, with no growth trend and no
+decay trend. The raw (non-EMA) SCIF swings correspondingly: means per
+30-iteration chunk of +308, +240, +78, +99, +161 mT (no monotonic trend)
+with per-chunk standard deviations of 200-790 mT -- the same order as
+the means themselves, i.e. genuinely noisy/wandering, not settling.
+
+**`|dB|/|B|` (relative field change per iteration) never decays below
+~0.5-0.9 (50-90% relative change EVERY iteration) for the entire run.**
+Chunked means: 0.734, 0.779, 0.827, 0.816, 0.829 across the five
+30-iteration windows -- if anything creeping UP slightly over the run,
+not down. This is not "a small residual oscillation superimposed on an
+otherwise-converged state" (which is what the EMA-based stall criterion
+is designed to smooth past) -- the field is changing by most of its own
+magnitude every single iteration, for 150 iterations straight.
+
+**Not a simple period-2 limit cycle.** The autocorrelation of the raw
+SCIF sequence is +0.545 at lag 1, decaying through +0.470, +0.323, +0.077
+at lags 2-4, crossing to slightly negative (-0.01 to -0.22) at lags 5-10.
+A clean period-2 cycle (the SPECIFIC failure mode this project's own
+two-phase relaxation scheme was built to fix at dt=600s, per CLAUDE.md's
+bug history) would show strong alternating correlation (~-1 at odd lags,
+~+1 at even lags) -- this autocorrelation shape rules that out. The
+dynamics here are higher-dimensional/genuinely chaotic wandering within
+a bounded attractor, not a simple few-state cycle.
+
+### Why this reframes the standing picture, not contradicts it
+
+Prior characterisation (this file, above): a near-machine-epsilon input
+difference amplifies ~1e17-1e19-fold through one ill-conditioned linear
+solve, and independent noise realisations decorrelate to full O(1)
+difference by iteration ~20-25 of a Picard run. That remains true and is
+not retracted. What this round adds: the SPECIFIC deterministic
+trajectory that noise was occasionally escaping from is not "a nearly-
+good state perturbed off course" -- it is a trajectory that overshoots
+by ~100x its own physical scale within the first 5 iterations and then
+never leaves a persistent chaotic attractor centred on that
+unphysically-large overshoot, for the entire 150-iteration budget. The
+two-phase relaxation scheme (validated, reliable at dt=600s) provides
+**no effective damping whatsoever** in this regime -- `|dB|/|B|` sitting
+at 70-90% throughout means the Picard map is simply not contractive
+here, with or without noise, at either its fast (alpha=0.30) or careful
+(alpha=0.15) relaxation setting.
+
+**Leading mechanistic hypothesis, not yet directly tested this round:**
+`first_step_diagnostic.py`'s own module docstring already flagged the
+candidate explanation, written before this trace existed: a small `dt`
+inflates the T-equation's `1/dt` forcing coefficient
+(`curl(A_h - A_prev)/dt`) relative to the resistive (damping) term. At
+`dt=60s` that coefficient is 10x larger than at the validated `dt=600s`
+operating point -- directly changing the effective contraction ratio of
+the Picard fixed-point map, not merely making it "more noise-sensitive."
+This would predict a reasonably sharp TRANSITION in behaviour somewhere
+between `dt=60s` (chaotic attractor, as traced here) and `dt=600s`
+(reliable convergence, this project's whole validated production path)
+as `dt` is swept between them -- not yet tested.
+
+### What noise is actually doing, under this revised picture
+
+The ~40% success rate under normal (multi-threaded, noisy) execution is
+not "noise nudging a nearly-converged trajectory the rest of the way."
+It is noise occasionally sending the VERY EARLY trajectory (by iteration
+2-5, per the amplification timeline this file already established) down
+a qualitatively different path that avoids this chaotic attractor
+entirely, into the genuine convergence basin, rather than into it. Which
+basin a given launch lands in is decided essentially immediately, within
+the first handful of iterations -- consistent with, and now mechanistically
+sharpened by, everything already established about where the
+amplification concentrates.
+
+### Recommended next step (not yet done, flagged for direction)
+
+A `dt` sweep (e.g. 600, 300, 150, 100, 60 -- reusing the same traced
+single-threaded harness) would show whether this is a genuinely sharp
+bifurcation at some critical `dt`, or a gradual degradation -- and would
+directly test the `1/dt` forcing-coefficient hypothesis above. That is a
+natural, well-motivated continuation of this specific finding, not
+attempted in this round given the pivot's own scope.
+
+Scripts: `transient/validation/jitter_retry_trace_check.py`. Raw traces
+(`det_run1.json`, `det_run2.json`, bit-identical) under a session
+scratch directory, not checked into the repo.
+
+---
+
+## 2026-08-06 (continuation, coordinator-directed): eliminate the noise, THEN fix the actual instability -- a genuinely smaller (fixed, non-adaptive) relaxation factor converges the canonical case cleanly and deterministically
+
+Directed follow-up to the trace above: rather than continuing to chase
+noise-driven escape mechanisms (jitter/retry), get rid of the noise
+first (same verified single-threaded recipe as every result in this
+file) and then try to fix the actual instability the trace just
+characterised. New file: `transient/validation/alpha_sweep_trace_check.py`
+-- same trace instrumentation as the previous round, but overrides
+`params.ta_picard_alpha`/`params.ta_picard_alpha_fine` (the two
+relaxation factors `_picard_phase` already reads via `getattr`, confirmed
+from its own source -- no code change to `_picard_phase` itself) before
+calling it. This is deliberately NOT an adaptive alpha-throttle -- this
+project's own history warns explicitly against reintroducing one without
+testing against the sharp-flux-front dataset it broke on before. This
+keeps the exact same validated two-phase STRUCTURE (fast ramp-up until
+`|dB|` stops decreasing, then a fixed slow phase) and only changes the
+two alpha VALUES.
+
+### First test: alpha=(0.10, 0.05) -- ~3x smaller than the dt=600s-validated (0.30, 0.15) defaults
+
+`converged=True` at n_iters=56 -- but the SAME false-positive pattern
+flagged by the user two rounds ago: the raw (non-EMA) SCIF was still
+swinging by 210.5 mT over the last 10 iterations, the last iteration's
+relative field change was still 67%, and `T_max` was still **31x** its
+own physical boundary-condition scale (`T_amp`). Real improvement over
+the default alpha (which peaked at ~150x `T_amp` and never came down),
+but not real convergence -- the EMA-based stall check is not reliable in
+this regime at ANY alpha tested so far, and every conclusion below relies
+on the raw trace, not the `converged` flag.
+
+### Second test: alpha=(0.03, 0.01) -- ~10x smaller than defaults, max_iters raised to 1000 -- GENUINE, CLEAN, REPRODUCIBLE CONVERGENCE
+
+**This one is real.** Full trajectory (`T_max` normalized by `T_amp`,
+`dB_rel` = relative field change, raw instantaneous SCIF):
+
+| iter | T_max/T_amp | dB_rel | scif_raw (mT) |
+|---|---|---|---|
+| 5 | 31.2 | 1.84 | +1801.3 |
+| 20 | 8.2 | 0.094 | +891.8 |
+| 50 | 2.33 | 0.087 | +689.8 |
+| 90 | 1.13 | 0.080 | +503.0 |
+| 170 | 0.89 | 0.069 | +294.0 |
+| 290 | 0.96 | 0.063 | +175.3 |
+| 410 | 1.02 | 0.057 | +139.8 |
+| 458 | 1.03 | 0.071 | +134.0 |
+
+`T_max/T_amp` decays MONOTONICALLY (with only minor noise) from a 31x
+initial overshoot down through 1.13, dips slightly below 1 (0.89, a mild
+undershoot -- physically unremarkable, not a sign of instability) then
+settles smoothly back up to ~1.03 and stays there. `dB_rel` drops
+sharply after the first few iterations and then sits in a stable,
+NON-GROWING 0.06-0.09 band for the remaining ~400 iterations. Raw SCIF
+decreases smoothly and asymptotically from +1801 mT to +134 mT, tracking
+`1/n`-ish decay all the way -- a textbook convergence curve, nothing
+resembling the chaotic wandering seen at default alpha.
+
+**Reproducibility: bit-identical across two independent process
+launches** (both single-threaded, same verified-deterministic recipe) --
+every one of the 459 recorded iterations matched exactly between the two
+runs, not just the final summary numbers. Same standard this file has
+applied to every other claim: not accepted on a single run.
+
+**Final converged state: `scif=+133.9mT`, `T_max/T_amp=1.03`, at
+`n_iters=459`.** A physically sensible SCIF magnitude (for context, the
+validated dt=600s/I=196A production point reaches ~641mT at 10x the
+current and 10x the dt -- a few-hundred-mT SCIF at this much smaller
+current/dt is not an unreasonable order of magnitude) and a T value
+within 3% of its own boundary-condition scale, not the 30-150x
+overshoot seen at every larger-alpha configuration tried.
+
+### What this establishes
+
+**The underlying physics/PDE problem at dt=60s/I=19.6A is NOT inherently
+chaotic or unstable.** What looked like deterministic chaos in the
+previous round's trace was the two-phase relaxation scheme's alpha
+values -- tuned and validated for `dt=600s` -- being genuinely too
+aggressive for `dt=60s`, pushing the Picard fixed-point map's effective
+contraction ratio above 1 in this regime. A ~10x smaller (still fixed,
+still two-phase, still non-adaptive) relaxation factor restores
+contraction and produces clean, smooth, reproducible convergence to a
+sensible answer, with NO jitter, NO retries, NO reliance on
+noise-driven escape -- a completely deterministic single run gets there
+on its own.
+
+**This reframes the entire session's line of investigation.** Every
+prior remedy this session tried (n-continuation, the Bean seed,
+jitter-retry) was implicitly treating the target `n(B,theta)` exponent,
+the relaxation SCHEDULE (alpha_high -> alpha_low switch timing), or the
+starting point as the lever -- never the raw MAGNITUDE of alpha itself
+at this specific dt. None of those approaches touched the actual
+instability; this one goes directly at it.
+
+### Important open caveats, not yet resolved
+
+1. **Cost.** ~460 iterations vs. this project's usual 30-80 at the
+   validated dt=600s operating point -- a real, non-trivial cost
+   increase, though not prohibitive (the run itself took under 3 minutes
+   single-threaded).
+2. **Not yet checked under normal (multi-threaded) execution.** Everything
+   above is single-threaded. Whether `alpha=(0.03, 0.01)` also converges
+   reliably (not just once) under ordinary multi-threaded execution --
+   where the SAME floating-point noise this file has characterised all
+   along is still present -- has not been tested. A smaller alpha
+   generically INCREASES a fixed-point iteration's stability margin
+   against small perturbations too, so there is real reason to expect
+   this also fixes the noise-driven unreliability directly, without
+   needing jitter or retries at all -- but that is a prediction, not yet
+   an observation.
+3. **Boundary not mapped.** Alpha=(0.10, 0.05) still failed (31x
+   overshoot); alpha=(0.03, 0.01) converged cleanly. Where between those
+   the transition actually sits, and whether it is sharp or gradual, is
+   unknown -- not essential to the headline finding, but useful for
+   picking an efficient (not overly conservative) production value.
+4. **Only tested at ONE (dt, I) point.** Whether `alpha=(0.03, 0.01)` (or
+   whatever the eventual chosen value is) generalises across the range of
+   `dt`/`I` a real multi-step ramp would need, or needs to itself be
+   `dt`-dependent, is untested.
+
+### Recommended next steps, in priority order
+
+1. Re-run `alpha=(0.03, 0.01)` (or nearby) WITHOUT forcing single-threaded
+   execution, repeated several times, to see whether it also resolves the
+   multi-threaded reliability problem directly -- this is the test that
+   would turn this from "a clean single-threaded curiosity" into "an
+   actual production fix."
+2. If (1) confirms it, map the alpha boundary more precisely and check
+   generalisation across a few more `(dt, I)` points before considering
+   this validated for the full multi-step ramp use case.
+
+Scripts: `transient/validation/alpha_sweep_trace_check.py`. Raw traces
+(`a010_005.json`, `a003_001.json`, `a003_001_rep2.json` -- the latter two
+bit-identical) under a session scratch directory, not checked into the
+repo.
+
+---
+
+## 2026-08-06 (continuation): alpha=(0.03, 0.01) confirmed under NORMAL (multi-threaded, noisy) execution -- 5/5 genuine convergence, tightly clustered SCIF, direct resolution of the accuracy concern raised earlier in this file
+
+Follow-up to the single-threaded confirmation above: does the same
+relaxation fix also resolve the multi-threaded reliability problem this
+entire file is about, not just the isolated deterministic case? Ran
+`alpha_sweep_trace_check.py 60 19.6 0.03 0.01 1000` FIVE times under
+ordinary, unforced execution (no `OMP_NUM_THREADS`/single-thread env vars
+-- genuinely multi-threaded, confirmed by `user` time far exceeding
+`real` time on every run, e.g. one run's 52.5 CPU-minutes over 7.1
+wall-clock minutes, ~7.4x parallelism).
+
+### Result: 5/5 genuine convergence, all judged by the raw diagnostics (not the EMA flag alone)
+
+| run | n_iters | scif_final (mT) | dB_rel_last | T_max/T_amp | last10 scif spread (mT) |
+|---|---|---|---|---|---|
+| 1 | 458 | +131.510 | 0.044 | 1.141 | 0.885 |
+| 2 | 460 | +131.319 | 0.039 | 1.144 | 0.886 |
+| 3 | 458 | +131.522 | 0.030 | 1.141 | 0.892 |
+| 4 | 458 | +131.517 | 0.042 | 1.146 | 0.890 |
+| 5 | 459 | +131.411 | 0.027 | 1.144 | 0.890 |
+
+Every run: `dB_rel_last` < 0.05 (vs. 0.5-0.9 for the old default-alpha
+chaotic case), `T_max/T_amp` clustered at 1.14-1.15 (vs. 30-150x
+overshoot before), `last10_scif_spread` a tight ~0.89 mT band across ALL
+FIVE runs independently. None of these show the false-positive signature
+(EMA says converged, raw signal still swinging) found earlier in this
+same file at `alpha=(0.10, 0.05)` -- every one of these is a genuine,
+verified convergence.
+
+### This directly answers the accuracy question raised earlier in this file
+
+**SCIF values across all 5 multi-threaded runs: 131.32 to 131.52 mT -- a
+spread of 0.2 mT out of ~131 mT, about 0.15% relative.** Compare this to
+the OLD default-alpha jitter/retry runs' converged-SCIF scatter:
+-21.5, -1.3, +74.2 mT -- wildly different magnitudes AND signs, from
+runs that were ALL reported "converged" by the same EMA flag. The fix
+does not just raise the raw convergence rate (~40% -> 100% here, on a
+small but clean sample); it resolves the accuracy/consistency problem
+too -- 5 independent noisy launches now land on effectively the SAME
+physical answer instead of 5 different, uncorrelated ones.
+
+The single-threaded run from the previous round (`scif=+133.9mT`,
+`n_iters=459`) is close to but not bit-identical with this multi-threaded
+cluster (~131.3-131.5mT) -- expected and unremarkable: different
+threading modes take different exact floating-point paths to the SAME
+true fixed point, converging to values that agree to ~2%, not to machine
+precision. This is categorically different from, and far tighter than,
+the wild scatter this file characterised throughout its 2026-08-05
+entries for the OLD default-alpha configuration.
+
+### Net verdict
+
+**`alpha=(0.03, 0.01)` is now a validated fix for the canonical
+`dt=60s, I=19.6A` repro case specifically** -- both the single-threaded
+deterministic chaos (previous round) and the multi-threaded
+reliability/accuracy problem (this round) are resolved by the same
+change, with no jitter, no retry, no reliance on noise at all. 5/5
+genuine convergence (verified by raw diagnostics, not the EMA flag
+alone) to a tightly-clustered answer is strong evidence for THIS
+specific point, on the sample size tested.
+
+**What is still open before this generalises to "the multi-step
+transient problem is solved":**
+1. Only tested at ONE `(dt, I)` combination. A real ramp needs many
+   different `dt`/`I` values; whether `alpha=(0.03, 0.01)` is
+   universally sufficient, needs to be `dt`- or `I`-dependent, or needs
+   occasional retuning, is untested.
+2. Cost: ~458-460 iterations here vs. ~30-80 at the validated `dt=600s`
+   production point -- real, though not prohibitive (each multi-threaded
+   run took ~7 minutes wall-clock, itself slower than the single-threaded
+   ~3 minutes due to thread overhead on a problem this size -- worth
+   knowing when choosing execution mode for any future run of this kind).
+3. The alpha boundary between "still chaotic" (0.10, 0.05) and "cleanly
+   convergent" (0.03, 0.01) has not been narrowed -- unknown whether a
+   less conservative (faster) value in between would also work.
+4. Not yet tested within an actual multi-step RAMP (this and everything
+   in this file has only ever tested a single first step from cold
+   start) -- the original motivating problem was genuine multi-step
+   time-marching, which this result does not directly demonstrate yet.
+
+Scripts: `transient/validation/alpha_sweep_trace_check.py`. Raw traces
+(`mt_timing1.json`, `mt_batch/run{2..5}.json`) under a session scratch
+directory, not checked into the repo.

@@ -933,3 +933,515 @@ with a specific, concrete next step identified above.
 
 Worktree confirmed clean (checked below). No commits made. This is the
 end of tonight's session -- the user will review in the morning.
+
+---
+
+## 2026-08-06 (coordinator-directed continuation, Part 8): the bit-level pre-solve diff Part 7 was blocked on, obtained -- RHS diverges O(1) across independent launches BEFORE the monolithic Newton solve even runs; the Jacobian data does not
+
+Directed continuation of Part 7's own identified next step ("bypass SNES
+introspection entirely and assemble the UFL residual/Jacobian forms
+directly via `dolfinx.fem.petsc.assemble_vector`/`assemble_matrix` ...
+should be safe to call at any point, including before the first
+`problem.solve()`"). New file:
+`transient/validation/monolithic_direct_assemble_dump.py`, reusing Part
+6/7's `build_nest_additive_problem` construction unchanged.
+
+### The bypass works
+
+Rather than `assemble_vector`/`assemble_matrix` directly (which need
+hand-rolled BC lifting), used dolfinx's own module-level
+`assemble_residual`/`assemble_jacobian` functions (`dolfinx/fem/petsc.py`)
+-- these are the EXACT functions SNES calls internally via
+`solver.setFunction`/`setJacobian`; calling them ourselves, with the
+`NonlinearProblem`'s own compiled `problem.F`/`problem.J`/`problem.b`/
+`problem.A`/`problem.x`/`problem.u`, reproduces precisely "the system fed
+to the first Newton step" without going through any SNES-internal
+lifecycle state. No crash, on any of 17 runs (1 smoke test + 16-run
+batch) -- this is a clean, general fix for Part 7's blocker, reusable for
+any future pre-solve introspection need on this class of problem.
+
+### A second real bug found and fixed along the way
+
+`Jmat.convert("aij")` (used by both this file's dump and Part 7's
+original, never-reached `monolithic_fieldsplit_dump.py` dump line) --
+**`PETSc.Mat.convert(mat_type, out=None)` converts IN PLACE when `out`
+is not supplied** (confirmed by reading the petsc4py docstring directly
+after this silently broke the subsequent real `problem.solve()` calls
+with PETSc error 73, "local to global mapping" missing). The dump was
+mutating `problem.A` itself from `nest` to `aij`, destroying the
+field-split structure the real solve still needed. Part 7's script never
+reached this line (it crashed earlier), so this bug was latent, not yet
+triggered, in the existing investigation file. Fixed here by converting
+a `Jmat.copy()`, not `problem.A` itself.
+
+### The result: 16/16 runs, tallied honestly
+
+The `ksp_its > 0` "outcome" label inherited from Part 6/7's scripts
+turned out not to discriminate anything here -- every run has
+`ksp_its >= 1` at k=1 (all print `OUTCOME: success` under that
+definition), because `snes.setTolerances(max_it=1)` means SNES's own
+`reason=-5` (`DIVERGED_MAX_ITS`) fires as soon as the ONE permitted
+Newton step finishes, converged or not, and that's the common case.
+**The real discriminator, found while reading the tallies, is whether
+the inner KSP actually converged**: `reason=-3`
+(`DIVERGED_LINEAR_SOLVE`) with `ksp_its=200` means the field-split-
+preconditioned `fgmres` hit its own 200-iteration cap without
+satisfying `ksp_rtol=1e-8` -- a genuine linear-solve failure, not
+SNES's tolerance bookkeeping. By that criterion: **3/16 runs (19%)
+genuinely failed the first linear solve (runs 3, 5, 14, all
+`ksp_its=200`); 13/16 (81%) genuinely converged, in as few as 1
+Krylov iteration.** This is a higher clean-success rate than Part 6's
+own small sample (1 clean success, 1 partial, 2 failures out of 4
+comparable runs) suggested, plausibly just `n=4` vs `n=16` sampling
+noise -- not asserted as a contradiction, just a note that Part 6's
+rate estimate was imprecise.
+
+### The bit-level diff itself
+
+Compared the pre-solve (direct-assembly, before any Newton step) CSR
+dumps pairwise across multiple runs, both success-vs-failure and
+failure-vs-failure and success-vs-success:
+
+| pair | class | rhs rel diff | Jacobian data rel diff |
+|---|---|---|---|
+| run2 vs run3 | success vs failure | 1.58 | 1.06e-6 |
+| run3 vs run5 | failure vs failure | 1.01 | 9.4e-7 |
+| run3 vs run14 | failure vs failure | 1.39 | 1.8e-6 |
+| run2 vs run6 | success vs success | 1.43 | 9.3e-7 |
+| run2 vs run9 | success vs success | 1.44 | 6.8e-7 |
+| run6 vs run9 | success vs success | 1.97 | 7.3e-7 |
+| run1 vs run4 | success vs success | 1.66 | 1.1e-6 |
+
+Sparsity pattern (`indptr`/`indices`) is bit-identical across all 16 runs
+(expected -- same mesh, confirmed byte-reproducible within one process
+per this project's standing finding). The largest Jacobian entry
+(`max|data|`) is bit-identical to the last digit across all 16 runs too
+(4.3199e11 exactly) -- consistent with that entry belonging to a
+mesh/geometry-only block that has no dependence on the chaotic T/A state
+at all.
+
+**The headline finding: this is qualitatively DIFFERENT from every
+other bit-level diff in this project's history.** Every prior instance
+(the base T-solve in `nondeterminism_investigation_2026-08-05.md`) found
+a near-machine-epsilon INPUT difference that only became large (~1e-3 to
+1e-4 relative) AFTER a single linear solve amplified it --
+ill-conditioning turning a tiny perturbation into a moderate one. Here,
+**the residual vector itself is already O(1) relatively different
+(1.0-2.0x) between independent process launches of the IDENTICAL nominal
+configuration, before the monolithic Newton solve has run at all** --
+while the assembled Jacobian's matrix entries are still only
+~1e-6-relatively different (consistent with ordinary floating-point
+reduction-order noise, not yet amplified by anything). No ill-conditioned
+solve is needed to explain this: by the time the monolithic system is
+even built, the warm-started T/A state feeding it has ALREADY diverged
+across runs.
+
+### Why this is consistent with, and sharpens, the standing root-cause finding
+
+This does not contradict `nondeterminism_investigation_2026-08-05.md`'s
+conclusion (extreme ill-conditioning in the underlying T-equation linear
+sub-problem, ~1e17-1e19-fold amplification per solve) -- it extends it.
+Every run here goes through `_picard_bootstrap(..., n_iters=30, ...)`
+before the monolithic system is ever assembled. Thirty compounding
+applications of a solve that turns machine-epsilon differences into
+~1e-3-1e-4 relative ones is easily enough to fully decorrelate two
+trajectories by iteration 30 -- consistent with the O(1) relative RHS
+difference measured here. **This localizes WHERE the divergence
+saturates: not inside the monolithic Newton solve itself, but upstream,
+during the Picard bootstrap/seed phase, well before the monolithic
+system is handed anything.** The monolithic solver (Part 6's
+block-Jacobi field-split) is not the source of the chaos and does not
+need to be -- it inherits an already-fully-diverged input by the time it
+runs, from a mechanism (the bootstrap Picard iteration) already
+root-caused elsewhere in this project.
+
+**Not done here, a concrete cheap follow-up for whoever continues
+this:** dump the T/A state immediately after `_picard_bootstrap`
+(iteration 30) but BEFORE any monolithic assembly, across several runs,
+and check whether the divergence is already O(1) at, say, iteration 10
+or 15 -- this would pin down how many bootstrap iterations it actually
+takes to saturate, rather than just confirming it has saturated by 30.
+
+### Net effect on the standing open question
+
+Part 6's central question ("does a correctly-assembled monolithic T-A
+Newton system converge reliably?") is NOT answered by this round --
+that remains open. What Part 8 adds: the unreliability is not evidence
+against the monolithic architecture specifically. A system fed a
+genuinely different (O(1)-diverged) input on each launch cannot be
+expected to behave identically launch-to-launch regardless of which
+solver architecture receives it -- Picard, Gauss-Seidel Newton hybrid, or
+monolithic block Newton all inherit the same already-chaotic seed. Any
+future attempt to get a reproducible read on the monolithic solver's OWN
+convergence properties (isolated from bootstrap-phase chaos) would need
+to either fix the bootstrap phase's sensitivity first, or seed every
+compared run from one single, explicitly-saved, byte-identical T/A
+state (not a freshly-run bootstrap) so the monolithic solve is the only
+thing allowed to vary between runs.
+
+Scripts: `transient/validation/monolithic_direct_assemble_dump.py`
+(the fixed dump), 16 raw run dumps under a session scratch directory
+(not checked into the repo -- regenerate via
+`<env>/bin/python3 transient/validation/monolithic_direct_assemble_dump.py <path>`,
+repeated, if needed again).
+
+---
+
+## 2026-08-06 (continuation): the divergence-growth curve during the Picard bootstrap -- traced, and it is NOT a single jump
+
+Part 8's own flagged follow-up, done: instead of only comparing the
+bootstrap's final (iteration-30) state across runs, checkpointed T/A
+state at iterations 0, 2, 5, 10, 15, 20, 25, 30 of
+`_picard_bootstrap`'s 30-iteration Picard run, across 8 independent
+process launches of the identical nominal configuration (dt=60s,
+I=19.6A) -- 28 pairwise comparisons per checkpoint. New file:
+`transient/validation/bootstrap_saturation_check.py`, using
+`_picard_phase`'s own existing `closure` extension point (called once
+per iteration, before that iteration's T-solve) to dump state --
+`_picard_phase`/`_picard_bootstrap` themselves were NOT modified.
+
+### The curve (max relative difference in T / A across all 28 pairs at each checkpoint)
+
+| iteration | T rel diff (median) | T rel diff (max) | A rel diff (median) | A rel diff (max) |
+|---|---|---|---|---|
+| 0  | 0.0 (bit-identical) | 0.0 | 1.2e-14 | 1.9e-14 |
+| 2  | 2.3e-3 | 3.8e-3 | 1.7e-3 | 4.0e-3 |
+| 5  | 6.7e-3 | 1.2e-2 | 2.3e-3 | 3.9e-3 |
+| 10 | 1.2e-1 | 2.8e-1 | 1.8e-2 | 4.9e-2 |
+| 15 | 4.7e-1 | 1.4e0 | 1.1e-1 | 2.5e-1 |
+| 20 | 9.7e-1 | 1.3e0 | 5.4e-1 | 1.2e0 |
+| 25 | 1.3e0 | 1.8e0 | 5.5e-1 | 1.4e0 |
+| 30 | 1.4e0 | 1.9e0 | 2.7e-1 | 6.3e-1 |
+
+(T=0 is bit-identical at iteration 0 because every run starts from the
+same all-zero cold T; the A-field at iteration 0 already carries the
+~1e-14 machine-epsilon-level noise this project's nondeterminism
+investigation attributes to floating-point reduction-order effects in
+multi-threaded assembly.)
+
+### Two distinct regimes, not one smooth blowup
+
+1. **Iterations 0->2: the ~1e-14 seed noise jumps to ~1e-3 in just TWO
+   Picard iterations** -- roughly an 11-order-of-magnitude amplification
+   in 2 steps. This is the SAME phenomenon `nondeterminism_investigation_
+   2026-08-05.md` already quantified for the base (non-bootstrap) T-solve
+   (a near-machine-epsilon input becoming a ~1e-3-to-1e-4 relative output
+   difference after ONE linear solve, from the smoothed critical-state
+   floor's extreme dynamic range) -- confirming that same mechanism is
+   exactly where this trajectory's divergence ORIGINATES, at the very
+   first iterations of the bootstrap, not gradually throughout it.
+2. **Iterations 2->20: roughly geometric growth from ~1e-3 to O(1)**
+   (each 5-10 iteration window compounds the existing difference by
+   roughly 3-20x), reaching full decorrelation (median rel diff ~1,
+   individual pairs up to ~1.3-1.9, the natural ceiling for a relative
+   difference between two uncorrelated-scale vectors) by iteration
+   ~20-25. Iterations 25->30 show NO further growth in T (median 1.3->1.4,
+   already saturated) and actually a DROP in A's median rel diff
+   (0.55->0.27) -- consistent with full decorrelation already reached by
+   iteration 20-25, after which the comparison is just noise around the
+   saturated ceiling rather than continued growth.
+
+### This is chaos, not numerical blow-up -- confirmed, not just asserted
+
+The absolute state norms (`||T||_inf`, `||A||_inf`) stay bounded and of
+consistent order across every run at every checkpoint (`||T||_inf` in a
+tight ~[7.7e8, 1.5e9] band from iteration 10 onward, `||A||_inf` in
+~[1.1e8, 2.3e8]) -- no NaN, no run trending toward infinity, no
+outlier run diverging in absolute magnitude while the others stay put.
+Two runs can each individually look like a perfectly reasonable,
+well-behaved Picard trajectory and still have fully decorrelated from
+each other by iteration 20. This is the textbook signature of sensitive
+dependence on initial conditions (deterministic chaos), not a numerical
+instability -- directly confirming, with a number attached to WHEN it
+happens, the "chaotic map" characterization
+`nondeterminism_investigation_2026-08-05.md` already gave this system.
+
+### Net effect
+
+This sharpens, rather than changes, Part 8's conclusion. The O(1)
+divergence Part 8 found at iteration 30 does not accumulate gradually
+across all 30 iterations -- it is already essentially complete by
+iteration ~20, and its ORIGIN is the same ~1e17-1e19-fold-per-solve
+amplification mechanism already root-caused for the base T-solve,
+triggered within the bootstrap's first 1-2 iterations. Any future
+attempt to get a byte-identical warm-start state for isolating the
+monolithic solver's own convergence properties (Part 8's suggested next
+step) would need to intervene before iteration ~2 of the bootstrap, not
+just before the monolithic system is assembled at iteration 30 -- by
+iteration 2 the die is already substantially cast.
+
+Script: `transient/validation/bootstrap_saturation_check.py`. Raw
+checkpoint dumps (8 runs x 8 checkpoints) under a session scratch
+directory, not checked into the repo -- regenerate via
+`<env>/bin/python3 transient/validation/bootstrap_saturation_check.py <prefix>`,
+repeated, if needed again.
+
+---
+
+## 2026-08-06 (continuation): n-value continuation prototyped -- delays the divergence substantially, does NOT prevent it reaching the same handoff ceiling within a fixed 30-iteration bootstrap
+
+Coordinator-directed prototype of the top remedy suggested for the
+divergence characterised above: n-value continuation (homotopy),
+standard practice in the H-formulation/T-A superconductor modelling
+literature for exactly this class of stiff power-law solver failure.
+Idea: start the Picard bootstrap at a mild, well-conditioned exponent
+(n_start=3.0, vs. the physical n(B,theta)~13-34) and linearly ramp to
+the true n over the first `ramp_iters` iterations, so the solver never
+has to face the sharp near-singular j/jc=1 transition from a cold,
+far-away guess.
+
+New file: `transient/validation/bootstrap_ncontinuation_check.py`.
+Implementation does NOT modify `_picard_phase`/`_picard_bootstrap`
+(validated, do-not-touch code) -- it wraps the real `NValueModel` in a
+`ContinuationNModel` exposing the identical `.n_value(B_mag, theta)`
+interface `_update_rho` already calls, blended toward `n_start` by a
+`frac` attribute the SAME per-iteration `closure` hook (used for
+checkpointing in the prior round) advances each iteration. `_picard_phase`
+itself runs completely unmodified.
+
+**Scope note:** the "smarter analytic seed" idea (a Bean/Kim critical-
+state initial profile instead of cold T=0) discussed alongside
+continuation was NOT built as a separate analytic-profile implementation
+-- deliberately, to avoid introducing a new, unverified physics formula
+into a project whose whole standing lesson is "don't trust a result
+until it's independently checked." It was instead treated as
+approximately subsumed by testing two ramp lengths (10 and 20
+iterations): a longer ramp keeps the system in a well-conditioned,
+near-Bean-like state for longer before committing to the true stiff
+power law, which is the same qualitative effect a smarter seed would be
+reaching for by a different route.
+
+### Result: two ramp lengths (10, 20 iterations, n_start=3.0), 6 repeats each, compared against the existing 8-run no-continuation baseline
+
+Median relative difference in T across all pairs, per checkpoint:
+
+| iteration | baseline (no continuation) | ramp_iters=10 | ramp_iters=20 |
+|---|---|---|---|
+| 0  | 0 | 0 | 0 |
+| 2  | 2.3e-3 | 4.6e-3 | 5.7e-3 |
+| 5  | 6.7e-3 | 5.6e-3 | 7.5e-3 |
+| 10 | 1.25e-1 | 2.5e-2 (5x better) | 1.3e-2 (10x better) |
+| 15 | 4.7e-1 | 6.5e-2 (7x better) | 9.6e-2 (5x better) |
+| 20 | 9.7e-1 | 7.3e-1 (25% better) | 5.4e-1 (45% better) |
+| 25 | 1.25e0 | 1.13e0 (10% better) | 1.24e0 (~same) |
+| 30 | 1.35e0 | 1.30e0 (~same) | 1.43e0 (slightly WORSE) |
+
+A's own curve tells the same story with a sharper reversal: at iteration
+20 both continuation configs are 4-5x better than baseline (0.12-0.14 vs
+0.54), but by iteration 30 ramp10 is worse than baseline (0.45 vs 0.27)
+and ramp20 is substantially worse (0.64 vs 0.27, with its single worst
+pair reaching 1.59 vs baseline's worst of 0.63).
+
+### Honest read: this delays the divergence, it does not prevent it reaching the same handoff ceiling
+
+n-continuation does exactly what the mechanism predicts during the ramp
+itself: keeping the system at a soft, well-conditioned exponent measurably
+slows the SAME machine-epsilon noise from being amplified, buying a real
+5-10x reduction in divergence through iterations 10-20. But neither
+tested schedule prevents full O(1) decorrelation by iteration 30, the
+actual point a downstream solver (monolithic or otherwise) would receive
+this state -- the elbow of the growth curve visibly shifts later
+(compare iteration 15 in the baseline, already at 0.47, to iteration 20
+in ramp20, at 0.54 -- roughly a 5-iteration delay), but once `frac`
+reaches 1.0 and the system is back at the true, stiff physical n, the
+SAME ill-conditioning re-asserts itself and the (smaller, but still
+present) accumulated difference gets the same violent amplification.
+Neither schedule tested here holds the soft regime long enough, relative
+to the fixed 30-iteration total budget, to still be ahead by the time the
+bootstrap ends.
+
+This is a genuinely useful, if partial, result -- not a fix on its own,
+but strong evidence the mechanism understanding is correct (the
+divergence rate really is governed by how close the effective exponent
+is to the stiff physical value, exactly as the amplification-source
+argument predicted), and a concrete, unexplored next lever: **a longer
+total iteration budget** (so the post-ramp, full-n phase has enough
+additional iterations to re-settle before handoff, rather than being cut
+off at 30 immediately after the ramp completes) or a ramp that reaches
+n=1.0 continuation status only asymptotically near the end of a longer
+run, rather than exactly at 30. Not tested here, given the scope of this
+round.
+
+Scripts: `transient/validation/bootstrap_ncontinuation_check.py`. Raw
+checkpoint dumps (12 runs x 8 checkpoints) under a session scratch
+directory, not checked into the repo.
+
+---
+
+## 2026-08-06 (continuation): the dwell-time hypothesis tested further -- does NOT hold up cleanly; n-continuation is a real middle-of-run effect but not a handoff-time fix
+
+Follow-up to the n-continuation round above. That round's own iteration-30
+numbers (baseline dwell=30: 1.35; ramp10 dwell=20: 1.30; ramp20 dwell=10:
+1.43) suggested a hypothesis: divergence at handoff might be governed by
+how many iterations are spent at the full physical (stiff) exponent
+before handoff ("dwell time"), predicting that pushing the ramp even
+later within the SAME 30-iteration total budget (shrinking dwell time
+further, at NO extra iteration cost) should keep helping. Tested
+ramp_iters=25 (dwell=5 at handoff) and ramp_iters=28 (dwell=2), 6
+repeats each, same methodology.
+
+### Combined final table, all five configs, T rel diff median/max at iteration 30 (handoff)
+
+| config | dwell at iter 30 | T rel diff (median/max) | A rel diff (median/max) |
+|---|---|---|---|
+| baseline (no continuation) | 30 | 1.35 / 1.90 | 0.27 / 0.63 |
+| ramp10 | 20 | 1.30 / 1.86 | 0.45 / 1.09 |
+| ramp20 | 10 | 1.43 / 2.91 | 0.64 / 1.09 |
+| ramp25 | 5  | 1.16 / 1.48 | 0.60 / 1.09 |
+| ramp28 | 2  | 1.18 / 2.12 | 0.48 / 1.18 |
+
+### The dwell-time hypothesis does NOT hold up cleanly
+
+T's numbers are not monotonic in dwell time: ramp20 (dwell=10) is the
+WORST of all five configs (1.43, even above baseline's 1.35), while
+ramp25 (dwell=5) is the best (1.16) -- but ramp28 (dwell=2, even less
+dwell than ramp25) is essentially tied with ramp25, not better, breaking
+what a clean dwell-time relationship would predict. **A's numbers are
+worse for this hypothesis: every single continuation config (0.45-0.64)
+is HIGHER than the no-continuation baseline (0.27) at handoff,
+regardless of ramp length** -- the exact opposite of what "less dwell
+time helps" predicts, and the opposite sign from T's own (mild, noisy)
+trend.
+
+The most defensible reading, given n=6 repeats per config (15 pairs,
+itself a small sample of an already-noisy saturated-ceiling
+distribution -- individual pairs range 1.2-2.9 even within one config):
+**this is sampling noise dominating a real signal that is, at best, weak
+and inconsistent between T and A.** The middle-of-run protective effect
+(5-10x reduction in divergence at iterations 10-20, reproduced cleanly
+across all four continuation configs and both fields) is real and not in
+doubt. Whether ANY of the tested ramp schedules meaningfully reduces
+divergence specifically AT THE ITERATION-30 HANDOFF POINT is not
+established by this data -- the differences between configs there are
+comparable in size to the run-to-run noise within a single config.
+
+### Recommendation: this specific lever has hit diminishing returns for now
+
+n-value continuation, as tested here (a single linear ramp within a
+fixed 30-iteration Picard bootstrap), should be considered validated as
+a real mid-run stabiliser but NOT demonstrated as a fix for the
+handoff-time divergence that actually matters for downstream solver
+reliability. Further tuning of ramp length/shape within this same
+30-iteration structure is not a promising next move -- the five points
+tested already span the practical range (dwell 2 to 30) without a clean
+trend emerging. Two directions that would be a genuinely different test,
+not more of the same, if this is revisited:
+1. Larger sample sizes (20-30 repeats per config, not 6-8) to determine
+   whether the weak T-field trend and the adverse A-field trend are real
+   effects or pure noise -- expensive (each repeat costs ~20-26s, so this
+   is a real but bounded cost, not prohibitive).
+2. A structurally different lever, not a variant of continuation: reduce
+   the TOTAL number of Picard iterations needed by starting from a
+   genuinely better physical guess (the analytic Bean/Kim seed idea
+   deferred at the start of this line of work) rather than trying to
+   outrun the stiff regime within a fixed budget.
+
+For now, this line of investigation (n-continuation and its variants) is
+a reasonable stopping point. The short-dt/multi-step transient problem
+remains OPEN, exactly as CLAUDE.md's standing status already states.
+
+Scripts (unchanged from the prior round):
+`transient/validation/bootstrap_ncontinuation_check.py`.
+
+---
+
+## Part 9 (2026-08-06): analytic Bean-like seed prototyped -- a structurally different lever than n-continuation, with the same overall verdict: real but inconsistent mid-run effect, no reliable win at handoff
+
+Prototype of the second remedy discussed alongside n-continuation:
+replace the cold T=0 bootstrap start with an initial T(z) profile per
+layer that already looks roughly critical-state-like (current
+concentrated toward the tape edges, more so as local I/Ic rises), rather
+than letting 30 Picard iterations discover that shape from a flat start.
+New file: `transient/validation/bootstrap_beanseed_check.py`.
+
+### Deliberately NOT the published Norris (1970) closed form
+
+Reconstructing the exact Norris self-field strip solution from memory
+was attempted while reasoning through this and abandoned: a first
+attempt produced an ODD (antisymmetric) profile, which on reflection is
+the signature of the DIFFERENT external-field screening problem, not the
+transport-current problem this project actually has (which requires an
+EVEN, same-sign profile by z<->-z symmetry -- verified by checking that
+the T_bot=+T_amp/T_top=-T_amp boundary conditions imply an ODD T(z),
+hence an EVEN dT/dz = J(z), the physically correct symmetry). Given a
+real risk of a sign/exponent transcription error surfaced during that
+reasoning, the profile actually used is a self-derived, BC-anchored
+piecewise-linear approximation instead: a core region with gradient
+G_core and two edge regions with gradient G_edge = ratio*G_core
+(ratio = 1 + 9*I_frac, core half-width fraction f = 1 - I_frac,
+I_frac = J_unif/Jc_layer clipped to 0.98), with G_core solved so the
+piecewise-integrated profile reproduces T_bot/T_top EXACTLY by
+construction. This is checked with a runtime assertion (not just claimed
+in a docstring) comparing the profile's own endpoint values against
+T_amp to 1e-6 relative tolerance -- passed on all 9 runs (1 smoke test +
+8-run batch), no assertion failures.
+
+Jc_layer reuses the SAME Jc_vol array the seed-time `_update_rho` call
+already computes (median over each layer's own cells) -- no new Ic-model
+call, no new physics assumption beyond the profile shape itself.
+
+### Result: 8 repeats, compared directly against the 8-run cold-start baseline
+
+| iteration | baseline T (med/max) | Bean-seed T (med/max) | baseline A (med/max) | Bean-seed A (med/max) |
+|---|---|---|---|---|
+| 0  | 0 / 0 | 3.0e-7 / 4.5e-7 | 1.2e-14 / 1.9e-14 | 1.4e-14 / 3.3e-14 |
+| 2  | 2.3e-3 / 3.8e-3 | 4.6e-3 / 1.4e-2 | 1.7e-3 / 4.0e-3 | 1.2e-3 / 2.6e-3 |
+| 5  | 6.7e-3 / 1.2e-2 | 1.3e-2 / 2.9e-2 | 2.3e-3 / 3.9e-3 | 2.1e-3 / 6.3e-3 |
+| 10 | 1.25e-1 / 2.8e-1 | 5.4e-2 / 1.4e-1 | 1.9e-2 / 4.9e-2 | 2.0e-2 / 5.6e-2 |
+| 15 | 4.7e-1 / 1.4e0 | 8.0e-1 / 1.4e0 | 1.1e-1 / 2.5e-1 | 1.5e-1 / 4.6e-1 |
+| 20 | 9.7e-1 / 1.3e0 | 9.8e-1 / 2.1e0 | 5.4e-1 / 1.2e0 | 4.1e-1 / 7.7e-1 |
+| 25 | 1.25e0 / 1.8e0 | 1.29e0 / 1.8e0 | 5.5e-1 / 1.4e0 | 4.1e-1 / 8.0e-1 |
+| 30 | 1.35e0 / 1.9e0 | 1.26e0 / 1.7e0 | 2.7e-1 / 0.63 | 6.2e-1 / 0.76 |
+
+**One incidental finding at iteration 0:** unlike the baseline's
+literal-zero (bit-identical, since cold T=0 involves no computation at
+all), the Bean seed's OWN starting point already differs by ~3e-7
+relative between independent launches -- not the ~1e-14 pure
+floating-point noise floor seen in the A-field seed, four orders of
+magnitude below the ~1e-3 threshold that later triggers runaway growth,
+but confirming the seed formula itself is not perfectly reproducible
+either (it depends on Jc_layer, itself derived from a B-field that
+involved a multi-threaded assembly).
+
+### Honest read: not a clean win, and not consistent even mid-run
+
+Unlike n-continuation (which was cleanly, consistently better than
+baseline at EVERY checkpoint from iteration 10 through 20, in both
+fields), the Bean seed's effect is genuinely mixed even in the middle of
+the run: markedly BETTER at iteration 10 (2.3x less T divergence) but
+markedly WORSE at iteration 15 (1.7x MORE T divergence) and roughly tied
+elsewhere. At the handoff point (iteration 30) it's a wash: T is ~7%
+better (1.26 vs 1.35, well within the noise band the n-continuation
+sweep already established -- recall that swept from 1.16 to 1.43 across
+five configs with no clean trend), while A is clearly WORSE (0.62 vs
+0.27, more than 2x) -- the same adverse-A-field pattern every
+intervention tried this session has shown at handoff.
+
+This is a weaker, LESS consistent signal than n-continuation's own
+(real, if ultimately non-persisting) mid-run effect, not a stronger one.
+Both structurally different levers tried this session -- n-continuation
+(changes the coefficient physics during the run) and the Bean seed
+(changes only the starting point) -- land on the same overall verdict:
+real perturbation of the chaotic trajectory, no reliable improvement at
+the point that actually matters for a downstream solver.
+
+### What this adds to the standing picture
+
+Two independent, structurally different interventions both failing to
+produce a reliable handoff-time improvement is itself informative: it
+argues AGAINST "this is just an easy-to-fix startup transient" and FOR
+treating the ~20-25-iteration saturation window characterised earlier in
+this file as a fairly robust property of the underlying chaotic map at
+the physical operating point, not an artifact of the specific cold-start
+recipe. A genuinely different angle, not tried here and worth flagging
+rather than pursuing without direction: since the FIXED 30-iteration
+checkpoint itself may not be a meaningful synchronisation point across
+genuinely different chaotic trajectories, comparing divergence at a
+convergence-triggered (not fixed-iteration) stopping point might be a
+fairer test than anything tried in this file so far -- but that is a
+bigger methodological change than either of the two levers tried this
+session, and is a scope decision, not a natural next increment.
+
+Scripts: `transient/validation/bootstrap_beanseed_check.py`. Raw
+checkpoint dumps (9 runs x 8 checkpoints) under a session scratch
+directory, not checked into the repo.
