@@ -4168,4 +4168,22 @@ far, in every session, has only ever been a single first step from cold
 start), are both untested. See CLAUDE.md's "NI (no-insulation) transient
 work" section's final dated entry for the current standing summary.
 
+**CORRECTION, same day, later: even "validated at one point" above was
+premature.** User-directed thorough testing found every SCIF/convergence
+number here came from a run that stopped well before genuine settling --
+a `dt` generalisation sweep found the fix fails again (same signature) at
+`dt=30s`; per-layer inspection (never done before) found two of the six
+tape layers still overshooting -82x to -86x their own boundary-condition
+scale at the point every check above called "converged"; forcing runs far
+past `_picard_phase`'s own stall check shows they DO settle, but only
+after ~750 iterations, not ~460, and the truly-converged SCIF differs
+materially from every number above (+124.6mT, not +131-134mT, at the
+canonical point). At the actual validated `dt=600s, I=196A` production
+point the same treatment gives a genuinely flat +653.9mT -- closer to
+this project's `641.26mT` ground truth than the premature estimate but
+still 1.97% off, unexplained. The relaxation-parameter root-cause
+diagnosis stands; "a validated fix" does not, yet. See
+`transient/validation/nondeterminism_investigation_2026-08-05.md`'s final
+entries for the ongoing, corrected arc.
+
 ---

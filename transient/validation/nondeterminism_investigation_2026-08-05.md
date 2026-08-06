@@ -1049,3 +1049,322 @@ transient problem is solved":**
 Scripts: `transient/validation/alpha_sweep_trace_check.py`. Raw traces
 (`mt_timing1.json`, `mt_batch/run{2..5}.json`) under a session scratch
 directory, not checked into the repo.
+
+---
+
+## 2026-08-06 (continuation, coordinator-directed thorough test, Phase 1): dt/I generalization sweep -- the fix holds across current and down to dt=60s, but fails again at dt=30s; the production dt=600 point costs ~9x more iterations under the smaller alpha
+
+User-directed thorough validation of `alpha=(0.03, 0.01)` before trusting
+it beyond the single `dt=60s, I=19.6A` point. 9-point single-threaded
+sweep (same verified recipe, `alpha_sweep_trace_check.py`, max_iters=1500
+per point): `dt` in {600, 300, 150, 100, 60*, 30} at `I=19.6A` (*60s
+already established in the prior round, not rerun), `I` in {49, 98, 196}
+at `dt=60s`, plus `dt=600s, I=196A` -- the ACTUAL validated production
+operating point -- as a regression sanity check.
+
+### Results (all judged by raw diagnostics, not the `converged` flag alone)
+
+| point | n_iters | scif (mT) | dB_rel_last | T_max/T_amp | last10 spread (mT) | verdict |
+|---|---|---|---|---|---|---|
+| dt=600, I=19.6 | 453 | +116.4 | 0.038 | 0.991 | 0.884 | GENUINE |
+| dt=300, I=19.6 | 455 | +124.3 | 0.057 | 0.991 | 0.885 | GENUINE |
+| dt=150, I=19.6 | 457 | +129.5 | 0.059 | 0.991 | 0.887 | GENUINE |
+| dt=100, I=19.6 | 457 | +131.8 | 0.074 | 0.991 | 0.885 | GENUINE |
+| dt=60, I=19.6 (prior round) | 458-460 | +131.3 to +133.9 | 0.03-0.07 | 1.03-1.15 | ~0.89 | GENUINE |
+| **dt=30, I=19.6** | **189** | **+292.0** | **1.110** | **10.87** | **74.9** | **FALSE POSITIVE -- NOT converged** |
+| dt=60, I=49 | 553 | +310.3 | 0.031 | 1.018 | 0.873 | GENUINE |
+| dt=60, I=98 | 621 | +560.4 | 0.012 | 0.998 | 0.904 | GENUINE |
+| dt=60, I=196 | 696 | +799.4 | 0.007 | 0.999 | 0.878 | GENUINE |
+| dt=600, I=196 (production point) | 694 | +663.2 | 0.007 | 0.999 | 0.886 | GENUINE |
+
+### Three findings
+
+**1. Smooth, physically sensible SCIF trend across the dt sweep at fixed
+I=19.6A**: 116.4 -> 124.3 -> 129.5 -> 131.8 -> ~133 mT as `dt` decreases
+from 600 to 60s -- monotonic, no discontinuity, no sign of a
+scheme artifact. This is what a real, physically-converged trend should
+look like.
+
+**2. The fix is NOT universal -- it fails again at dt=30s.** Every
+raw diagnostic flags this point as a false positive exactly like the
+old default-alpha failures: `T_max/T_amp=10.87` (an 11x overshoot,
+not the ~1.0 every genuine point shows), `dB_rel_last=1.11` (110%
+relative change on the last iteration), `last10_scif_spread=74.9mT`
+(vs. ~0.88mT at every genuine point) -- yet the EMA flag still said
+`converged=True`. **This directly confirms the `1/dt`-forcing-coefficient
+mechanism proposed earlier**: `alpha=(0.03,0.01)` was enough damping for
+the forcing term's size at `dt=60s`, but not at `dt=30s`, where that term
+is 2x larger again. The fix needs to be `dt`-dependent (or found via a
+proper boundary search), not a single universal constant.
+
+**3. The fix generalises cleanly across CURRENT at the hard `dt=60s`
+point** -- `I`=49, 98, and 196A (the full champion design current) all
+converge genuinely, with `T_max/T_amp` settling closer to 1.0 (0.998-1.02)
+and `dB_rel_last` getting SMALLER (0.031 -> 0.012 -> 0.007) as current
+increases -- if anything easier at higher current, not harder. Current
+level is not the sensitive axis; `dt` is.
+
+### Production-point regression check: works, but costs ~9x more iterations
+
+`dt=600s, I=196A` (the actual validated champion operating point) DOES
+converge genuinely under `alpha=(0.03,0.01)`: `scif=+663.2mT`,
+`T_max/T_amp=0.999`, `dB_rel_last=0.0065` -- all clean. But it needed
+**694 iterations**, versus this project's documented 60-80 iterations at
+this exact point under the validated DEFAULT `alpha=(0.30,0.15)` -- **an
+approximately 9x increase**. There is a real, non-trivial cost to
+adopting the smaller alpha universally; this points toward a `dt`-aware
+(or continuation-based) alpha selection for production use, not a
+blanket replacement of the validated defaults.
+
+One nuance flagged, not resolved: `663.2mT` is close to but not
+identical with this project's own established `641.26mT` ground truth at
+this exact point (from the default-alpha, already-validated scheme) --
+about 3.4% different. Plausibly within scheme-dependent variation
+(different relaxation paths reaching a not-perfectly-unique fixed
+point), or possibly `694` iterations has not yet FULLY settled given how
+slowly `alpha_low=0.01` converges asymptotically -- not distinguished
+here, flagged as a loose end rather than a red flag.
+
+### Net read
+
+The core mechanism understanding holds up under real testing: this is a
+genuine relaxation-parameter/damping problem tied to the size of the
+`1/dt` forcing term, not a mysterious universal chaos. The fix
+generalises across current cleanly, degrades gracefully across `dt` down
+to the tested boundary, and reproduces the right order of magnitude (if
+not to the last mT) at the fully validated production point. It is NOT a
+universal constant -- `dt=30s` needs something smaller still (or a
+different, `dt`-scaled approach), and adopting it everywhere would cost
+production runs at `dt=600s` a real ~9x iteration-count penalty.
+
+Scripts: `transient/validation/alpha_sweep_trace_check.py` (unchanged).
+Raw traces for all 9 points under a session scratch directory, not
+checked into the repo.
+
+---
+
+## 2026-08-06 (continuation, user-directed): forced-full-length runs (min_iters=max_iters, bypassing `_picard_phase`'s own early-exit) reveal the "converged" flag was firing well before genuine settling -- the minority-layer anomaly DOES resolve, but the true converged SCIF differs meaningfully from every number reported so far in this file
+
+Direct follow-up to the user's question: do these alpha=(0.03,0.01) runs actually
+approach the validated one-step (`dt=600s`) ground truth? First attempt at a
+3000-iteration long run (previous entry) silently stopped at iteration 459 --
+`_picard_phase`'s own EMA stall check exited early despite `max_iters=3000`,
+because `min_iters=6` let it. Fixed by setting `min_iters=max_iters` in
+`per_layer_diag_check.py` (now also tracking SCIF per checkpoint), forcing the
+solver to run the full requested length regardless of what its own stall
+check thinks, and reran both `dt=60s, I=19.6A` and `dt=600s, I=196A`
+(the actual validated production point) for a genuine 3000 iterations each,
+single-threaded.
+
+### dt=60s, I=19.6A: the minority layers DO settle -- by ~750 iterations, not ~460
+
+| iter | SCIF (mT) | layer4 min/amp | layer5 min/amp |
+|---|---|---|---|
+| 300 | +170.5 | -81.3 | -82.1 |
+| 750 | +125.1 | -82.4 | -86.4 |
+| 1500 | +124.6 | -82.4 | -86.4 |
+| 2250 | +124.6 | -82.4 | -86.4 |
+| 2999 | +124.6 | -82.4 | -86.4 |
+
+**Genuinely flat from iteration 750 onward** -- not decelerating-but-still-moving
+as it appeared at iteration 300-458 in every earlier run, actually stable to
+3-4 significant figures across 2250 more iterations. The minority-layer
+concern raised earlier in this file is RESOLVED as a "needs more iterations"
+issue, not an unbounded pathology -- good news, as far as it goes.
+
+**But this reveals every earlier claim about this exact configuration was
+based on a premature stopping point.** The EMA flag fired at iteration
+~459-460 in every prior run at this `(dt, I)` (the single-threaded confirmation,
+all 5 multi-threaded confirmation runs, the entire generalisation sweep's
+`dt=60` baseline) reporting `scif≈+131-134mT`. **The TRUE, fully-settled value
+is +124.6mT** -- about 6-7% lower. The earlier "5/5 genuine convergence,
+SCIF values within 0.15% of each other" finding is NOT retracted as a
+run-to-run CONSISTENCY result (5 independent noisy launches agreeing with
+each other to 0.15% is still a real, meaningful improvement over the old
+default-alpha scatter) -- but it was consistency at a shared premature
+stopping point, not evidence of having reached the actual fixed point. Both
+things were true at once: better raw-diagnostic checks (T_max/T_amp, dB_rel,
+short-window SCIF spread) than the bare EMA flag, but still not sufficient to
+catch that ~460 iterations undershoots true convergence by a wide margin at
+this `(dt, I)`.
+
+### dt=600s, I=196A (the validated production point): forced settling brings the answer MUCH closer to the known ground truth, but not exactly onto it
+
+| iter | SCIF (mT) | layer4 min/amp | layer5 min/amp |
+|---|---|---|---|
+| 300 | +1145.8 | -3.43 | -3.40 |
+| 750 | +659.2 | -3.32 | -3.26 |
+| 1500 | +653.9 | -3.32 | -3.26 |
+| 2250 | +653.9 | -3.32 | -3.26 |
+| 2999 | +653.9 | -3.32 | -3.26 |
+
+**No minority-layer pathology here at all** -- layer4/5 settle to the same
+modest range as every other layer, matching the default-alpha result almost
+exactly (confirming again this is a short-`dt`-specific issue, not general to
+small alpha). SCIF settles cleanly and flatly from iteration 750 onward at
+**+653.9mT**.
+
+**Compared to this project's established ground truth at this exact point,
+`641.26mT`** (from the validated default-alpha scheme): the forced-full-length
+result (`653.9mT`) is **1.97% off** -- a real improvement over the
+premature-stop estimate from the earlier round (`663.2mT` at 694 iterations,
+`3.4%` off), but not an exact match. The trajectory is flat to 3-4
+significant figures across the last three checkpoints (1500-2999), so this
+does not look like it is still slowly drifting toward `641.26mT` given more
+time -- it looks like a genuinely different, stable fixed point, about 2%
+away from the reference value.
+
+**This 2% residual gap is not explained.** Since the Picard relaxation factor
+`alpha` is a pure numerical-scheme parameter that should not appear in the
+underlying fixed-point equations themselves, two different alpha schedules
+converging to two DIFFERENT stable fixed points (not just different
+transient paths to the same one) is a genuine open question, not a rounding
+detail -- plausible candidates, none confirmed: the `641.26mT` reference
+value's own convergence may itself not have been checked this rigorously
+(it predates this file's raw-diagnostic standard); or the smoothed
+critical-state floor's log-space rho-relaxation may have some genuine
+path-dependence this project has not previously had reason to probe.
+
+### What this means, plainly
+
+**Revise the cost estimate upward, substantially.** True convergence at
+`alpha=(0.03,0.01)` needs on the order of 750-1500+ iterations depending on
+`dt`, not the 460-700 assumed through every earlier round today -- a bigger
+production-cost tradeoff than previously stated.
+
+**The fix is not fully validated against the known ground truth.** It gets
+much closer once genuinely converged (1.97% vs 3.4% gap), which IS a
+meaningful positive result and rules out "wildly wrong" -- but a 2%,
+currently-unexplained discrepancy against this project's own established
+reference value is a real open item, not a footnote. Every number reported
+earlier today about "genuine convergence" at this configuration should be
+read as "internally consistent at iteration ~460, not fully converged" --
+this file's own standing lesson (never trust a status flag over an
+independent check) applied one layer too shallow, and has now been applied
+one layer deeper.
+
+**Recommended next steps, not yet done:**
+1. Understand the 2% gap at the validated `dt=600s` point specifically --
+   run the DEFAULT alpha to a similarly rigorous forced-full-length,
+   raw-diagnostic-verified standard (has `641.26mT` itself ever been checked
+   this carefully, or does it also predate this level of scrutiny?) before
+   concluding which of the two numbers, if either, is "more correct."
+2. Re-run the multi-threaded reliability confirmation (5 runs, previously
+   showing 0.15% SCIF spread) at the TRUE convergence horizon (750+
+   iterations, not ~460) to see whether the tight clustering finding still
+   holds at the actual fixed point, not just at a shared premature stopping
+   point.
+3. Reconsider the iteration-count/cost tradeoff for any future use of this
+   fix given the revised, larger true iteration requirement.
+
+Scripts: `transient/validation/per_layer_diag_check.py` (now with SCIF
+tracking and `min_iters=max_iters` forced full-length runs). Raw logs under
+a session scratch directory, not checked into the repo.
+
+---
+
+## 2026-08-06 (continuation): the "2% gap vs 641.26mT ground truth" was a test-harness artifact, NOT an alpha-fix problem -- root cause not found, but decisively shown to be independent of alpha
+
+Follow-up to the previous entry's forced-full-length dt=600s/I=196A
+result: default alpha (0.30, 0.15), run through this file's own test
+harness (`_picard_phase` from `ta_transient.py`, via
+`per_layer_diag_check.py`), ALSO settles at +653.9mT, not the
+project's established `641.26mT` ground truth -- meaning the ~2% gap
+exists independent of which alpha is used, and was never actually
+about the `alpha=(0.03,0.01)` fix at all.
+
+### Confirmed: the official production path still gives 641.26mT today
+
+Ran `transient/validation/accuracy_check_I196.py` (unmodified, the
+original script that established the ground truth) directly. It calls
+`ta_solve.solve_ta_at_current()` -- a SEPARATE, independent
+implementation of the T-A Picard loop, embedded directly in `ta_solve.py`,
+not the same code as `ta_transient.py`'s `_picard_phase` -- and still
+reproduces **+641.27mT**, converging cleanly and monotonically over 85
+iterations with well-behaved `|ΔB|/|B|` (~3-5e-3 throughout, never
+spiking). `params.py` has not drifted; this is a live, current-codebase
+result, not a stale historical one.
+
+### Five isolation attempts, all correctly reproducing 641mT, failed to identify why `_picard_phase`-based scripts give 653.9mT instead
+
+Built `transient/validation/loop_isolation_check.py` (mesh/seed built
+byte-for-byte matching `solve_ta_at_current`'s own inline cold-start
+block, then `_picard_phase` called on it) -- gives **+641.175mT**,
+matching official almost exactly. Confirmed the loop function itself is
+NOT the problem. Systematically tested every remaining hypothesis, each
+its own script, each STILL giving the correct ~641mT:
+- `_check2.py`: seed order swapped (A-seed before vs after setting
+  `T_bot_val`/`T_top_val`) -- both orders give ~641mT.
+- `_check3.py`: calling the actual `_seed_cold()` function (imported from
+  `ta_transient.py`, as every earlier script today did) instead of a
+  manually-inlined seed -- still ~641mT.
+- `_check4.py`: explicitly setting `params.ta_picard_alpha`/
+  `ta_picard_alpha_fine` before mesh-building (confirmed via direct grep
+  that `ta_solve.py` never reads these outside the loop functions, so
+  timing cannot matter) -- still ~641mT. Adding a diagnostic closure that
+  calls `B_fn.interpolate()` and `_J_from_T()` every iteration (matching
+  `per_layer_diag_check.py`'s closure) -- still ~641mT.
+
+Yet `per_layer_diag_check.py` itself -- which uses the SAME `_seed_cold`,
+the SAME seed order, the SAME explicit alpha-setting, and a closure that
+was shown not to matter -- reliably gives **+653.9mT**, reproduced
+**bit-identically across 3 independent single-threaded launches**
+(iter-by-iter SCIF matching to the printed decimal at every one of ~20
+checkpoints, e.g. all three giving exactly `+2674.838mT` at iteration 5).
+This rules out run-to-run noise/multi-basin sensitivity as the
+explanation -- whatever the difference is, it is fully deterministic, not
+random.
+
+### A real, small, deterministic seed-level difference was found -- amplified, not created, by the iteration
+
+Dumping checksums (`.sum()`) of `J_coil`, `rho_fn` immediately after
+seeding: `J_coil.sum()` matched EXACTLY between `per_layer_diag_check.py`
+and the isolation scripts; `rho_fn.sum()` differed at the 5th significant
+figure (`2.990060e-14` vs `2.990128e-14`, ~0.002% relative) -- small but
+real, and NOT attributable to mesh non-reproducibility (this project's own
+earlier investigation confirmed byte-identical mesh files across
+processes; both these runs were single-threaded, ruling out thread-order
+noise too). After just ONE Picard iteration (`max_iters=1`, forced),
+SCIF is already `+9262.586mT` vs. the official log's own iteration-1 value
+of `+9251.68mT` -- a 0.118% difference, roughly 50x amplified from the
+seed-level ~0.002% discrepancy. This is consistent in KIND with this
+whole file's established finding that the T-equation's linear sub-problem
+strongly amplifies small differences -- just far more muted here (dt=600s
+stays stable and cleanly convergent, unlike dt=60s/30s) -- compounding
+over ~100+ iterations into the visible ~2% final gap.
+
+**Root cause of the seed-level `rho_fn` discrepancy itself was NOT found**
+despite five targeted isolation attempts. Given the amplification
+mechanism is already well-understood and this is clearly consistent with
+(not contradicting) everything else established today, further
+bisection was stopped here as a scope decision, not because the
+question is resolved.
+
+### The critical clarification this provides
+
+**The `alpha=(0.03,0.01)` fix is NOT the source of the ~2% discrepancy
+from `641.26mT`.** Both default alpha and small alpha, run through the
+SAME test harness (`_picard_phase`), converge to the SAME fixed point
+(+653.9mT, agreeing with each other to <0.02%) -- the alpha-vs-alpha
+comparison done throughout today's testing remains entirely valid. What
+was NOT valid was comparing either of those numbers against `641.26mT`,
+since that number comes from a DIFFERENT code path
+(`solve_ta_at_current`) with its own small, unexplained numerical
+difference from `_picard_phase` -- present regardless of which alpha is
+used, including the already-validated default one.
+
+### Practical recommendation
+
+**For any future validation that needs to match this project's
+established reference values, use `ta_solve.solve_ta_at_current()`
+directly**, not a custom `_picard_phase`-based harness -- until the root
+cause of this harness discrepancy is found, comparing `_picard_phase`
+output against `solve_ta_at_current` reference numbers is not a like-for-
+like comparison. Comparisons BETWEEN `_picard_phase`-based runs (e.g.
+different alpha values, different dt, different repeats) remain valid,
+since the same harness-specific offset should apply consistently, based
+on the evidence gathered here (default and small alpha landing on the
+same fixed point via this harness).
+
+Scripts: `transient/validation/loop_isolation_check.py` through `_check4.py`,
+`per_layer_noclosure_test.py` (all in this session, kept for reference).
