@@ -791,3 +791,4 @@ Parallel mode: 6 worker processes per generation.
   [a=23 b=28 nt=1376] KSP converged reason: 4, iterations: 1
   [a=23 b=28 nt=1378] KSP converged reason: 4, iterations: 1
   [a=23 b=28 nt=1382] KSP converged reason: 4, iterations: 1
+[0]PETSC ERROR: 

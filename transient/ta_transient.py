@@ -139,6 +139,25 @@ def _picard_phase(ta, domain, ic_model, n_model, I_now, dt, J_coil,
             if np.any(np.isnan(sol.x.array)):
                 raise RuntimeError(
                     f"NaN in T solve ({label}), layer {i}, iter {k}")
+
+            # DIAGNOSTIC HOOK (2026-08-05, nondeterminism investigation) --
+            # inert unless DUMP_ITER1_MATRIX_PATH is set. Dumps the FIRST
+            # Picard iteration's assembled T-equation matrix (CSR) and RHS
+            # for every layer, so two separate process launches of the
+            # identical nominal configuration can be bit-diffed at the
+            # earliest possible point, before any Picard nonlinear
+            # amplification has a chance to act.
+            if k == 0:
+                import os as _os
+                _dump = _os.environ.get("DUMP_ITER1_MATRIX_PATH")
+                if _dump:
+                    import numpy as _np
+                    ai, aj, av = prob.A.getValuesCSR()
+                    bv = prob.b.getArray(readonly=True).copy()
+                    _np.savez(f"{_dump}_layer{i}.npz",
+                             indptr=ai, indices=aj, data=av, rhs=bv,
+                             sol=sol.x.array.copy())
+
             T_i.x.array[:] = (1.0 - alpha) * T_i.x.array + alpha * sol.x.array
             T_i.x.scatter_forward()
 

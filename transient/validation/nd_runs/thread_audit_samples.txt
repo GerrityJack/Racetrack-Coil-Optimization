@@ -1,0 +1,232 @@
+launched PID=12423
+--- sample 1 (11:12:04) PID=12423 Threads:	1 ---
+  tid=12423 comm=python3
+--- sample 2 (11:12:06) PID=12423 Threads:	2 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+--- sample 3 (11:12:08) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 4 (11:12:10) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 5 (11:12:12) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 6 (11:12:14) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 7 (11:12:16) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 8 (11:12:18) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 9 (11:12:20) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 10 (11:12:22) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 11 (11:12:24) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 12 (11:12:28) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 13 (11:12:30) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 14 (11:12:32) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 15 (11:12:34) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 16 (11:12:36) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 17 (11:12:38) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 18 (11:12:40) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 19 (11:12:42) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 20 (11:12:45) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 21 (11:12:47) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 22 (11:12:49) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 23 (11:12:51) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 24 (11:12:53) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 25 (11:12:55) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 26 (11:12:57) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 27 (11:12:59) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 28 (11:13:02) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 29 (11:13:05) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+--- sample 30 (11:13:07) PID=12423 Threads:	7 ---
+  tid=12423 comm=python3
+  tid=12434 comm=async
+  tid=12447 comm=python3
+  tid=12448 comm=python3
+  tid=12449 comm=python3
+  tid=12450 comm=python3
+  tid=12451 comm=python3
+exit code: 0
+RESULT dt=60.0s I_target=19.6A: converged=False  n_iters=150  finite=True

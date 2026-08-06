@@ -1,0 +1,13 @@
+[dt=60.0s I=19.6A] building mesh (own process) ...
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/.claude/worktrees/agent-a2b2bc836263da085/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+
+==============================================================================
+FIRST STEP FROM ZFC: dt=60.0s  I_target=19.6A  (1/dt forcing coeff = 0.0167)
+==============================================================================
+      [dt=60.0s I=19.6A] ramp-up done -> alpha=0.15
+      [dt=60.0s I=19.6A] CAP  in 150 iters, SCIF=+376.40 mT
+
+==============================================================================
+RESULT dt=60.0s I_target=19.6A: converged=False  n_iters=150  finite=True
+==============================================================================

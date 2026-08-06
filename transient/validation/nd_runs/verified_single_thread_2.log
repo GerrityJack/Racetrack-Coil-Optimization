@@ -1,0 +1,22 @@
+[dt=60.0s I=19.6A] building mesh (own process) ...
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/.claude/worktrees/agent-a2b2bc836263da085/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+
+==============================================================================
+FIRST STEP FROM ZFC: dt=60.0s  I_target=19.6A  (1/dt forcing coeff = 0.0167)
+==============================================================================
+      [dt=60.0s I=19.6A] ramp-up done -> alpha=0.15
+      [dt=60.0s I=19.6A] CAP  in 150 iters, SCIF=-28.07 mT
+
+==============================================================================
+RESULT dt=60.0s I_target=19.6A: converged=False  n_iters=150  finite=True
+==============================================================================
+WARNING! There are options you set that were not used!
+WARNING! could be spelling mistake, etc!
+There are 6 unused database options. They are:
+Option left: name:-ta_T0_mat_mumps_icntl_16 value: 1 source: code
+Option left: name:-ta_T1_mat_mumps_icntl_16 value: 1 source: code
+Option left: name:-ta_T2_mat_mumps_icntl_16 value: 1 source: code
+Option left: name:-ta_T3_mat_mumps_icntl_16 value: 1 source: code
+Option left: name:-ta_T4_mat_mumps_icntl_16 value: 1 source: code
+Option left: name:-ta_T5_mat_mumps_icntl_16 value: 1 source: code

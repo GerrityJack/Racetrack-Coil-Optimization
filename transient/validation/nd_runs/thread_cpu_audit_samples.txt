@@ -1,0 +1,26 @@
+launched PID=13368
+--- snapshot A (11:14:34.635289978) ---
+13368 561
+13372 0
+13376 1
+13377 1
+13378 0
+13379 0
+13380 0
+--- snapshot B (11:14:39.669708348) ---
+13368 1078
+13372 0
+13376 1
+13377 1
+13378 0
+13379 0
+13380 0
+--- per-thread ticks consumed in the 5s window (CLK_TCK=100) ---
+tid=13368 delta_ticks=517
+tid=13372 delta_ticks=0
+tid=13376 delta_ticks=0
+tid=13377 delta_ticks=0
+tid=13378 delta_ticks=0
+tid=13379 delta_ticks=0
+tid=13380 delta_ticks=0
+(process killed after measurement window)

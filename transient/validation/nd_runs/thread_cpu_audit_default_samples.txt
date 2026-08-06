@@ -1,0 +1,48 @@
+launched PID=13543 (DEFAULT threading env)
+--- snapshot A (11:15:30.446580861) ---
+13543 529
+13547 0
+13552 1
+13553 2
+13554 1
+13555 0
+13556 0
+13603 74
+13604 68
+13605 56
+13606 77
+13607 94
+13608 48
+13609 38
+--- snapshot B (11:15:35.592571708) ---
+13543 955
+13547 0
+13552 1
+13553 2
+13554 1
+13555 0
+13556 0
+13603 330
+13604 328
+13605 314
+13606 350
+13607 352
+13608 179
+13609 290
+--- per-thread ticks consumed in the 5s window (CLK_TCK=100) ---
+tid=13543 delta_ticks=426
+tid=13547 delta_ticks=0
+tid=13552 delta_ticks=0
+tid=13553 delta_ticks=0
+tid=13554 delta_ticks=0
+tid=13555 delta_ticks=0
+tid=13556 delta_ticks=0
+tid=13603 delta_ticks=256
+tid=13604 delta_ticks=260
+tid=13605 delta_ticks=258
+tid=13606 delta_ticks=273
+tid=13607 delta_ticks=258
+tid=13608 delta_ticks=131
+tid=13609 delta_ticks=252
+TOTAL delta_ticks=2114 over 5s window (423% avg aggregate CPU)
+(process killed after measurement window)

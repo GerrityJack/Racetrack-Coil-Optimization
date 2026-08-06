@@ -1,0 +1,44 @@
+[dt=60.0s I=19.6A] building mesh (own process) ...
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+Fitting entropy-max Beta Jc(B) + Hill n(B) models ...
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+
+==============================================================================
+MONOLITHIC-DIFF FIRST STEP FROM ZFC: dt=60.0s  I_target=19.6A  max_outer=150
+==============================================================================
+      [newton-bootstrap] ramp-up done -> alpha=0.15
+      [newton-bootstrap] CAP  in 30 iters, SCIF=+214.95 mT
+    [bootstrap] 30 Picard iterations (converged=False -- either is fine, this only needs to seed Newton's initial guess)
+  0 SNES Function norm 6.305940458523e+09
+  1 SNES Function norm 2.299863375293e+05
+    [monodiff k=  1] SCIF=  +520.07 mT  reason=-5  its=1
+  0 SNES Function norm 4.414158321537e+09
+  1 SNES Function norm 2.799934895848e+07
+    [monodiff k=  2] SCIF=  +558.40 mT  reason=-5  its=1
+  0 SNES Function norm 3.089923519433e+09
+  1 SNES Function norm 2.549744733656e+09
+    [monodiff k=  3] SCIF=  +597.87 mT  reason=-5  its=1
+  0 SNES Function norm 2.825123585217e+09
+  1 SNES Function norm 2.825086223402e+09
+    [monodiff k=  4] SCIF=  +629.44 mT  reason=-5  its=1
+  0 SNES Function norm 2.826063997355e+09
+  1 SNES Function norm 2.824803098988e+09
+    [monodiff k=  5] SCIF=  +654.70 mT  reason=-5  its=1
+  0 SNES Function norm 2.826637655571e+09
+  1 SNES Function norm 2.826242185826e+09
+    [monodiff k=  6] SCIF=  +674.91 mT  reason=-5  its=1
+  0 SNES Function norm 2.829793809170e+09
+  1 SNES Function norm 2.828744309627e+09
+    [monodiff k=  7] SCIF=  +691.07 mT  reason=-5  its=1
+  0 SNES Function norm 2.833414563637e+09
+  1 SNES Function norm 2.833327933604e+09
+    [monodiff k=  8] SCIF=  +704.00 mT  reason=-5  its=1
+  0 SNES Function norm 2.833728435903e+09
+      [monodiff] block Newton step failed (reason=-6) -- reverting and stopping at iteration 8
+    [monodiff] step done: stop_reason=block_newton_failure_reverted  n_outer=8  SCIF=+704.00 mT
+
+==============================================================================
+RESULT dt=60.0s I_target=19.6A: converged=False  n_outer=8  stop_reason=block_newton_failure_reverted  scif=+704.00 mT  finite=True  total_snes_iters=8
+==============================================================================

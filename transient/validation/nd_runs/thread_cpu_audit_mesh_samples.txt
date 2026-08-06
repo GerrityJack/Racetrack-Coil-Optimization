@@ -1,0 +1,20 @@
+launched PID=13738
+--- snapshot A (t=0.5s, during mesh build) ---
+13738 47
+13742 0
+--- snapshot B (t=3.0s, likely still mesh build) ---
+13738 301
+13742 0
+13751 1
+13752 0
+13753 0
+13754 0
+13755 0
+tid=13738 delta_ticks=254
+tid=13742 delta_ticks=0
+tid=13751 delta_ticks=1
+tid=13752 delta_ticks=0
+tid=13753 delta_ticks=0
+tid=13754 delta_ticks=0
+tid=13755 delta_ticks=0
+TOTAL delta_ticks=255 over 2.5s window (102% avg aggregate CPU)

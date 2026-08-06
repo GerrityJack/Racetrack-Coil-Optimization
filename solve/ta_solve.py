@@ -615,6 +615,17 @@ def _build_problems(domain, ta, uniform_setup):
                   "pc_type": "lu",
                   "pc_factor_mat_solver_type": "mumps"}
 
+    # DIAGNOSTIC HOOK (2026-08-05, nondeterminism investigation) — inert
+    # unless TA_MUMPS_EXTRA_OPTS is set. Lets an external test harness force
+    # specific MUMPS ICNTL/CNTL values (ordering method, thread count,
+    # verbosity, ...) onto the T-equation's LinearProblem without touching
+    # production code paths. JSON dict of option-name (without leading
+    # dash) -> value, e.g. '{"mat_mumps_icntl_7": 2, "mat_mumps_icntl_16": 1}'.
+    import json as _json
+    _extra = os.environ.get("TA_MUMPS_EXTRA_OPTS")
+    if _extra:
+        mumps_opts.update(_json.loads(_extra))
+
     if ta["per_layer"]:
         # One LinearProblem per z-layer: same bilinear/linear forms, only
         # the BC sets differ.  Each refactorises per solve (ρ changes every
