@@ -519,30 +519,44 @@ that one file.
 
 ## Current configuration (from params.py)
 
-**`params.py` currently holds the CMA-ES champion design (§ "Internal
-CMA-ES search" above), not the original hand-picked baseline.** The
-baseline values (`a=50mm`, `b=80mm`, 7-layer `[500,500,500,400,400,250,100]`
+**`params.py` currently holds the margin/jitter-aware champion design
+(as of 2026-08-03), not the original hand-picked baseline.** This
+supersedes the `[295,295,369,369,2,2]` champion narrated in "Internal
+CMA-ES search" above (that section is a historical record of how the
+search evolved through 2026-07-30 and is kept as-is; the design it ends
+on was itself later superseded — see [The design problem](#the-design-problem--start-here)
+at the top of this README and `CLAUDE.md`'s "Current design" section for
+the reasoning behind the final margin-aware version). The baseline
+values (`a=50mm`, `b=80mm`, 7-layer `[500,500,500,400,400,250,100]`
 stack) are kept below for reference — they're what `evaluate.py`'s
 worked example and the physics-explanation section further down use —
 but are no longer what a fresh solve/visualization run in this repo
 actually produces.
 
-| Parameter | Current champion (params.py, as of 2026-07-30) | Original baseline (evaluate.py example) |
+| Parameter | Current champion (params.py, as of 2026-08-03) | Original baseline (evaluate.py example) |
 |---|---|---|
-| `n_turns` | `[295, 295, 369, 369, 2, 2]`  (6 layers = 3 double pancakes, top→bottom) | `[500, 500, 500, 400, 400, 250, 100]`  (7 layers) |
-| `n_turns_total` | 1330 | 2650 |
-| `a` / `b` | 22.227 mm / 27.268 mm | 50 mm / 80 mm |
+| `n_turns` | `[382, 382, 478, 478, 3, 3]`  (6 layers = 3 double pancakes, top→bottom) | `[500, 500, 500, 400, 400, 250, 100]`  (7 layers) |
+| `n_turns_total` | 1726 | 2650 |
+| `a` / `b` | 26.0 mm / 31.4 mm | 50 mm / 80 mm |
 | `t` / `w` | 75 µm / 4 mm  (tape pitch Λ / tape width) | same |
 | `delta_SC` | 1 µm  (REBCO superconducting layer thickness) | same |
-| `I_design` | 223.88 A/turn | 200 A/turn |
-| `coil_half_gap` | 13.500 mm  (face-to-face gap 3.0 mm, at the manufacturing floor) | 30 mm |
-| Tape length | 0.2235 km | ~1194 m |
-| B_target @ I_op | 10.00 T (optimistic Ic extrapolation — see [Known limitations](#known-limitations)) | 13.4 T @ I_op=339A |
-| Box peak-to-peak uniformity | 0.83% (T-A validated PASS; 0.731% on its original validation, 0.828% on two later independent re-checks — use 0.83%) | 0.21% |
-| Hoop stress | 114 MPa | — |
+| `I_design` | 196.0 A/turn (65% of local Ic under the Kim Ic(B) model) | 200 A/turn |
+| `coil_half_gap` | 13.7 mm  (face-to-face gap 3.40 mm nominal, 3.00–3.84 mm across 15 jitter samples) | 30 mm |
+| Tape length | 0.3372 km | ~1194 m |
+| B_target @ I_op | 10.49 T nominal, quoted as **~10.5 ± 0.5 T** of Ic-model uncertainty (Kim model, hold-out MAPE 4.1% — the best-validated extrapolation above the measured 8 T ceiling; see [Ic(B,θ) data — limitations](#icbθ-data--limitations)) | 13.4 T @ I_op=339A |
+| Box peak-to-peak uniformity | 0.495% (T-A validated PASS; 0.338–0.517% across 15 jitter samples, 15/15 pass) | 0.21% |
+| Hoop stress | 113 MPa (102–113 MPa across jitter samples) | — |
 | `ramp_duration` | 600 s  (ramp 0 → I; sets screening-current depth) | same |
 | `mesh_z_grading` | `[0.075, 0.15, 0.55, 0.15, 0.075]`  (graded sub-slabs per tape width: 0.3 mm edge cells, coarse bulk) | same |
 | T-A sweep range | 150–400 A in 25 A steps (`SWEEP_CURRENTS` in ta_sweep.py) | same |
+
+This is the first design in the project's history validated against
+**both** a realistic critical-current model **and** build tolerance
+(±0.2mm on a/b/gap, ±2% on tape thickness, exact turn counts) — its
+predecessor reached 10.03 T with only 0.3% margin and then failed
+catastrophically under the same jitter test (0/14 builds reached 10 T).
+See `CLAUDE.md`'s "Current design" section for the full margin-search
+reasoning.
 
 All layers share the same outer radial edge `a_out`; the inner edge of
 layer i is `a_out − n_i·t`. The stack is centred at z = 0, one tape-width
@@ -648,6 +662,41 @@ CLAUDE.md for the bug history (boundary-cell replication artifact,
 missing quadrant mirrors, wrong cell volumes) and for the 2026-07-11
 Picard robustness rework (fixed α, smooth j/jc floor, ρ relaxation,
 observable-stall convergence criterion).
+
+---
+
+## NI (no-insulation) transient work — `circuit/` and `transient/`
+
+The coil is committed to no-insulation (NI) winding. At DC steady state
+the radial current vanishes, so the design above is unaffected — this
+adds a transient (ramp/discharge) constraint on top, not a change to it.
+
+- **`circuit/` (Phase A, lumped DCN circuit model) — VALIDATED.** Reduced-
+  order per-turn mutual-inductance model with a DCN ladder solved via
+  `scipy.integrate.solve_ivp(method="BDF")`. Matches the production
+  Biot-Savart field path to 0.18% median, reproduces a published benchmark
+  (He et al. 2025) to 4.2%, and gives the champion's self-inductance
+  (419.7 mH), stored energy (8.07 kJ @ 196A), and `tau = 1330/rho_c` scaling.
+- **`transient/` (Phase B, T-A + circuit closure) — EXPLORATORY, use with
+  caution.** Adds the NI circuit closure to the T-A Picard/Newton solve
+  for hysteretic loss and current redistribution during a ramp. The base
+  T-A solver was only ever validated at a single implicit step
+  (`dt=600s`); genuine multi-step time-marching at shorter `dt` needed a
+  from-scratch relaxation-parameter fix (`alpha=(0.03,0.01)`, found and
+  validated 2026-08-06) after five other approaches failed. As of
+  2026-08-07: validated across `dt` in [60s,600s] and `I` in [19.6,196]A,
+  including a genuine multi-step ramp and reliable multi-threaded
+  execution (0.001-0.03% run-to-run) — but a new, unresolved ~2.2% gap
+  exists between single- and multi-threaded runs, `dt=30s` is a
+  confirmed hard failure boundary, and the NI circuit closure itself is
+  still out of scope (insulated limit only so far).
+
+**Do not trust any `transient/` SCIF or ramp-trajectory number without
+first reading `CLAUDE.md`'s "NI transient work" section** for exactly
+what's validated (or retracted) at that specific `dt`/schedule — several
+early results in this effort were later found to be false stalls or
+process-launch nondeterminism, not real physics. Full dated arc in
+`docs/HISTORY.md` and `transient/validation/nondeterminism_investigation_2026-08-05.md`.
 
 ---
 

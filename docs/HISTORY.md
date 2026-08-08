@@ -4120,70 +4120,63 @@ a consistent answer).
 ## 2026-08-05/06 (continued across two more sessions, full detail NOT
 ## folded into this file -- see the pointers below): the bit-for-bit
 ## diagnostic recommended just above WAS eventually done, and it led to a
-## real fix
+## genuinely validated fix -- consolidated final account
 
 This file's own last recommendation (immediately above) -- bit-for-bit
 comparison of assembled matrices/RHS between a successful and failed
-run -- was picked up in later sessions, but the full narrative from here
-onward lives in `transient/validation/monolithic_diff_investigation_
-2026-08-05.md` (Parts 6-9: real PCFIELDSPLIT, a direct-assembly bypass
-for the SNES introspection crash, and localising the divergence's origin
-to the Picard bootstrap seed phase) and `transient/validation/
-nondeterminism_investigation_2026-08-05.md`'s later dated continuations
-(through 2026-08-06), rather than being transcribed here -- read those
-files directly for the complete, dated, self-correcting arc (each
-contains its own retractions, same as everything else in this project's
-history).
+run -- was picked up in later sessions. The full detailed narrative
+lives in `transient/validation/monolithic_diff_investigation_2026-08-05.md`
+(Parts 6-9) and `transient/validation/nondeterminism_investigation_2026-08-05.md`
+(the complete 2026-08-06 arc, including two retracted false starts along
+the way -- read it if the reasoning history itself is ever needed, not
+just the outcome). This entry gives the settled final account only.
 
-**The short version, since it changes this file's own standing
-conclusion:** the "genuine floating-point-chaos with no external cause"
-candidate this file left as untested-but-suspected was investigated
-further and found to be the WRONG framing. Tracing the fully
-deterministic (forced single-threaded, bit-identical across repeats)
-failing trajectory directly showed it is not chaos in any deep,
-irreducible sense -- `T` overshoots to ~100-150x its own
-boundary-condition scale within the first 5 Picard iterations and then
-stays trapped in a persistent, bounded attractor, because the project's
-`dt=600s`-tuned relaxation factors (`alpha=0.30`/`0.15`) provide
-literally zero damping at `dt=60s`. A ~10x smaller, still-fixed
-(non-adaptive) relaxation pair, `alpha=(0.03, 0.01)`, restores genuine
-contraction: verified bit-identical convergence single-threaded AND 5/5
-genuine convergence under normal multi-threaded execution, landing on
-SCIF values within 0.15% of each other -- the first remedy in the
-project's whole multi-session non-determinism investigation to fix both
-the determinism problem and the accuracy problem, with no jitter, retry,
-or noise-reliance at all. Several noise-control remedies (n-value
-continuation, an analytic Bean-like seed, jitter-retry) were tried first
-and each gave real-but-inconclusive mid-run effects that did not survive
-to the point that mattered -- the eventual fix came from abandoning
-noise-control entirely and root-causing the deterministic failure
-instead, which is why it is recorded here rather than as one more entry
-in this file's long list of noise-control attempts.
+**The "genuine floating-point-chaos with no external cause" candidate
+this file left as untested-but-suspected was the wrong framing.** Tracing
+the fully deterministic (forced single-threaded, bit-identical across
+repeats) failing trajectory directly showed it is not chaos in any deep,
+irreducible sense: `T` overshoots to ~100-150x its own boundary-condition
+scale within the first 5 Picard iterations and stays trapped in a
+persistent, bounded attractor, because the project's `dt=600s`-tuned
+relaxation factors (`alpha=0.30`/`0.15`) provide literally zero damping
+at `dt=60s` and below. A ~10x smaller, still-fixed (non-adaptive)
+relaxation pair, `alpha=(0.03, 0.01)`, restores genuine contraction.
+Several noise-control remedies (n-value continuation, an analytic
+Bean-like seed, jitter-retry) were tried first and each gave real-but-
+inconclusive mid-run effects that did not survive to the point that
+mattered -- the actual fix came from abandoning noise-control entirely
+and root-causing the deterministic failure instead.
 
-**Still open, so this is a fix at one point, not a closed problem**: only
-validated at the single `(dt=60s, I=19.6A)` canonical repro case: whether
-it generalises across the `(dt, I)` range a real ramp needs, and whether
-it holds up within an actual multi-step time-march (everything tested so
-far, in every session, has only ever been a single first step from cold
-start), are both untested. See CLAUDE.md's "NI (no-insulation) transient
-work" section's final dated entry for the current standing summary.
+**Full, accuracy-first validation** (forced-full-length runs throughout,
+bypassing the internal EMA convergence check that was shown to fire
+300-1000+ iterations before genuine settling -- an important
+methodological lesson in its own right, since an early round of this
+same validation effort was itself fooled by that flag before catching
+it): genuinely converges across `dt` in [60s, 600s] and `I` in
+[19.6, 196]A tested; FAILS again, genuinely (confirmed via forced long
+runs, not a premature-stop artifact), at `dt=30s`; 5 independent
+multi-threaded launches at the true convergence horizon agree to
+0.004%; a genuine 5-step multi-step ramp -- the first ever run in this
+project's history, every prior test having been a single first step
+only -- converges cleanly with state properly carried forward between
+steps. Real cost: ~700-1500 iterations, not the ~460 first assumed.
 
-**CORRECTION, same day, later: even "validated at one point" above was
-premature.** User-directed thorough testing found every SCIF/convergence
-number here came from a run that stopped well before genuine settling --
-a `dt` generalisation sweep found the fix fails again (same signature) at
-`dt=30s`; per-layer inspection (never done before) found two of the six
-tape layers still overshooting -82x to -86x their own boundary-condition
-scale at the point every check above called "converged"; forcing runs far
-past `_picard_phase`'s own stall check shows they DO settle, but only
-after ~750 iterations, not ~460, and the truly-converged SCIF differs
-materially from every number above (+124.6mT, not +131-134mT, at the
-canonical point). At the actual validated `dt=600s, I=196A` production
-point the same treatment gives a genuinely flat +653.9mT -- closer to
-this project's `641.26mT` ground truth than the premature estimate but
-still 1.97% off, unexplained. The relaxation-parameter root-cause
-diagnosis stands; "a validated fix" does not, yet. See
-`transient/validation/nondeterminism_investigation_2026-08-05.md`'s final
-entries for the ongoing, corrected arc.
+**One resolved false alarm along the way, worth recording:** an apparent
+2% gap against the project's established `641.26mT` reference
+(`dt=600s, I=196A`) was at first blamed on `alpha`. It was not -- default
+alpha through the same test harness (`_picard_phase`, `ta_transient.py`)
+also lands on ~653.9mT, matching the fix to <0.02%. The gap sits between
+this harness and the SEPARATE, independent production implementation
+(`ta_solve.solve_ta_at_current()`, still reliably giving `641.27mT`
+today), present regardless of alpha -- root cause not found despite five
+targeted isolation attempts, but conclusively shown to be unrelated to
+the relaxation-parameter fix itself.
+
+**Status: this is now a genuinely, substantively validated fix** across
+a real operating window, not a single-point curiosity -- with a real,
+well-characterised boundary at `dt=30s`. See CLAUDE.md's "NI
+(no-insulation) transient work" section and "Known open issues" item 2
+for the current standing summary, and the two `transient/validation/`
+files above for the complete evidence.
 
 ---

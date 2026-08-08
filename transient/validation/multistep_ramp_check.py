@@ -101,9 +101,29 @@ def main():
 
         J_unif = ta["t_hat_coil"] * (I_now / (delta_SC * params.w))
 
+        # FORCED full-length: min_iters=max_iters bypasses _picard_phase's
+        # own EMA stall check entirely, since that check was shown
+        # (nondeterminism_investigation_2026-08-05.md) to fire well before
+        # genuine settling at every (dt, I) point tested so far.
+        B_before = ta["B_fn"].x.array.reshape(-1, 3)[coil].copy()
+
+        _last_dB_rel = {"val": float("nan")}
+        _prev_B = {"arr": None}
+
+        def _iter_closure():
+            ta["B_fn"].interpolate(ta["curl_expr"])
+            B_now = ta["B_fn"].x.array.reshape(-1, 3)[coil]
+            if _prev_B["arr"] is not None:
+                Bn = float(np.linalg.norm(B_now.ravel()))
+                _last_dB_rel["val"] = (
+                    float(np.linalg.norm((B_now - _prev_B["arr"]).ravel())) / Bn
+                    if Bn > 0 else float("nan"))
+            _prev_B["arr"] = B_now.copy()
+
         J_coil, n_iters, converged = _picard_phase(
             ta, domain, ic, nm, I_now, dt, J_coil,
-            closure=lambda: None, max_iters=max_iters_per_step, min_iters=6,
+            closure=_iter_closure, max_iters=max_iters_per_step,
+            min_iters=max_iters_per_step,
             scif_tol=0.5, label=f"step{step_idx}", verbose=False)
 
         finite = (np.all(np.isfinite(ta["A_h"].x.array))
@@ -112,6 +132,9 @@ def main():
 
         ta["B_fn"].interpolate(ta["curl_expr"])
         B_coil = ta["B_fn"].x.array.reshape(-1, 3)[coil]
+        B_mag = float(np.linalg.norm(B_coil.ravel()))
+        dB_rel_step = (float(np.linalg.norm((B_coil - B_before).ravel())) / B_mag
+                       if B_mag > 0 else float("nan"))
         dJs = (J_coil - J_unif) * (delta_SC / ta["Lambda"])
         scif = float(ta_solve.dB_bore_from_dJ(
             ta["coil_centroids"], dJs, ta["coil_vols"])[2] * 1e3)
@@ -122,11 +145,14 @@ def main():
                            converged=bool(converged), n_iters=int(n_iters),
                            finite=bool(finite), scif_mT=scif,
                            T_max_over_amp=T_max / T_amp,
-                           T_min_over_amp=T_min / T_amp)
+                           T_min_over_amp=T_min / T_amp,
+                           dB_rel_over_step=dB_rel_step,
+                           dB_rel_last_iter=_last_dB_rel["val"])
         steps_out.append(step_result)
         print(f"  step={step_idx} dt={dt} I={I_now:.1f}A  converged={converged}  "
               f"n_iters={n_iters}  finite={finite}  scif={scif:+.3f}mT  "
-              f"T_max/amp={T_max/T_amp:.3f}  T_min/amp={T_min/T_amp:.3f}",
+              f"T_max/amp={T_max/T_amp:.3f}  T_min/amp={T_min/T_amp:.3f}  "
+              f"dB_rel_last_iter={_last_dB_rel['val']:.3e}",
               flush=True)
 
         if not finite:
