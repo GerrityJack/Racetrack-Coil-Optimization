@@ -1694,3 +1694,174 @@ the single-threaded reference to better than ~2%.
 Scripts: `transient/validation/full_ramp_run.py` (unmodified). Output:
 `transient/full_validation_plots/data/full_ramp_0to196A_multithreaded.npz`,
 `..._multithreaded_rep2.npz`.
+
+---
+
+## 2026-08-07 (continued): a ramp deliberately crossing the dt=30s "fully chaotic" boundary mid-sequence does NOT reproduce that chaos -- the earlier boundary characterization was cold-start/low-current specific, not a universal dt=30s failure
+
+Closes the "ramp crossing the dt=30s boundary mid-sequence" item. Script:
+`transient/validation/dt_crossing_ramp.py` (new, adapted from
+`full_ramp_run.py`'s state-carrying loop). Schedule: steps 0-2 at clean
+dt=60s (I=19.6, 39.2, 58.8A, baseline), steps 3-4 deliberately dropped to
+dt=30s (I=78.4, 98.0A -- the same dt confirmed "fully chaotic",
+dB_rel=1.020, T_max/amp=10.8, in the 2026-08-06/07 dt-boundary sweep),
+steps 5-9 back to dt=60s (I=117.6 -> 196.0A). Single-threaded,
+forced-full-length (1000 iters/step), same rigor as every other script
+in this file.
+
+### Important methodological note before the result: this comparison is apples-to-oranges on purpose, and that is exactly the point
+
+The dt-boundary sweep (`dt_boundary_sweep.py`) tests each dt point from a
+**cold start** (`_seed_cold`) at a **fixed low current, I=19.6A**, every
+time -- it never warm-starts. This new test crosses dt=30s **warm-started**
+from a converged dt=60s state, **at higher current** (I=78.4A, 4x the
+sweep's fixed point). These are genuinely different physical setups, and
+the question this test asks is precisely whether the boundary
+characterization generalizes across that difference -- it does not.
+
+### Result: steps 3-4 show a mild, self-correcting transitional response, not chaos -- verified on raw dB_rel, not just the printed T_max/amp
+
+| step | dt (s) | I (A) | T_max/amp | last dB_rel | max dB_rel during step | SCIF (mT) |
+|---|---|---|---|---|---|---|
+| 0 | 60 | 19.6 | 1.039 | 0.069 | 1.95 | 124.680 |
+| 1 | 60 | 39.2 | 1.000 | 0.038 | 0.26 | 240.478 |
+| 2 | 60 | 58.8 | 1.000 | 0.023 | 0.15 | 349.248 |
+| **3** | **30** | **78.4** | 1.000 | **0.162** | 1.06 | 453.203 |
+| **4** | **30** | **98.0** | 1.103 | **0.012** | 1.11 | 550.885 |
+| 5 | 60 | 117.6 | 1.007 | 0.010 | 0.05 | 625.673 |
+| 6 | 60 | 137.2 | 1.000 | 0.007 | 0.04 | 689.731 |
+| 7 | 60 | 156.8 | 1.000 | 0.008 | 0.03 | 728.516 |
+| 8 | 60 | 176.4 | 1.000 | 0.006 | 0.02 | 742.269 |
+| 9 | 60 | 196.0 | 1.000 | 0.006 | 0.02 | 748.560 |
+
+(`dB_rel` pulled directly from the saved per-iteration trace, not the
+printed summary -- checked deliberately, per this file's own standing
+lesson that a diagnostic-looking-clean printout is not sufficient on its
+own.)
+
+Step 3 (the actual dt=30s crossing) settles to `dB_rel=0.162` -- elevated
+above the clean band (0.02-0.08 at dt>=40s) and closer to the
+`dt=35s` "transitional" reference point (0.272) than to clean, but
+nowhere near the cold-start dt=30s chaos (1.020, never settling even at
+1200 forced iterations). Step 4 (second consecutive dt=30s step) settles
+fully clean (`dB_rel=0.012`). Steps 5-9, back at dt=60s, are
+indistinguishable from an uncontaminated clean ramp. Final-step SCIF
+(748.6mT) is within 0.3% of the original single-threaded 0-196A reference
+(746.2mT) -- i.e. whatever happened at steps 3-4 left no lasting trace in
+the final converged state.
+
+### Reading
+
+**The dt=30s "fully chaotic" finding from the boundary sweep does not
+generalize to a warm-started, higher-current encounter with the same
+dt.** It was characterized under one specific condition (cold start,
+I=19.6A) and that characterization holds for that condition (steps 0-2's
+clean dt=60s baseline reproduces the earlier Stage-1 reference to 3+ sig
+figs, confirming this run's setup is faithful). But crossing dt=30s
+mid-ramp -- with a good state to warm-start from and 4x the forcing
+current -- produces a much milder, transitional-not-chaotic response that
+self-corrects within one more step at the same dt and leaves no
+measurable residue once dt returns to 60s.
+
+**This does not mean dt=30s is "safe"** -- it means the boundary is not a
+single dt value in isolation; it depends on the state the step starts
+from. A production ramp that dwells at dt=30s for many consecutive steps,
+or that hits dt=30s from a poor/cold state, has not been tested and
+should not be assumed safe on the strength of this one crossing. What
+this DOES establish: a **brief, warm-started** excursion to dt=30s inside
+an otherwise-clean ramp is not automatically catastrophic, which matters
+practically for any future adaptive-stepping scheme that might dip below
+the nominal dt=40s floor for one or two steps.
+
+Scripts: `transient/validation/dt_crossing_ramp.py` (new). Output:
+`transient/full_validation_plots/data/dt_crossing_ramp.npz`.
+
+---
+
+## 2026-08-07 (continued): first validation of the NI radial-current closure (`transient/ni_circuit.py`) under the alpha=(0.03,0.01) fix -- clean at dt=60s, modest current, 3 steps
+
+Every multi-step ramp validated in this file (Stage 1, the multi-threaded
+reruns, the dt-crossing test) used the INSULATED limit only -- plain
+T-A, `per_turn_bc=False`, `circuit.update()` never called. The NI radial-
+current closure (`transient/ni_circuit.py`, `ta_transient.step()`) has
+its own separate implementation and its own separate instability history
+(a Jacobi-divergence bug fixed 2026-08-04) that entirely predates the
+alpha fix -- and requires `per_turn_bc=True`, a code path the alpha fix
+had never touched. This closes that gap, as a first, deliberately modest
+step.
+
+Script: `transient/validation/ni_closure_smoke_check.py` (new). Same
+forced-full-length methodology as every other script here (bypasses
+`ta_transient`'s own EMA-based per-step `converged` flag --
+`tparams.py`'s defaults, `STEP_MIN_ITERS=6`/`STEP_STALL_MT=0.5`, are far
+too permissive under this project's own established lesson). Schedule
+deliberately kept at the known-clean `dt=60s` and modest current
+(19.6/39.2/58.8A, matching `dt_crossing_ramp.py`'s baseline steps for
+direct comparability) rather than `tparams.py`'s own default ramp/hold
+schedule (`dt=600/24=25s`, `200/12=16.7s` -- both BELOW the validated dt
+floor even before adding the closure). The question asked here is
+narrowly "does the closure converge under the fix", not "does it also
+survive the separate short-dt problem" -- that combination is untested
+and should not be assumed to work.
+
+A 10-forced-iteration mechanical smoke test caught no wiring bugs (finite
+throughout, `I_z` tracking close to `I_now` as physically expected,
+`I_r_mean` a few amps, no clipping) before committing to the real run.
+
+### Result: genuinely clean convergence, checked on raw `dB_rel` not just the printed diagnostic
+
+| step | I (A) | phase | last `dB_rel` | last10 SCIF spread (mT) | I_z range (A) | I_r_mean (A) | n_clipped |
+|---|---|---|---|---|---|---|---|
+| 0 | 19.6 | warmup | 0.069 | 0.007 | -- | -- | -- |
+| 0 | 19.6 | closure | 0.080 | 0.014 | [14.33, 19.30] | 2.845 | 0 |
+| 1 | 39.2 | warmup | 0.033 | 0.018 | -- | -- | -- |
+| 1 | 39.2 | closure | 0.047 | 0.015 | [32.88, 38.86] | 3.348 | 0 |
+| 2 | 58.8 | warmup | 0.024 | 0.029 | -- | -- | -- |
+| 2 | 58.8 | closure | 0.033 | 0.022 | [52.28, 58.45] | 3.439 | 0 |
+
+**Warmup-phase `dB_rel` (0.069/0.033/0.024) matches the insulated-limit
+`dt_crossing_ramp.py` reference almost exactly** (0.069/0.038/0.023 at
+the same currents) -- expected, since warmup runs `circuit.freeze()`
+(insulated-equivalent BCs), and a strong sanity check that the new
+plumbing (`per_turn_bc=True`, `ta_transient.build()`) reproduces the
+already-validated physics when the closure itself is inactive.
+**Closure-phase `dB_rel` (0.080/0.047/0.033) is slightly higher but
+comfortably inside the established "clean" band** (0.02-0.08 at
+`dt>=40s` in the dt-boundary sweep), nowhere near the `dt=35s`
+transitional signature (0.27) let alone chaos. SCIF spread over the last
+10 iterations is sub-0.03mT at every step/phase -- genuine settling, not
+an EMA-flag false positive.
+
+`I_r_mean` (2.8 -> 3.3 -> 3.4A as current rises 19.6->58.8A) sits close in
+order of magnitude to Phase A's independently-validated circuit-model
+reference (~3.4A during the 196A/600s ramp) -- not a strict apples-to-
+apples check (different current and dt), but a reassuring consistency
+signal, not a red flag. Zero clipping at every step -- the physical
+`|I_r|<=I` band was never binding.
+
+**One expected, physically real difference from the insulated case**:
+SCIF is substantially higher with the closure active (271/414/529mT vs.
+125/240/349mT insulated at the same steps) -- roughly 2x at step 0. This
+is NOT a bug signature; it reflects genuine new physics the insulated
+model cannot see (radial current redistribution changing the azimuthal
+current distribution), which is precisely what this whole effort exists
+to capture. `T_min/amp` (the closure-layer excursion depth) is nearly
+unchanged from the insulated case (-76/-42/-24 vs. -86/-41/-23) --
+sensible, since that excursion is dominated by the 3-turn layer geometry,
+not by the radial-current path.
+
+### Reading
+
+**First genuine validation point for the NI circuit closure under the
+alpha fix: clean.** Narrow scope, deliberately: single-threaded only, one
+run (not yet repeated for reliability), `dt=60s` only, current only up to
+58.8A (30% of the 196A design current), 3 steps only. **Not yet tested**:
+higher current (up to the full 196A design point), more steps / a full
+production ramp, multi-threaded reliability, and -- the big untested
+combination -- whether the closure remains stable at short `dt` (the
+separate, already-characterized problem for the insulated case). None of
+these should be assumed to also be clean on the strength of this one
+result.
+
+Scripts: `transient/validation/ni_closure_smoke_check.py` (new). Output:
+`transient/full_validation_plots/data/ni_closure_smoke.npz`.

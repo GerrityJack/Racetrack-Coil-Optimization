@@ -4180,3 +4180,185 @@ for the current standing summary, and the two `transient/validation/`
 files above for the complete evidence.
 
 ---
+
+## 2026-08-07: multi-threaded full ramp, a dt=30s mid-ramp crossing, and
+## the first NI circuit-closure validation under the alpha fix
+
+Three follow-ups to the 2026-08-06 fix, closing several of that entry's
+"not yet tested" items. Full detail in
+`transient/validation/nondeterminism_investigation_2026-08-05.md`'s two
+2026-08-07 entries; this is the settled summary.
+
+**Multi-threaded full ramp (10 steps, 0->196A, dt=60s): reliable
+run-to-run, but not yet accurate to the single-threaded reference.**
+`transient/validation/full_ramp_run.py`, run twice under ordinary
+(unforced) multi-threaded execution. Both runs converged cleanly and
+agreed with each other to 0.001-0.03% at every step -- as tight as the
+single-threaded result -- but both sit ~2.2% below the single-threaded
+reference at every comparable step (730.1mT vs. 746.2mT final-step
+SCIF). This is a real, systematic gap, structurally the same shape as
+the still-unresolved harness-vs-`solve_ta_at_current()` discrepancy from
+2026-08-06. Trust multi-threaded execution for reliability, not yet for
+exact quantitative agreement to better than ~2%.
+
+**A ramp deliberately crossing the dt=30s "fully chaotic" boundary
+mid-sequence does NOT reproduce that chaos.**
+`transient/validation/dt_crossing_ramp.py`: steps 0-2 clean dt=60s
+baseline, steps 3-4 dropped to dt=30s (warm-started, at I=78.4/98.0A --
+4x the boundary sweep's fixed cold-start I=19.6A), steps 5-9 back to
+dt=60s. Step 3 settles to an elevated-but-not-chaotic `dB_rel=0.162`
+(checked on the raw per-iteration trace, not just the summary), step 4
+settles fully clean (`dB_rel=0.012`), and steps 5-9 recover completely
+(748.6mT final SCIF, within 0.3% of the 746.2mT reference). **The
+earlier `dt=30s` "fully chaotic" characterisation was cold-start/
+low-current-specific, not a universal dt=30s failure** -- the boundary
+depends on the state a step starts from, not on dt alone. This does not
+mean dt=30s is safe in general: a poor/cold entry, or many consecutive
+dt=30s steps, remains untested.
+
+**First validation of the NI radial-current closure itself
+(`transient/ni_circuit.py`) under the alpha fix: clean, at modest
+scope.** Every result validated so far used the insulated limit only --
+`circuit.update()` was never called and `per_turn_bc=True` was never
+combined with the alpha fix until this test.
+`transient/validation/ni_closure_smoke_check.py` (new) ran 3
+forced-full-length steps at the known-clean dt=60s, I=19.6/39.2/58.8A
+(deliberately not `tparams.py`'s own default ramp schedule, which uses
+dt=25s/16.7s -- below the validated floor even before adding the
+closure). Warmup phase (`circuit.freeze()`, insulated-equivalent)
+reproduced the insulated-limit reference almost exactly
+(dB_rel 0.069/0.033/0.024 vs. 0.069/0.038/0.023); closure phase
+(`circuit.update()`, the real radial coupling) was slightly higher but
+still clean (0.080/0.047/0.033, inside the established 0.02-0.08 clean
+band). SCIF was genuinely ~2x higher with the closure active than
+insulated at the same steps -- expected, physically real (radial current
+redistribution changing the azimuthal current), not a bug signature.
+Zero clipping; `I_r_mean` (2.8->3.4A) landed close to Phase A's
+independently-validated ~3.4A reference. **Narrow scope**: one run,
+single-threaded, current only to 58.8A (30% of design), 3 steps,
+dt=60s only. Full design current, a full production ramp,
+multi-threaded reliability, and the closure's behaviour at short dt are
+all still untested and should not be assumed clean on this one result.
+
+**Status:** none of these are reversals of the 2026-08-06 fix -- they
+extend its validated envelope (multi-threaded reliability, a dt=30s
+excursion, and the NI closure) without finding a new failure mode, while
+also surfacing one new open item (the single-vs-multi-threaded ~2.2%
+gap). See CLAUDE.md's "NI (no-insulation) transient work" section and
+"Known open issues" item 2 for the current standing summary.
+
+---
+
+## 2026-08-08: constant-power ramp-up analysis (new, circuit/power_ramp.py)
+## finds DCN alone cannot bound the ramp power -- the required T-A
+## cross-check then surfaces a materially tighter local quench margin
+## than the uniform-J assumption at ANY ramp speed, including the
+## project's own slow reference
+
+New goal: given a supply that delivers constant POWER (not a prescribed
+current schedule), what is the fastest safe ramp to I_design without
+approaching quench? Full code and output: `circuit/power_ramp.py`
+(Phase A control law) and `transient/validation/ta_quench_margin_check.py`
+(T-A cross-check), per user direction to validate any DCN-only result
+against T-A before trusting it.
+
+**Phase A (DCN) control law.** The naive `P = L*I*dI/dt` formula is
+singular at `I=0` and ignores the NI winding's parallel turn-to-turn
+contact path. `DCN.terminal_voltage()` (already validated: 0.00-0.08%
+energy-balance closure) is exact and LINEAR in `I` at fixed turn-current
+state, since contact resistance is a pure geometry property, not a
+function of `I` or field: `V(I,i) = c1*I - c2(i)`. Constant power
+`P0 = I*V` is then a plain quadratic in `I`, solved algebraically at
+every ODE step (no change to the branch ODE physics). At `i=0`,
+`I(0) = sqrt(P0/c1)` -- finite, unlike the naive formula, because the
+real parallel contact path draws current from cold even though the
+spiral/inductive branch cannot.
+
+**Phase A result: no ramp-speed-dependent quench constraint found, at
+any rho_c.** Across rho_c in {30, 100, 400} uOhm.cm^2 and P swept from
+~2W to >4000W (ramp times from ~1 hour down to sub-second), the
+per-turn-group margin `Ic(B,theta)/|i_turn|` is IDENTICALLY the DC
+steady-state floor value (2.225, confirmed by inspecting the full
+margin(t) trace, not just its minimum) at every tested P -- the
+transient state is ALWAYS safer than the final DC state (monotonic
+approach from above, no overshoot, consistent with this being a
+first-order RL-type system with no resonant/ringing mechanism). By this
+model's own physics, P is therefore effectively unbounded. This is
+expected, not a bug: DCN only resolves inter-turn (radial-leakage)
+current sharing -- it has no notion of intra-tape screening-current
+concentration, so it cannot see the one mechanism that could actually
+bound P. (One implementation bug fixed along the way: `solve_ivp`'s
+terminal event only detects a SIGN CHANGE, so at very high P where
+`I(0)` already exceeds `I_design` at t=0, the crossing is missed
+entirely -- fixed by detecting an already-past-target cold state and
+treating the ramp as instantaneous rather than integrating a phase that
+never really exists.)
+
+**T-A cross-check: a real, pre-existing gap between T-A and uniform-J
+quench margin, present at ANY ramp speed -- not a fast-ramp-specific
+effect.** `transient/validation/ta_quench_margin_check.py` compares
+per-cell `Jc(B,theta) = Ic(B,theta)/(delta_SC*w)` (the SAME
+normalisation `ta_solve._update_rho` uses internally, verified by
+reading the solver, not assumed) against the in-plane component of the
+actual local current density (again matching the solver's own
+`jr = Jmag/Jc_vol` comparison exactly, not the raw 3-vector norm) at
+three points: the naive uniform-J assumption, the project's own
+standing production T-A solve (`solve/racetrack_ta_fields.npz`,
+I_design=196A, dt=600s -- the single implicit step every production
+code path uses, freshness-checked against the champion's documented
+box_ptp_pct), and the final step of THIS project's first genuine
+multi-step ramp (`full_ramp_0to196A.npz`'s step 9: 10 real 60s steps,
+0->196A, same 600s total span, alpha=(0.03,0.01)-fixed).
+
+| | worst-cell margin | cells < 1.0 | cells < 1.538 (design threshold) |
+|---|---|---|---|
+| uniform-J | 1.600 | 0/4463 | 0/4463 |
+| T-A, dt=600s (1 step) | 0.709 | 1200/4463 (27%) | 2054/4463 (46%) |
+| T-A, dt=60s x10 (step 9) | 0.687 | 1500/4463 (34%) | 2153/4463 (48%) |
+
+Both T-A methods agree on WHERE the worst cell is (the same physical
+location, the coil's own peak-field cell at ~26.5mm radius, |B|~11.3T)
+despite coming from two different code paths (`ta_solve.
+solve_ta_at_current()` production vs. `ta_transient._picard_phase()`
+harness) -- a real, robust feature, not a single-method artifact. The
+genuinely time-marched fast ramp trends slightly WORSE than the slow
+single-step reference (+3.1% relative), not better, though this sits
+close to this project's own already-documented ~2% unresolved
+harness-vs-production SCIF discrepancy (2026-08-06 entry above), so it
+should be read as "does not improve on the gap" rather than a clean,
+separately-confirmed ramp-rate effect.
+
+**Interpretation caveat, deliberately NOT resolved here (per user
+direction, recorded rather than escalated):** this project's quench
+criterion everywhere (including this check) is the E_c=1uV/cm
+engineering definition of Ic. Some cells sitting at or above that
+threshold near a flux-penetration front is NORMAL, EXPECTED
+Bean/critical-state behaviour -- `ta_solve.py`'s own Picard solver
+explicitly assigns a finite (not infinite) critical-state resistivity to
+exactly this regime as standard operation (the `eps_reg` floor), not an
+error condition. Whether "27-34% of cells locally over the E_c-defined
+Ic, even at the design's own slow reference ramp" is a real,
+previously-undetected safety gap in the champion design, or expected
+critical-state physics that the uniform-J-based 65%-of-Ic design margin
+was never built to catch in the first place, is a judgement call outside
+this session's scope. What IS established, independent of that
+judgement call: T-A's local margin is meaningfully tighter than the
+uniform-J assumption used by every OTHER quench check in this project
+(`sweep/quench_sweep.py`, `circuit/dcn.py`'s `local_Ic_n`, `optimize/`'s
+constraints), at every ramp speed tested including the project's own
+production default.
+
+**Practical consequence:** DCN alone cannot answer "what power ramps
+fastest without approaching quench" -- its own physics has nothing to
+say about the actual candidate binding constraint. The T-A cross-check
+does not identify a NEW fast-ramp-specific risk (the gap is present even
+at the slow reference), but it does mean any future ramp-power
+recommendation, and arguably the champion design's own stated quench
+safety margin, rests on an assumption (uniform-J locally represents the
+true current distribution) that this session's T-A check found to be
+materially wrong in magnitude, if not necessarily wrong in the
+"does this actually quench" sense once critical-state normalcy is
+accounted for. See CLAUDE.md's "Known open issues" for how this is
+carried forward.
+
+---
