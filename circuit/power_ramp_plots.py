@@ -37,7 +37,10 @@ import cparams as cfg              # noqa: E402
 import dcn as dcn_mod               # noqa: E402
 import power_ramp as pr             # noqa: E402
 from geometry import CoilGeometry   # noqa: E402
-from postprocess import _ax, _legend, _save, STYLES   # noqa: E402
+
+sys.path.insert(0, os.path.join(_ROOT, "visualization"))
+from postprocess import _ax, _legend, STYLES   # noqa: E402
+from report_common import save_report           # noqa: E402
 
 TARGET_T_RAMP = 600.0   # matches the fastest T-A-validated schedule (10x60s)
 
@@ -123,7 +126,7 @@ def main():
         f"T-A-validated schedule) -- DCN circuit model, champion geometry",
         color="white", fontsize=11)
     fig.tight_layout()
-    _save(fig, "circuit_power_ramp_VIP.png")
+    save_report(fig, "01_current_voltage_power.png")
 
     print("=" * 78)
 

@@ -59,8 +59,9 @@ import power_ramp as pr                                      # noqa: E402
 from geometry import CoilGeometry                             # noqa: E402
 from coil2_field import compute_both_coils_field_multilayer   # noqa: E402
 from plot_3d import _racetrack_xy, _layer_colors, _ax3d_style  # noqa: E402
+from report_common import REPORT_DIR                            # noqa: E402
 
-OUT_DIR = os.path.join(params.VIZ_DIR, "ramp_field_frames")
+OUT_DIR = os.path.join(REPORT_DIR, "field_frames")
 SLICE_N = 70              # points per axis per slice -- one-time cost only
 N_FRAMES = 28
 TARGET_T_RAMP = 600.0
@@ -197,7 +198,7 @@ def main():
         print(f"  frame {k+1}/{N_FRAMES}  t={frame_times[k]:.1f}s  "
               f"i_spiral={ispiral_frames[k]:.1f}A", flush=True)
 
-    gif_path = os.path.join(params.VIZ_DIR, "ramp_field_animation.gif")
+    gif_path = os.path.join(REPORT_DIR, "field_animation.gif")
     imgs = [Image.open(p) for p in frame_paths]
     imgs[0].save(gif_path, save_all=True, append_images=imgs[1:],
                 duration=180, loop=0)
