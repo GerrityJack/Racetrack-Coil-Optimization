@@ -698,6 +698,105 @@ early results in this effort were later found to be false stalls or
 process-launch nondeterminism, not real physics. Full dated arc in
 `docs/HISTORY.md` and `transient/validation/nondeterminism_investigation_2026-08-05.md`.
 
+### How NI leakage current is modeled (`transient/ni_circuit.py`)
+
+With no turn-to-turn insulation, the tape-to-tape contact forms a
+resistive path in parallel with the intended azimuthal (spiral) path —
+at every turn boundary, transport current can either continue along the
+spiral or "leak" radially through the contact resistance. KCL at every
+turn: `i_turn + I_r = I(t)`. `circuit/dcn.py` (Phase A) models this as a
+lumped ladder network; `ni_circuit.py` (Phase B) couples the same
+relation directly into the T-A field solve, so the induced field
+(`E_i = -(A-A_prev)·t̂/dt`) and resistive field (`E_p = ρ·(J_sc·t̂)`) that
+drive the leakage split come from the actual per-bin screening-current
+solution rather than a lumped inductance matrix:
+
+```
+I_r,k = (E_p,k - E_i,k) * l_turn,k / R_ct,k        # radial leakage
+I_z,k = I(t) - I_r,k                                # remaining azimuthal
+                                                     # current → T Dirichlet BC
+```
+
+Faster ramps raise `E_i`, diverting more current radially — this is why
+the coil's actual (spiral) field lags the supply current during a fast
+ramp (`visualization/plot_ramp_field_animation.py`) and is the physical
+basis of NI coils' self-protecting behaviour. Implementation note: `I_z`
+must be solved as an exact 48×48 linear system per Picard iteration
+(only `E_p` Picard-lagged) — an earlier explicit/elementwise update
+diverged, because the per-turn mutual-inductance matrix is dense and far
+from diagonally dominant (GMD ≈ 0.91 mm ≫ the 75 µm turn pitch), which
+is exactly the case classical Jacobi-iteration theory says won't
+converge. The closure itself is validated only at low scope so far
+(`ni_closure_smoke_check.py`: 3 steps, up to 58.8 A / 30% of I_design,
+`dt=60s` only) — every ramp/hysteresis result below still runs in the
+**insulated limit** (closure off), not with leakage active.
+
+### Ramp-up power analysis (2026-08-08) — `circuit/power_ramp.py`, `transient/validation/ta_quench_margin_check.py`
+
+For a supply delivering constant power (not a prescribed current
+schedule), Phase A (DCN) finds **no ramp-speed-dependent quench
+constraint at all** — `DCN.terminal_voltage()` is exact and linear in
+`I`, so constant power reduces to an algebraic quadratic at every ODE
+step, and the per-turn-group margin sits at the DC steady-state floor
+(2.225) at every tested power (~2 W to >4000 W, rho_c ∈ {30,100,400}
+µΩ·cm²) — the transient state is never less safe than the final DC
+state. Expected: DCN only resolves inter-turn (radial-leakage) current
+sharing, not intra-tape screening-current concentration, so it can't see
+the mechanism that could actually bound P.
+
+A T-A cross-check tells a different story, though: comparing per-cell
+`Jc(B,θ)` against the actual local in-plane current density finds the
+**local** quench margin is materially tighter than the uniform-J
+assumption every other check in this project relies on — present at
+**any** ramp speed, not just fast ones:
+
+| | worst-cell margin | cells < 1.0 | cells < 1.538 (design threshold) |
+|---|---|---|---|
+| uniform-J | 1.600 | 0/4463 | 0/4463 |
+| T-A, `dt=600s` (1 step) | 0.709 | 1200/4463 (27%) | 2054/4463 (46%) |
+| T-A, `dt=60s`×10 (step 9) | 0.687 | 1500/4463 (34%) | 2153/4463 (48%) |
+
+Both T-A methods agree on *where* the worst cell is (the coil's own
+peak-field cell, ~26.5 mm radius, |B|~11.3 T) via two independent code
+paths. **Open judgement call, deliberately not resolved:** this
+project's quench criterion is the E_c=1µV/cm engineering Ic definition,
+and some cells sitting at/above it near a flux-penetration front is
+normal Bean/critical-state behaviour (`ta_solve.py`'s own solver assigns
+a finite, not infinite, critical-state resistivity there as standard
+operation). Whether this is a real, previously-undetected gap in the
+champion's stated quench margin, or expected physics the uniform-J
+65%-of-Ic margin was never built to catch, is unresolved — no "fastest
+safe ramp power" number should be treated as settled until it is. Report
+figures: `visualization/ramp_power_report/` (`00_summary_dashboard.png`
+ties every number above together).
+
+### Ramp-down / hysteresis-loop cross-check (2026-08-08 to 08-10) — EXPLORATORY, latest work, not yet folded into `docs/HISTORY.md`
+
+`transient/validation/full_ramp_up_down_run.py` runs the T-A transient
+solver (insulated limit, `alpha=(0.03,0.01)`, `dt=60s`,
+forced-full-length per step) through repeated 39.2→196→~2 A up/down
+cycles, tracking the bore SCIF — the closest thing this project's
+transient solver has to a magnetization — as a physical sanity check
+against the analytically-derived Bean critical-state hysteresis loop
+(`visualization/plot_hysteresis_loop.py`, an independently re-derived
+1D Bean slab model, deliberately not the exact Norris self-field
+solution — see that script's docstring for why).
+
+Run out to **three full cycles** (`full_ramp_3cycle.npz`, all 30 steps
+numerically clean, `dB_rel` 0.003–0.024): the loop does not close after
+one pass, but the gap between successive cycles **shrinks** by a
+consistent ~0.65× ratio at both the peak (757.0 → 647.6 → 576.1 mT) and
+the remanent point (−367.1 → −464.8 → −529.8 mT) — a decaying-ratio
+signature consistent with converging toward a stable minor loop, not
+constant drift or a runaway instability (though 2 successive deltas is
+not a tight extrapolation, and the loop still hasn't closed within 3
+cycles). See `visualization/plot_hysteresis_comparison.py`'s docstring
+for the full reasoning and `visualization/ramp_power_report/06_hysteresis_loop_vs_simulation.png`
+for the figure. As with everything else in this section: insulated
+limit only (no NI leakage closure active), and this specific multi-cycle
+result predates any write-up in `docs/HISTORY.md` — treat it as
+provisional pending that.
+
 ---
 
 ## Ic(B,θ) data — limitations

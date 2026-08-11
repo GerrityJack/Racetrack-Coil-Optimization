@@ -47,13 +47,28 @@ surfaced a bug in the first version -- see _m_down's docstring and
 06_hysteresis_loop_vs_simulation.png)
 ------------------------------------------------------------------------
 Slab of half-width a, reduced drive i = I/Ic in [0, i0]. Virgin
-(ascending, 0->i0) branch:
+(ascending, 0->i0) branch, valid ONLY for the very first approach from a
+truly demagnetized (I=0 forever, never energized) state:
     m_up(i)   = -i + i^2/2                    for 0 <= i <= 1
               = -1/2                          for i >= 1 (saturated)
 Descending branch from a peak i0 (i0 <= 1 here, our design's actual
 operating point -- NOTE this must start from m_up(i0), NOT a hardcoded
 -1/2, unless i0>=1):
-    m_down(i) = m_up(i0) + (i0-i) - (i0-i)^2/4   for (i0-i) <= 2*i0
+    m_down(i; i0) = m_up(i0) + (i0-i) - (i0-i)^2/4   for (i0-i) <= 2*i0
+Second-cycle ascending branch, from the valley reached at i_min (the
+end of the first descent) back up toward i0 -- this does NOT retrace
+the virgin curve (a well-known real hysteresis feature: only the FIRST
+approach to a field/current level follows the virgin curve; every
+later approach follows the minor loop instead). Derived by the same
+Ampere's-law front-tracking method as m_down, then verified against a
+direct numerical integration of the full 3-current-layer profile to
+machine precision (both here and independently while building this
+figure -- see the session's own record, not reproduced in-file):
+    m_up2(i; i_min, i0) = m_down(i_min; i0) + 2*m_up((i-i_min)/2)
+This closes EXACTLY back onto m_up(i0) at i=i0 (verified), which is
+exactly the "second and all later cycles retrace the same closed loop"
+behaviour real critical-state hysteresis shows -- only the ORIGINAL
+virgin curve is a one-time, non-repeating curve.
 where m = M/(Jc*a) is the reduced magnetization.
 
 Run:  <env>/bin/python3 visualization/plot_hysteresis_loop.py
@@ -114,6 +129,13 @@ def _m_down(i, i0):
     return np.where(d <= 2.0 * i0, m_peak + d - d ** 2 / 4.0, -m_peak)
 
 
+def _m_up2(i, i_min, i0):
+    """Second-cycle ascending branch (from the valley i_min back to i0) --
+    see module docstring for the derivation and its numerical verification."""
+    m_valley = _m_down(np.array([i_min]), i0)[0]
+    return m_valley + 2.0 * _m_up((i - i_min) / 2.0)
+
+
 def main():
     print("=" * 78)
     print("Illustrative Bean critical-state hysteresis loop")
@@ -141,40 +163,59 @@ def main():
     print(f"  sanity checks passed (m(0)=0, m(1)=-1/2, branches meet at "
           f"i0: m_up(i0)={m_peak:.4f})")
 
-    i_up = np.linspace(0.0, i0, 200)
-    m_up = _m_up(i_up)
-    i_down = np.linspace(i0, 0.0, 200)
+    i_min = 0.0   # idealized fully-discharged valley for this standalone figure
+                  # (06_hysteresis_loop_vs_simulation.png uses the simulation's
+                  # own actual ~2A endpoint instead, for a fair comparison)
+
+    i_virgin = np.linspace(0.0, i0, 200)
+    m_virgin = _m_up(i_virgin)
+    m_peak = float(m_virgin[-1])
+
+    i_down = np.linspace(i0, i_min, 200)
     m_down = _m_down(i_down, i0)
+    remanent_m = float(m_down[-1])
 
-    remanent_m = m_down[-1]
-    print(f"  remanent reduced magnetization at I=0 after ramp-down: "
-          f"m = {remanent_m:.4f}  (nonzero = trapped screening current, "
-          f"expected critical-state behaviour)")
+    i_up2 = np.linspace(i_min, i0, 200)
+    m_up2 = _m_up2(i_up2, i_min, i0)
 
-    fig, ax = plt.subplots(figsize=(7.5, 6.5))
+    assert abs(m_up2[-1] - m_peak) < 1e-9, \
+        "second-cycle ascent must close exactly back onto the virgin peak"
+    print(f"  remanent m at I~0 after cycle 1's descent: {remanent_m:+.4f}")
+    print(f"  cycle-2 ascent closes back onto the peak to "
+          f"{abs(m_up2[-1]-m_peak):.1e} (sanity check passed)")
+
+    fig, ax = plt.subplots(figsize=(8, 6.5))
     fig.patch.set_facecolor(cfg.FIG_BG)
 
-    ax.plot(i_up * I_design / i0, m_up, color=cfg.SERIES_COLORS[0], lw=2.4,
-           label="ramp-up (0 $\\to$ I$_{design}$)")
-    ax.plot(i_down * I_design / i0, m_down, color=cfg.SERIES_COLORS[4], lw=2.4,
-           ls="--", label="ramp-down (I$_{design}$ $\\to$ 0)")
-    ax.fill(np.concatenate([i_up, i_down]) * I_design / i0,
-           np.concatenate([m_up, m_down]),
-           color=cfg.SERIES_COLORS[0], alpha=0.12)
+    to_A = I_design / i0   # reduced i -> physical Amps
 
-    m_peak = float(m_up[-1])   # = m_up(i0), the ACTUAL loop apex -- not -0.5
-                              # unless i0>=1 (see _m_down's docstring)
+    # the closed, repeating loop (cycle 2 onward) -- this is the actual
+    # "hysteresis loop" in the textbook sense, drawn bold and filled
+    ax.plot(i_up2 * to_A, m_up2, color=cfg.SERIES_COLORS[0], lw=2.6,
+           label="stable loop -- ascending (repeats every cycle)")
+    ax.plot(i_down * to_A, m_down, color=cfg.SERIES_COLORS[4], lw=2.6, ls="--",
+           label="stable loop -- descending (repeats every cycle)")
+    ax.fill(np.concatenate([i_up2, i_down]) * to_A,
+           np.concatenate([m_up2, m_down]),
+           color=cfg.SERIES_COLORS[0], alpha=0.14)
 
+    # the one-time virgin curve, drawn thin/dotted and clearly labeled as
+    # non-repeating -- only the very first approach follows it
+    ax.plot(i_virgin * to_A, m_virgin, color="#bbb", lw=1.4, ls=":",
+           label="virgin curve (1st approach only -- never repeats)")
+
+    ax.plot([I_design], [m_peak], "o", color="white", ms=6, zorder=5)
+    ax.plot([i_min * to_A], [remanent_m], "o", color=cfg.SERIES_COLORS[4],
+           ms=6, zorder=5)
     ax.axvline(I_design, color="#888", ls=":", lw=1)
-    ax.plot([I_design], [m_peak], "o", color="white", ms=5, zorder=5)
-    ax.annotate(f"I$_{{design}}$={I_design:.0f}A  (i=I/Ic={i0:.2f})\n"
-               f"m={m_peak:.3f}",
-               xy=(I_design, m_peak), xytext=(I_design * 0.42, m_peak - 0.09),
+
+    ax.annotate(f"peak, m={m_peak:.3f}\n(i=I/Ic={i0:.2f})",
+               xy=(I_design, m_peak), xytext=(I_design * 0.55, m_peak - 0.10),
                color="white", fontsize=9,
                arrowprops=dict(arrowstyle="->", color="#aaa", lw=1))
-    ax.plot([0], [remanent_m], "o", color=cfg.SERIES_COLORS[4], ms=5, zorder=5)
-    ax.annotate(f"remanent m={remanent_m:.3f}\n(trapped screening current)",
-               xy=(0, remanent_m), xytext=(I_design * 0.38, remanent_m - 0.07),
+    ax.annotate(f"remanent, m={remanent_m:.3f}",
+               xy=(i_min * to_A, remanent_m),
+               xytext=(I_design * 0.30, remanent_m + 0.11),
                color="white", fontsize=9,
                arrowprops=dict(arrowstyle="->", color="#aaa", lw=1))
 
@@ -183,16 +224,16 @@ def main():
         "Illustrative Bean critical-state hysteresis loop -- champion tape\n"
         f"J$_c$({B_PEAK_T}T, {THETA_DEG}$^\\circ$)={Ic_A/(params.delta_SC*params.w):.2e} A/m$^2$, "
         f"a=w/2={params.w/2*1e3:.1f}mm, i$_0$={i0:.3f}")
-    ax.legend(fontsize=9, labelcolor="white", facecolor="#222",
-             edgecolor="#444", framealpha=0.7, loc="lower left")
-    ax.set_ylim(min(m_peak, -0.5) - 0.08, max(remanent_m, 0.0) + 0.12)
+    ax.legend(fontsize=8.5, labelcolor="white", facecolor="#222",
+             edgecolor="#444", framealpha=0.75, loc="lower left")
+    ax.set_ylim(m_peak - 0.10, max(remanent_m, 0.0) + 0.16)
 
-    fig.text(0.5, -0.05,
-             "Shape is genuine critical-state physics (derived here from "
-             "Ampere's law, not copied from a remembered formula); loop AREA "
+    fig.text(0.5, -0.04,
+             "Shape is genuine critical-state physics (derived from Ampere's "
+             "law, verified numerically -- see script docstring); loop AREA "
              "is illustrative only, not a Joules figure for this "
-             "current-driven (not field-driven) geometry -- see "
-             "02_ac_loss_power_and_energy.png for the actual computed loss.",
+             "current-driven geometry -- see 02_ac_loss_power_and_energy.png "
+             "for the actual computed loss.",
              ha="center", color="#999", fontsize=7.8, wrap=True)
 
     fig.tight_layout()

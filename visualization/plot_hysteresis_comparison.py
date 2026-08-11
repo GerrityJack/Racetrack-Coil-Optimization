@@ -1,31 +1,33 @@
-"""plot_hysteresis_comparison.py -- 2026-08-08, compares the GENUINE T-A
-transient simulation's screening-current-induced field (SCIF) trajectory
-across a full up+down ramp (transient/validation/full_ramp_up_down_run.py
--- the first-ever ramp-DOWN run in this project's T-A solver) against
-the analytically-derived Bean critical-state hysteresis loop
-(visualization/plot_hysteresis_loop.py).
+"""plot_hysteresis_comparison.py -- 2026-08-08/10, compares the GENUINE
+T-A transient simulation's screening-current-induced field (SCIF)
+trajectory across THREE full up+down cycles
+(transient/validation/full_ramp_up_down_run.py -- the first-ever
+ramp-DOWN run, now extended to three cycles, in this project's T-A
+solver) against the analytically-derived Bean critical-state hysteresis
+loop (visualization/plot_hysteresis_loop.py).
 
-WHY: per user direction, running the actual simulation through this
-pattern (rather than trusting the derivation alone) is the real test --
-"if it lines up with what we expected, we can take that as evidence
-that the simulation is working well." Comparing the two ALSO caught a
-genuine bug in the analytical derivation (the descending branch was
-using the wrong starting value for an unsaturated i0<1) -- fixed in
-plot_hysteresis_loop.py before this comparison was built.
+WHY THREE CYCLES: two cycles showed the loop does NOT close after one
+pass (cycle 2 sat ~100-110mT below cycle 1 at every matching current) --
+but that alone couldn't distinguish "settling toward a stable loop"
+(gap should shrink) from "a real ongoing drift" (gap stays ~constant).
+A third cycle answers this directly.
 
-WHAT'S COMPARED, HONESTLY
-----------------------------
-SCIF (simulated, in mT, a 3-D Biot-Savart-integrated bore-field quantity)
-and m (analytical, dimensionless, a 1-D idealized-slab local
-magnetization) are NOT the same physical quantity or in the same units
--- they are compared here by normalizing each to its OWN peak magnitude
-(reached at I_design), so the shared y-axis is "own-peak-normalized
-response," not a claim that the two are quantitatively identical. What
-IS a fair, like-for-like comparison: the REMANENT FRACTION each curve
-settles to at I->0 relative to its own peak -- that ratio is a
-genuine, dimensionless, model-independent test of whether the
-simulation's screening-current memory behaves like critical-state
-theory predicts.
+RESULT: the gap SHRINKS by a consistent ~0.65x ratio at both the peak
+(757.0 -> 647.6 -> 576.1mT, deltas -109.4 then -71.5mT) and the remanent
+point (-367.1 -> -464.8 -> -529.8mT, deltas -97.7 then -65.0mT). That
+consistency across two independent points on the loop is itself
+evidence this is a real, systematic (likely geometrically-decaying)
+convergence toward a stable minor loop, NOT constant drift or a runaway
+instability -- though the loop still has not closed within 3 cycles,
+and a decaying-ratio read from only 2 data points is not a tight
+extrapolation. All 30 steps across all 3 cycles stayed numerically clean
+(dB_rel 0.003-0.024, every step finite, all 6 direction reversals
+handled without incident).
+
+UNITS: the analytical curve (dimensionless m) is scaled by
+scif_peak_cycle1/|m_peak| so it plots directly in mT-equivalent units
+alongside the real SCIF data -- a peak-matched VISUAL overlay for shape
+comparison, not a claim that m and SCIF are the same physical quantity.
 
 Run:  <env>/bin/python3 visualization/plot_hysteresis_comparison.py
 """
@@ -50,15 +52,28 @@ import cparams as cfg                       # noqa: E402
 from ic_extrapolation import make_ic_model   # noqa: E402
 from postprocess import _ax                   # noqa: E402
 from report_common import save_report           # noqa: E402
-from plot_hysteresis_loop import _m_up, _m_down, B_PEAK_T, THETA_DEG  # noqa: E402
+from plot_hysteresis_loop import _m_up, _m_down, _m_up2, B_PEAK_T, THETA_DEG  # noqa: E402
 
 SIM_NPZ = os.path.join(_ROOT, "transient", "full_validation_plots", "data",
-                       "full_ramp_up_down.npz")
+                       "full_ramp_3cycle.npz")
+
+UP_COLORS = [cfg.SERIES_COLORS[0], cfg.SERIES_COLORS[7], cfg.SERIES_COLORS[6]]
+DOWN_COLORS = [cfg.SERIES_COLORS[4], cfg.SERIES_COLORS[5], cfg.SERIES_COLORS[1]]
+MARKERS = ["o", "s", "^"]
+
+
+def _branch_xy(I_sim, scif_sim, branch, name, prepend=None):
+    mask = branch == name
+    x, y = I_sim[mask], scif_sim[mask]
+    if prepend is not None:
+        x = np.concatenate([[prepend[0]], x])
+        y = np.concatenate([[prepend[1]], y])
+    return x, y
 
 
 def main():
     print("=" * 78)
-    print("Simulated (T-A) vs. analytical (Bean) hysteresis comparison")
+    print("Simulated (T-A, 3 cycles) vs. analytical (Bean) hysteresis comparison")
     print("=" * 78)
 
     d = np.load(SIM_NPZ, allow_pickle=True)
@@ -71,103 +86,101 @@ def main():
     print(f"  loaded {len(steps)} steps from {SIM_NPZ}")
     print(f"  all finite: {bool(finite_sim.all())}   "
           f"dB_rel range: [{dB_rel_sim.min():.4f}, {dB_rel_sim.max():.4f}]")
-    if not finite_sim.all():
-        print("  *** WARNING: non-finite step(s) present -- treat this "
-              "comparison as unreliable past that point ***")
+    if not finite_sim.all() or len(steps) < 30:
+        print("  *** WARNING: incomplete or non-finite run -- treat this "
+              "comparison as unreliable ***")
 
-    up_mask = branch == "up"
-    down_mask = branch == "down"
-    I_up_sim, scif_up_sim = I_sim[up_mask], scif_sim[up_mask]
-    I_down_sim, scif_down_sim = I_sim[down_mask], scif_sim[down_mask]
-    # prepend the (0,0) origin to the up branch for a fair shape comparison
-    I_up_sim = np.concatenate([[0.0], I_up_sim])
-    scif_up_sim = np.concatenate([[0.0], scif_up_sim])
+    ups, downs = [], []
+    prev = (0.0, 0.0)
+    for c in range(3):
+        Iu, su = _branch_xy(I_sim, scif_sim, branch, f"up{c+1}", prepend=prev)
+        ups.append((Iu, su))
+        prev = (Iu[-1], su[-1])
+        Id, sd = _branch_xy(I_sim, scif_sim, branch, f"down{c+1}", prepend=prev)
+        downs.append((Id, sd))
+        prev = (Id[-1], sd[-1])
 
-    scif_peak = scif_up_sim[-1]
-    scif_remanent = scif_down_sim[-1]
-    scif_remanent_frac = scif_remanent / scif_peak
-    print(f"  SCIF peak (at I_design)      = {scif_peak:+.2f} mT")
-    print(f"  SCIF remanent (at I~{I_down_sim[-1]:.1f}A)   = {scif_remanent:+.2f} mT")
-    print(f"  SCIF remanent fraction       = {scif_remanent_frac:+.4f}")
+    peaks = [u[1][-1] for u in ups]
+    remanents = [dn[1][-1] for dn in downs]
+    print()
+    for c in range(3):
+        dpk = f"  (d={peaks[c]-peaks[c-1]:+.1f}mT)" if c > 0 else ""
+        drm = f"  (d={remanents[c]-remanents[c-1]:+.1f}mT)" if c > 0 else ""
+        print(f"  cycle {c+1}: peak={peaks[c]:+7.1f}mT{dpk:<16s}"
+              f" remanent={remanents[c]:+7.1f}mT{drm}")
+    ratio_peak = (peaks[2] - peaks[1]) / (peaks[1] - peaks[0])
+    ratio_rem = (remanents[2] - remanents[1]) / (remanents[1] - remanents[0])
+    print(f"\n  cycle-to-cycle gap ratio: peak={ratio_peak:.3f}  "
+          f"remanent={ratio_rem:.3f}  (both <1 and similar => decaying "
+          f"toward a stable loop, not constant drift)")
 
-    # analytical curve, same i0 as plot_hysteresis_loop.py
+    # analytical curve (dimensionless m), scaled to mT-equivalent by matching
+    # cycle 1's peak -- see docstring "UNITS"
     ic = make_ic_model("kim")
     Ic_A, _ = ic.critical_current(np.array([B_PEAK_T]), np.array([THETA_DEG]))
     Ic_A = float(Ic_A[0])
     I_design = float(params.I_design)
     i0 = I_design / Ic_A
+    i_min = float(downs[0][0][-1]) / Ic_A
     i_up = np.linspace(0.0, i0, 200)
-    m_up = _m_up(i_up)
-    i_down = np.linspace(i0, 0.0, 200)
-    m_down = _m_down(i_down, i0)
+    i_down = np.linspace(i0, i_min, 200)
+    i_up2a = np.linspace(i_min, i0, 200)
+    m_up, m_down = _m_up(i_up), _m_down(i_down, i0)
+    m_up2 = _m_up2(i_up2a, i_min, i0)
     m_peak = float(m_up[-1])
-    m_remanent = float(m_down[-1])
-    m_remanent_frac = m_remanent / m_peak
-    print(f"\n  analytical m peak (at I_design)     = {m_peak:+.4f}")
-    print(f"  analytical m remanent (at I~0)      = {m_remanent:+.4f}")
-    print(f"  analytical remanent fraction        = {m_remanent_frac:+.4f}")
-
-    ratio = scif_remanent_frac / m_remanent_frac
-    print(f"\n  remanent-fraction ratio (sim / analytical) = {ratio:.2f}x")
-    print(f"  (both curves cross zero and settle to a nonzero remanent value "
-          f"of\n   the SAME relative sign on ramp-down -- qualitative match; "
-          f"the analytical\n   1-D idealized-slab model is not expected to "
-          f"match the magnitude exactly)")
+    scale = peaks[0] / abs(m_peak)
+    ana_up, ana_down, ana_up2 = -m_up * scale, -m_down * scale, -m_up2 * scale
 
     # ── figure ───────────────────────────────────────────────────────────────
-    fig, ax = plt.subplots(figsize=(9, 6.5))
+    fig, ax = plt.subplots(figsize=(10, 7.2))
     fig.patch.set_facecolor(cfg.FIG_BG)
 
-    # normalize each series to its OWN peak, sign-flipped for the analytical
-    # curve so both trend the SAME way (up then down through zero) -- see
-    # module docstring for why this is the fair comparison, not raw values.
-    norm_up_sim = scif_up_sim / scif_peak
-    norm_down_sim = np.concatenate([[1.0], scif_down_sim / scif_peak])
-    I_down_sim_full = np.concatenate([[I_design], I_down_sim])
+    ax.plot(i_up * I_design / i0, ana_up, "-", color="#888", lw=1.2, alpha=0.5,
+           label="Bean model, virgin curve (scaled to cycle-1 peak)")
+    ax.plot(i_down * I_design / i0, ana_down, "-", color="#888", lw=1.2, alpha=0.5)
+    ax.plot(i_up2a * I_design / i0, ana_up2, "--", color="#888", lw=1.2, alpha=0.5,
+           label="Bean model, stable loop (exact closure)")
 
-    norm_up_ana = -m_up / abs(m_peak)
-    norm_down_ana = -m_down / abs(m_peak)
+    for c in range(3):
+        Iu, su = ups[c]
+        Id, sd = downs[c]
+        a = 1.0 - 0.18 * c
+        ax.plot(Iu, su, MARKERS[c] + "-", color=UP_COLORS[c], lw=2.2 - 0.2 * c,
+               ms=6 - c, alpha=a, label=f"T-A sim, cycle {c+1} up")
+        ax.plot(Id, sd, MARKERS[c] + "--", color=DOWN_COLORS[c], lw=2.2 - 0.2 * c,
+               ms=6 - c, alpha=a, label=f"T-A sim, cycle {c+1} down")
 
-    ax.plot(I_up_sim, norm_up_sim, "o-", color=cfg.SERIES_COLORS[0], lw=2.2,
-           ms=6, label="T-A simulation, ramp-up (per-step converged SCIF)")
-    ax.plot(I_down_sim_full, norm_down_sim, "o--", color=cfg.SERIES_COLORS[4],
-           lw=2.2, ms=6, label="T-A simulation, ramp-down (per-step converged SCIF)")
-    ax.plot(i_up * I_design / i0, norm_up_ana, "-", color=cfg.SERIES_COLORS[0],
-           lw=1.2, alpha=0.45, label="Bean model, ramp-up (analytical)")
-    ax.plot(i_down * I_design / i0, norm_down_ana, "--", color=cfg.SERIES_COLORS[4],
-           lw=1.2, alpha=0.45, label="Bean model, ramp-down (analytical)")
+    ax.axhline(0, color="#555", lw=0.8)
+    ax.axvline(I_design, color="#777", ls=":", lw=1)
 
-    ax.axhline(0, color="#666", lw=0.8)
-    ax.axvline(I_design, color="#888", ls=":", lw=1)
+    stats = (f"{'':>10s}{'cyc1':>9s}{'cyc2':>9s}{'cyc3':>9s}{'d(2-1)':>9s}{'d(3-2)':>9s}\n"
+            f"{'peak':>10s}{peaks[0]:>9.0f}{peaks[1]:>9.0f}{peaks[2]:>9.0f}"
+            f"{peaks[1]-peaks[0]:>+9.0f}{peaks[2]-peaks[1]:>+9.0f}\n"
+            f"{'remanent':>10s}{remanents[0]:>9.0f}{remanents[1]:>9.0f}{remanents[2]:>9.0f}"
+            f"{remanents[1]-remanents[0]:>+9.0f}{remanents[2]-remanents[1]:>+9.0f}\n"
+            f"{'(mT)':>10s}{'':>9s}{'':>9s}{'':>9s}"
+            f"{'ratio:':>9s}{ratio_peak:>8.2f}x")
+    ax.text(0.985, 0.03, stats, transform=ax.transAxes, ha="right", va="bottom",
+           fontsize=8, family="monospace", color="white",
+           bbox=dict(boxstyle="round,pad=0.5", facecolor="#1a1a2e",
+                     edgecolor="#555", alpha=0.95))
 
-    ax.annotate(f"sim remanent\nfraction={scif_remanent_frac:+.2f}",
-               xy=(I_down_sim[-1], scif_remanent_frac), xytext=(65, -0.72),
-               color=cfg.SERIES_COLORS[4], fontsize=9,
-               arrowprops=dict(arrowstyle="->", color=cfg.SERIES_COLORS[4], lw=1))
-    ax.annotate(f"analytical remanent\nfraction={-m_remanent_frac:+.2f}",
-               xy=(0, -m_remanent_frac), xytext=(65, 0.42),
-               color="#888", fontsize=9,
-               arrowprops=dict(arrowstyle="->", color="#888", lw=1))
+    _ax(ax, "transport current I [A]", "SCIF [mT]  (T-A sim); "
+        "scaled reduced magnetization [mT-equiv.]  (Bean model)",
+        "Simulated T-A SCIF over THREE full ramp cycles vs. the analytical "
+        "Bean critical-state loop\n"
+        "-- gap shrinks each cycle (ratio~"
+        f"{ratio_peak:.2f}x, decaying toward closure, not constant drift); "
+        f"clean throughout (dB_rel<={dB_rel_sim.max():.3f}, all steps finite)")
+    ax.legend(fontsize=7.8, labelcolor="white", facecolor="#222",
+             edgecolor="#444", framealpha=0.75, loc="upper left", ncol=1)
 
-    _ax(ax, "transport current I [A]",
-        "response / own peak magnitude  (sign-flipped for the analytical\n"
-        "curve so both series trend the same way -- see caption)",
-        "Simulated T-A SCIF vs. analytical Bean critical-state loop\n"
-        "(both normalized to their own peak at I_design -- NOT the same "
-        "physical units, see script docstring)")
-    ax.legend(fontsize=8.5, labelcolor="white", facecolor="#222",
-             edgecolor="#444", framealpha=0.75, loc="upper left")
-    ax.set_ylim(-1.1, 1.15)
-
-    fig.text(0.5, -0.04,
-             f"Raw values: SCIF peak={scif_peak:+.0f}mT, remanent="
-             f"{scif_remanent:+.0f}mT at I~{I_down_sim[-1]:.0f}A "
-             f"(dB_rel<=​{dB_rel_sim.max():.3f} throughout, all steps finite). "
-             f"Both curves cross zero and settle to a nonzero remanent value of "
-             f"the same relative sign on ramp-down -- the qualitative signature "
-             f"critical-state theory predicts, at {ratio:.1f}x the analytical "
-             f"remanent fraction (not an exact match -- expected, given the "
-             f"1-D idealized-slab simplification; see 05_hysteresis_loop.png).",
+    fig.text(0.5, -0.03,
+             "Analytical curve scaled to cycle-1's peak for shape comparison "
+             "only (not the same physical quantity as SCIF). The loop has "
+             "not fully closed within 3 cycles -- the shrinking (not "
+             "constant) gap is evidence of genuine convergence, not proof "
+             "of where it settles; see 00_summary_dashboard.png.",
              ha="center", color="#999", fontsize=7.6, wrap=True)
 
     fig.tight_layout()

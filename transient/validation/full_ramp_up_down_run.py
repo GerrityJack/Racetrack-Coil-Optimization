@@ -1,19 +1,31 @@
 """full_ramp_up_down_run.py -- 2026-08-08, first-ever ramp-DOWN test of
-the T-A transient solver in this project. Every prior multi-step
-validation (full_ramp_run.py, dt_crossing_ramp.py, ni_closure_smoke_check.py)
-only ever ramped current UP -- this continues seamlessly from the
-already-validated 10x19.6A/dt=60s up-ramp straight into a symmetric
-down-ramp (196A -> ~0A), all in ONE warm-started process (no remesh, no
-reload), using the IDENTICAL validated settings: alpha=(0.03, 0.01),
-dt=60s, forced-full-length (min_iters=max_iters_per_step) throughout.
+the T-A transient solver in this project, extended to TWO full
+up+down cycles. Every prior multi-step validation (full_ramp_run.py,
+dt_crossing_ramp.py, ni_closure_smoke_check.py) only ever ramped
+current UP once -- this continues seamlessly from the already-validated
+10x19.6A/dt=60s up-ramp pattern through two complete 196A<->~2A cycles,
+all in ONE warm-started process (no remesh, no reload), using the
+IDENTICAL validated settings: alpha=(0.03, 0.01), dt=60s,
+forced-full-length (min_iters=max_iters_per_step) throughout.
 
-WHY: to build a genuine simulated "SCIF vs I" loop (SCIF being the T-A
-model's own screening-current observable -- the closest thing this
-project's transient solver has to a magnetization) and compare its
-SHAPE against the analytically-derived Bean critical-state hysteresis
-loop (visualization/plot_hysteresis_loop.py) as a cross-check that the
-transient solver's behaviour is physically sane, not just numerically
-stable.
+WHY TWO CYCLES: a single up+down pass only shows the (non-repeating)
+virgin ascent against ONE descent -- it can't show whether the solver's
+behaviour actually settles into a genuinely CLOSED, repeating loop the
+way real critical-state hysteresis does (where only the very first
+approach follows the virgin curve; every later approach retraces the
+same minor loop). The analytical Bean model predicts cycle 2's ascent
+should close EXACTLY back onto the cycle-1 peak (verified to machine
+precision -- see visualization/plot_hysteresis_loop.py). Running a
+second real cycle tests whether the simulation shows the same
+closure, not just a qualitatively loop-shaped single pass.
+
+WHY (general): to build a genuine simulated "SCIF vs I" loop (SCIF
+being the T-A model's own screening-current observable -- the closest
+thing this project's transient solver has to a magnetization) and
+compare its SHAPE against the analytically-derived Bean critical-state
+hysteresis loop (visualization/plot_hysteresis_loop.py) as a
+cross-check that the transient solver's behaviour is physically sane,
+not just numerically stable.
 
 THIS IS NEW, UNVALIDATED TERRITORY -- read before trusting the output.
 The alpha=(0.03,0.01) fix was validated (2026-08-06/07) only for
@@ -51,14 +63,19 @@ for _p in (_TRANS, _ROOT, os.path.join(_ROOT, "physics"),
 OUT_DATA_DIR = os.path.join(_TRANS, "full_validation_plots", "data")
 
 # Coarser than full_ramp_run.py's validated 10x19.6A (measured ~0.59s/Picard
-# iteration on this mesh; at the validated 1000 forced iterations/step, 10+10
-# steps would be ~3.3 hours -- 5+5 at 39.2A/step keeps the SAME per-step
-# rigor (dt=60s, forced-full-length) but cuts total wall-clock to ~1.6hr).
+# iteration on this mesh; at the validated 1000 forced iterations/step, a
+# single 10-step cycle would be ~1.6hr -- 5+5 at 39.2A/step keeps the SAME
+# per-step rigor (dt=60s, forced-full-length) while keeping TWO full cycles
+# (20 steps total, ~3.3hr) tractable. Cycle 2 reuses the IDENTICAL target
+# current sequence as cycle 1 -- this is deliberate: it directly tests
+# whether the simulation's second approach retraces the first descent and
+# closes back onto the first peak, exactly as the analytical Bean model
+# predicts it should (verified to machine precision).
 UP = [(60.0, 39.2 * (i + 1)) for i in range(5)]          # 39.2 -> 196.0 A
 DOWN = [(60.0, 196.0 - 39.2 * (i + 1)) for i in range(4)]  # 156.8 -> 39.2 A
 DOWN.append((60.0, 2.0))                                   # ~0, avoids /T_amp=0
-SCHEDULE = UP + DOWN
-SNAPSHOT_STEPS = {0, 2, 4, 5, 7, 9}  # a few on each branch
+SCHEDULE = UP + DOWN + UP + DOWN + UP + DOWN
+SNAPSHOT_STEPS = {0, 2, 4, 5, 7, 9, 10, 12, 14, 15, 17, 19, 20, 22, 24, 25, 27, 29}
 
 
 def main():
@@ -120,7 +137,12 @@ def main():
     _cum = {"k": 0}
 
     for step_idx, (dt, I_now) in enumerate(SCHEDULE):
-        branch = "up" if step_idx < len(UP) else "down"
+        n_up, n_down = len(UP), len(DOWN)
+        seg = n_up + n_down
+        cycle = step_idx // seg + 1
+        pos_in_cycle = step_idx % seg
+        direction = "up" if pos_in_cycle < n_up else "down"
+        branch = f"{direction}{cycle}"
         T_amp = I_now / (2.0 * delta_SC)
         ta["T_bot_val"].value = +T_amp
         ta["T_top_val"].value = -T_amp
