@@ -369,6 +369,19 @@ CMAES_X0 = dict(a=0.0260, b=0.0314,
                coil_half_gap=0.0137,
                n_turns=[382, 382, 478, 478, 3, 3])
 
+# 2026-09-03: CMAES_X0_JSON_OVERRIDE -- lets an orchestrator change N_LAYERS
+# itself (not just a/b/gap/turn VALUES), e.g. to test whether spreading the
+# same ampere-turns across more, thinner layers relieves the per-layer
+# self-field ceiling on I_op that optimize/studies/ta_safe_margin_search.py
+# found pinned (~29-43A) across 510 T-A-evaluated candidates spanning huge
+# ranges of a/b/gap/turn-distribution otherwise. Must be set (if at all)
+# BEFORE cmaes_search.py is imported anywhere, since that module computes
+# N_LAYERS = len(cfg.CMAES_X0["n_turns"]) once at its own import time.
+_x0_json_override = _os.environ.get("CMAES_X0_JSON_OVERRIDE")
+if _x0_json_override:
+    import json as _json
+    CMAES_X0 = _json.loads(_x0_json_override)
+
 # 2026-07-21: the first run pinned a and b at their box bounds (30/60 mm)
 # for most of the search -- per project direction, a and b now have NO
 # artificial search bound; (None, None) means unbounded in pycma.  The only
@@ -438,10 +451,48 @@ CMAES_SEED      = 80824               # 2026-07-24: n_layers=8 champion search
                                       # investigated and REJECTED -- see
                                       # CMAES_X0's comment above / CLAUDE.md)
                                       # (was 80824, the n_layers=8 search)
-CMAES_PENALTY_KM = 200.0            # penalty scale [km-equivalent] per unit
-                                    # (normalized) constraint violation^2 --
-                                    # large relative to typical tape lengths
-                                    # (O(1-3 km)) so any violation dominates
+CMAES_PENALTY_KM = 200.0            # DEPRECATED, kept only so any external
+                                    # reader of this constant doesn't break --
+                                    # cmaes_search.py no longer reads this.
+# 2026-09-02: split into per-constraint factors on user request, so field
+# and hoop-stress violations can be weighted independently instead of
+# sharing one knob. Both default to the old CMAES_PENALTY_KM value, so
+# behavior is UNCHANGED until one is deliberately retuned.
+# 2026-09-03: added CMAES_PENALTY_KM_UNIFORMITY (uniformity was never in
+# the fitness function at all before -- see CLAUDE.md's "Proxy graveyard"
+# for why earlier CHEAP uniformity proxies were all falsified; this one is
+# different -- ta_safe_current.py's uniformity_pct is the REAL T-A box
+# calculation, using the actual solved screening-current state at I_op,
+# not a cheap stand-in, so folding it in here isn't repeating that
+# mistake). Per user direction: field is the dominant, most urgent
+# objective right now (still ~2.8x short of B_TARGET_MIN_T), so
+# CMAES_PENALTY_KM_FIELD is raised well above the other two, and hoop/
+# uniformity are deliberately DE-prioritized until field results are
+# consistently above target -- retune upward once that's true. All three
+# are overridable per-run via env vars (matching this session's
+# TA_SAFE_*_OVERRIDE convention) without touching these shared defaults,
+# which optimize/cmaes_search.py also reads.
+CMAES_PENALTY_KM_FIELD = 3000.0     # penalty scale for B_target shortfall^2
+                                    # (raised 200->3000: field is the
+                                    # urgent constraint right now)
+CMAES_PENALTY_KM_HOOP  = 20.0       # penalty scale for hoop-stress excess^2
+                                    # (lowered 200->20: hoop has never once
+                                    # bound in 617+ evaluations tonight,
+                                    # single-digit MPa vs. the 400 MPa cap)
+CMAES_PENALTY_KM_UNIFORMITY = 20.0  # penalty scale for uniformity excess^2
+                                    # (new; started low like hoop, per user
+                                    # direction -- raise once field is met)
+                                    # (all three: [km-equivalent] per unit
+                                    # (normalized) constraint violation^2)
+_field_kf_override = _os.environ.get("CMAES_PENALTY_KM_FIELD_OVERRIDE")
+if _field_kf_override:
+    CMAES_PENALTY_KM_FIELD = float(_field_kf_override)
+_hoop_kf_override = _os.environ.get("CMAES_PENALTY_KM_HOOP_OVERRIDE")
+if _hoop_kf_override:
+    CMAES_PENALTY_KM_HOOP = float(_hoop_kf_override)
+_unif_kf_override = _os.environ.get("CMAES_PENALTY_KM_UNIFORMITY_OVERRIDE")
+if _unif_kf_override:
+    CMAES_PENALTY_KM_UNIFORMITY = float(_unif_kf_override)
 CMAES_INFEASIBLE_PENALTY_KM = 1000.0  # flat penalty for geometrically
                                       # infeasible / failed evaluations
 CMAES_OUT_CSV = "optimize/runs/cmaes_results.csv"     # this run's best design

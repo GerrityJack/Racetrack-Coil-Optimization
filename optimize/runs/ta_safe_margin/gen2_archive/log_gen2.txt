@@ -1,0 +1,352 @@
+==========================================================================================
+T-A-safe-current CMA-ES wide search -- optimize/studies/ta_safe_margin_search.py
+==========================================================================================
+x0: a=37.40mm b=58.50mm gap=13.50mm pairs=[np.float64(612.0), np.float64(43.0), np.float64(606.0)]
+step sizes: a=10.00mm b=15.00mm gap=5.00mm n=100 turns
+budget: 700 evaluations, 4 parallel workers
+target: B >= 10.0 T AND T-A worst-cell local margin >= 1.5385 (J/Jc <= 0.65) EVERYWHERE, hoop <= 400 MPa
+outputs: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin/results.csv, /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin/history.csv
+
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=34.4 b=43.4 gap=13.6 nt=2376] KSP converged reason: 4, iterations: 1
+  [a=44.1 b=55.0 gap=13.9 nt=2752] KSP converged reason: 4, iterations: 1
+  [a=37.4 b=65.3 gap=13.8 nt=2316] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=47.6 b=78.0 gap=13.6 nt=2342] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:103: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=33.8 b=70.4 gap=13.9 nt=2190] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=41.4 b=65.1 gap=13.8 nt=2576] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:103: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [   1] viol   f= 118.259  a=34.37 b=43.40 gap=13.58 (face=3.16mm) n=[510, 510, 47, 47, 631, 631]  tape=0.641km B=2.33T hoop=7MPa I_op=43.1A ta_margin=1.576 (7 TA solves, 119s)
+  [   2] viol   f= 146.720  a=47.56 b=77.95 gap=13.58 (face=3.16mm) n=[496, 496, 14, 14, 661, 661]  tape=1.027km B=1.46T hoop=8MPa I_op=36.4A ta_margin=1.546 (7 TA solves, 285s)
+  [   3] viol   f= 181.478  a=44.10 b=54.97 gap=13.89 (face=3.79mm) n=[631, 631, 59, 59, 686, 686]  tape=0.916km B=0.50T hoop=0MPa I_op=5.0A ta_margin=1.538 (6 TA solves, 147s)
+  [   4] INFEAS f=1045.335  a=34.97 b=51.01 gap=13.74 (face=3.48mm) n=[457, 457, 2, 2, 775, 775]  no evaluation (geometry pre-check)
+  [   5] INFEAS f=1000.049  a=30.10 b=80.38 gap=13.57 (face=3.14mm) n=[560, 560, 24, 24, 604, 604]  no evaluation (geometry pre-check)
+  [   6] viol   f= 148.725  a=37.37 b=65.25 gap=13.82 (face=3.64mm) n=[634, 634, 48, 48, 476, 476]  tape=0.851km B=1.40T hoop=3MPa I_op=27.3A ta_margin=1.601 (7 TA solves, 164s)
+  [   7] viol   f= 163.567  a=33.82 b=70.36 gap=13.88 (face=3.76mm) n=[576, 576, 2, 2, 517, 517]  tape=0.800km B=0.98T hoop=1MPa I_op=19.8A ta_margin=1.681 (7 TA solves, 188s)
+  [   8] viol   f= 133.540  a=41.37 b=65.07 gap=13.75 (face=3.50mm) n=[513, 513, 136, 136, 639, 639]  tape=0.976km B=1.86T hoop=8MPa I_op=38.2A ta_margin=1.555 (7 TA solves, 147s)
+  [   9] INFEAS f=28204.180  a=56.88 b=35.80 gap=13.50 (face=3.01mm) n=[715, 715, 79, 79, 530, 530]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=34.0 b=63.7 gap=13.5 nt=2722] KSP converged reason: 4, iterations: 1
+  [a=31.0 b=58.0 gap=13.7 nt=2476] KSP converged reason: 4, iterations: 1
+  [a=36.6 b=66.9 gap=13.9 nt=2686] KSP converged reason: 4, iterations: 1
+  [a=33.0 b=46.0 gap=14.1 nt=2428] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:103: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [  10] viol   f= 150.964  a=32.99 b=45.97 gap=14.09 (face=4.17mm) n=[573, 573, 1, 1, 640, 640]  tape=0.648km B=1.33T hoop=8MPa I_op=23.2A ta_margin=1.673 (7 TA solves, 128s)
+  [  11] INFEAS f=7657.635  a=49.37 b=41.47 gap=13.87 (face=3.75mm) n=[422, 422, 36, 36, 434, 434]  no evaluation (geometry pre-check)
+  [  12] viol   f= 146.567  a=36.55 b=66.90 gap=13.90 (face=3.80mm) n=[621, 621, 37, 37, 685, 685]  tape=0.973km B=1.47T hoop=3MPa I_op=26.4A ta_margin=1.630 (7 TA solves, 165s)
+  [  13] INFEAS f=5336.061  a=21.81 b=55.62 gap=13.51 (face=3.02mm) n=[798, 798, 32, 32, 542, 542]  no evaluation (geometry pre-check)
+  [  14] viol   f= 130.378  a=34.00 b=63.65 gap=13.51 (face=3.03mm) n=[559, 559, 189, 189, 613, 613]  tape=0.956km B=1.96T hoop=5MPa I_op=33.9A ta_margin=1.557 (7 TA solves, 164s)
+  [  15] INFEAS f=1103.825  a=30.02 b=51.44 gap=13.81 (face=3.62mm) n=[508, 508, 41, 41, 665, 665]  no evaluation (geometry pre-check)
+  [  16] INFEAS f=13767.516  a=34.13 b=21.27 gap=14.29 (face=4.57mm) n=[559, 559, 150, 150, 560, 560]  no evaluation (geometry pre-check)
+  [  17] viol   f= 119.639  a=30.97 b=57.99 gap=13.70 (face=3.41mm) n=[616, 616, 42, 42, 580, 580]  tape=0.771km B=2.29T hoop=5MPa I_op=37.5A ta_margin=1.676 (7 TA solves, 156s)
+  [  18] INFEAS f=1467.772  a=24.68 b=71.05 gap=14.15 (face=4.31mm) n=[576, 576, 65, 65, 595, 595]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=4  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=37.9 b=43.2 gap=13.9 nt=2102] KSP converged reason: 4, iterations: 1
+  [a=41.3 b=57.1 gap=13.5 nt=3148] KSP converged reason: 4, iterations: 1
+  [a=33.8 b=62.6 gap=13.9 nt=2330] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=38.8 b=77.2 gap=13.5 nt=2832] KSP converged reason: 4, iterations: 1
+  [  19] viol   f= 114.809  a=41.33 b=57.06 gap=13.54 (face=3.08mm) n=[726, 726, 116, 116, 732, 732]  tape=1.051km B=2.46T hoop=7MPa I_op=36.1A ta_margin=1.546 (7 TA solves, 135s)
+  [  20] viol   f= 118.541  a=37.86 b=43.19 gap=13.89 (face=3.78mm) n=[568, 568, 23, 23, 460, 460]  tape=0.574km B=2.32T hoop=7MPa I_op=43.4A ta_margin=1.715 (7 TA solves, 132s)
+  [  21] INFEAS f=1189.670  a=25.87 b=75.59 gap=13.58 (face=3.16mm) n=[512, 512, 81, 81, 577, 577]  no evaluation (geometry pre-check)
+  [  22] INFEAS f=2399.580  a=26.23 b=51.06 gap=13.53 (face=3.06mm) n=[641, 641, 109, 109, 736, 736]  no evaluation (geometry pre-check)
+  [  23] INFEAS f=1000.000  a=34.46 b=68.63 gap=13.53 (face=3.07mm) n=[659, 659, 6, 6, 687, 687]  no evaluation (geometry pre-check)
+  [  24] INFEAS f=1382.179  a=27.01 b=64.61 gap=13.57 (face=3.14mm) n=[644, 644, 18, 18, 527, 527]  no evaluation (geometry pre-check)
+  [  25] INFEAS f=1045.619  a=28.55 b=75.53 gap=13.86 (face=3.72mm) n=[592, 592, 120, 120, 604, 604]  no evaluation (geometry pre-check)
+  [  26] viol   f= 184.107  a=33.82 b=62.65 gap=13.88 (face=3.75mm) n=[497, 497, 55, 55, 613, 613]  tape=0.805km B=0.43T hoop=0MPa I_op=5.0A ta_margin=1.538 (6 TA solves, 151s)
+  [  27] viol   f= 134.664  a=38.76 b=77.18 gap=13.50 (face=3.00mm) n=[629, 629, 177, 177, 610, 610]  tape=1.168km B=1.83T hoop=5MPa I_op=32.3A ta_margin=1.559 (7 TA solves, 185s)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=39.8 b=45.7 gap=14.5 nt=2944] KSP converged reason: 4, iterations: 1
+  [a=33.5 b=44.1 gap=14.2 nt=2740] KSP converged reason: 4, iterations: 1
+  [a=45.9 b=61.3 gap=13.5 nt=3242] KSP converged reason: 4, iterations: 1
+  [a=41.9 b=56.9 gap=13.5 nt=2306] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:103: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=34.1 b=50.0 gap=13.5 nt=2402] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=51.2 b=87.0 gap=13.6 nt=2794] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=33.9 b=70.7 gap=14.2 nt=3018] KSP converged reason: 4, iterations: 1
+  [  28] viol   f= 118.429  a=33.48 b=44.10 gap=14.24 (face=4.48mm) n=[578, 578, 207, 207, 585, 585]  tape=0.732km B=2.33T hoop=5MPa I_op=35.2A ta_margin=1.660 (7 TA solves, 131s)
+  [  29] viol   f= 130.901  a=45.90 b=61.26 gap=13.50 (face=3.00mm) n=[658, 658, 321, 321, 642, 642]  tape=1.190km B=1.95T hoop=6MPa I_op=30.4A ta_margin=1.616 (7 TA solves, 169s)
+  [  30] INFEAS f=1007.384  a=33.37 b=56.59 gap=13.52 (face=3.05mm) n=[707, 707, 101, 101, 564, 564]  no evaluation (geometry pre-check)
+  [  31] INFEAS f=1018.897  a=33.21 b=61.43 gap=13.80 (face=3.60mm) n=[713, 713, 18, 18, 692, 692]  no evaluation (geometry pre-check)
+  [  32] viol   f= 130.561  a=41.88 b=56.91 gap=13.50 (face=3.00mm) n=[612, 612, 16, 16, 525, 525]  tape=0.771km B=1.94T hoop=7MPa I_op=38.3A ta_margin=1.666 (7 TA solves, 153s)
+  [  33] viol   f=  98.066  a=39.78 b=45.68 gap=14.45 (face=4.91mm) n=[776, 776, 23, 23, 673, 673]  tape=0.846km B=3.03T hoop=8MPa I_op=41.9A ta_margin=1.554 (7 TA solves, 104s)
+  [  34] viol   f= 113.145  a=34.06 b=50.01 gap=13.51 (face=3.01mm) n=[600, 600, 15, 15, 586, 586]  tape=0.675km B=2.50T hoop=7MPa I_op=42.2A ta_margin=1.618 (7 TA solves, 134s)
+  [  35] viol   f= 144.251  a=51.24 b=86.97 gap=13.60 (face=3.19mm) n=[631, 631, 100, 100, 666, 666]  tape=1.336km B=1.55T hoop=7MPa I_op=33.1A ta_margin=1.563 (7 TA solves, 179s)
+  [  36] viol   f= 128.472  a=33.89 b=70.73 gap=14.20 (face=4.41mm) n=[670, 670, 250, 250, 589, 589]  tape=1.159km B=2.02T hoop=4MPa I_op=30.8A ta_margin=1.654 (7 TA solves, 147s)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=41.7 b=53.5 gap=13.5 nt=3190] KSP converged reason: 4, iterations: 1
+  [a=48.7 b=53.8 gap=14.2 nt=3202] KSP converged reason: 4, iterations: 1
+  [a=53.2 b=64.7 gap=15.1 nt=2532] KSP converged reason: 4, iterations: 1
+  [a=49.2 b=55.8 gap=14.3 nt=2576] KSP converged reason: 4, iterations: 1
+  [  37] viol   f= 128.153  a=49.18 b=55.80 gap=14.31 (face=4.62mm) n=[622, 622, 54, 54, 612, 612]  tape=0.882km B=2.02T hoop=8MPa I_op=38.5A ta_margin=1.661 (7 TA solves, 155s)
+  [  38] INFEAS f=2557.379  a=30.28 b=59.29 gap=13.63 (face=3.27mm) n=[857, 857, 98, 98, 676, 676]  no evaluation (geometry pre-check)
+  [  39] INFEAS f=1558.611  a=29.87 b=39.04 gap=15.17 (face=6.35mm) n=[746, 746, 16, 16, 638, 638]  no evaluation (geometry pre-check)
+  [  40] viol   f= 132.792  a=53.16 b=64.71 gap=15.06 (face=6.12mm) n=[671, 671, 29, 29, 566, 566]  tape=0.999km B=1.88T hoop=9MPa I_op=39.9A ta_margin=1.653 (7 TA solves, 158s)
+  [  41] viol   f= 115.995  a=41.73 b=53.50 gap=13.52 (face=3.03mm) n=[751, 751, 105, 105, 739, 739]  tape=1.023km B=2.42T hoop=6MPa I_op=34.0A ta_margin=1.587 (7 TA solves, 127s)
+  [  42] INFEAS f=1057.548  a=49.13 b=52.93 gap=13.55 (face=3.10mm) n=[612, 612, 47, 47, 708, 708]  no evaluation (geometry pre-check)
+  [  43] INFEAS f=25255.740  a=49.00 b=29.38 gap=14.32 (face=4.64mm) n=[653, 653, 48, 48, 744, 744]  no evaluation (geometry pre-check)
+  [  44] viol   f= 123.256  a=48.73 b=53.77 gap=14.25 (face=4.50mm) n=[664, 664, 138, 138, 799, 799]  tape=1.130km B=2.19T hoop=8MPa I_op=35.8A ta_margin=1.613 (7 TA solves, 126s)
+  [  45] INFEAS f=4475.730  a=30.53 b=26.21 gap=14.82 (face=5.64mm) n=[617, 617, 117, 117, 509, 509]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=2  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=45.6 b=59.4 gap=13.8 nt=3100] KSP converged reason: 4, iterations: 1
+  [a=41.3 b=75.4 gap=13.8 nt=3642] KSP converged reason: 4, iterations: 1
+  [  46] viol   f= 121.096  a=41.34 b=75.36 gap=13.79 (face=3.57mm) n=[814, 814, 243, 243, 764, 764]  tape=1.525km B=2.27T hoop=6MPa I_op=31.4A ta_margin=1.622 (7 TA solves, 122s)
+  [  47] INFEAS f=1094.896  a=36.37 b=40.14 gap=13.91 (face=3.82mm) n=[807, 807, 47, 47, 724, 724]  no evaluation (geometry pre-check)
+  [  48] INFEAS f=2053.658  a=58.04 b=57.91 gap=14.71 (face=5.41mm) n=[844, 844, 131, 131, 737, 737]  no evaluation (geometry pre-check)
+  [  49] INFEAS f=14130.323  a=53.93 b=40.82 gap=14.50 (face=4.99mm) n=[785, 785, 138, 138, 887, 887]  no evaluation (geometry pre-check)
+  [  50] viol   f= 125.435  a=45.60 b=59.36 gap=13.82 (face=3.65mm) n=[665, 665, 140, 140, 745, 745]  tape=1.124km B=2.12T hoop=7MPa I_op=35.2A ta_margin=1.546 (7 TA solves, 106s)
+  [  51] INFEAS f=1000.000  a=47.81 b=59.35 gap=14.34 (face=4.68mm) n=[648, 648, 99, 99, 627, 627]  no evaluation (geometry pre-check)
+  [  52] INFEAS f=2411.096  a=39.58 b=38.64 gap=13.51 (face=3.02mm) n=[594, 594, 46, 46, 721, 721]  no evaluation (geometry pre-check)
+  [  53] INFEAS f=19506.193  a=60.71 b=44.20 gap=13.70 (face=3.39mm) n=[654, 654, 198, 198, 709, 709]  no evaluation (geometry pre-check)
+  [  54] INFEAS f=2651.407  a=53.27 b=51.85 gap=15.10 (face=6.19mm) n=[802, 802, 189, 189, 731, 731]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=36.6 b=63.6 gap=14.0 nt=3000] KSP converged reason: 4, iterations: 1
+  [a=43.0 b=67.4 gap=13.7 nt=3208] KSP converged reason: 4, iterations: 1
+  [a=52.9 b=61.9 gap=13.7 nt=3294] KSP converged reason: 4, iterations: 1
+  [a=41.0 b=80.5 gap=13.5 nt=3190] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=49.3 b=77.6 gap=13.7 nt=3440] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=39.4 b=81.7 gap=13.5 nt=4056] KSP converged reason: 4, iterations: 1
+  [a=46.6 b=86.4 gap=13.7 nt=2882] KSP converged reason: 4, iterations: 1
+  [  55] viol   f= 106.423  a=36.63 b=63.61 gap=14.02 (face=4.03mm) n=[730, 730, 39, 39, 731, 731]  tape=1.027km B=2.74T hoop=7MPa I_op=41.1A ta_margin=1.574 (7 TA solves, 140s)
+  [  56] viol   f= 129.131  a=52.87 b=61.92 gap=13.71 (face=3.43mm) n=[689, 689, 202, 202, 756, 756]  tape=1.288km B=2.00T hoop=8MPa I_op=33.3A ta_margin=1.602 (7 TA solves, 147s)
+  [  57] viol   f= 125.047  a=43.03 b=67.37 gap=13.70 (face=3.39mm) n=[759, 759, 113, 113, 732, 732]  tape=1.223km B=2.13T hoop=6MPa I_op=32.8A ta_margin=1.673 (7 TA solves, 147s)
+  [  58] viol   f= 137.566  a=41.01 b=80.49 gap=13.50 (face=3.01mm) n=[596, 596, 269, 269, 730, 730]  tape=1.422km B=1.75T hoop=6MPa I_op=31.0A ta_margin=1.546 (7 TA solves, 172s)
+  [  59] viol   f= 136.208  a=49.28 b=77.59 gap=13.69 (face=3.38mm) n=[774, 774, 291, 291, 655, 655]  tape=1.558km B=1.79T hoop=6MPa I_op=29.5A ta_margin=1.584 (7 TA solves, 151s)
+  [  60] INFEAS f=4996.151  a=23.22 b=74.11 gap=13.79 (face=3.57mm) n=[819, 819, 80, 80, 632, 632]  no evaluation (geometry pre-check)
+  [  61] viol   f= 131.728  a=39.44 b=81.69 gap=13.50 (face=3.00mm) n=[836, 836, 354, 354, 838, 838]  tape=1.772km B=1.94T hoop=4MPa I_op=24.0A ta_margin=1.782 (7 TA solves, 164s)
+  [  62] INFEAS f=1108.827  a=36.90 b=55.95 gap=13.84 (face=3.68mm) n=[673, 673, 73, 73, 850, 850]  no evaluation (geometry pre-check)
+  [  63] viol   f= 147.733  a=46.62 b=86.45 gap=13.65 (face=3.30mm) n=[524, 524, 143, 143, 774, 774]  tape=1.408km B=1.45T hoop=6MPa I_op=31.3A ta_margin=1.666 (7 TA solves, 156s)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=44.5 b=51.9 gap=13.5 nt=3390] KSP converged reason: 4, iterations: 1
+  [a=61.0 b=74.4 gap=13.5 nt=3354] KSP converged reason: 4, iterations: 1
+  [a=45.1 b=70.3 gap=14.5 nt=3164] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=46.1 b=66.9 gap=13.8 nt=3382] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:103: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=46.3 b=71.3 gap=13.9 nt=2954] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=35.9 b=56.7 gap=13.6 nt=2780] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=50.3 b=82.8 gap=13.8 nt=3056] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=53.1 b=61.4 gap=13.6 nt=3204] KSP converged reason: 4, iterations: 1
+  [  64] viol   f= 134.095  a=61.01 b=74.36 gap=13.50 (face=3.00mm) n=[696, 696, 19, 19, 962, 962]  tape=1.560km B=1.86T hoop=10MPa I_op=35.1A ta_margin=1.617 (7 TA solves, 135s)
+  [  65] viol   f= 111.773  a=44.54 b=51.93 gap=13.53 (face=3.06mm) n=[798, 798, 91, 91, 806, 806]  tape=1.083km B=2.56T hoop=6MPa I_op=34.2A ta_margin=1.634 (7 TA solves, 115s)
+  [  66] viol   f= 153.090  a=45.10 b=70.25 gap=14.54 (face=5.08mm) n=[761, 761, 110, 110, 711, 711]  tape=1.265km B=1.29T hoop=2MPa I_op=21.1A ta_margin=1.697 (7 TA solves, 169s)
+  [  67] viol   f= 127.558  a=46.13 b=66.90 gap=13.84 (face=3.67mm) n=[757, 757, 134, 134, 800, 800]  tape=1.319km B=2.06T hoop=6MPa I_op=31.9A ta_margin=1.677 (7 TA solves, 216s)
+  [  68] viol   f= 137.248  a=46.31 b=71.28 gap=13.87 (face=3.75mm) n=[563, 563, 139, 139, 775, 775]  tape=1.252km B=1.75T hoop=8MPa I_op=34.6A ta_margin=1.569 (7 TA solves, 149s)
+  [  69] viol   f= 112.265  a=35.94 b=56.70 gap=13.57 (face=3.15mm) n=[704, 704, 48, 48, 638, 638]  tape=0.893km B=2.54T hoop=6MPa I_op=38.7A ta_margin=1.583 (7 TA solves, 136s)
+  [  70] viol   f= 135.100  a=50.33 b=82.85 gap=13.84 (face=3.68mm) n=[793, 793, 19, 19, 716, 716]  tape=1.397km B=1.82T hoop=7MPa I_op=33.4A ta_margin=1.642 (7 TA solves, 156s)
+  [  71] viol   f= 183.350  a=53.10 b=61.41 gap=13.57 (face=3.13mm) n=[699, 699, 103, 103, 800, 800]  tape=1.243km B=0.46T hoop=0MPa I_op=7.8A ta_margin=1.723 (7 TA solves, 124s)
+  [  72] INFEAS f=1045.357  a=36.80 b=51.90 gap=13.54 (face=3.09mm) n=[807, 807, 47, 47, 824, 824]  no evaluation (geometry pre-check)
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7804_tasafe7804_26262_tasafe7804_45740_tasafe7804_33599_tasafe7804_98844_tasafe7804_466_tasafe7804_85338_tasafe7804_89785_tasafe7804_94760_tasafe7804_52348_tasafe7804_73900_tasafe7804_21088_tasafe7804_84988_tasafe7804_54072_tasafe7804_25537.msh'
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=1
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=47.8 b=58.1 gap=13.5 nt=3836] KSP converged reason: 4, iterations: 1
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7804_tasafe7804_26262_tasafe7804_45740_tasafe7804_33599_tasafe7804_98844_tasafe7804_466_tasafe7804_85338_tasafe7804_89785_tasafe7804_94760_tasafe7804_52348_tasafe7804_73900_tasafe7804_21088_tasafe7804_84988_tasafe7804_54072_tasafe7804_25537_tasafe7804_26729.msh'
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=36.4 b=50.2 gap=13.5 nt=3128] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:103: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [  73] INFEAS f=1000.000  a=50.90 b=61.90 gap=13.54 (face=3.09mm) n=[885, 885, 312, 312, 853, 853]  no evaluation (geometry pre-check)
+  [  74] viol   f=  91.985  a=36.39 b=50.18 gap=13.52 (face=3.04mm) n=[758, 758, 51, 51, 755, 755]  tape=0.906km B=3.25T hoop=7MPa I_op=42.6A ta_margin=1.552 (7 TA solves, 112s)
+  [  75] INFEAS f=1000.000  a=39.99 b=61.80 gap=13.50 (face=3.01mm) n=[653, 653, 160, 160, 699, 699]  no evaluation (geometry pre-check)
+  [  76] INFEAS f=3661.227  a=47.43 b=44.28 gap=13.51 (face=3.02mm) n=[870, 870, 4, 4, 776, 776]  no evaluation (geometry pre-check)
+  [  77] INFEAS f=4503.901  a=45.81 b=41.45 gap=13.96 (face=3.93mm) n=[792, 792, 39, 39, 755, 755]  no evaluation (geometry pre-check)
+  [  78] INFEAS f=1156.785  a=33.67 b=37.03 gap=13.66 (face=3.31mm) n=[742, 742, 15, 15, 703, 703]  no evaluation (geometry pre-check)
+  [  79] viol   f= 172.436  a=47.78 b=58.12 gap=13.52 (face=3.03mm) n=[868, 868, 239, 239, 811, 811]  tape=1.403km B=0.75T hoop=0MPa I_op=5.0A ta_margin=1.538 (5 TA solves, 93s)
+  [  80] INFEAS f=1169.151  a=47.97 b=50.91 gap=13.58 (face=3.16mm) n=[792, 792, 43, 43, 792, 792]  no evaluation (geometry pre-check)
+  [  81] INFEAS f=1000.000  a=44.86 b=69.92 gap=13.52 (face=3.04mm) n=[949, 949, 88, 88, 801, 801]  no evaluation (geometry pre-check)
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7804_tasafe7804_26262_tasafe7804_45740_tasafe7804_33599_tasafe7804_98844_tasafe7804_466_tasafe7804_85338_tasafe7804_89785_tasafe7804_94760_tasafe7804_52348_tasafe7804_73900_tasafe7804_21088_tasafe7804_84988_tasafe7804_54072_tasafe7804_25537_tasafe7804_26729_tasafe7804_38009.msh'
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=2
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=45.6 b=52.6 gap=13.9 nt=3084] KSP converged reason: 4, iterations: 1
+  [a=48.8 b=65.3 gap=13.6 nt=3366] KSP converged reason: -11, iterations: 0
+  [eval error] RuntimeError: KSP did NOT converge at a=48.8 b=65.3 gap=13.6 nt=3366 (PETSc converged reason -11 -- negative means diverged/failed, not just slow; see https://petsc.org/release/manualpages/KSP/KSPConvergedReason for the code meanings). The resulting field values are numerical garbage, not physics -- do not use them. If you changed the solver away from the MUMPS default in setup_problem(), that's the first thing to revert; if you kept MUMPS, look for an unusually distorted/degenerate mesh or a much larger problem than MUMPS can handle.
+  [  82] INFEAS f=1521.611  a=33.25 b=50.35 gap=13.53 (face=3.06mm) n=[831, 831, 166, 166, 789, 789]  no evaluation (geometry pre-check)
+  [  83] INFEAS f=3974.828  a=22.20 b=43.19 gap=13.51 (face=3.02mm) n=[737, 737, 118, 118, 667, 667]  no evaluation (geometry pre-check)
+  [  84] INFEAS f=1000.000  a=48.78 b=65.32 gap=13.55 (face=3.11mm) n=[875, 875, 90, 90, 718, 718]  no evaluation (geometry pre-check)
+  [  85] INFEAS f=2048.613  a=28.17 b=46.56 gap=14.20 (face=4.39mm) n=[756, 756, 167, 167, 733, 733]  no evaluation (geometry pre-check)
+  [  86] INFEAS f=1000.009  a=46.48 b=51.46 gap=13.56 (face=3.11mm) n=[673, 673, 155, 155, 787, 787]  no evaluation (geometry pre-check)
+  [  87] INFEAS f=1000.000  a=41.04 b=61.33 gap=13.61 (face=3.22mm) n=[758, 758, 38, 38, 796, 796]  no evaluation (geometry pre-check)
+  [  88] INFEAS f=1000.000  a=41.96 b=49.54 gap=13.52 (face=3.04mm) n=[603, 603, 192, 192, 757, 757]  no evaluation (geometry pre-check)
+  [  89] INFEAS f=1465.447  a=50.51 b=52.10 gap=13.53 (face=3.06mm) n=[855, 855, 31, 31, 696, 696]  no evaluation (geometry pre-check)
+  [  90] viol   f= 123.819  a=45.57 b=52.62 gap=13.90 (face=3.81mm) n=[684, 684, 142, 142, 716, 716]  tape=1.019km B=2.16T hoop=29MPa I_op=33.7A ta_margin=1.647 (7 TA solves, 98s)
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7804_tasafe7804_26262_tasafe7804_45740_tasafe7804_33599_tasafe7804_98844_tasafe7804_466_tasafe7804_85338_tasafe7804_89785_tasafe7804_94760_tasafe7804_52348_tasafe7804_73900_tasafe7804_21088_tasafe7804_84988_tasafe7804_54072_tasafe7804_25537_tasafe7804_26729_tasafe7804_38009_tasafe7804_35970.msh'
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=3
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7806_tasafe7806_26286_tasafe7806_73725_tasafe7806_33599_tasafe7806_98844_tasafe7806_85338_tasafe7806_38011_tasafe7806_94760_tasafe7806_52348_tasafe7806_73900_tasafe7806_84987_tasafe7806_20243_tasafe7806_25537_tasafe7806_38009_tasafe7806_35970.msh'
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=45.8 b=58.4 gap=13.8 nt=3530] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:103: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [  91] INFEAS f=1014.661  a=47.54 b=51.93 gap=13.50 (face=3.01mm) n=[818, 818, 230, 230, 803, 803]  no evaluation (geometry pre-check)
+  [  92] INFEAS f=1003.265  a=40.11 b=52.22 gap=13.50 (face=3.00mm) n=[881, 881, 189, 189, 703, 703]  no evaluation (geometry pre-check)
+  [  93] viol   f= 133.426  a=45.82 b=58.43 gap=13.78 (face=3.55mm) n=[799, 799, 238, 238, 728, 728]  tape=1.282km B=1.87T hoop=4MPa I_op=25.8A ta_margin=1.604 (7 TA solves, 143s)
+  [  94] INFEAS f=1000.000  a=35.66 b=62.83 gap=13.85 (face=3.69mm) n=[693, 693, 177, 177, 694, 694]  no evaluation (geometry pre-check)
+  [  95] INFEAS f=1015.253  a=39.99 b=61.32 gap=13.57 (face=3.15mm) n=[891, 891, 115, 115, 891, 891]  no evaluation (geometry pre-check)
+  [  96] INFEAS f=1000.000  a=44.81 b=60.54 gap=13.50 (face=3.00mm) n=[836, 836, 201, 201, 767, 767]  no evaluation (geometry pre-check)
+  [  97] INFEAS f=1000.000  a=57.26 b=66.45 gap=13.69 (face=3.38mm) n=[609, 609, 166, 166, 786, 786]  no evaluation (geometry pre-check)
+  [  98] INFEAS f=1167.956  a=46.98 b=49.94 gap=13.70 (face=3.39mm) n=[623, 623, 9, 9, 568, 568]  no evaluation (geometry pre-check)
+  [  99] INFEAS f=1052.374  a=55.38 b=59.23 gap=14.00 (face=3.99mm) n=[780, 780, 173, 173, 842, 842]  no evaluation (geometry pre-check)
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7805_tasafe7805_26268_tasafe7805_33600_tasafe7805_98844_tasafe7805_85337_tasafe7805_15901_tasafe7805_94760_tasafe7805_73899_tasafe7805_13810_tasafe7805_84987_tasafe7805_99808_tasafe7805_25537_tasafe7805_38008_tasafe7805_35970_tasafe7805_78511.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7801_tasafe7801_26288_tasafe7801_33599_tasafe7801_98843_tasafe7801_85338_tasafe7801_94760_tasafe7801_52349_tasafe7801_73900_tasafe7801_20903_tasafe7801_84988_tasafe7801_1307_tasafe7801_25538_tasafe7801_38009_tasafe7801_35970_tasafe7801_78510.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7806_tasafe7806_26286_tasafe7806_73725_tasafe7806_33599_tasafe7806_98844_tasafe7806_85338_tasafe7806_38011_tasafe7806_94760_tasafe7806_52348_tasafe7806_73900_tasafe7806_84987_tasafe7806_20243_tasafe7806_25537_tasafe7806_38009_tasafe7806_35970_tasafe7806_78510.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7804_tasafe7804_26262_tasafe7804_45740_tasafe7804_33599_tasafe7804_98844_tasafe7804_466_tasafe7804_85338_tasafe7804_89785_tasafe7804_94760_tasafe7804_52348_tasafe7804_73900_tasafe7804_21088_tasafe7804_84988_tasafe7804_54072_tasafe7804_25537_tasafe7804_26729_tasafe7804_38009_tasafe7804_35970_tasafe7804_78510.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7805_tasafe7805_26268_tasafe7805_33600_tasafe7805_98844_tasafe7805_85337_tasafe7805_15901_tasafe7805_94760_tasafe7805_73899_tasafe7805_13810_tasafe7805_84987_tasafe7805_99808_tasafe7805_25537_tasafe7805_38008_tasafe7805_35970_tasafe7805_78511_tasafe7805_79644.msh'
+  [ 100] INFEAS f=1881.628  a=42.79 b=43.09 gap=13.82 (face=3.64mm) n=[798, 798, 184, 184, 741, 741]  no evaluation (geometry pre-check)
+  [ 101] INFEAS f=1186.488  a=36.17 b=60.64 gap=13.77 (face=3.54mm) n=[825, 825, 13, 13, 851, 851]  no evaluation (geometry pre-check)
+  [ 102] INFEAS f=1000.000  a=44.49 b=59.63 gap=14.09 (face=4.18mm) n=[656, 656, 75, 75, 645, 645]  no evaluation (geometry pre-check)
+  [ 103] INFEAS f=1000.000  a=41.28 b=50.26 gap=13.70 (face=3.41mm) n=[728, 728, 113, 113, 705, 705]  no evaluation (geometry pre-check)
+  [ 104] INFEAS f=1000.000  a=41.11 b=56.94 gap=14.17 (face=4.33mm) n=[741, 741, 150, 150, 598, 598]  no evaluation (geometry pre-check)
+  [ 105] INFEAS f=1000.000  a=40.36 b=51.99 gap=13.69 (face=3.37mm) n=[809, 809, 254, 254, 764, 764]  no evaluation (geometry pre-check)
+  [ 106] INFEAS f=1060.876  a=34.30 b=49.00 gap=13.53 (face=3.06mm) n=[764, 764, 196, 196, 699, 699]  no evaluation (geometry pre-check)
+  [ 107] INFEAS f=1000.000  a=40.62 b=50.50 gap=13.81 (face=3.62mm) n=[718, 718, 305, 305, 672, 672]  no evaluation (geometry pre-check)
+  [ 108] INFEAS f=1233.617  a=43.91 b=46.50 gap=13.75 (face=3.49mm) n=[590, 590, 204, 204, 724, 724]  no evaluation (geometry pre-check)
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7806_tasafe7806_26286_tasafe7806_73725_tasafe7806_33599_tasafe7806_98844_tasafe7806_85338_tasafe7806_38011_tasafe7806_94760_tasafe7806_52348_tasafe7806_73900_tasafe7806_84987_tasafe7806_20243_tasafe7806_25537_tasafe7806_38009_tasafe7806_35970_tasafe7806_78510_tasafe7806_80661.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7801_tasafe7801_26288_tasafe7801_33599_tasafe7801_98843_tasafe7801_85338_tasafe7801_94760_tasafe7801_52349_tasafe7801_73900_tasafe7801_20903_tasafe7801_84988_tasafe7801_1307_tasafe7801_25538_tasafe7801_38009_tasafe7801_35970_tasafe7801_78510_tasafe7801_80660.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7804_tasafe7804_26262_tasafe7804_45740_tasafe7804_33599_tasafe7804_98844_tasafe7804_466_tasafe7804_85338_tasafe7804_89785_tasafe7804_94760_tasafe7804_52348_tasafe7804_73900_tasafe7804_21088_tasafe7804_84988_tasafe7804_54072_tasafe7804_25537_tasafe7804_26729_tasafe7804_38009_tasafe7804_35970_tasafe7804_78510_tasafe7804_80661.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7801_tasafe7801_26288_tasafe7801_33599_tasafe7801_98843_tasafe7801_85338_tasafe7801_94760_tasafe7801_52349_tasafe7801_73900_tasafe7801_20903_tasafe7801_84988_tasafe7801_1307_tasafe7801_25538_tasafe7801_38009_tasafe7801_35970_tasafe7801_78510_tasafe7801_80660_tasafe7801_81832.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7806_tasafe7806_26286_tasafe7806_73725_tasafe7806_33599_tasafe7806_98844_tasafe7806_85338_tasafe7806_38011_tasafe7806_94760_tasafe7806_52348_tasafe7806_73900_tasafe7806_84987_tasafe7806_20243_tasafe7806_25537_tasafe7806_38009_tasafe7806_35970_tasafe7806_78510_tasafe7806_80661_tasafe7806_81823.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7804_tasafe7804_26262_tasafe7804_45740_tasafe7804_33599_tasafe7804_98844_tasafe7804_466_tasafe7804_85338_tasafe7804_89785_tasafe7804_94760_tasafe7804_52348_tasafe7804_73900_tasafe7804_21088_tasafe7804_84988_tasafe7804_54072_tasafe7804_25537_tasafe7804_26729_tasafe7804_38009_tasafe7804_35970_tasafe7804_78510_tasafe7804_80661_tasafe7804_81878.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7805_tasafe7805_26268_tasafe7805_33600_tasafe7805_98844_tasafe7805_85337_tasafe7805_15901_tasafe7805_94760_tasafe7805_73899_tasafe7805_13810_tasafe7805_84987_tasafe7805_99808_tasafe7805_25537_tasafe7805_38008_tasafe7805_35970_tasafe7805_78511_tasafe7805_79644_tasafe7805_80661.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7801_tasafe7801_26288_tasafe7801_33599_tasafe7801_98843_tasafe7801_85338_tasafe7801_94760_tasafe7801_52349_tasafe7801_73900_tasafe7801_20903_tasafe7801_84988_tasafe7801_1307_tasafe7801_25538_tasafe7801_38009_tasafe7801_35970_tasafe7801_78510_tasafe7801_80660_tasafe7801_81832_tasafe7801_82981.msh'
+  [ 109] INFEAS f=1000.000  a=38.59 b=47.06 gap=14.00 (face=4.00mm) n=[636, 636, 49, 49, 731, 731]  no evaluation (geometry pre-check)
+  [ 110] INFEAS f=1099.742  a=36.37 b=56.97 gap=13.83 (face=3.67mm) n=[833, 833, 223, 223, 710, 710]  no evaluation (geometry pre-check)
+  [ 111] INFEAS f=1000.000  a=45.79 b=58.39 gap=14.24 (face=4.47mm) n=[604, 604, 276, 276, 689, 689]  no evaluation (geometry pre-check)
+  [ 112] INFEAS f=1000.000  a=36.15 b=59.39 gap=13.62 (face=3.24mm) n=[620, 620, 140, 140, 563, 563]  no evaluation (geometry pre-check)
+  [ 113] INFEAS f=1000.000  a=37.05 b=51.86 gap=14.25 (face=4.51mm) n=[749, 749, 288, 288, 705, 705]  no evaluation (geometry pre-check)
+  [ 114] INFEAS f=1000.000  a=46.41 b=69.92 gap=14.56 (face=5.12mm) n=[857, 857, 321, 321, 761, 761]  no evaluation (geometry pre-check)
+  [ 115] INFEAS f=1000.000  a=41.65 b=48.33 gap=14.19 (face=4.37mm) n=[767, 767, 122, 122, 632, 632]  no evaluation (geometry pre-check)
+  [ 116] INFEAS f=1000.000  a=47.31 b=57.26 gap=14.07 (face=4.14mm) n=[752, 752, 58, 58, 772, 772]  no evaluation (geometry pre-check)
+  [ 117] INFEAS f=1000.000  a=41.14 b=59.04 gap=15.14 (face=6.28mm) n=[760, 760, 257, 257, 786, 786]  no evaluation (geometry pre-check)
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7804_tasafe7804_26262_tasafe7804_45740_tasafe7804_33599_tasafe7804_98844_tasafe7804_466_tasafe7804_85338_tasafe7804_89785_tasafe7804_94760_tasafe7804_52348_tasafe7804_73900_tasafe7804_21088_tasafe7804_84988_tasafe7804_54072_tasafe7804_25537_tasafe7804_26729_tasafe7804_38009_tasafe7804_35970_tasafe7804_78510_tasafe7804_80661_tasafe7804_81878_tasafe7804_84046.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7805_tasafe7805_26268_tasafe7805_33600_tasafe7805_98844_tasafe7805_85337_tasafe7805_15901_tasafe7805_94760_tasafe7805_73899_tasafe7805_13810_tasafe7805_84987_tasafe7805_99808_tasafe7805_25537_tasafe7805_38008_tasafe7805_35970_tasafe7805_78511_tasafe7805_79644_tasafe7805_80661_tasafe7805_84046.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7806_tasafe7806_26286_tasafe7806_73725_tasafe7806_33599_tasafe7806_98844_tasafe7806_85338_tasafe7806_38011_tasafe7806_94760_tasafe7806_52348_tasafe7806_73900_tasafe7806_84987_tasafe7806_20243_tasafe7806_25537_tasafe7806_38009_tasafe7806_35970_tasafe7806_78510_tasafe7806_80661_tasafe7806_81823_tasafe7806_84046.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7801_tasafe7801_26288_tasafe7801_33599_tasafe7801_98843_tasafe7801_85338_tasafe7801_94760_tasafe7801_52349_tasafe7801_73900_tasafe7801_20903_tasafe7801_84988_tasafe7801_1307_tasafe7801_25538_tasafe7801_38009_tasafe7801_35970_tasafe7801_78510_tasafe7801_80660_tasafe7801_81832_tasafe7801_82981_tasafe7801_84046.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7804_tasafe7804_26262_tasafe7804_45740_tasafe7804_33599_tasafe7804_98844_tasafe7804_466_tasafe7804_85338_tasafe7804_89785_tasafe7804_94760_tasafe7804_52348_tasafe7804_73900_tasafe7804_21088_tasafe7804_84988_tasafe7804_54072_tasafe7804_25537_tasafe7804_26729_tasafe7804_38009_tasafe7804_35970_tasafe7804_78510_tasafe7804_80661_tasafe7804_81878_tasafe7804_84046_tasafe7804_85411.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7806_tasafe7806_26286_tasafe7806_73725_tasafe7806_33599_tasafe7806_98844_tasafe7806_85338_tasafe7806_38011_tasafe7806_94760_tasafe7806_52348_tasafe7806_73900_tasafe7806_84987_tasafe7806_20243_tasafe7806_25537_tasafe7806_38009_tasafe7806_35970_tasafe7806_78510_tasafe7806_80661_tasafe7806_81823_tasafe7806_84046_tasafe7806_85447.msh'
+  [eval error] Exception: Unable to open file '/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/mesh/racetrack_mesh_tasafew7805_tasafe7805_26268_tasafe7805_33600_tasafe7805_98844_tasafe7805_85337_tasafe7805_15901_tasafe7805_94760_tasafe7805_73899_tasafe7805_13810_tasafe7805_84987_tasafe7805_99808_tasafe7805_25537_tasafe7805_38008_tasafe7805_35970_tasafe7805_78511_tasafe7805_79644_tasafe7805_80661_tasafe7805_84046_tasafe7805_85420.msh'
+  [ 118] INFEAS f=1000.000  a=36.54 b=56.37 gap=13.68 (face=3.36mm) n=[697, 697, 159, 159, 615, 615]  no evaluation (geometry pre-check)
+  [ 119] INFEAS f=1000.000  a=37.41 b=60.84 gap=14.38 (face=4.76mm) n=[466, 466, 153, 153, 735, 735]  no evaluation (geometry pre-check)
+  [ 120] INFEAS f=1000.000  a=39.88 b=57.98 gap=14.83 (face=5.66mm) n=[609, 609, 308, 308, 745, 745]  no evaluation (geometry pre-check)
+  [ 121] INFEAS f=1000.000  a=45.20 b=54.96 gap=14.20 (face=4.41mm) n=[778, 778, 130, 130, 728, 728]  no evaluation (geometry pre-check)
+  [ 122] INFEAS f=1000.000  a=46.13 b=56.56 gap=13.81 (face=3.62mm) n=[702, 702, 157, 157, 715, 715]  no evaluation (geometry pre-check)
+  [ 123] INFEAS f=1410.893  a=47.80 b=49.60 gap=13.94 (face=3.89mm) n=[666, 666, 235, 235, 677, 677]  no evaluation (geometry pre-check)
+  [ 124] INFEAS f=1000.000  a=46.73 b=62.74 gap=13.96 (face=3.92mm) n=[688, 688, 176, 176, 661, 661]  no evaluation (geometry pre-check)
+  [ 125] INFEAS f=1004.078  a=42.21 b=46.90 gap=13.76 (face=3.51mm) n=[567, 567, 54, 54, 584, 584]  no evaluation (geometry pre-check)
+  [ 126] INFEAS f=1000.000  a=44.51 b=66.18 gap=13.97 (face=3.94mm) n=[626, 626, 150, 150, 685, 685]  no evaluation (geometry pre-check)
+
+==========================================================================================
+Finished: 126 evaluations in 37.7 min
+==========================================================================================
+
+No evaluation satisfied both B_target and hoop within budget -- see history.csv for the closest candidates (smallest fitness among feasible=True rows).

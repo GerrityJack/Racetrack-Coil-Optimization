@@ -1,0 +1,216 @@
+==========================================================================================
+T-A-safe-current CMA-ES wide search -- optimize/studies/ta_safe_margin_search.py
+==========================================================================================
+x0: a=46.56mm b=53.01mm gap=13.50mm pairs=[np.float64(972.0), np.float64(216.0), np.float64(457.0)]
+step sizes: a=8.00mm b=12.00mm gap=4.00mm n=80 turns
+budget: 700 evaluations, 6 parallel workers
+target: B >= 10.0 T AND T-A worst-cell local margin >= 1.5385 (J/Jc <= 0.65) EVERYWHERE, hoop <= 400 MPa, uniformity <= 0.8%
+penalty weights: field=3000 hoop=20 uniformity=20
+outputs: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin/results.csv, /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin/history.csv
+
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=1
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 11 SEGV: Segmentation Violation, probably memory access out of range
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+[0]PETSC ERROR: Run with -malloc_debug to check if memory corruption is causing the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+[0]PETSC ERROR: [0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: ------------------------------------------------------------------------
+Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: [0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: [0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: [0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: [0]PETSC ERROR: to get more information on the crash.
+configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+[0]PETSC ERROR: Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+  [GENERATION FAILED] BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending. -- a worker process almost certainly crashed natively (SEGV/MPI_Abort in PETSc/MUMPS, not a Python exception). Force-killing worker processes and recreating the pool; this generation's candidates are not recorded.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=50.9 b=58.3 gap=13.6 nt=3082] KSP converged reason: 4, iterations: 1
+  [a=50.6 b=78.7 gap=13.5 nt=3020] KSP converged reason: 4, iterations: 1
+  [   1] INFEAS f=8880.941  a=54.28 b=45.25 gap=14.03 (face=4.05mm) n=[1045, 1045, 150, 150, 445, 445]  no evaluation (geometry pre-check)
+  [   2] INFEAS f=18284.085  a=65.95 b=50.16 gap=13.70 (face=3.40mm) n=[904, 904, 263, 263, 437, 437]  no evaluation (geometry pre-check)
+  [   3] INFEAS f=17061.666  a=50.97 b=35.93 gap=13.53 (face=3.05mm) n=[1000, 1000, 222, 222, 476, 476]  no evaluation (geometry pre-check)
+  [   4] INFEAS f=2032.598  a=48.78 b=48.70 gap=13.64 (face=3.28mm) n=[1018, 1018, 187, 187, 499, 499]  no evaluation (geometry pre-check)
+  [   5] viol   f=2547.118  a=50.86 b=58.27 gap=13.56 (face=3.12mm) n=[954, 954, 241, 241, 346, 346]  tape=1.256km B=1.91T unif=5.12% hoop=5MPa I_op=29.3A ta_margin=1.597 (7 TA solves, 79s)
+  [   6] viol   f=2228.475  a=50.60 b=78.68 gap=13.50 (face=3.00mm) n=[827, 827, 223, 223, 460, 460]  tape=1.442km B=1.47T unif=1.97% hoop=5MPa I_op=27.4A ta_margin=1.677 (7 TA solves, 115s)
+  [   7] INFEAS f=5534.888  a=24.94 b=43.50 gap=13.50 (face=3.01mm) n=[891, 891, 361, 361, 388, 388]  no evaluation (geometry pre-check)
+  [   8] INFEAS f=28530.083  a=64.40 b=43.16 gap=13.52 (face=3.05mm) n=[1060, 1060, 319, 319, 414, 414]  no evaluation (geometry pre-check)
+  [   9] INFEAS f=19678.906  a=52.77 b=36.16 gap=13.56 (face=3.12mm) n=[961, 961, 164, 164, 464, 464]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=7  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=2  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=55.9 b=62.8 gap=13.5 nt=3278] KSP converged reason: 4, iterations: 1
+  [  10] INFEAS f=1538.177  a=52.85 b=54.18 gap=13.52 (face=3.05mm) n=[877, 877, 176, 176, 387, 387]  no evaluation (geometry pre-check)
+  [  11] INFEAS f=1805.476  a=53.84 b=54.35 gap=13.62 (face=3.23mm) n=[919, 919, 150, 150, 500, 500]  no evaluation (geometry pre-check)
+  [  12] INFEAS f=1992.978  a=54.09 b=54.11 gap=13.54 (face=3.09mm) n=[953, 953, 209, 209, 390, 390]  no evaluation (geometry pre-check)
+  [  13] INFEAS f=1548.810  a=41.96 b=69.97 gap=13.56 (face=3.13mm) n=[1067, 1067, 235, 235, 445, 445]  no evaluation (geometry pre-check)
+  [  14] INFEAS f=1000.000  a=52.23 b=75.07 gap=13.51 (face=3.01mm) n=[889, 889, 197, 197, 466, 466]  no evaluation (geometry pre-check)
+  [  15] INFEAS f=2227.818  a=40.36 b=74.97 gap=13.51 (face=3.01mm) n=[1098, 1098, 236, 236, 494, 494]  no evaluation (geometry pre-check)
+  [  16] INFEAS f=1000.000  a=55.62 b=63.39 gap=13.68 (face=3.37mm) n=[927, 927, 212, 212, 382, 382]  no evaluation (geometry pre-check)
+  [  17] INFEAS f=2400.527  a=50.51 b=49.60 gap=13.88 (face=3.75mm) n=[970, 970, 171, 171, 500, 500]  no evaluation (geometry pre-check)
+  [  18] viol   f=2545.115  a=55.85 b=62.79 gap=13.54 (face=3.08mm) n=[1057, 1057, 171, 171, 411, 411]  tape=1.438km B=1.98T unif=5.23% hoop=6MPa I_op=30.0A ta_margin=1.603 (7 TA solves, 72s)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=1  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=54.2 b=60.1 gap=13.6 nt=3350] KSP converged reason: 4, iterations: 1
+  [a=48.6 b=73.1 gap=13.5 nt=2932] KSP converged reason: 4, iterations: 1
+  [a=59.0 b=79.2 gap=13.5 nt=3242] KSP converged reason: 4, iterations: 1
+  [a=51.9 b=73.4 gap=13.7 nt=2910] KSP converged reason: 4, iterations: 1
+  [  19] viol   f=2417.764  a=54.17 b=60.09 gap=13.55 (face=3.10mm) n=[967, 967, 219, 219, 489, 489]  tape=1.407km B=2.19T unif=5.13% hoop=7MPa I_op=32.6A ta_margin=1.602 (7 TA solves, 103s)
+  [  20] INFEAS f=3986.208  a=51.48 b=47.84 gap=13.51 (face=3.02mm) n=[944, 944, 237, 237, 307, 307]  no evaluation (geometry pre-check)
+  [  21] viol   f=2167.731  a=51.88 b=73.41 gap=13.66 (face=3.31mm) n=[828, 828, 164, 164, 463, 463]  tape=1.330km B=1.68T unif=2.49% hoop=6MPa I_op=31.8A ta_margin=1.568 (7 TA solves, 132s)
+  [  22] INFEAS f=1918.113  a=52.27 b=52.48 gap=13.59 (face=3.17mm) n=[982, 982, 178, 178, 443, 443]  no evaluation (geometry pre-check)
+  [  23] INFEAS f=2169.027  a=59.37 b=58.96 gap=13.51 (face=3.02mm) n=[906, 906, 203, 203, 488, 488]  no evaluation (geometry pre-check)
+  [  24] INFEAS f=7860.291  a=51.87 b=43.77 gap=13.53 (face=3.05mm) n=[898, 898, 164, 164, 354, 354]  no evaluation (geometry pre-check)
+  [  25] INFEAS f=1000.000  a=59.51 b=65.14 gap=13.53 (face=3.06mm) n=[849, 849, 223, 223, 490, 490]  no evaluation (geometry pre-check)
+  [  26] viol   f=2247.448  a=59.04 b=79.25 gap=13.50 (face=3.01mm) n=[930, 930, 244, 244, 447, 447]  tape=1.645km B=1.50T unif=2.38% hoop=6MPa I_op=28.0A ta_margin=1.665 (7 TA solves, 124s)
+  [  27] viol   f=2211.005  a=48.56 b=73.05 gap=13.53 (face=3.07mm) n=[933, 933, 174, 174, 359, 359]  tape=1.341km B=1.61T unif=2.59% hoop=5MPa I_op=28.0A ta_margin=1.645 (7 TA solves, 116s)
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 11 SEGV: Segmentation Violation, probably memory access out of range
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+[0]PETSC ERROR: Run with -malloc_debug to check if memory corruption is causing the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+[0]PETSC ERROR: [0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: [0]PETSC ERROR: [0]PETSC ERROR: ------------------------------------------------------------------------
+------------------------------------------------------------------------
+Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: [0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: [0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: [0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+Try option -start_in_debugger or -on_error_attach_debugger
+Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: [0]PETSC ERROR: [0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: [0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: [0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: [0]PETSC ERROR: to get more information on the crash.
+to get more information on the crash.
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+to get more information on the crash.
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+  [GENERATION FAILED] BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending. -- a worker process almost certainly crashed natively (SEGV/MPI_Abort in PETSc/MUMPS, not a Python exception). Force-killing worker processes and recreating the pool; this generation's candidates are not recorded.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=48.3 b=58.2 gap=13.5 nt=3200] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=61.5 b=76.3 gap=13.5 nt=3016] KSP converged reason: 4, iterations: 1
+  [a=62.6 b=70.6 gap=13.9 nt=3184] KSP converged reason: 4, iterations: 1
+  [a=60.3 b=77.5 gap=13.5 nt=2900] KSP converged reason: 4, iterations: 1
+  [  28] INFEAS f=1290.248  a=62.89 b=65.19 gap=13.56 (face=3.11mm) n=[858, 858, 150, 150, 431, 431]  no evaluation (geometry pre-check)
+  [  29] INFEAS f=4804.699  a=52.80 b=48.04 gap=13.67 (face=3.33mm) n=[839, 839, 217, 217, 496, 496]  no evaluation (geometry pre-check)
+  [  30] viol   f=2327.576  a=62.63 b=70.56 gap=13.89 (face=3.77mm) n=[882, 882, 245, 245, 465, 465]  tape=1.519km B=1.55T unif=3.24% hoop=7MPa I_op=28.9A ta_margin=1.710 (7 TA solves, 136s)
+  [  31] INFEAS f=10319.798  a=49.69 b=39.42 gap=13.52 (face=3.04mm) n=[975, 975, 253, 253, 449, 449]  no evaluation (geometry pre-check)
+  [  32] viol   f=2221.094  a=61.48 b=76.34 gap=13.52 (face=3.04mm) n=[894, 894, 201, 201, 413, 413]  tape=1.504km B=1.63T unif=2.73% hoop=8MPa I_op=32.6A ta_margin=1.588 (7 TA solves, 122s)
+  [  33] INFEAS f=2990.129  a=62.55 b=60.50 gap=13.70 (face=3.41mm) n=[871, 871, 272, 272, 500, 500]  no evaluation (geometry pre-check)
+  [  34] viol   f=2291.844  a=60.29 b=77.49 gap=13.54 (face=3.07mm) n=[716, 716, 236, 236, 498, 498]  tape=1.403km B=1.37T unif=2.17% hoop=7MPa I_op=29.4A ta_margin=1.668 (7 TA solves, 169s)
+  [  35] viol   f=2279.701  a=48.34 b=58.24 gap=13.50 (face=3.01mm) n=[922, 922, 179, 179, 499, 499]  tape=1.261km B=2.27T unif=4.74% hoop=7MPa I_op=33.2A ta_margin=1.600 (7 TA solves, 113s)
+  [  36] INFEAS f=3236.921  a=56.27 b=53.79 gap=13.63 (face=3.25mm) n=[865, 865, 265, 265, 488, 488]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=4
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=49.1 b=72.6 gap=13.5 nt=3610] KSP converged reason: 4, iterations: 1
+  [a=53.7 b=64.8 gap=13.7 nt=2740] KSP converged reason: 4, iterations: 1
+  [a=63.3 b=79.8 gap=13.5 nt=3014] KSP converged reason: 4, iterations: 1
+  [  37] INFEAS f=4949.074  a=65.25 b=60.31 gap=14.04 (face=4.08mm) n=[899, 899, 157, 157, 470, 470]  no evaluation (geometry pre-check)
+  [  38] viol   f=2404.984  a=53.71 b=64.83 gap=13.65 (face=3.31mm) n=[816, 816, 241, 241, 313, 313]  tape=1.186km B=1.59T unif=3.79% hoop=6MPa I_op=30.6A ta_margin=1.547 (7 TA solves, 133s)
+  [  39] INFEAS f=1714.953  a=54.32 b=55.09 gap=13.55 (face=3.10mm) n=[963, 963, 202, 202, 451, 451]  no evaluation (geometry pre-check)
+  [  40] INFEAS f=1010.480  a=63.24 b=67.72 gap=13.71 (face=3.42mm) n=[816, 816, 209, 209, 499, 499]  no evaluation (geometry pre-check)
+  [  41] viol   f=2428.052  a=63.34 b=79.80 gap=13.51 (face=3.02mm) n=[886, 886, 350, 350, 271, 271]  tape=1.565km B=1.17T unif=2.46% hoop=5MPa I_op=24.3A ta_margin=1.597 (7 TA solves, 152s)
+  [  42] INFEAS f=1000.000  a=64.47 b=85.07 gap=13.54 (face=3.07mm) n=[703, 703, 169, 169, 316, 316]  no evaluation (geometry pre-check)
+  [  43] INFEAS f=1251.649  a=55.31 b=57.80 gap=13.69 (face=3.39mm) n=[920, 920, 210, 210, 294, 294]  no evaluation (geometry pre-check)
+  [  44] viol   f=2094.869  a=49.08 b=72.59 gap=13.53 (face=3.06mm) n=[982, 982, 337, 337, 486, 486]  tape=1.669km B=1.86T unif=2.65% hoop=5MPa I_op=27.1A ta_margin=1.682 (7 TA solves, 135s)
+  [  45] INFEAS f=8535.775  a=79.66 b=70.94 gap=13.51 (face=3.03mm) n=[889, 889, 283, 283, 484, 484]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=55.3 b=70.4 gap=13.5 nt=2760] KSP converged reason: 4, iterations: 1
+  [a=48.9 b=58.4 gap=13.6 nt=2624] KSP converged reason: 4, iterations: 1
+  [a=67.4 b=75.8 gap=13.6 nt=2394] KSP converged reason: 4, iterations: 1
+  [a=65.9 b=84.7 gap=13.6 nt=2540] KSP converged reason: 4, iterations: 1
+  [a=66.2 b=88.3 gap=13.8 nt=2424] KSP converged reason: 4, iterations: 1

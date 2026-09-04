@@ -64,6 +64,7 @@ class _ExtrapolatedIcModel:
 
     def __init__(self, base_ic_model):
         self.base = base_ic_model
+        self.tape_width = base_ic_model.tape_width
         self.B_max = base_ic_model.B_max
         self.B_min = base_ic_model.B_min
         self.Ic_min = base_ic_model.Ic_min

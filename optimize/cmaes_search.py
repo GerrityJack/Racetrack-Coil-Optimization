@@ -266,10 +266,9 @@ def _evaluate_candidate(x):
                     f=f, feasible=False, r=None, g=None)
 
     hoop_max_mpa = cfg.SIGMA_HOOP_MAX_PA / 1e6
-    g = [
-        max(0.0, (cfg.B_TARGET_MIN_T - r["B_target_T"]) / cfg.B_TARGET_MIN_T),
-        max(0.0, (r["hoop_MPa"] - hoop_max_mpa) / hoop_max_mpa),
-    ]
+    g_field = max(0.0, (cfg.B_TARGET_MIN_T - r["B_target_T"]) / cfg.B_TARGET_MIN_T)
+    g_hoop  = max(0.0, (r["hoop_MPa"] - hoop_max_mpa) / hoop_max_mpa)
+    g = [g_field, g_hoop]
     # 2026-07-24: NO uniformity signal is currently in the fitness
     # function. History, in order:
     #   1. r["uniformity_pct"] (the coarse Bean-state on-axis proxy) used
@@ -300,7 +299,8 @@ def _evaluate_candidate(x):
     # search, rather than trusting anything in the coarse screen's own
     # ranking for uniformity. See CLAUDE.md's "Coarse-screen SCIF proxy
     # found unreliable" section for the complete investigation.
-    penalty = cfg.CMAES_PENALTY_KM * sum(gi ** 2 for gi in g)
+    penalty = (cfg.CMAES_PENALTY_KM_FIELD * g_field ** 2
+              + cfg.CMAES_PENALTY_KM_HOOP * g_hoop ** 2)
     f = r["tape_km"] + penalty
     return dict(a=a, b=b, gap=gap, n_turns=n_turns, face_gap=face_gap,
                 f=f, feasible=True, r=r, g=g)

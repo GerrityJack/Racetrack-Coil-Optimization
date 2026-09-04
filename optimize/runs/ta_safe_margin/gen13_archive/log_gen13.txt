@@ -1,0 +1,387 @@
+==========================================================================================
+T-A-safe-current CMA-ES wide search -- optimize/studies/ta_safe_margin_search.py
+==========================================================================================
+x0: a=48.64mm b=53.73mm gap=13.50mm pairs=[np.float64(1058.0), np.float64(226.0), np.float64(400.0)]
+step sizes: a=4.00mm b=6.00mm gap=2.00mm n=60 turns
+budget: 700 evaluations, 6 parallel workers
+target: B >= 10.0 T AND T-A worst-cell local margin >= 1.5385 (J/Jc <= 0.65) EVERYWHERE, hoop <= 400 MPa, uniformity <= 0.8%
+penalty weights: field=3000 hoop=20 uniformity=20
+outputs: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin/results.csv, /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin/history.csv
+
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=2  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=52.3 b=59.5 gap=13.5 nt=3294] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=50.5 b=64.5 gap=13.5 nt=3404] KSP converged reason: 4, iterations: 1
+  [   1] INFEAS f=6955.408  a=50.98 b=43.78 gap=13.52 (face=3.03mm) n=[1001, 1001, 274, 274, 445, 445]  no evaluation (geometry pre-check)
+  [   2] INFEAS f=2104.352  a=49.39 b=49.14 gap=13.53 (face=3.05mm) n=[1041, 1041, 178, 178, 423, 423]  no evaluation (geometry pre-check)
+  [   3] viol   f=2112.667  a=50.45 b=64.53 gap=13.51 (face=3.02mm) n=[1102, 1102, 153, 153, 447, 447]  tape=1.477km B=2.38T unif=4.23% hoop=6MPa I_op=32.7A ta_margin=1.582 (7 TA solves, 98s)
+  [   4] INFEAS f=1000.000  a=48.69 b=59.53 gap=13.50 (face=3.00mm) n=[1008, 1008, 213, 213, 486, 486]  no evaluation (geometry pre-check)
+  [   5] INFEAS f=1280.344  a=47.48 b=49.84 gap=13.66 (face=3.31mm) n=[972, 972, 151, 151, 492, 492]  no evaluation (geometry pre-check)
+  [   6] viol   f=2495.878  a=52.28 b=59.54 gap=13.54 (face=3.08mm) n=[1004, 1004, 238, 238, 405, 405]  tape=1.378km B=1.94T unif=4.98% hoop=5MPa I_op=28.2A ta_margin=1.703 (7 TA solves, 79s)
+  [   7] INFEAS f=3583.381  a=54.56 b=51.52 gap=13.59 (face=3.19mm) n=[1116, 1116, 264, 264, 364, 364]  no evaluation (geometry pre-check)
+  [   8] INFEAS f=1330.402  a=44.59 b=58.97 gap=13.63 (face=3.27mm) n=[1104, 1104, 219, 219, 469, 469]  no evaluation (geometry pre-check)
+  [   9] INFEAS f=1057.454  a=46.80 b=59.06 gap=13.51 (face=3.02mm) n=[1096, 1096, 165, 165, 369, 369]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=1
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=46.6 b=53.0 gap=13.6 nt=3290] KSP converged reason: 4, iterations: 1
+  [a=49.9 b=55.0 gap=13.5 nt=3368] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=2
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=49.0 b=66.0 gap=13.5 nt=3296] KSP converged reason: 4, iterations: 1
+  [  10] INFEAS f=1242.909  a=41.98 b=63.59 gap=13.53 (face=3.07mm) n=[1018, 1018, 218, 218, 414, 414]  no evaluation (geometry pre-check)
+  [  11] INFEAS f=1128.552  a=47.64 b=55.47 gap=13.55 (face=3.10mm) n=[1142, 1142, 150, 150, 476, 476]  no evaluation (geometry pre-check)
+  [  12] viol   f=2159.753  a=48.97 b=65.98 gap=13.50 (face=3.00mm) n=[1096, 1096, 157, 157, 395, 395]  tape=1.438km B=2.24T unif=4.15% hoop=6MPa I_op=31.2A ta_margin=1.592 (7 TA solves, 69s)
+  [  13] INFEAS f=1000.000  a=50.63 b=61.68 gap=13.50 (face=3.01mm) n=[961, 961, 233, 233, 394, 394]  no evaluation (geometry pre-check)
+  [  14] viol   f=3886.600  a=49.86 b=54.96 gap=13.50 (face=3.00mm) n=[1052, 1052, 201, 201, 431, 431]  tape=1.331km B=2.51T unif=9.19% hoop=6MPa I_op=31.8A ta_margin=1.619 (7 TA solves, 42s)
+  [  15] viol   f=4326.531  a=46.56 b=53.01 gap=13.56 (face=3.12mm) n=[972, 972, 216, 216, 457, 457]  tape=1.235km B=2.51T unif=10.00% hoop=6MPa I_op=31.9A ta_margin=1.680 (7 TA solves, 43s)
+  [  16] INFEAS f=1000.000  a=51.09 b=63.02 gap=13.50 (face=3.00mm) n=[1104, 1104, 156, 156, 431, 431]  no evaluation (geometry pre-check)
+  [  17] INFEAS f=1369.953  a=41.94 b=50.88 gap=13.50 (face=3.00mm) n=[1040, 1040, 235, 235, 442, 442]  no evaluation (geometry pre-check)
+  [  18] INFEAS f=1000.000  a=50.65 b=59.33 gap=13.78 (face=3.56mm) n=[1055, 1055, 223, 223, 360, 360]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=2
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=1
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=1  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=53.5 b=59.6 gap=13.5 nt=3372] KSP converged reason: 4, iterations: 1
+  [  19] INFEAS f=1010.356  a=48.10 b=59.37 gap=13.52 (face=3.03mm) n=[1103, 1103, 177, 177, 483, 483]  no evaluation (geometry pre-check)
+  [  20] INFEAS f=1000.000  a=47.76 b=64.65 gap=13.50 (face=3.00mm) n=[1060, 1060, 245, 245, 405, 405]  no evaluation (geometry pre-check)
+  [  21] INFEAS f=1073.553  a=49.34 b=56.21 gap=13.51 (face=3.02mm) n=[1170, 1170, 216, 216, 489, 489]  no evaluation (geometry pre-check)
+  [  22] INFEAS f=1151.197  a=48.69 b=51.74 gap=13.50 (face=3.01mm) n=[1000, 1000, 193, 193, 417, 417]  no evaluation (geometry pre-check)
+  [  23] INFEAS f=1000.000  a=53.77 b=65.35 gap=13.50 (face=3.01mm) n=[1033, 1033, 278, 278, 361, 361]  no evaluation (geometry pre-check)
+  [  24] INFEAS f=1023.247  a=49.52 b=53.76 gap=13.50 (face=3.01mm) n=[1081, 1081, 218, 218, 473, 473]  no evaluation (geometry pre-check)
+  [  25] INFEAS f=1273.110  a=49.52 b=51.91 gap=13.72 (face=3.44mm) n=[1075, 1075, 201, 201, 499, 499]  no evaluation (geometry pre-check)
+  [  26] viol   f=2417.031  a=53.50 b=59.58 gap=13.50 (face=3.01mm) n=[1037, 1037, 156, 156, 493, 493]  tape=1.407km B=2.21T unif=5.16% hoop=7MPa I_op=31.3A ta_margin=1.698 (7 TA solves, 64s)
+  [  27] INFEAS f=1000.000  a=51.34 b=61.20 gap=13.52 (face=3.03mm) n=[1117, 1117, 160, 160, 362, 362]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=1  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=1
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=50.2 b=60.0 gap=13.5 nt=3540] KSP converged reason: 4, iterations: 1
+  [a=52.4 b=68.8 gap=13.5 nt=3002] KSP converged reason: 4, iterations: 1
+  [a=49.9 b=64.2 gap=13.6 nt=3250] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=47.9 b=72.4 gap=13.5 nt=3202] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=3  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:118: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [  28] viol   f=2400.704  a=50.19 b=60.03 gap=13.54 (face=3.07mm) n=[1041, 1041, 241, 241, 488, 488]  tape=1.474km B=2.08T unif=4.87% hoop=5MPa I_op=27.7A ta_margin=1.686 (7 TA solves, 98s)
+  [  29] viol   f=2228.283  a=52.43 b=68.75 gap=13.53 (face=3.06mm) n=[1019, 1019, 156, 156, 326, 326]  tape=1.355km B=1.90T unif=3.67% hoop=6MPa I_op=31.6A ta_margin=1.557 (7 TA solves, 96s)
+  [  30] viol   f=2146.086  a=49.93 b=64.15 gap=13.60 (face=3.19mm) n=[1048, 1048, 188, 188, 389, 389]  tape=1.401km B=2.29T unif=4.19% hoop=7MPa I_op=33.4A ta_margin=1.543 (7 TA solves, 93s)
+  [  31] INFEAS f=1000.530  a=49.40 b=65.21 gap=13.51 (face=3.02mm) n=[1122, 1122, 248, 248, 415, 415]  no evaluation (geometry pre-check)
+  [  32] INFEAS f=1000.000  a=54.36 b=67.85 gap=13.50 (face=3.00mm) n=[1072, 1072, 246, 246, 378, 378]  no evaluation (geometry pre-check)
+  [  33] INFEAS f=1212.994  a=52.08 b=54.77 gap=13.50 (face=3.01mm) n=[1065, 1065, 236, 236, 348, 348]  no evaluation (geometry pre-check)
+  [  34] viol   f=2366.920  a=47.89 b=72.44 gap=13.53 (face=3.06mm) n=[1029, 1029, 218, 218, 354, 354]  tape=1.474km B=1.37T unif=2.84% hoop=3MPa I_op=20.8A ta_margin=1.647 (7 TA solves, 134s)
+  [  35] INFEAS f=1000.000  a=48.91 b=69.96 gap=13.50 (face=3.00mm) n=[1091, 1091, 270, 270, 386, 386]  no evaluation (geometry pre-check)
+  [  36] INFEAS f=1000.000  a=50.89 b=57.67 gap=13.59 (face=3.17mm) n=[1087, 1087, 150, 150, 459, 459]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=2
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=4
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=53.9 b=73.4 gap=13.5 nt=3300] KSP converged reason: 4, iterations: 1
+  [a=48.2 b=71.8 gap=13.5 nt=3204] KSP converged reason: 4, iterations: 1
+  [a=53.0 b=73.0 gap=13.5 nt=3320] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=55.1 b=68.2 gap=13.5 nt=3526] KSP converged reason: 4, iterations: 1
+  [a=53.3 b=80.5 gap=13.5 nt=3576] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=56.1 b=68.6 gap=13.5 nt=3264] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:118: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [  37] INFEAS f=1000.000  a=51.01 b=66.02 gap=13.52 (face=3.04mm) n=[1126, 1126, 285, 285, 418, 418]  no evaluation (geometry pre-check)
+  [  38] viol   f=2005.497  a=48.22 b=71.81 gap=13.51 (face=3.03mm) n=[1072, 1072, 177, 177, 353, 353]  tape=1.467km B=2.14T unif=3.00% hoop=6MPa I_op=31.6A ta_margin=1.549 (7 TA solves, 121s)
+  [  39] INFEAS f=1048.666  a=47.10 b=61.60 gap=13.58 (face=3.15mm) n=[1100, 1100, 251, 251, 322, 322]  no evaluation (geometry pre-check)
+  [  40] INFEAS f=1000.000  a=51.46 b=69.77 gap=13.50 (face=3.01mm) n=[1161, 1161, 248, 248, 418, 418]  no evaluation (geometry pre-check)
+  [  41] viol   f=2406.238  a=53.88 b=73.39 gap=13.50 (face=3.00mm) n=[1049, 1049, 265, 265, 336, 336]  tape=1.585km B=1.34T unif=3.02% hoop=3MPa I_op=21.6A ta_margin=1.766 (7 TA solves, 128s)
+  [  42] viol   f=2291.853  a=56.12 b=68.65 gap=13.50 (face=3.00mm) n=[1096, 1096, 167, 167, 369, 369]  tape=1.514km B=2.06T unif=4.38% hoop=7MPa I_op=32.4A ta_margin=1.617 (7 TA solves, 154s)
+  [  43] viol   f=2170.645  a=52.96 b=73.01 gap=13.51 (face=3.02mm) n=[1035, 1035, 240, 240, 385, 385]  tape=1.579km B=1.79T unif=2.95% hoop=5MPa I_op=28.6A ta_margin=1.704 (7 TA solves, 125s)
+  [  44] viol   f=2227.419  a=55.06 b=68.16 gap=13.51 (face=3.01mm) n=[1187, 1187, 234, 234, 342, 342]  tape=1.646km B=2.23T unif=4.43% hoop=6MPa I_op=31.1A ta_margin=1.577 (7 TA solves, 110s)
+  [  45] viol   f=2090.151  a=53.34 b=80.52 gap=13.50 (face=3.00mm) n=[1110, 1110, 255, 255, 423, 423]  tape=1.827km B=1.81T unif=2.35% hoop=6MPa I_op=27.6A ta_margin=1.646 (7 TA solves, 123s)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=1
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=2  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=54.3 b=74.3 gap=13.5 nt=3750] KSP converged reason: 4, iterations: 1
+  [a=57.2 b=71.2 gap=13.5 nt=3814] KSP converged reason: 4, iterations: 1
+  [a=50.7 b=74.3 gap=13.6 nt=3588] KSP converged reason: 4, iterations: 1
+  [  46] viol   f=2991.188  a=57.17 b=71.19 gap=13.53 (face=3.06mm) n=[1208, 1208, 298, 298, 401, 401]  tape=1.864km B=0.73T unif=4.43% hoop=1MPa I_op=10.0A ta_margin=1.718 (7 TA solves, 86s)
+  [  47] INFEAS f=1324.792  a=48.79 b=72.85 gap=13.53 (face=3.06mm) n=[1215, 1215, 234, 234, 410, 410]  no evaluation (geometry pre-check)
+  [  48] INFEAS f=1000.000  a=54.03 b=67.53 gap=13.54 (face=3.09mm) n=[1193, 1193, 279, 279, 438, 438]  no evaluation (geometry pre-check)
+  [  49] INFEAS f=1359.332  a=45.94 b=61.00 gap=13.50 (face=3.01mm) n=[1145, 1145, 300, 300, 340, 340]  no evaluation (geometry pre-check)
+  [  50] INFEAS f=1008.445  a=51.02 b=78.56 gap=13.55 (face=3.11mm) n=[1179, 1179, 230, 230, 496, 496]  no evaluation (geometry pre-check)
+  [  51] INFEAS f=1000.000  a=56.73 b=70.68 gap=13.51 (face=3.02mm) n=[1117, 1117, 271, 271, 426, 426]  no evaluation (geometry pre-check)
+  [  52] viol   f=1914.070  a=54.33 b=74.28 gap=13.54 (face=3.07mm) n=[1175, 1175, 261, 261, 439, 439]  tape=1.844km B=2.26T unif=2.73% hoop=8MPa I_op=31.6A ta_margin=1.546 (7 TA solves, 82s)
+  [  53] INFEAS f=1000.000  a=52.11 b=68.19 gap=13.60 (face=3.20mm) n=[1178, 1178, 206, 206, 383, 383]  no evaluation (geometry pre-check)
+  [  54] viol   f=2151.257  a=50.71 b=74.30 gap=13.55 (face=3.10mm) n=[1106, 1106, 287, 287, 401, 401]  tape=1.726km B=1.75T unif=2.66% hoop=4MPa I_op=25.0A ta_margin=1.690 (7 TA solves, 88s)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=1
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=2
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=2
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=3  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=57.1 b=71.4 gap=13.6 nt=3730] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=1  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [  55] INFEAS f=1000.000  a=53.69 b=67.65 gap=13.52 (face=3.04mm) n=[1046, 1046, 279, 279, 485, 485]  no evaluation (geometry pre-check)
+  [  56] INFEAS f=1000.000  a=48.96 b=65.99 gap=13.63 (face=3.26mm) n=[1105, 1105, 218, 218, 361, 361]  no evaluation (geometry pre-check)
+  [  57] INFEAS f=1010.607  a=49.63 b=77.82 gap=13.50 (face=3.00mm) n=[1144, 1144, 273, 273, 408, 408]  no evaluation (geometry pre-check)
+  [  58] INFEAS f=1000.000  a=52.43 b=73.26 gap=13.51 (face=3.01mm) n=[1120, 1120, 332, 332, 350, 350]  no evaluation (geometry pre-check)
+  [  59] viol   f=2247.016  a=57.13 b=71.41 gap=13.62 (face=3.24mm) n=[1163, 1163, 285, 285, 417, 417]  tape=1.816km B=1.93T unif=3.86% hoop=5MPa I_op=27.7A ta_margin=1.563 (7 TA solves, 63s)
+  [  60] INFEAS f=1000.000  a=54.43 b=65.42 gap=13.50 (face=3.01mm) n=[1241, 1241, 210, 210, 495, 495]  no evaluation (geometry pre-check)
+  [  61] INFEAS f=1000.000  a=54.95 b=63.32 gap=13.51 (face=3.02mm) n=[1173, 1173, 222, 222, 257, 257]  no evaluation (geometry pre-check)
+  [  62] INFEAS f=1000.217  a=52.69 b=79.37 gap=13.56 (face=3.11mm) n=[1208, 1208, 333, 333, 429, 429]  no evaluation (geometry pre-check)
+  [  63] INFEAS f=1000.000  a=54.44 b=71.82 gap=13.51 (face=3.03mm) n=[1140, 1140, 364, 364, 344, 344]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=2
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=47.5 b=60.9 gap=13.5 nt=3484] KSP converged reason: 4, iterations: 1
+  [a=54.2 b=71.5 gap=13.5 nt=3730] KSP converged reason: 4, iterations: 1
+  [a=53.4 b=65.9 gap=13.5 nt=3456] KSP converged reason: 4, iterations: 1
+  [a=50.6 b=75.4 gap=13.5 nt=3510] KSP converged reason: 4, iterations: 1
+  [a=59.5 b=79.0 gap=13.5 nt=3800] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=48.6 b=68.8 gap=13.5 nt=3442] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=52.9 b=70.7 gap=13.7 nt=3814] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:118: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [  64] INFEAS f=1000.000  a=48.63 b=58.58 gap=13.54 (face=3.09mm) n=[1057, 1057, 250, 250, 462, 462]  no evaluation (geometry pre-check)
+  [  65] viol   f=2271.120  a=53.38 b=65.89 gap=13.52 (face=3.03mm) n=[1126, 1126, 201, 201, 401, 401]  tape=1.557km B=2.16T unif=4.50% hoop=6MPa I_op=30.6A ta_margin=1.577 (7 TA solves, 111s)
+  [  66] viol   f=2070.738  a=54.20 b=71.52 gap=13.50 (face=3.00mm) n=[1127, 1127, 239, 239, 499, 499]  tape=1.776km B=2.13T unif=3.39% hoop=7MPa I_op=30.0A ta_margin=1.591 (7 TA solves, 109s)
+  [  67] viol   f=2125.147  a=59.47 b=79.02 gap=13.50 (face=3.00mm) n=[1197, 1197, 248, 248, 455, 455]  tape=1.987km B=1.87T unif=2.92% hoop=6MPa I_op=28.1A ta_margin=1.617 (7 TA solves, 117s)
+  [  68] viol   f=2181.516  a=50.62 b=75.41 gap=13.54 (face=3.09mm) n=[1081, 1081, 252, 252, 422, 422]  tape=1.694km B=1.69T unif=2.65% hoop=6MPa I_op=24.8A ta_margin=1.719 (7 TA solves, 122s)
+  [  69] viol   f=2248.965  a=47.49 b=60.94 gap=13.53 (face=3.06mm) n=[1039, 1039, 251, 251, 452, 452]  tape=1.445km B=2.18T unif=4.44% hoop=5MPa I_op=28.7A ta_margin=1.652 (7 TA solves, 107s)
+  [  70] viol   f=2033.550  a=48.58 b=68.82 gap=13.50 (face=3.00mm) n=[1062, 1062, 223, 223, 436, 436]  tape=1.546km B=2.09T unif=3.04% hoop=6MPa I_op=29.4A ta_margin=1.546 (7 TA solves, 117s)
+  [  71] viol   f=4424.512  a=52.94 b=70.69 gap=13.72 (face=3.45mm) n=[1140, 1140, 276, 276, 491, 491]  tape=1.802km B=0.56T unif=8.28% hoop=0MPa I_op=5.0A ta_margin=1.538 (6 TA solves, 129s)
+  [  72] INFEAS f=1028.582  a=47.86 b=66.76 gap=13.55 (face=3.10mm) n=[1110, 1110, 202, 202, 376, 376]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=2  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=3
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=47.8 b=57.4 gap=13.6 nt=3156] KSP converged reason: 4, iterations: 1
+  [a=55.8 b=71.0 gap=13.5 nt=3742] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=54.9 b=68.5 gap=13.5 nt=3420] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=47.0 b=63.0 gap=13.5 nt=3436] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:118: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [  73] viol   f=2665.116  a=55.79 b=70.98 gap=13.50 (face=3.00mm) n=[1174, 1174, 325, 325, 372, 372]  tape=1.810km B=1.05T unif=3.67% hoop=2MPa I_op=14.6A ta_margin=1.548 (7 TA solves, 110s)
+  [  74] INFEAS f=1000.000  a=49.34 b=56.24 gap=13.51 (face=3.01mm) n=[1017, 1017, 271, 271, 455, 455]  no evaluation (geometry pre-check)
+  [  75] viol   f=2449.628  a=47.84 b=57.44 gap=13.65 (face=3.29mm) n=[976, 976, 176, 176, 426, 426]  tape=1.247km B=2.21T unif=5.28% hoop=6MPa I_op=31.5A ta_margin=1.590 (7 TA solves, 98s)
+  [  76] INFEAS f=1000.000  a=48.43 b=61.94 gap=13.50 (face=3.00mm) n=[1062, 1062, 168, 168, 448, 448]  no evaluation (geometry pre-check)
+  [  77] INFEAS f=1000.000  a=49.35 b=67.72 gap=13.50 (face=3.01mm) n=[1091, 1091, 261, 261, 419, 419]  no evaluation (geometry pre-check)
+  [  78] viol   f=2013.865  a=47.03 b=63.01 gap=13.54 (face=3.07mm) n=[1029, 1029, 190, 190, 499, 499]  tape=1.435km B=2.31T unif=3.56% hoop=6MPa I_op=31.2A ta_margin=1.627 (7 TA solves, 119s)
+  [  79] viol   f=2231.152  a=54.87 b=68.49 gap=13.50 (face=3.00mm) n=[1069, 1069, 210, 210, 431, 431]  tape=1.580km B=2.03T unif=4.03% hoop=7MPa I_op=30.9A ta_margin=1.545 (7 TA solves, 96s)
+  [  80] INFEAS f=1261.434  a=47.88 b=71.32 gap=13.58 (face=3.17mm) n=[1179, 1179, 221, 221, 482, 482]  no evaluation (geometry pre-check)
+  [  81] INFEAS f=1030.711  a=45.37 b=63.55 gap=13.56 (face=3.11mm) n=[1045, 1045, 196, 196, 465, 465]  no evaluation (geometry pre-check)
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=2
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=44.9 b=59.5 gap=13.5 nt=3236] KSP converged reason: 4, iterations: 1
+  [a=52.3 b=59.5 gap=13.5 nt=3498] KSP converged reason: 4, iterations: 1
+  [a=49.1 b=62.1 gap=13.5 nt=3596] KSP converged reason: 4, iterations: 1
+  [a=50.6 b=70.3 gap=13.5 nt=3612] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [  82] viol   f=3022.601  a=49.08 b=62.07 gap=13.51 (face=3.02mm) n=[1062, 1062, 269, 269, 467, 467]  tape=1.527km B=0.76T unif=4.64% hoop=1MPa I_op=9.9A ta_margin=1.883 (7 TA solves, 110s)
+  [  83] INFEAS f=1000.000  a=52.93 b=63.57 gap=13.51 (face=3.02mm) n=[1039, 1039, 217, 217, 461, 461]  no evaluation (geometry pre-check)
+  [  84] INFEAS f=1083.779  a=49.17 b=56.82 gap=13.50 (face=3.00mm) n=[1169, 1169, 276, 276, 448, 448]  no evaluation (geometry pre-check)
+  [  85] viol   f=1968.639  a=50.58 b=70.34 gap=13.51 (face=3.02mm) n=[1054, 1054, 267, 267, 485, 485]  tape=1.662km B=2.14T unif=2.71% hoop=7MPa I_op=30.4A ta_margin=1.563 (7 TA solves, 100s)
+  [  86] viol   f=2107.288  a=44.85 b=59.51 gap=13.51 (face=3.01mm) n=[972, 972, 219, 219, 427, 427]  tape=1.289km B=2.26T unif=3.93% hoop=6MPa I_op=31.0A ta_margin=1.585 (7 TA solves, 92s)
+  [  87] INFEAS f=1166.045  a=51.23 b=54.20 gap=13.52 (face=3.05mm) n=[1070, 1070, 313, 313, 362, 362]  no evaluation (geometry pre-check)
+  [  88] INFEAS f=1000.000  a=48.57 b=55.45 gap=13.52 (face=3.03mm) n=[984, 984, 285, 285, 442, 442]  no evaluation (geometry pre-check)
+  [  89] viol   f=2537.655  a=52.29 b=59.51 gap=13.53 (face=3.06mm) n=[1030, 1030, 243, 243, 476, 476]  tape=1.465km B=2.17T unif=5.52% hoop=6MPa I_op=29.7A ta_margin=1.672 (7 TA solves, 95s)
+  [  90] INFEAS f=1000.000  a=47.42 b=61.79 gap=13.55 (face=3.10mm) n=[1055, 1055, 228, 228, 461, 461]  no evaluation (geometry pre-check)
+
+==========================================================================================
+Finished: 90 evaluations in 19.0 min
+==========================================================================================
+
+No evaluation satisfied both B_target and hoop within budget -- see history.csv for the closest candidates (smallest fitness among feasible=True rows).

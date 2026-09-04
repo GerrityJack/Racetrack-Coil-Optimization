@@ -54,11 +54,16 @@ Racetrack_v4/
 │   ├── evaluate.py              # frozen external-team entry point
 │   ├── ta_validate.py           # full T-A box-uniformity ground truth
 │   ├── ic_extrapolation.py      # KimIcModel / ScalingLawIcModel / BetaIcModel
+│   ├── ta_safe_current.py       # T-A-resolved safe I_op (2026-09-02) —
+│   │                            #   see "Ramp-up power analysis" below
 │   ├── studies/                 # one-off orchestrators (day_search.py,
 │   │                            #   double_pancake_search.py,
-│   │                            #   perturbation_study.py, margin_design_search.py, …)
+│   │                            #   perturbation_study.py, margin_design_search.py,
+│   │                            #   ta_safe_margin_search.py, …)
 │   └── runs/                    # every log + CSV, grouped by study
 │       ├── cmaes_all_evaluations.csv   # CUMULATIVE, append-only, ~100k+ rows
+│       ├── ta_safe_margin/, ta_safe_margin_8layer/  # see "Ramp-up power
+│       │                            #   analysis" below
 │       └── perturbation/, day_search/, double_pancake/, …
 ├── circuit/                     # NI transient Phase A — lumped DCN circuit model
 │   ├── geometry.py, inductance.py, fieldmatrix.py, dcn.py
@@ -70,7 +75,18 @@ Racetrack_v4/
 └── visualization/
     ├── plot_fields.py            # field_top.png, field_side.png (dark theme)
     ├── field_uniformity.py       # uniformity.png (dark theme)
-    └── plot_3d.py                # geometry.png, field_3d.png, quench plots
+    ├── plot_3d.py                # geometry.png, field_3d.png, quench plots
+    └── for poster/                # 2026-09-03, white-background poster figures
+        ├── make_jjc_cross_sections.py    # jjc_{major,minor}_axis_cross_section.png
+        ├── make_pca_3d_trajectory.py     # pca_3d_trajectory.png
+        ├── make_penalty_evolution.py     # penalty_evolution.png
+        ├── make_external_field_3d.py     # external_field_3d.png (2026-09-04)
+        ├── make_field_comparison.py, make_geometry_definition.py,
+        │   make_technical_diagram.py, make_design_progression.py,
+        │   make_pca_convergence.py, make_optimal_configuration.py,
+        │   make_results_table.py
+        └── *_medium_backup.png/.npz      # pre-xdense-mesh reference copies,
+                                           # see "Mesh resolution" below
 ```
 
 **Key output files:**
@@ -141,7 +157,13 @@ directly from that failure, not from tighter constants picked by eye.
    Bean/critical-state behaviour the uniform-J margin was never built to
    catch is an OPEN judgement call, deliberately not resolved this
    session — see "Ramp-up power analysis" below and `docs/HISTORY.md`'s
-   2026-08-08 entry for the full finding and its caveats.
+   2026-08-08 entry for the full finding and its caveats. **2026-09-02/03
+   update: an overnight search for a geometry that closes this gap found
+   a strong negative signal instead (~1247 T-A-evaluated candidates,
+   T-A-safe operating current confined to 5-54A everywhere tried, best
+   B_target 4.10T) — see "Ramp-up power analysis" below's 2026-09-02/03
+   entry and "Known open issues" #7. Still unresolved, now more
+   consequential.**
 
 `params.py`, `optimize/opt_config.py`'s `CMAES_X0`, and the `cmaes_*` /
 geometry / field figures in `visualization/` are all set to/regenerated
@@ -339,6 +361,31 @@ reproducible across separate OS processes** (only within one process) —
 this caused two false alarms in this project's history (see "Operational
 lessons" below); never trust a single cross-process uniformity number
 near a constraint boundary without an independent-mesh repeat.
+
+**2026-09-03/04 — diagonal "islands" in J/Jc cross-section plots
+confirmed to be a mesh-resolution artifact, not real physics.** The
+poster J/Jc cross-section figures
+(`visualization/for poster/make_jjc_cross_sections.py`) showed diagonal
+streaks of intermediate J/Jc crossing what should be smooth Bean
+critical-state bands. A one-off finer mesh tier ("xdense":
+`mesh_size_min_factor=0.05`, `mesh_dist_max_factor=4.00`, `box_scale=6.0`,
+7-slab `mesh_z_grading=[0.05,0.075,0.10,0.55,0.10,0.075,0.05]`, roughly
+denser than the existing `fine` tier) was solved at the champion's exact
+`I_design=196A` and compared directly against the standing `medium`-tier
+result (preserved as `racetrack_ta_fields_medium_backup.npz` and the
+`*_medium_backup.png` figures). The xdense solve converged cleanly
+(k=69, 1502s, SCIF +643.6mT vs. the established 641.3mT medium reference
+— ~0.4% apart, within this section's own documented ~0.2pp irreducible
+scatter band; box uniformity 0.425%) and the diagonal streaks are
+**absent** at xdense resolution — both cross-sections resolve into
+smooth, physically coherent bands with no cross-hatching. **Practical
+consequence: `params.py` currently has these xdense settings live
+(uncommitted, staged as a TEMPORARY block with the `medium` production
+defaults commented out immediately below it) — revert to the `medium`
+block before any further production solve/search that isn't specifically
+re-checking this**, since xdense is ~20-30x the medium tier's solve time
+for a difference that only matters for this one visual-artifact
+question, not for any reported number in this file.
 
 **Ic dataset:** the whole pipeline uses ONE tape's measured data — the
 "Shanghai Superconductor High Field Low Temperature 2G HTS 20 K" CSVs in
@@ -1218,6 +1265,89 @@ $PY circuit/power_ramp.py
 $PY transient/validation/ta_quench_margin_check.py
 ```
 
+### 2026-09-02/03: search for a geometry that closes the T-A-vs-uniform-J
+margin gap directly — overnight effort, strong negative signal, not yet
+conclusive
+
+Rather than leave the interpretation caveat above open indefinitely, a
+CMA-ES search (`optimize/studies/ta_safe_margin_search.py`,
+`optimize/ta_safe_current.py`) was built to attack the gap at its
+SOURCE: instead of the uniform-J `I_op = I_quench/SAFETY_FACTOR`
+approximation every other search in this project uses,
+`ta_safe_current.evaluate()` finds the largest current at which a
+genuine T-A solve's worst-cell local margin, `Jc(B,θ)/|J_inplane|`,
+stays ≥ 1.5385 (65% of local Ic) **everywhere in the coil**, then reports
+`B_target_T` at THAT current — so a candidate needing a big derating to
+be locally safe shows up directly as a field shortfall in the fitness
+function. Expensive by construction (~70-160s/eval: a full mesh build
+plus several warm-started T-A Picard solves), so run as a wide,
+warm-started-at-the-champion CMA-ES search, not a from-scratch one.
+
+**A smoke test on the champion's own exact geometry found the gap much
+larger than the uniform-J-vs-T-A margin ratio (0.709 vs 1.5385, ~2.2x)
+suggested:** the champion's T-A-safe current is only ~17.3A → 0.92T, an
+~11x field shortfall, not a ~2x one. Scoped as a wide search accordingly
+(full `a`/`b`/`coil_half_gap`/turn-pair bounds, large step sizes, still
+warm-started at the champion).
+
+**Ran overnight across 21 separate process launches** (`run_tag`s
+`ta_safe_20260902_230407` through `ta_safe_20260903_174242`, archived per
+generation in `optimize/runs/ta_safe_margin/gen*_archive/`) —
+**restarting this many times is itself informative**: each restart
+followed a generation that hit the 900s per-worker timeout (a
+non-converging T-A solve at some candidate geometry, not a crash), and
+the final launch ended when the harness session hosting it was
+terminated (see "Operational lessons" below on why a harness-managed
+background run cannot be paused, only restarted from its last flush).
+**Across ~1247 T-A-evaluated candidates with a valid `I_op` reading,
+spanning `a` from ~42mm to ~55mm, `b` from ~49mm to ~73mm, and turn
+splits from near-uniform to sharply tapered — a far wider region than
+the champion's own 26.0/31.4mm — the T-A-safe operating current stayed
+confined to 5.0-54.2A (median 35.0A), and zero of them satisfied
+`all_constraints_ok`.** The best `B_target_T` found anywhere in the
+entire run was **4.10 T** (`a`=49.4mm, `b`=54.6mm,
+`n_turns=[1032,1032,153,153,442,442]`, `I_op`=52.5A), less than half the
+10T floor.
+
+**Reading this, deliberately not overclaimed:** a search finding nothing
+after ~1200+ real (not proxy) T-A evaluations spanning a genuinely wide
+region is a MUCH stronger negative signal than "the search ran out of
+budget" — the near-flat 5-54A ceiling on `I_op` across wildly different
+`a`/`b`/turn distributions is the standout feature, and it did not
+respond to any geometry lever this search varied. That specifically
+raises (but does not confirm — no run has yet tested it) the possibility
+that the ceiling is closer to a structural property of the current
+6-layer double-pancake topology (e.g. a self-field effect from having
+only 6 z-layers concentrate all the transport current) than a
+geometry-tuning problem this search's variables can reach. **Per this
+reasoning, `optimize/opt_config.py` gained a `CMAES_X0_JSON_OVERRIDE`
+env-var hook (2026-09-03) to let a future run vary `N_LAYERS` itself**
+(spreading the same ampere-turns across more, thinner layers) — an
+`optimize/runs/ta_safe_margin_8layer/` variant was started on this basis
+but only reached 2 generations before the effort moved on to other
+work, so this hypothesis is queued, not tested.
+
+**Practical consequence: do not treat "closing the T-A-vs-uniform-J
+margin gap" as a matter of re-running this search longer or with a
+bigger budget** — the evidence so far points at a structural limit, not
+an unexplored corner of `a`/`b`/`gap`/turn-split space. The interpretation
+caveat two sections up remains open, and this result makes it MORE
+consequential, not less: if the 65%-of-local-Ic target genuinely cannot
+be met anywhere near 10T within this topology, the resolution is either
+(a) the critical-state-physics reading of the caveat is correct and the
+uniform-J-based margin was simply never the right check, or (b) the
+champion's real safety margin is as tight as `ta_quench_margin_check.py`
+found and a design change (more layers, a different topology, or a
+relaxed/re-justified target) is needed — this session did not determine
+which.
+
+Run (long — launch via the direct python binary, see "Operational
+lessons" below):
+```bash
+PY=/home/gerrityjack/miniconda3/envs/fenicsx-env/bin/python3
+$PY optimize/studies/ta_safe_margin_search.py
+```
+
 ---
 
 ## Operational lessons (env quirks and process gotchas)
@@ -1528,6 +1658,21 @@ run only), and `cmaes_param_map.png` (cumulative across every run — see
    deliberately not resolved this session. No ramp-power recommendation
    should be made until it is. See "Ramp-up power analysis" above and
    `docs/HISTORY.md`'s 2026-08-08 entry.
+7. **2026-09-02/03: an overnight search for a geometry that closes issue
+   #6's margin gap found a strong negative signal, not a fix — and
+   raised, without confirming, a structural (not geometry-tuning)
+   explanation.** ~1247 real T-A-evaluated candidates
+   (`optimize/studies/ta_safe_margin_search.py`, `optimize/runs/
+   ta_safe_margin/`) across a wide `a`/`b`/`coil_half_gap`/turn-split
+   region found the T-A-safe operating current confined to 5.0-54.2A
+   (median 35A) everywhere tried — best `B_target_T` found was 4.10T, and
+   zero candidates passed all constraints. This search's variables
+   (`a`/`b`/`gap`/turn split) could not move the ceiling; a follow-up
+   varying `N_LAYERS` itself is queued (`CMAES_X0_JSON_OVERRIDE` in
+   `opt_config.py`, an `8layer` variant started but only reached 2
+   generations) but not yet run at scale. See "Ramp-up power analysis"
+   above for the full account. **This makes issue #6 more consequential,
+   not less** — treat both as one open question, not two.
 
 **Full history, every rejected design, every retracted claim, and the
 reasoning behind every conclusion above:** `docs/HISTORY.md`.

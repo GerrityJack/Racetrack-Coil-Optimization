@@ -15,9 +15,9 @@ I_design: 196.0
 [single solve]  I = 196.00 A
   solver: ksp_type=preonly, pc_type=lu
   PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
-  true residual ||Ax-b||/||b||: 1.330e-01 (absolute: 8.797e+03)
-  residual history: [(0, 66165.76968889762), (1, 8796.974615498157)]
-  |B| on coil: min=0.1044 T, max=11.89 T, mean=4.451 T, p50=3.429 T, p99=10.4 T
+  true residual ||Ax-b||/||b||: 1.248e-01 (absolute: 8.257e+03)
+  residual history: [(0, 66165.76968889762), (1, 8257.267783237729)]
+  |B| on coil: min=0.1038 T, max=11.89 T, mean=4.451 T, p50=3.429 T, p99=10.4 T
   ||A|| (solution vector norm): 3.051e+09  |  max/p99 outlier ratio: 1.14
-  wall time: 0.93 s
+  wall time: 2.39 s
 ----------------------------------------------------------------------

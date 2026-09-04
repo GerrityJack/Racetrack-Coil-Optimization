@@ -194,20 +194,30 @@ mesh_nz_per_layer = 3
 # uniform nz=3 truncates (validation/ta_z_grading_study.py).  Note: on
 # this and finer meshes the Picard plateaus just above 1e-4, so solves may
 # report non-convergence at k=150 while the SCIF is already settled.
-mesh_z_grading = [0.075, 0.15, 0.55, 0.15, 0.075]
+mesh_z_grading = [0.05, 0.075, 0.10, 0.55, 0.10, 0.075, 0.05]
 
 # ── Mesh tier  (uncomment ONE block) ─────────────────────────────────────────
 #   Tier     DOFs (1/8 domain)   RAM    Time/solve
 #   smoke    ~9k                 <1GB   ~2s
 #   medium   ~48k                ~3GB   ~5s
 #   fine     ~70k                ~5GB   ~10s
+#   xdense   (denser than fine)  more   slower -- 2026-09-03 one-off test
+#            of whether the diagonal low-J/Jc "islands" seen in the poster
+#            J/Jc cross-section plots are real physics or under-resolution
+#            (see visualization/for poster/*_medium_backup.png for the
+#            pre-test comparison images, and
+#            solve/racetrack_ta_fields_medium_backup.npz for the field data)
 #
-# current: medium — factors used by recompute_derived():
-mesh_size_min_factor = 0.25   # × pack_thickness
-mesh_size_max_factor = 0.60   # × b
-mesh_dist_min_factor = 1.50   # × pack_thickness
-mesh_dist_max_factor = 2.00   # × b
-box_scale     = 4.0
+# current: xdense (TEMPORARY, revert to medium block after the comparison):
+mesh_size_min_factor = 0.05   # × pack_thickness
+mesh_size_max_factor = 0.20   # × b
+mesh_dist_min_factor = 0.75   # × pack_thickness
+mesh_dist_max_factor = 4.00   # × b
+box_scale     = 6.0
+
+# medium (production default):
+# mesh_size_min_factor = 0.25; mesh_size_max_factor = 0.60
+# mesh_dist_min_factor = 1.50; mesh_dist_max_factor = 2.00; box_scale = 4.0
 
 # smoke:
 # mesh_size_min = 0.5*pack_thickness; mesh_size_max = 0.8*b

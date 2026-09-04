@@ -481,6 +481,10 @@ Racetrack_v4/
 ├── optimize/                  ← design search (see below)
 ├── validation/                ← Biot-Savart cross-check, mesh convergence, …
 └── visualization/             ← output figures (ta_* = T-A results)
+    └── for poster/             ← 2026-09-03, white-background poster figures
+                                   (J/Jc cross-sections, PCA search trajectory,
+                                   penalty evolution, external field — see
+                                   CLAUDE.md's "Repository layout" for the list)
 ```
 
 `optimize/` is split three ways (reorganized 2026-07-30) — the top level
@@ -770,6 +774,25 @@ safe ramp power" number should be treated as settled until it is. Report
 figures: `visualization/ramp_power_report/` (`00_summary_dashboard.png`
 ties every number above together).
 
+**2026-09-02/03 — a direct search for a geometry that closes this gap
+found a strong negative signal, not a fix.**
+`optimize/studies/ta_safe_margin_search.py` (with `optimize/
+ta_safe_current.py`) re-optimizes using the T-A-resolved safe current
+directly, instead of the uniform-J approximation — but across ~1247
+real (not proxy) T-A-evaluated candidates spanning a wide `a`/`b`/
+`coil_half_gap`/turn-split region overnight, the T-A-safe operating
+current stayed confined to **5–54 A** (median 35 A) regardless of
+geometry, and the best `B_target` found anywhere was **4.10 T** — under
+half the 10 T floor, with zero candidates passing all constraints. This
+search's variables could not move the ceiling, which raises (without yet
+confirming — untested) the possibility of a structural limit tied to the
+6-layer topology itself, not a region of geometry space this search
+failed to explore. A follow-up varying `N_LAYERS` is queued
+(`CMAES_X0_JSON_OVERRIDE`) but not yet run at scale. See `CLAUDE.md`'s
+"Ramp-up power analysis" 2026-09-02/03 entry and "Known open issues" #7
+for the full account — **this makes the quench-margin question above
+more consequential, not resolved.**
+
 ### Ramp-down / hysteresis-loop cross-check (2026-08-08 to 08-10) — EXPLORATORY, latest work, not yet folded into `docs/HISTORY.md`
 
 `transient/validation/full_ramp_up_down_run.py` runs the T-A transient
@@ -808,6 +831,16 @@ measurements (15–20 T) are planned; until then apply an extra safety factor.
 
 ## Known limitations
 
+- **RESOLVED 2026-09-03/04 — diagonal "islands" in the poster J/Jc
+  cross-section figures were a mesh-resolution artifact, not real
+  physics.** A one-off finer ("xdense") mesh tier, solved at the
+  champion's exact `I_design=196A` and compared directly against the
+  standing `medium`-tier result, converged cleanly (SCIF +643.6mT vs.
+  the established 641.3mT reference, ~0.4% apart) with the diagonal
+  streaks absent — both cross-sections resolve into smooth, physically
+  coherent Bean critical-state bands instead. See `CLAUDE.md`'s "Mesh
+  resolution" section for the settings and the caveat that `params.py`
+  currently carries these xdense settings live (uncommitted, temporary).
 - **CONFIRMED 2026-07-31 — the champion does NOT reach 10 T under a
   physical Ic extrapolation.** `optimize/studies/ic_scaling_law_test.py`
   fits the pinning-force scaling law `Jc = C·B^(p-1)(1−B/B_c2)^q` per

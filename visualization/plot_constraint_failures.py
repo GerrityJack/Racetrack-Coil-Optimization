@@ -58,12 +58,17 @@ HOOP_MAX = cfg.SIGMA_HOOP_MAX_PA / 1e6
 UNIF_MAX = 1.0
 _T = params.t   # tape pitch -- fixed constant across every run to date
 
+# Okabe-Ito colorblind-safe palette. Yellow (the original
+# uniformity_high color) washes out badly on printed poster paper and is
+# one of the two Okabe-Ito hues deliberately NOT used here for that
+# reason -- replaced with reddish purple, clearly distinct from both the
+# blue (B_target_low) and vermillion (hoop_high) already in the palette.
 COLORS = {
-    "pass":          "#3a9d5c",
-    "B_target_low":  "#3572c6",
-    "hoop_high":     "#c0392b",
-    "uniformity_high": "#e0a300",
-    "infeasible":    "#999999",
+    "pass":            "#009E73",   # bluish green
+    "B_target_low":    "#0072B2",   # blue
+    "hoop_high":       "#D55E00",   # vermillion
+    "uniformity_high": "#CC79A7",   # reddish purple (was yellow)
+    "infeasible":      "#7F7F7F",   # neutral grey, darkened for contrast
 }
 LABELS = {
     "pass":         f"Pass (All Constraints Met)",
@@ -72,18 +77,30 @@ LABELS = {
     "uniformity_high": f"Failed: Uniformity Estimate > {UNIF_MAX:.0f}%",
     "infeasible":   "Infeasible Geometry",
 }
-ZORDER = {"pass": 1, "infeasible": 1, "B_target_low": 2,
-         "uniformity_high": 3, "hoop_high": 4}
+# Draw order, back to front. "pass" is the main object of interest (where
+# valid designs cluster) so it goes on TOP of everything else, not
+# beneath the much larger infeasible/failed clouds as before.
+ZORDER = {"infeasible": 1, "B_target_low": 2, "uniformity_high": 3,
+         "hoop_high": 4, "pass": 5}
 
 Y_CAP_M = 1000.0   # linear axis cap -- see main()'s caption for the
                    # excluded fraction; keeps the interesting low range
                    # (all real candidates sit under ~250m) legible
                    # instead of being crushed by the early-search outliers
 
-# current champion: run_20260723_124414 eval 1759, verified as row 67969
-# in the cumulative master log (chronological position plotted below)
-CHAMPION_IDX = 67969
-CHAMPION_TAPE_M = 0.22586182219270562 * 1000
+# The true current champion is NOT a row in this log -- it came from a
+# separate, later margin-aware search (margin_design_search.py /
+# jitter_margin_design.py, see CLAUDE.md's "2026-07-31 (later)" entry),
+# not the CMA-ES loop that produced cmaes_all_evaluations.csv (whose last
+# logged run, run_20260731_103138, tops out around 0.23km). The previous
+# hardcoded reference here (run_20260723_124414 eval 1759, row 67969,
+# 0.2259km) was a design from BEFORE the turn-split refinement, the Kim
+# Ic-model correction, AND the margin-aware redesign -- stale on three
+# counts, not just one. Read live from params.py instead, which is always
+# in sync with the actual champion; CHAMPION_IDX is set in main() once the
+# log's real max evaluation index is known, since the champion has no
+# genuine chronological position in this file.
+CHAMPION_TAPE_M = params.tape_length_m   # already in metres, not km
 
 
 def _predicted_tape_m(a_m, b_m, n_turns):
@@ -135,48 +152,87 @@ def _load():
 
 def main():
     idx, tape, cat = _load()
+    # Placed just past the last real evaluation, not AT a real index --
+    # see CHAMPION_TAPE_M's comment above for why this design has no
+    # genuine position in this log's chronology.
+    CHAMPION_IDX = int(idx.max()) + max(1000, int(idx.max() * 0.01))
 
-    fig, ax = plt.subplots(figsize=(14, 11))
+    # Wide figure -- a 3-column legend at this font size is wider than a
+    # normal (14-16in) figure, and bbox_inches='tight' at save time crops
+    # to the UNION of the axes and that externally-anchored legend, which
+    # otherwise leaves the actual data axes looking squeezed into a
+    # narrow central column of a much wider final canvas.
+    fig, ax = plt.subplots(figsize=(24, 13))
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
     for sp in ax.spines.values():
-        sp.set_edgecolor("#888")
-    ax.tick_params(colors="black", labelsize=15)
+        sp.set_edgecolor("black")
+        sp.set_linewidth(2.0)
+    ax.tick_params(colors="black", labelsize=26, width=2.0, length=10)
 
     n_above_cap = 0
     legend_handles = []
-    for c in ("infeasible", "pass", "B_target_low", "uniformity_high",
-             "hoop_high"):
+    # Plot order follows ZORDER (back to front) rather than the fixed
+    # tuple used before, so "pass" (the main object of interest) is drawn
+    # last/on top regardless of category size.
+    for c in sorted(ZORDER, key=ZORDER.get):
         m = cat == c
         if not m.any():
             continue
         n_above_cap += int((tape[m] > Y_CAP_M).sum())
-        ax.scatter(idx[m], tape[m], s=3, color=COLORS[c], alpha=0.35,
+        # s and alpha both raised from the original (s=3, alpha=0.35) --
+        # at 100k+ points the old settings read as faded background noise
+        # rather than a real density signal.
+        ax.scatter(idx[m], tape[m], s=7, color=COLORS[c], alpha=0.55,
                   linewidths=0, rasterized=True, zorder=ZORDER[c])
         legend_handles.append(Line2D([0], [0], marker="o", color="w",
                                      markerfacecolor=COLORS[c],
-                                     markersize=10,
+                                     markersize=20,
                                      label=f"{LABELS[c]}  (n={m.sum():,})"))
 
-    ax.scatter([CHAMPION_IDX], [CHAMPION_TAPE_M], marker="*", s=700,
-              color="#e8792a", edgecolor="black", linewidth=1.3, zorder=10)
+    ax.scatter([CHAMPION_IDX], [CHAMPION_TAPE_M], marker="*", s=2200,
+              color="#E69F00", edgecolor="black", linewidth=3.0, zorder=10)
     legend_handles.append(Line2D([0], [0], marker="*", color="w",
-                                 markerfacecolor="#e8792a",
-                                 markeredgecolor="black", markersize=18,
+                                 markerfacecolor="#E69F00",
+                                 markeredgecolor="black", markersize=32,
                                  label=f"Current Champion "
                                        f"({CHAMPION_TAPE_M:.0f} m)"))
 
+    # Callout arrow -- the star alone, however large, can still get lost
+    # in a scatter this dense; an explicit pointer removes any doubt.
+    ax.annotate("Current Champion\n(optimal design)",
+               xy=(CHAMPION_IDX, CHAMPION_TAPE_M),
+               xytext=(CHAMPION_IDX - 22000, CHAMPION_TAPE_M + 220),
+               fontsize=22, fontweight="bold", color="black", ha="center",
+               arrowprops=dict(arrowstyle="-|>", color="black", lw=2.5,
+                               shrinkA=0, shrinkB=18),
+               bbox=dict(boxstyle="round,pad=0.4", facecolor="#FFF3D6",
+                         edgecolor="black", linewidth=1.5), zorder=11)
+
     ax.set_ylim(0, Y_CAP_M)
     ax.set_xlabel("Evaluation Number  (Chronological, All Runs)",
-                 fontsize=24, color="black")
-    ax.set_ylabel("Tape Length  (m)", fontsize=24, color="black")
-    legend = ax.legend(handles=legend_handles, fontsize=18,
-                       loc="upper right", frameon=True, facecolor="white",
-                       edgecolor="#888", labelcolor="black", borderpad=0.8,
-                       labelspacing=0.6, handletextpad=0.6)
-    legend.get_frame().set_linewidth(1.0)
+                 fontsize=40, color="black")
+    ax.set_ylabel("Tape Length  (m)", fontsize=40, color="black")
 
-    fig.tight_layout()
+    # Legend moved OUTSIDE the plot (below, horizontal) instead of
+    # floating over the top-right data area, with a stronger opaque
+    # border and much larger markers/text.
+    legend = ax.legend(handles=legend_handles, fontsize=28,
+                       loc="upper center", bbox_to_anchor=(0.5, -0.13),
+                       ncol=3, frameon=True, facecolor="white",
+                       framealpha=0.97, edgecolor="black",
+                       labelcolor="black", borderpad=1.0,
+                       labelspacing=0.9, handletextpad=0.8,
+                       columnspacing=1.8)
+    legend.get_frame().set_linewidth(2.0)
+
+    # subplots_adjust, not tight_layout -- tight_layout has no knowledge
+    # of the externally-anchored legend below and (empirically) left the
+    # axes far narrower than the legend needs, which bbox_inches='tight'
+    # then crops AROUND rather than fixing, producing a squeezed-looking
+    # plot in a wide canvas. This gives the axes nearly the full figure
+    # width directly.
+    fig.subplots_adjust(left=0.06, right=0.985, top=0.97, bottom=0.08)
     out = os.path.join(params.VIZ_DIR, "constraint_failures_poster.png")
     fig.savefig(out, dpi=300, facecolor="white", bbox_inches="tight")
     plt.close(fig)
