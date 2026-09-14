@@ -90,6 +90,27 @@ import cma
 from mpi4py import MPI
 
 import params
+
+# 2026-09-08: ta_safe_current.evaluate()'s own docstring says it
+# deliberately uses whatever mesh resolution params.py currently has live
+# (no SCREEN_MESH_OVERRIDES) -- that was "medium" (the tier this whole
+# search's cost estimates, e.g. "~161s/eval", were measured against) when
+# this file was written, but params.py's COMMITTED default is now the
+# "xdense" one-off mesh-artifact-investigation tier (CLAUDE.md
+# 2026-09-03/04 -- confirmed live via mesh_size_min_factor=0.05 on disk),
+# ~20-30x slower per solve. Left unset, EVERY evaluation in a
+# multi-hundred-eval search would silently inherit that, making the whole
+# budget infeasible. Force medium back IN-MEMORY here -- this runs at
+# import time, so it applies in the main process AND in every worker
+# subprocess too (spawn context re-imports this module fresh in each
+# child -- see _worker_init()) -- never written back to params.py on disk.
+params.mesh_size_min_factor = 0.25
+params.mesh_size_max_factor = 0.60
+params.mesh_dist_min_factor = 1.50
+params.mesh_dist_max_factor = 2.00
+params.box_scale = 4.0
+params.mesh_z_grading = [0.075, 0.15, 0.55, 0.15, 0.075]
+
 import opt_config as cfg
 import ta_safe_current
 from cmaes_search import (decode, encode_x0, geometry_violation, N_PAIRS,
@@ -105,6 +126,10 @@ OUT_DIR = os.environ.get("TA_SAFE_OUT_DIR",
 os.makedirs(OUT_DIR, exist_ok=True)
 OUT_CSV = os.path.join(OUT_DIR, "results.csv")
 OUT_LOG = os.path.join(OUT_DIR, "history.csv")
+# 2026-09-08: pause/resume support -- see _save_checkpoint()/_load_checkpoint()
+# below. A dedicated OUT_DIR per run (already the existing convention above)
+# keeps concurrent runs' checkpoints separate too.
+CHECKPOINT_PATH = os.path.join(OUT_DIR, "cma_checkpoint.pkl")
 
 # ── search scope: WIDE, warm-started at the champion but free to roam ───────
 # 2026-09-02 revision (see docstring): the champion's own T-A-safe field is
@@ -343,6 +368,100 @@ def _worker_init():
     _ic_model = make_ic_model(os.environ.get("TA_SAFE_IC_EXTRAP", "kim"))
 
 
+_stop_requested = False
+
+
+def _request_stop(signum, frame):
+    """SIGINT/SIGTERM handler -- see _run_parallel's checkpoint-then-exit
+    logic. Sets a flag only (no I/O here -- signal handlers should stay
+    tiny); the flag is checked once per generation, right before a new
+    (possibly many-minutes-long) round of es.ask()'d candidates would be
+    submitted, so a requested stop returns in seconds rather than waiting
+    out GEN_TIMEOUT_S=900s for whatever generation happens to be in
+    flight. NOTE: this only fires on a clean stop request (Ctrl+C, or
+    `kill <pid>` before closing the laptop lid) -- an abrupt power-off
+    can't deliver a signal at all, which is exactly why the per-generation
+    checkpoint below (not this handler) is the real safety net."""
+    global _stop_requested
+    _stop_requested = True
+    print("\n[stop requested] finishing current step, will checkpoint and "
+         "exit before starting a new generation ...", flush=True)
+
+
+def _save_checkpoint(es):
+    """Pickle the LIVE cma.CMAEvolutionStrategy object (mean, covariance,
+    step size, generation/eval counters, RNG state -- everything needed
+    to resume exactly, confirmed by a live pickle round-trip test: ask()
+    works identically on the restored object) plus _run_tag, so a resumed
+    run continues writing to the SAME history.csv/results.csv under the
+    same run_tag rather than fragmenting into a new one every restart
+    (unlike this script's older TA_SAFE_X0_OVERRIDE_JSON restart-from-
+    best-point pattern, which loses the adapted covariance/step-size and
+    starts CMA-ES's own adaptation over from scratch each time).
+
+    Written atomically (temp file + os.replace, same filesystem) so a
+    checkpoint write interrupted by a sudden power-off can never leave a
+    half-written, unloadable checkpoint on disk -- worst case, the
+    RESUME falls back to the previous successful checkpoint (or a fresh
+    start if none exists yet), never a crash on load."""
+    import pickle
+    tmp = CHECKPOINT_PATH + ".tmp"
+    with open(tmp, "wb") as fh:
+        pickle.dump({"es": es, "run_tag": _run_tag}, fh)
+    os.replace(tmp, CHECKPOINT_PATH)
+
+
+def _load_checkpoint():
+    """Returns (es, run_tag) if a valid checkpoint exists, else (None, None).
+    A corrupt/unreadable checkpoint (e.g. a pycma version mismatch, or --
+    despite the atomic write above -- some other on-disk corruption) is
+    treated as "no checkpoint", not a fatal error: this run must be able
+    to start fresh rather than get permanently stuck unable to launch."""
+    import pickle
+    if not os.path.exists(CHECKPOINT_PATH):
+        return None, None
+    try:
+        with open(CHECKPOINT_PATH, "rb") as fh:
+            data = pickle.load(fh)
+        return data["es"], data["run_tag"]
+    except Exception as e:
+        print(f"[checkpoint] found {CHECKPOINT_PATH} but failed to load "
+             f"({type(e).__name__}: {e}) -- starting fresh instead.",
+             flush=True)
+        return None, None
+
+
+def _restore_eval_count():
+    """On resume, _eval_count must continue from where history.csv left
+    off (not restart at 1) so eval numbers in the log stay meaningful and
+    FLUSH_EVERY's cadence doesn't replay already-flushed rows."""
+    if not os.path.exists(OUT_LOG):
+        return 0
+    with open(OUT_LOG, newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    return int(rows[-1]["eval"]) if rows else 0
+
+
+def _restore_best():
+    """On resume, the module-global _best dict (used for the end-of-run
+    summary print AND the winner field-snapshot re-solve) starts empty in
+    a fresh process. Without this, a resumed session that doesn't itself
+    find a NEW best (likely, if a good one already exists) would silently
+    skip both -- not a correctness bug (_write_best_csv() early-returns
+    on an empty _best, so it never clobbers a real results.csv with
+    nothing), just a reporting gap. Seed it from the existing results.csv
+    (already exactly the row format _best needs) if present."""
+    if not os.path.exists(OUT_CSV):
+        return dict(fitness=np.inf)
+    with open(OUT_CSV, newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    if not rows:
+        return dict(fitness=np.inf)
+    row = rows[0]
+    row["fitness"] = float(row["fitness"])
+    return row
+
+
 def _run_parallel(es, n_workers):
     """2026-09-03 resilience fix: as the wide search samples ever-larger
     candidates (more turns, bigger mesh), a worker can hit a genuine
@@ -399,6 +518,11 @@ def _run_parallel(es, n_workers):
                                   initializer=_worker_init)
     try:
         while not es.stop():
+            if _stop_requested:
+                print("[stop requested] exiting before next generation "
+                     "(checkpoint already reflects the last completed one).",
+                     flush=True)
+                break
             solutions = es.ask()
             futures = [pool.submit(_evaluate_candidate, x) for x in solutions]
             t0 = time.time()
@@ -429,6 +553,7 @@ def _run_parallel(es, n_workers):
                         res["r"], res.get("g"))
                 fitnesses.append(res["f"])
             es.tell(solutions, fitnesses)
+            _save_checkpoint(es)
     finally:
         try:
             for p in list(getattr(pool, "_processes", {}).values()):
@@ -455,39 +580,92 @@ def _encode_x0_override():
     import json
     d = json.loads(raw)
     full = d["n_turns"]
+    # 2026-09-08: N_LAYERS/N_PAIRS are fixed at cmaes_search.py's IMPORT
+    # time from the SEPARATE CMAES_X0_JSON_OVERRIDE env var (opt_config.py)
+    # -- NOT from this one. Setting only this one silently truncates/
+    # misreads n_turns instead of erroring (confirmed the hard way: an
+    # 8-layer n_turns here with CMAES_X0_JSON_OVERRIDE unset left
+    # N_PAIRS=3 from the champion's default, silently dropping the 4th
+    # pair and running a 6-layer search that looked like an 8-layer one
+    # in every printed log line). Fail loudly instead.
+    assert len(full) == 2 * N_PAIRS, (
+        f"TA_SAFE_X0_OVERRIDE_JSON's n_turns has {len(full)} entries but "
+        f"N_PAIRS={N_PAIRS} (N_LAYERS={N_LAYERS}) was computed from "
+        f"opt_config.CMAES_X0 -- set CMAES_X0_JSON_OVERRIDE too (same "
+        f"n_turns, note its gap key is 'coil_half_gap' not 'gap') so "
+        f"N_LAYERS is established BEFORE cmaes_search.py's import-time "
+        f"computation, or this override silently uses the wrong layer count.")
     pairs = [(full[2 * i] + full[2 * i + 1]) / 2.0 for i in range(N_PAIRS)]
     return np.array([d["a"], d["b"], d["gap"], *pairs], dtype=float)
 
 
 def main():
-    global _run_tag
-    _run_tag = f"ta_safe_{time.strftime('%Y%m%d_%H%M%S')}"
+    global _run_tag, _eval_count, _best
 
-    x0 = _encode_x0_override()
-    if x0 is None:
-        x0 = encode_x0()
-    lo, hi, stds = bounds_and_stds_wide()
-
-    opts = {
-        "bounds": [lo, hi],
-        "CMA_stds": stds,
-        "seed": SEED,
-        "maxfevals": MAX_EVALS,
-        "verbose": -3,
-    }
-    _popsize = os.environ.get("TA_SAFE_POPSIZE")
-    if _popsize:
-        opts["popsize"] = int(_popsize)
+    import signal
+    signal.signal(signal.SIGINT, _request_stop)
+    signal.signal(signal.SIGTERM, _request_stop)
 
     print("=" * 90)
     print("T-A-safe-current CMA-ES wide search -- optimize/studies/ta_safe_margin_search.py")
     print("=" * 90)
-    print(f"x0: a={x0[0]*1e3:.2f}mm b={x0[1]*1e3:.2f}mm "
-         f"gap={x0[2]*1e3:.2f}mm pairs={list(x0[3:])}")
-    print(f"step sizes: a={A_STD0*1e3:.2f}mm b={B_STD0*1e3:.2f}mm "
-         f"gap={GAP_STD0*1e3:.2f}mm n={N_STD0:.0f} turns")
-    print(f"budget: {MAX_EVALS} evaluations, {N_WORKERS} parallel workers, "
-         f"popsize={opts.get('popsize', 'default')}")
+
+    es, loaded_run_tag = _load_checkpoint()
+    if es is not None:
+        # 2026-09-08: N_LAYERS/N_PAIRS are fixed at cmaes_search.py's
+        # IMPORT time from CMAES_X0_JSON_OVERRIDE -- that env var must be
+        # set IDENTICALLY on every resume, not just the first launch, or
+        # decode()/_evaluate_candidate() misinterpret the restored es's
+        # (correctly 3+N_PAIRS-dimensional) vectors using the WRONG
+        # N_PAIRS -- the exact silent-truncation bug _encode_x0_override()
+        # already guards against for a fresh start, recurring here for a
+        # resumed one instead. Fail loudly rather than silently corrupt.
+        expected_dim = 3 + N_PAIRS
+        assert es.N == expected_dim, (
+            f"Checkpoint at {CHECKPOINT_PATH} is {es.N}-dimensional but "
+            f"this process's N_PAIRS={N_PAIRS} (N_LAYERS={N_LAYERS}) implies "
+            f"{expected_dim} -- CMAES_X0_JSON_OVERRIDE must be set to the "
+            f"SAME n_turns length used when this checkpoint was created, "
+            f"on every resume, not just the first launch.")
+        _run_tag = loaded_run_tag
+        _eval_count = _restore_eval_count()
+        _best = _restore_best()
+        print(f"[checkpoint] RESUMED from {CHECKPOINT_PATH}")
+        if _best.get("fitness", np.inf) < np.inf:
+            print(f"  best-so-far (from results.csv): fitness="
+                 f"{_best['fitness']:.3f} B_target_T={_best.get('B_target_T')} "
+                 f"n_turns={_best.get('n_turns')}")
+        print(f"  run_tag={_run_tag}  eval_count={_eval_count}  "
+             f"generations completed={es.countiter}  "
+             f"evals CMA-ES has counted={es.countevals}")
+        print(f"  To force a fresh start instead, remove this file first.\n",
+             flush=True)
+    else:
+        _run_tag = f"ta_safe_{time.strftime('%Y%m%d_%H%M%S')}"
+        x0 = _encode_x0_override()
+        if x0 is None:
+            x0 = encode_x0()
+        lo, hi, stds = bounds_and_stds_wide()
+
+        opts = {
+            "bounds": [lo, hi],
+            "CMA_stds": stds,
+            "seed": SEED,
+            "maxfevals": MAX_EVALS,
+            "verbose": -3,
+        }
+        _popsize = os.environ.get("TA_SAFE_POPSIZE")
+        if _popsize:
+            opts["popsize"] = int(_popsize)
+
+        print(f"x0: a={x0[0]*1e3:.2f}mm b={x0[1]*1e3:.2f}mm "
+             f"gap={x0[2]*1e3:.2f}mm pairs={list(x0[3:])}")
+        print(f"step sizes: a={A_STD0*1e3:.2f}mm b={B_STD0*1e3:.2f}mm "
+             f"gap={GAP_STD0*1e3:.2f}mm n={N_STD0:.0f} turns")
+        print(f"popsize={opts.get('popsize', 'default')}")
+        es = cma.CMAEvolutionStrategy(x0, 1.0, opts)
+
+    print(f"budget: {MAX_EVALS} evaluations, {N_WORKERS} parallel workers")
     _pctile = ta_safe_current.MARGIN_PERCENTILE
     _cell_desc = ("EVERY cell" if _pctile <= 0
                  else f"{100 - _pctile:.0f}% of cells (p{_pctile:.0f})")
@@ -498,9 +676,11 @@ def main():
     print(f"penalty weights: field={cfg.CMAES_PENALTY_KM_FIELD:.0f} "
          f"hoop={cfg.CMAES_PENALTY_KM_HOOP:.0f} "
          f"uniformity={cfg.CMAES_PENALTY_KM_UNIFORMITY:.0f}")
-    print(f"outputs: {OUT_CSV}, {OUT_LOG}\n", flush=True)
-
-    es = cma.CMAEvolutionStrategy(x0, 1.0, opts)
+    print(f"outputs: {OUT_CSV}, {OUT_LOG}")
+    print(f"checkpoint: {CHECKPOINT_PATH} (saved after every generation -- "
+         f"safe to kill/power off at any time; re-run this same command "
+         f"to resume, or send SIGINT/SIGTERM for a prompt clean stop)\n",
+         flush=True)
     t0 = time.time()
 
     os.environ.setdefault("OMP_NUM_THREADS", "1")

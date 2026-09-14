@@ -318,19 +318,27 @@ def _draw_cut_cross_section(ax, g, mirror, stretch_m=0.0):
                     color=OUTLINE_COLOR, lw=OUTLINE_LW, alpha=OUTLINE_ALPHA)
 
 
-def plot_field_poster(npz_data, out_name="field_3d_poster.png"):
+def plot_field_poster(npz_data, out_name="field_3d_poster.png",
+                      value_raw=None, cbar_label="|B|  (T)"):
+    """value_raw: optional per-cell scalar aligned with npz_data's raw
+    (1/8-domain) coil_centroids, to color the point cloud/fill by instead
+    of |B|. Must be symmetric under the eighth-domain's x/y reflections
+    (same physical requirement |B| already relies on) since it gets
+    expanded the same way. Defaults to |B| from coil_B for backward
+    compatibility."""
     centroids_raw = npz_data["coil_centroids"]
-    Bmag_raw = np.linalg.norm(npz_data["coil_B"], axis=1)
+    if value_raw is None:
+        value_raw = np.linalg.norm(npz_data["coil_B"], axis=1)
     g = params.coil_half_gap
 
     if getattr(params, "use_eighth_symmetry", False):
-        centroids, Bmag = _expand_to_full_system(centroids_raw, Bmag_raw)
+        centroids, Bmag = _expand_to_full_system(centroids_raw, value_raw)
     else:
-        centroids, Bmag = centroids_raw, Bmag_raw
+        centroids, Bmag = centroids_raw, value_raw
         if getattr(params, "two_coil_mode", False):
             c2 = centroids_raw.copy(); c2[:, 2] = _mirror_z(c2[:, 2], g)
             centroids = np.vstack([centroids_raw, c2])
-            Bmag = np.tile(Bmag_raw, 2)
+            Bmag = np.tile(value_raw, 2)
 
     vmin, vmax = 0.0, float(Bmag.max())
     norm = mcolors.PowerNorm(gamma=_COLOR_GAMMA, vmin=vmin, vmax=vmax)
@@ -389,7 +397,7 @@ def plot_field_poster(npz_data, out_name="field_3d_poster.png"):
     ax.set_box_aspect((1, 1, 0.7 * drawn_total_z / true_total_z))
 
     cb = fig.colorbar(sc, ax=ax, shrink=0.7, pad=0.02, aspect=18)
-    cb.set_label("|B|  (T)", color="black", fontsize=26, labelpad=14)
+    cb.set_label(cbar_label, color="black", fontsize=26, labelpad=14)
     cb.ax.tick_params(color="black", labelsize=20, length=6, width=1.2)
     plt.setp(cb.ax.get_yticklabels(), color="black")
     cb.outline.set_edgecolor("black")

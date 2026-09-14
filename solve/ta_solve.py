@@ -710,7 +710,7 @@ def _solve_A(ta, L_form):
 
 def solve_ta_at_current(domain, ta, uniform_setup,
                          I_amps, ic_model, n_model, verbose=True,
-                         warm_start=True):
+                         warm_start=True, min_iters=25, diag_log_path=None):
     """
     Run the T-A Picard loop for transport current I_amps.
     Returns (A_h, B_h, T_h, info) at convergence, where info is a dict
@@ -724,6 +724,23 @@ def solve_ta_at_current(domain, ta, uniform_setup,
     state.  The T Dirichlet BCs are proportional to I, so the scaled T
     satisfies the new BCs exactly.  Falls back to the cold start when
     no previous state exists.
+
+    min_iters: earliest iteration (0-indexed k+1) the EMA-smoothed-SCIF
+    stall criterion is allowed to declare convergence. Default 25 matches
+    every existing caller's hardcoded behaviour exactly. 2026-09-12
+    (4.2K investigation): this criterion was found to fire 300-1000+
+    iterations before genuine settling once n(B) leaves the project's
+    historically-validated 13-34 range — pass min_iters=ta_n_picard (or
+    any value >= it) to force a full-length run that bypasses the stall
+    flag entirely, and inspect raw diagnostics (rel_err, diag_log_path)
+    instead of trusting `converged`. See CLAUDE.md's "Cryogenic (4.2K)
+    operating-temperature investigation".
+
+    diag_log_path: if given, append one CSV row per Picard iteration
+    (k, rel_err, scif_mT, scif_stall_mT, T_min, T_max, j_over_jc_central)
+    to this path — the raw-residual trail needed to tell a genuine
+    convergence from a false EMA stall. None (default) = no logging, no
+    behaviour change.
     """
     comm      = domain.comm
     delta_SC  = ta["delta_SC"]
@@ -956,7 +973,8 @@ def solve_ta_at_current(domain, ta, uniform_setup,
         prev_dB_vec = dB_vec
         prev_dB_mag = dB
 
-        if verbose and comm.rank == 0:
+        need_diag = diag_log_path is not None
+        if (verbose or need_diag) and comm.rank == 0:
             # Diagnostics on the central layer only (where T is solved)
             unique_T_idx = ta["unique_T_idx"]          # indices into coil_cells
             J_diag  = J_coil[unique_T_idx]             # central layer J rows
@@ -974,10 +992,22 @@ def solve_ta_at_current(domain, ta, uniform_setup,
             else:
                 T_arr = ta["T_h"].x.array
                 T_min, T_max = T_arr.min(), T_arr.max()
-            st = f"{scif_stall:.3f}" if np.isfinite(scif_stall) else " -- "
-            print(f"  [k={k+1:02d}] SCIF = {scif_ema:+8.2f} mT "
-                  f"(stall {st})  |ΔB|/|B| = {rel_err:.2e}  "
-                  f"⟨|J|/Jc⟩_central = {j_over_jc:.3f}  corr = {corr:+.2f}")
+            if verbose:
+                st = f"{scif_stall:.3f}" if np.isfinite(scif_stall) else " -- "
+                print(f"  [k={k+1:02d}] SCIF = {scif_ema:+8.2f} mT "
+                      f"(stall {st})  |ΔB|/|B| = {rel_err:.2e}  "
+                      f"⟨|J|/Jc⟩_central = {j_over_jc:.3f}  corr = {corr:+.2f}")
+            if need_diag and comm.rank == 0:
+                import csv as _csv
+                _new = not os.path.exists(diag_log_path)
+                with open(diag_log_path, "a", newline="") as _fh:
+                    _w = _csv.writer(_fh)
+                    if _new:
+                        _w.writerow(["k", "rel_err", "scif_mT", "scif_stall_mT",
+                                     "T_min", "T_max", "j_over_jc_central",
+                                     "corr"])
+                    _w.writerow([k + 1, rel_err, scif_ema, scif_stall,
+                                 T_min, T_max, j_over_jc, corr])
 
         # ── (f) Update ρ from new J and B (log-space under-relaxed) ─────
         _update_rho(ta, J_coil, B_coil, ic_model, n_model, eps_reg,
@@ -985,7 +1015,7 @@ def solve_ta_at_current(domain, ta, uniform_setup,
 
         B_prev = B_coil.copy()
 
-        if scif_stall < scif_tol and k >= 25:
+        if scif_stall < scif_tol and k >= min_iters:
             converged = True
             if verbose and comm.rank == 0:
                 print(f"[T-A] Converged at k={k+1} "

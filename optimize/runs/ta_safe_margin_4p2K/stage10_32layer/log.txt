@@ -1,0 +1,26 @@
+==========================================================================================
+T-A-safe-current CMA-ES search UNDER THE 4.2K MODEL -- optimize/studies/ta_safe_margin_search_4p2K.py
+alpha=(ta_picard_alpha=0.03, ta_picard_alpha_fine=0.01)  min_iters=ta_n_picard=150 (forced full-length)
+==========================================================================================
+x0: a=42.69mm b=52.24mm gap=66.21mm pairs=[np.float64(233.0), np.float64(655.0), np.float64(86.0), np.float64(604.0), np.float64(546.0), np.float64(678.0), np.float64(423.0), np.float64(616.0), np.float64(448.0), np.float64(277.0), np.float64(485.0), np.float64(482.0), np.float64(581.0), np.float64(604.0), np.float64(510.0), np.float64(510.0)]
+step sizes: a=8.00mm b=12.00mm gap=3.00mm n=80 turns
+popsize=8
+N_LAYERS=32  N_PAIRS=16
+budget: 600 evaluations, 4 parallel workers
+target: B >= 10.0 T AND T-A local margin >= 1.5385 (J/Jc <= 0.65) for 95% of cells (p5), hoop <= 400 MPa, uniformity <= 0.8%
+outputs: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage10_32layer/results.csv, /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage10_32layer/history.csv
+checkpoint: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage10_32layer/cma_checkpoint.pkl
+
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=35.5 b=51.4 gap=66.4 nt=15574] KSP converged reason: 4, iterations: 1
+  [a=38.7 b=65.1 gap=65.7 nt=15366] KSP converged reason: 4, iterations: 1
+  [a=48.1 b=55.7 gap=65.9 nt=15210] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:165: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag

@@ -1,0 +1,138 @@
+=== ta_thermal_validation starting, PID=41712 ===
+summary CSV: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_thermal_validation/summary.csv
+
+=== building mesh: medium_medium5 (mesh_size_min_factor=0.25, nz_per_layer=3, z_grading=[0.075, 0.15, 0.55, 0.15, 0.075]) ===
+=== mesh medium_medium5 built+setup in 2.0s ===
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[A] >>> phaseAB_medium_medium5_20K_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+[A] <<< phaseAB_medium_medium5_20K_I25_default_alpha  done in 65.9s  n_iters=150 converged_flag=False  rel_err=1.032e-02  worst_margin=1.162  p5_margin=1.690
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[B] >>> phaseAB_medium_medium5_4p2K_iconly_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+[B] <<< phaseAB_medium_medium5_4p2K_iconly_I25_default_alpha  done in 66.4s  n_iters=150 converged_flag=False  rel_err=1.912e+00  worst_margin=0.716  p5_margin=1.627
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[B] >>> phaseAB_medium_medium5_4p2K_icn_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+[B] <<< phaseAB_medium_medium5_4p2K_icn_I25_default_alpha  done in 66.2s  n_iters=150 converged_flag=False  rel_err=1.816e+00  worst_margin=0.681  p5_margin=1.544
+
+=== building mesh: medium_uniform5 (mesh_size_min_factor=0.25, nz_per_layer=5, z_grading=None) ===
+=== mesh medium_uniform5 built+setup in 1.2s ===
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[A] >>> phaseAB_medium_uniform5_20K_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:143: RuntimeWarning: divide by zero encountered in divide
+  
+[A] <<< phaseAB_medium_uniform5_20K_I25_default_alpha  done in 66.0s  n_iters=150 converged_flag=False  rel_err=1.056e+00  worst_margin=1.295  p5_margin=2.474
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[B] >>> phaseAB_medium_uniform5_4p2K_iconly_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:143: RuntimeWarning: divide by zero encountered in divide
+  
+[B] <<< phaseAB_medium_uniform5_4p2K_iconly_I25_default_alpha  done in 79.6s  n_iters=150 converged_flag=False  rel_err=1.978e+00  worst_margin=0.603  p5_margin=1.549
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[B] >>> phaseAB_medium_uniform5_4p2K_icn_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:143: RuntimeWarning: divide by zero encountered in divide
+  
+[B] <<< phaseAB_medium_uniform5_4p2K_icn_I25_default_alpha  done in 72.1s  n_iters=150 converged_flag=False  rel_err=1.904e+00  worst_margin=0.832  p5_margin=1.603
+
+=== building mesh: medium_xdense7 (mesh_size_min_factor=0.25, nz_per_layer=3, z_grading=[0.05, 0.075, 0.1, 0.55, 0.1, 0.075, 0.05]) ===
+=== mesh medium_xdense7 built+setup in 2.0s ===
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[A] >>> phaseAB_medium_xdense7_20K_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:143: RuntimeWarning: divide by zero encountered in divide
+  
+[A] <<< phaseAB_medium_xdense7_20K_I25_default_alpha  done in 90.9s  n_iters=150 converged_flag=False  rel_err=3.604e-02  worst_margin=1.025  p5_margin=1.574
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[B] >>> phaseAB_medium_xdense7_4p2K_iconly_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:143: RuntimeWarning: divide by zero encountered in divide
+  
+[B] <<< phaseAB_medium_xdense7_4p2K_iconly_I25_default_alpha  done in 89.7s  n_iters=150 converged_flag=False  rel_err=1.863e+00  worst_margin=0.789  p5_margin=1.510
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[B] >>> phaseAB_medium_xdense7_4p2K_icn_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:143: RuntimeWarning: divide by zero encountered in divide
+  
+[B] <<< phaseAB_medium_xdense7_4p2K_icn_I25_default_alpha  done in 88.8s  n_iters=150 converged_flag=False  rel_err=1.704e+00  worst_margin=0.689  p5_margin=1.401
+
+=== building mesh: fine_medium5 (mesh_size_min_factor=0.1, nz_per_layer=3, z_grading=[0.075, 0.15, 0.55, 0.15, 0.075]) ===
+=== mesh fine_medium5 built+setup in 3.1s ===
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[A] >>> phaseAB_fine_medium5_20K_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+[A] <<< phaseAB_fine_medium5_20K_I25_default_alpha  done in 434.6s  n_iters=150 converged_flag=False  rel_err=1.266e-01  worst_margin=0.925  p5_margin=2.431
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[B] >>> phaseAB_fine_medium5_4p2K_iconly_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+[B] <<< phaseAB_fine_medium5_4p2K_iconly_I25_default_alpha  done in 495.5s  n_iters=150 converged_flag=False  rel_err=1.940e+00  worst_margin=0.552  p5_margin=1.438
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[B] >>> phaseAB_fine_medium5_4p2K_icn_I25_default_alpha  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+[B] <<< phaseAB_fine_medium5_4p2K_icn_I25_default_alpha  done in 463.7s  n_iters=150 converged_flag=False  rel_err=1.844e+00  worst_margin=0.728  p5_margin=1.452
+
+=== phases A/B done (2088.9s elapsed). Best-converged 20K mesh config: medium/medium5 (rel_err=1.032e-02) ===
+
+
+=== phase C: rebuilding mesh medium_medium5 for alpha sweep ===
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[C] >>> phaseC_medium_medium5_4p2K_icn_I25_a0.3_0.15  I=25A  alpha=(0.3,0.15)  warm=False  min_iters=150
+[C] <<< phaseC_medium_medium5_4p2K_icn_I25_a0.3_0.15  done in 69.0s  n_iters=150 converged_flag=False  rel_err=1.828e+00  worst_margin=0.767  p5_margin=1.549
+[C] >>> phaseC_medium_medium5_4p2K_icn_I25_a0.15_0.08  I=25A  alpha=(0.15,0.08)  warm=False  min_iters=150
+[C] <<< phaseC_medium_medium5_4p2K_icn_I25_a0.15_0.08  done in 66.0s  n_iters=150 converged_flag=False  rel_err=2.364e-02  worst_margin=1.243  p5_margin=1.963
+[C] >>> phaseC_medium_medium5_4p2K_icn_I25_a0.1_0.05  I=25A  alpha=(0.1,0.05)  warm=False  min_iters=150
+[C] <<< phaseC_medium_medium5_4p2K_icn_I25_a0.1_0.05  done in 66.0s  n_iters=150 converged_flag=False  rel_err=2.406e-02  worst_margin=1.245  p5_margin=1.965
+[C] >>> phaseC_medium_medium5_4p2K_icn_I25_a0.05_0.02  I=25A  alpha=(0.05,0.02)  warm=False  min_iters=150
+[C] <<< phaseC_medium_medium5_4p2K_icn_I25_a0.05_0.02  done in 72.5s  n_iters=150 converged_flag=False  rel_err=1.732e-02  worst_margin=1.310  p5_margin=2.190
+[C] >>> phaseC_medium_medium5_4p2K_icn_I25_a0.03_0.01  I=25A  alpha=(0.03,0.01)  warm=False  min_iters=150
+[C] <<< phaseC_medium_medium5_4p2K_icn_I25_a0.03_0.01  done in 68.1s  n_iters=150 converged_flag=False  rel_err=1.384e-02  worst_margin=1.981  p5_margin=3.347
+
+=== phase C done. Best-converged alpha for 4.2K Ic+n: (0.03, 0.01) (rel_err=1.384e-02) ===
+
+=== phase D: 20K fixed-current sweep (bypass bisection) ===
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[D] >>> phaseD_medium_medium5_20K_I5_a0.03_0.01  I=5A  alpha=(0.03,0.01)  warm=False  min_iters=150
+[D] <<< phaseD_medium_medium5_20K_I5_a0.03_0.01  done in 67.2s  n_iters=150 converged_flag=False  rel_err=2.028e-02  worst_margin=10.390  p5_margin=15.618
+[D] >>> phaseD_medium_medium5_20K_I8_a0.03_0.01  I=8A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_20K_I8_a0.03_0.01  done in 66.8s  n_iters=150 converged_flag=False  rel_err=1.837e-02  worst_margin=3.958  p5_margin=6.174
+[D] >>> phaseD_medium_medium5_20K_I10_a0.03_0.01  I=10A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_20K_I10_a0.03_0.01  done in 67.6s  n_iters=150 converged_flag=False  rel_err=1.163e-02  worst_margin=2.821  p5_margin=4.448
+[D] >>> phaseD_medium_medium5_20K_I15_a0.03_0.01  I=15A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_20K_I15_a0.03_0.01  done in 66.2s  n_iters=150 converged_flag=False  rel_err=1.372e-02  worst_margin=1.785  p5_margin=2.864
+[D] >>> phaseD_medium_medium5_20K_I20_a0.03_0.01  I=20A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_20K_I20_a0.03_0.01  done in 80.7s  n_iters=150 converged_flag=False  rel_err=1.299e-02  worst_margin=1.331  p5_margin=2.119
+[D] >>> phaseD_medium_medium5_20K_I25_a0.03_0.01  I=25A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_20K_I25_a0.03_0.01  done in 67.0s  n_iters=150 converged_flag=False  rel_err=1.878e-02  worst_margin=1.160  p5_margin=1.679
+[D] >>> phaseD_medium_medium5_20K_I30_a0.03_0.01  I=30A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_20K_I30_a0.03_0.01  done in 68.8s  n_iters=150 converged_flag=False  rel_err=2.858e-02  worst_margin=1.095  p5_margin=1.399
+[D] >>> phaseD_medium_medium5_20K_I35_a0.03_0.01  I=35A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_20K_I35_a0.03_0.01  done in 66.5s  n_iters=150 converged_flag=False  rel_err=1.026e-02  worst_margin=1.059  p5_margin=1.232
+[D] >>> phaseD_medium_medium5_20K_I40_a0.03_0.01  I=40A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_20K_I40_a0.03_0.01  done in 67.0s  n_iters=150 converged_flag=False  rel_err=1.249e-02  worst_margin=1.035  p5_margin=1.155
+=== phase D: 4.2K Ic+n fixed-current sweep (bypass bisection) ===
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[D] >>> phaseD_medium_medium5_4p2K_icn_I5_a0.03_0.01  I=5A  alpha=(0.03,0.01)  warm=False  min_iters=150
+[D] <<< phaseD_medium_medium5_4p2K_icn_I5_a0.03_0.01  done in 66.9s  n_iters=150 converged_flag=False  rel_err=1.613e-02  worst_margin=11.226  p5_margin=17.637
+[D] >>> phaseD_medium_medium5_4p2K_icn_I8_a0.03_0.01  I=8A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_4p2K_icn_I8_a0.03_0.01  done in 67.3s  n_iters=150 converged_flag=False  rel_err=2.295e-02  worst_margin=4.345  p5_margin=7.148
+[D] >>> phaseD_medium_medium5_4p2K_icn_I10_a0.03_0.01  I=10A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_4p2K_icn_I10_a0.03_0.01  done in 68.8s  n_iters=150 converged_flag=False  rel_err=3.477e-02  worst_margin=3.113  p5_margin=5.215
+[D] >>> phaseD_medium_medium5_4p2K_icn_I15_a0.03_0.01  I=15A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_4p2K_icn_I15_a0.03_0.01  done in 68.8s  n_iters=150 converged_flag=False  rel_err=2.898e-02  worst_margin=1.990  p5_margin=3.368
+[D] >>> phaseD_medium_medium5_4p2K_icn_I20_a0.03_0.01  I=20A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_4p2K_icn_I20_a0.03_0.01  done in 68.6s  n_iters=150 converged_flag=False  rel_err=2.089e-02  worst_margin=1.466  p5_margin=2.489
+[D] >>> phaseD_medium_medium5_4p2K_icn_I25_a0.03_0.01  I=25A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_4p2K_icn_I25_a0.03_0.01  done in 67.8s  n_iters=150 converged_flag=False  rel_err=2.122e-02  worst_margin=1.241  p5_margin=1.953
+[D] >>> phaseD_medium_medium5_4p2K_icn_I30_a0.03_0.01  I=30A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_4p2K_icn_I30_a0.03_0.01  done in 68.4s  n_iters=150 converged_flag=False  rel_err=4.756e-02  worst_margin=1.169  p5_margin=1.615
+[D] >>> phaseD_medium_medium5_4p2K_icn_I35_a0.03_0.01  I=35A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_4p2K_icn_I35_a0.03_0.01  done in 66.6s  n_iters=150 converged_flag=False  rel_err=2.917e-02  worst_margin=1.132  p5_margin=1.386
+[D] >>> phaseD_medium_medium5_4p2K_icn_I40_a0.03_0.01  I=40A  alpha=(0.03,0.01)  warm=True  min_iters=150
+[D] <<< phaseD_medium_medium5_4p2K_icn_I40_a0.03_0.01  done in 67.5s  n_iters=150 converged_flag=False  rel_err=2.299e-02  worst_margin=1.104  p5_margin=1.272
+
+=== ta_thermal_validation ALL PHASES DONE in 3660.8s ===

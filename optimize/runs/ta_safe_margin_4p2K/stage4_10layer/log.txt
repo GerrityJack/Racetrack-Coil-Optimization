@@ -1,0 +1,88 @@
+==========================================================================================
+T-A-safe-current CMA-ES search UNDER THE 4.2K MODEL -- optimize/studies/ta_safe_margin_search_4p2K.py
+alpha=(ta_picard_alpha=0.03, ta_picard_alpha_fine=0.01)  min_iters=ta_n_picard=150 (forced full-length)
+==========================================================================================
+x0: a=38.30mm b=45.28mm gap=21.97mm pairs=[np.float64(609.0), np.float64(639.0), np.float64(76.0), np.float64(550.0), np.float64(571.0)]
+step sizes: a=8.00mm b=12.00mm gap=3.00mm n=80 turns
+popsize=default
+N_LAYERS=10  N_PAIRS=5
+budget: 400 evaluations, 4 parallel workers
+target: B >= 10.0 T AND T-A local margin >= 1.5385 (J/Jc <= 0.65) for 95% of cells (p5), hoop <= 400 MPa, uniformity <= 0.8%
+outputs: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage4_10layer/results.csv, /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage4_10layer/history.csv
+checkpoint: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage4_10layer/cma_checkpoint.pkl
+
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=39.6 b=54.9 gap=21.9 nt=5136] KSP converged reason: 4, iterations: 1
+  [a=36.8 b=62.8 gap=22.1 nt=4748] KSP converged reason: 4, iterations: 1
+  [a=32.5 b=62.8 gap=21.8 nt=4844] KSP converged reason: 4, iterations: 1
+  [   1] INFEAS f=3358.314  a=35.88 b=33.20 gap=22.23 (face=4.45mm) n=[527, 527, 642, 642, 96, 96, 631, 631, 675, 675]  no evaluation (geometry pre-check)
+  [   2] INFEAS f=12445.415  a=43.33 b=31.42 gap=21.79 (face=3.57mm) n=[653, 653, 693, 693, 57, 57, 660, 660, 586, 586]  no evaluation (geometry pre-check)
+  [   3] viol   f= 722.023  a=39.58 b=54.91 gap=21.88 (face=3.77mm) n=[569, 569, 725, 725, 50, 50, 518, 518, 706, 706]  tape=1.707km B=5.10T unif=0.72% hoop=25MPa I_op=57.8A margin(p5)=1.594 worst=1.064  (8 TA solves, 1268s)
+  [   4] viol   f= 683.749  a=32.46 b=62.79 gap=21.78 (face=3.55mm) n=[567, 567, 624, 624, 74, 74, 550, 550, 607, 607]  tape=1.634km B=5.23T unif=0.64% hoop=20MPa I_op=60.1A margin(p5)=1.594 worst=1.104  (8 TA solves, 1491s)
+  [   5] INFEAS f=1068.571  a=28.41 b=47.94 gap=21.99 (face=3.98mm) n=[505, 505, 610, 610, 139, 139, 442, 442, 542, 542]  no evaluation (geometry pre-check)
+  [   6] INFEAS f=2134.459  a=34.87 b=34.55 gap=22.13 (face=4.26mm) n=[644, 644, 727, 727, 5, 5, 408, 408, 597, 597]  no evaluation (geometry pre-check)
+  [   7] INFEAS f=41355.560  a=53.88 b=27.12 gap=22.02 (face=4.04mm) n=[691, 691, 543, 543, 15, 15, 512, 512, 499, 499]  no evaluation (geometry pre-check)
+  [   8] INFEAS f=9102.814  a=43.68 b=34.44 gap=21.77 (face=3.53mm) n=[596, 596, 511, 511, 140, 140, 642, 642, 682, 682]  no evaluation (geometry pre-check)
+  [   9] INFEAS f=1674.294  a=27.07 b=56.37 gap=22.25 (face=4.50mm) n=[686, 686, 527, 527, 53, 53, 643, 643, 454, 454]  no evaluation (geometry pre-check)
+  [  10] viol   f= 864.430  a=36.84 b=62.78 gap=22.13 (face=4.27mm) n=[416, 416, 635, 635, 111, 111, 558, 558, 654, 654]  tape=1.698km B=4.64T unif=0.64% hoop=24MPa I_op=60.6A margin(p5)=1.580 worst=1.065  (8 TA solves, 1453s)
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=1  bot_dofs=0
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=40.4 b=50.7 gap=23.1 nt=5052] KSP converged reason: 4, iterations: 1
+  [a=36.6 b=63.3 gap=21.9 nt=4798] KSP converged reason: 4, iterations: 1
+  [a=38.1 b=53.0 gap=22.1 nt=4646] KSP converged reason: 4, iterations: 1
+  [a=33.6 b=60.1 gap=22.0 nt=4764] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:157: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [  11] INFEAS f=1803.482  a=27.63 b=69.66 gap=22.17 (face=4.34mm) n=[577, 577, 716, 716, 51, 51, 610, 610, 581, 581]  no evaluation (geometry pre-check)
+  [  12] viol   f= 676.840  a=40.40 b=50.74 gap=23.07 (face=6.13mm) n=[590, 590, 693, 693, 111, 111, 397, 397, 735, 735]  tape=1.641km B=5.26T unif=0.68% hoop=26MPa I_op=61.2A margin(p5)=1.603 worst=1.071  (8 TA solves, 1149s)
+  [  13] INFEAS f=1194.139  a=27.78 b=50.52 gap=21.93 (face=3.86mm) n=[551, 551, 629, 629, 89, 89, 548, 548, 591, 591]  no evaluation (geometry pre-check)
+  [  14] INFEAS f=1700.891  a=25.60 b=45.71 gap=21.63 (face=3.26mm) n=[440, 440, 650, 650, 137, 137, 650, 650, 567, 567]  no evaluation (geometry pre-check)
+  [  15] INFEAS f=2296.798  a=23.52 b=57.06 gap=21.71 (face=3.42mm) n=[483, 483, 498, 498, 117, 117, 434, 434, 655, 655]  no evaluation (geometry pre-check)
+  [  16] viol   f= 975.111  a=36.62 b=63.34 gap=21.88 (face=3.75mm) n=[397, 397, 619, 619, 19, 19, 623, 623, 741, 741]  tape=1.758km B=4.30T unif=0.50% hoop=23MPa I_op=58.6A margin(p5)=1.552 worst=1.059  (8 TA solves, 1316s)
+  [  17] viol   f= 751.669  a=38.05 b=53.04 gap=22.14 (face=4.28mm) n=[489, 489, 592, 592, 96, 96, 537, 537, 609, 609]  tape=1.463km B=5.00T unif=0.70% hoop=26MPa I_op=62.5A margin(p5)=1.568 worst=1.035  (8 TA solves, 1457s)
+  [  18] INFEAS f=2471.471  a=23.86 b=54.80 gap=21.72 (face=3.44mm) n=[600, 600, 662, 662, 50, 50, 543, 543, 679, 679]  no evaluation (geometry pre-check)
+  [  19] INFEAS f=1000.000  a=37.10 b=47.77 gap=22.05 (face=4.09mm) n=[445, 445, 636, 636, 10, 10, 553, 553, 674, 674]  no evaluation (geometry pre-check)
+  [  20] viol   f= 670.774  a=33.58 b=60.08 gap=22.03 (face=4.07mm) n=[614, 614, 637, 637, 38, 38, 618, 618, 475, 475]  tape=1.569km B=5.28T unif=1.02% hoop=20MPa I_op=59.0A margin(p5)=1.559 worst=0.987  (8 TA solves, 1798s)
+  [a=36.8 b=48.0 gap=23.6 nt=4752] KSP converged reason: 4, iterations: 1
+  [a=42.9 b=59.7 gap=21.6 nt=4730] KSP converged reason: 4, iterations: 1
+  [a=38.6 b=70.3 gap=22.3 nt=4418] KSP converged reason: 4, iterations: 1
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=3
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=38.1 b=46.5 gap=22.0 nt=4476] KSP converged reason: 4, iterations: 1
+  [a=41.4 b=62.3 gap=21.8 nt=5380] KSP converged reason: 4, iterations: 1
+  [  21] INFEAS f=1012.582  a=36.48 b=40.92 gap=21.97 (face=3.94mm) n=[633, 633, 600, 600, 59, 59, 591, 591, 469, 469]  no evaluation (geometry pre-check)
+  [  22] viol   f= 959.313  a=42.85 b=59.67 gap=21.60 (face=3.20mm) n=[512, 512, 561, 561, 94, 94, 534, 534, 664, 664]  tape=1.714km B=4.35T unif=0.87% hoop=27MPa I_op=57.7A margin(p5)=1.577 worst=1.085  (8 TA solves, 1557s)
+  [  23] INFEAS f=1179.753  a=28.25 b=51.89 gap=21.93 (face=3.87mm) n=[553, 553, 638, 638, 40, 40, 525, 525, 478, 478]  no evaluation (geometry pre-check)
+  [  24] viol   f=1069.891  a=38.63 b=70.31 gap=22.31 (face=4.61mm) n=[485, 485, 561, 561, 14, 14, 561, 561, 588, 588]  tape=1.674km B=4.03T unif=0.72% hoop=21MPa I_op=56.7A margin(p5)=1.581 worst=1.000  (8 TA solves, 1813s)
+  [  25] INFEAS f=1000.000  a=41.92 b=63.23 gap=22.52 (face=5.04mm) n=[668, 668, 749, 749, 81, 81, 566, 566, 581, 581]  no evaluation (geometry pre-check)
+  [  26] viol   f= 655.959  a=36.75 b=48.01 gap=23.58 (face=7.16mm) n=[497, 497, 719, 719, 114, 114, 468, 468, 578, 578]  tape=1.490km B=5.33T unif=0.63% hoop=27MPa I_op=64.2A margin(p5)=1.573 worst=1.059  (8 TA solves, 1134s)
+  [  27] INFEAS f=2180.927  a=48.16 b=47.73 gap=22.58 (face=5.15mm) n=[626, 626, 681, 681, 128, 128, 529, 529, 460, 460]  no evaluation (geometry pre-check)
+  [  28] viol   f= 647.402  a=38.06 b=46.51 gap=22.04 (face=4.07mm) n=[590, 590, 513, 513, 37, 37, 534, 534, 564, 564]  tape=1.271km B=5.54T unif=2.07% hoop=26MPa I_op=65.4A margin(p5)=1.567 worst=1.090  (8 TA solves, 1392s)
+  [  29] INFEAS f=2348.017  a=23.65 b=66.40 gap=22.46 (face=4.92mm) n=[557, 557, 663, 663, 135, 135, 471, 471, 431, 431]  no evaluation (geometry pre-check)
+  [  30] viol   f= 743.112  a=41.44 b=62.31 gap=21.84 (face=3.69mm) n=[750, 750, 603, 603, 55, 55, 631, 631, 651, 651]  tape=1.975km B=5.07T unif=1.38% hoop=23MPa I_op=54.5A margin(p5)=1.594 worst=1.124  (8 TA solves, 1099s)
+  [eval error] RuntimeError: T-A setup: failed to find Dirichlet DOFs on single-tape faces.
+  z_top=0.0020 m,  z_bot=-0.0020 m,  tol=0.0001 m
+  top_dofs=0  bot_dofs=3
+Check that params.w is correct and the mesh has nodes at z=±w/2.
+  [a=37.8 b=68.3 gap=21.8 nt=4670] KSP converged reason: 4, iterations: 1
+  [a=43.5 b=72.6 gap=22.1 nt=4738] KSP converged reason: 4, iterations: 1
+  [a=42.9 b=49.4 gap=21.9 nt=5194] KSP converged reason: 4, iterations: 1
+  [a=38.9 b=54.6 gap=22.0 nt=4800] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:157: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:157: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [a=35.8 b=43.9 gap=21.9 nt=5082] KSP converged reason: 4, iterations: 1
+
+[stop requested] finishing current step, will checkpoint and exit before starting a new generation ...

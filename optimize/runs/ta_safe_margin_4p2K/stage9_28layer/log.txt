@@ -1,0 +1,76 @@
+==========================================================================================
+T-A-safe-current CMA-ES search UNDER THE 4.2K MODEL -- optimize/studies/ta_safe_margin_search_4p2K.py
+alpha=(ta_picard_alpha=0.03, ta_picard_alpha_fine=0.01)  min_iters=ta_n_picard=150 (forced full-length)
+==========================================================================================
+x0: a=34.13mm b=50.89mm gap=57.74mm pairs=[np.float64(372.0), np.float64(639.0), np.float64(61.0), np.float64(658.0), np.float64(445.0), np.float64(550.0), np.float64(511.0), np.float64(645.0), np.float64(475.0), np.float64(472.0), np.float64(519.0), np.float64(617.0), np.float64(537.0), np.float64(537.0)]
+step sizes: a=8.00mm b=12.00mm gap=3.00mm n=80 turns
+popsize=8
+N_LAYERS=28  N_PAIRS=14
+budget: 600 evaluations, 4 parallel workers
+target: B >= 10.0 T AND T-A local margin >= 1.5385 (J/Jc <= 0.65) for 95% of cells (p5), hoop <= 400 MPa, uniformity <= 0.8%
+outputs: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage9_28layer/results.csv, /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage9_28layer/history.csv
+checkpoint: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage9_28layer/cma_checkpoint.pkl
+
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=42.7 b=52.2 gap=58.2 nt=13436] KSP converged reason: 4, iterations: 1
+  [a=40.5 b=48.0 gap=57.6 nt=14022] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:165: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [   1] INFEAS f=1218.641  a=31.71 b=38.80 gap=57.94 (face=3.87mm) n=[290, 290, 642, 642, 81, 81, 739, 739, 549, 549, 600, 600, 419, 419, 601, 601, 519, 519, 526, 526, 500, 500, 727, 727, 552, 552, 550, 550]  no evaluation (geometry pre-check)
+  [   2] viol   f= 629.406  a=40.55 b=47.97 gap=57.63 (face=3.25mm) n=[458, 458, 515, 515, 29, 29, 793, 793, 387, 387, 667, 667, 464, 464, 603, 603, 460, 460, 470, 470, 519, 519, 653, 653, 438, 438, 555, 555]  tape=4.768km B=5.47T unif=1.36% hoop=22MPa I_op=45.7A margin(p5)=1.589 worst=1.020  (7 TA solves, 6339s)
+  [   3] INFEAS f=1801.788  a=34.52 b=35.24 gap=57.66 (face=3.31mm) n=[435, 435, 531, 531, 32, 32, 624, 624, 373, 373, 582, 582, 546, 546, 733, 733, 396, 396, 330, 330, 545, 545, 773, 773, 416, 416, 548, 548]  no evaluation (geometry pre-check)
+  [   4] INFEAS f=5755.923  a=42.35 b=36.45 gap=57.58 (face=3.16mm) n=[334, 334, 567, 567, 115, 115, 586, 586, 395, 395, 537, 537, 383, 383, 709, 709, 567, 567, 583, 583, 407, 407, 691, 691, 589, 589, 614, 614]  no evaluation (geometry pre-check)
+  [   5] INFEAS f=2957.821  a=22.92 b=47.47 gap=58.16 (face=4.31mm) n=[255, 255, 624, 624, 178, 178, 691, 691, 252, 252, 546, 546, 326, 326, 653, 653, 558, 558, 414, 414, 404, 404, 672, 672, 582, 582, 584, 584]  no evaluation (geometry pre-check)
+  [   6] INFEAS f=1296.350  a=26.74 b=55.42 gap=57.65 (face=3.30mm) n=[314, 314, 622, 622, 66, 66, 557, 557, 553, 553, 553, 553, 311, 311, 573, 573, 469, 469, 504, 504, 572, 572, 518, 518, 533, 533, 505, 505]  no evaluation (geometry pre-check)
+  [   7] viol   f= 589.618  a=42.69 b=52.24 gap=58.21 (face=4.43mm) n=[233, 233, 655, 655, 86, 86, 604, 604, 546, 546, 678, 678, 423, 423, 616, 616, 448, 448, 277, 277, 485, 485, 482, 482, 581, 581, 604, 604]  tape=4.558km B=5.58T unif=0.75% hoop=24MPa I_op=47.8A margin(p5)=1.608 worst=0.876  (7 TA solves, 6161s)
+  [   8] INFEAS f=1081.324  a=31.50 b=70.42 gap=57.59 (face=3.19mm) n=[317, 317, 658, 658, 110, 110, 697, 697, 478, 478, 676, 676, 539, 539, 646, 646, 387, 387, 483, 483, 573, 573, 671, 671, 560, 560, 476, 476]  no evaluation (geometry pre-check)
+  [a=42.8 b=51.2 gap=58.5 nt=13744] KSP converged reason: 4, iterations: 1
+  [a=33.1 b=58.0 gap=57.7 nt=13844] KSP converged reason: 4, iterations: 1
+  [a=47.4 b=78.8 gap=57.8 nt=13416] KSP converged reason: 4, iterations: 1
+  [a=53.1 b=63.2 gap=58.0 nt=13070] KSP converged reason: 4, iterations: 1
+[0]PETSC ERROR: 
+[stop requested] finishing current step, will checkpoint and exit before starting a new generation ...------------------------------------------------------------------------
+[0]PETSC ERROR: 
+Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: [0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: ------------------------------------------------------------------------
+configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: [0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+to get more information on the crash.
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+  [GENERATION FAILED] BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending. -- a worker process almost certainly crashed natively (SEGV/MPI_Abort in PETSc/MUMPS, not a Python exception). Force-killing worker processes and recreating the pool; this generation's candidates are not recorded.
+[stop requested] exiting before next generation (checkpoint already reflects the last completed one).
+
+==========================================================================================
+Finished: 8 evaluations in 189.3 min
+==========================================================================================
+CMA-ES stop reason(s): {}
+
+No evaluation satisfied both B_target and hoop within budget -- see history.csv for the closest candidates (smallest fitness among feasible=True rows).

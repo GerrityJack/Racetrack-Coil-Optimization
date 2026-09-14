@@ -1,0 +1,62 @@
+==========================================================================================
+T-A-safe-current CMA-ES search UNDER THE 4.2K MODEL -- optimize/studies/ta_safe_margin_search_4p2K.py
+alpha=(ta_picard_alpha=0.03, ta_picard_alpha_fine=0.01)  min_iters=ta_n_picard=150 (forced full-length)
+==========================================================================================
+x0: a=45.00mm b=70.00mm gap=15.50mm pairs=[np.float64(600.0), np.float64(600.0), np.float64(300.0)]
+step sizes: a=10.00mm b=15.00mm gap=4.00mm n=100 turns
+popsize=default
+N_LAYERS=6  N_PAIRS=3
+budget: 300 evaluations, 4 parallel workers
+target: B >= 10.0 T AND T-A local margin >= 1.5385 (J/Jc <= 0.65) for 95% of cells (p5), hoop <= 400 MPa, uniformity <= 0.8%
+outputs: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage2_6layer_altstart/results.csv, /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage2_6layer_altstart/history.csv
+checkpoint: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage2_6layer_altstart/cma_checkpoint.pkl
+
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=42.0 b=54.9 gap=16.0 nt=2854] KSP converged reason: 4, iterations: 1
+  [a=51.7 b=66.5 gap=16.8 nt=3230] KSP converged reason: 4, iterations: 1
+  [a=42.6 b=62.5 gap=16.4 nt=2946] KSP converged reason: 4, iterations: 1
+  [a=55.2 b=89.5 gap=16.0 nt=2768] KSP converged reason: 4, iterations: 1
+  [a=37.7 b=91.9 gap=15.1 nt=2854] KSP converged reason: 4, iterations: 1
+  [a=45.0 b=76.8 gap=14.6 nt=2794] KSP converged reason: 4, iterations: 1
+  [a=41.4 b=81.9 gap=14.6 nt=2664] KSP converged reason: 4, iterations: 1
+  [a=49.0 b=76.6 gap=16.5 nt=2514] KSP converged reason: 4, iterations: 1
+  [   1] viol   f=1258.796  a=41.97 b=54.90 gap=16.02 (face=8.04mm) n=[498, 498, 604, 604, 325, 325]  tape=0.968km B=3.60T unif=1.75% hoop=23MPa I_op=62.3A margin(p5)=1.540 worst=1.057  (8 TA solves, 667s)
+  [   2] viol   f=1680.316  a=55.16 b=89.45 gap=16.03 (face=8.07mm) n=[484, 484, 545, 545, 355, 355]  tape=1.385km B=2.53T unif=1.21% hoop=27MPa I_op=58.9A margin(p5)=1.617 worst=0.995  (8 TA solves, 1202s)
+  [   3] viol   f=1338.605  a=51.70 b=66.47 gap=16.75 (face=9.50mm) n=[619, 619, 616, 616, 380, 380]  tape=1.284km B=3.43T unif=1.98% hoop=25MPa I_op=58.9A margin(p5)=1.577 worst=1.076  (8 TA solves, 825s)
+  [   4] viol   f=1238.286  a=42.57 b=62.51 gap=16.45 (face=8.90mm) n=[445, 445, 559, 559, 469, 469]  tape=1.067km B=3.61T unif=1.41% hoop=26MPa I_op=65.3A margin(p5)=1.590 worst=1.087  (8 TA solves, 860s)
+  [   5] viol   f=1353.992  a=37.70 b=91.88 gap=15.06 (face=6.12mm) n=[548, 548, 581, 581, 298, 298]  tape=1.343km B=3.29T unif=0.69% hoop=19MPa I_op=60.0A margin(p5)=1.556 worst=1.041  (8 TA solves, 962s)
+  [   6] viol   f=1508.130  a=44.97 b=76.75 gap=14.63 (face=5.27mm) n=[622, 622, 605, 605, 170, 170]  tape=1.186km B=2.96T unif=1.60% hoop=18MPa I_op=55.2A margin(p5)=1.591 worst=1.043  (8 TA solves, 834s)
+  [   7] viol   f=1461.562  a=41.42 b=81.86 gap=14.57 (face=5.13mm) n=[564, 564, 557, 557, 211, 211]  tape=1.161km B=3.04T unif=1.22% hoop=19MPa I_op=58.7A margin(p5)=1.631 worst=1.087  (8 TA solves, 909s)
+  [   8] viol   f=1591.581  a=48.97 b=76.57 gap=16.48 (face=8.95mm) n=[501, 501, 423, 423, 333, 333]  tape=1.093km B=2.76T unif=1.56% hoop=27MPa I_op=63.7A margin(p5)=1.553 worst=1.064  (9 TA solves, 1058s)
+  [   9] INFEAS f=20675.991  a=64.48 b=47.30 gap=15.61 (face=7.22mm) n=[703, 703, 480, 480, 224, 224]  no evaluation (geometry pre-check)
+  [a=42.6 b=48.2 gap=16.4 nt=3010] KSP converged reason: 4, iterations: 1
+  [a=40.1 b=55.0 gap=16.4 nt=2202] KSP converged reason: 4, iterations: 1
+  [a=65.0 b=83.2 gap=17.6 nt=3124] KSP converged reason: 4, iterations: 1
+  [a=35.6 b=76.0 gap=15.4 nt=2472] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:157: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [a=46.0 b=60.3 gap=15.8 nt=2654] KSP converged reason: 4, iterations: 1
+  [a=43.3 b=60.2 gap=14.9 nt=2804] KSP converged reason: 4, iterations: 1
+  [  10] INFEAS f=3841.124  a=50.73 b=47.30 gap=16.20 (face=8.39mm) n=[443, 443, 606, 606, 321, 321]  no evaluation (geometry pre-check)
+  [  11] viol   f=1636.490  a=65.01 b=83.23 gap=17.55 (face=11.10mm) n=[568, 568, 641, 641, 353, 353]  tape=1.571km B=2.65T unif=1.51% hoop=31MPa I_op=57.6A margin(p5)=1.587 worst=1.054  (8 TA solves, 1009s)
+  [  12] INFEAS f=1058.229  a=25.98 b=63.89 gap=16.38 (face=8.76mm) n=[379, 379, 478, 478, 541, 541]  no evaluation (geometry pre-check)
+  [  13] viol   f=1214.630  a=40.06 b=55.05 gap=16.38 (face=8.75mm) n=[114, 114, 554, 554, 433, 433]  tape=0.735km B=3.64T unif=0.93% hoop=31MPa I_op=85.6A margin(p5)=1.590 worst=1.085  (8 TA solves, 706s)
+  [  14] viol   f=1464.974  a=35.62 b=75.95 gap=15.35 (face=6.71mm) n=[413, 413, 497, 497, 326, 326]  tape=0.995km B=3.02T unif=1.06% hoop=19MPa I_op=62.1A margin(p5)=1.592 worst=1.061  (8 TA solves, 1376s)
+  [  15] viol   f=1143.407  a=42.60 b=48.16 gap=16.37 (face=8.73mm) n=[486, 486, 665, 665, 354, 354]  tape=0.965km B=3.83T unif=0.63% hoop=24MPa I_op=62.4A margin(p5)=1.578 worst=1.092  (8 TA solves, 510s)
+  [  16] INFEAS f=36346.048  a=63.90 b=39.18 gap=18.46 (face=12.93mm) n=[438, 438, 673, 673, 309, 309]  no evaluation (geometry pre-check)
+  [  17] viol   f=1399.674  a=46.01 b=60.31 gap=15.84 (face=7.68mm) n=[356, 356, 601, 601, 370, 370]  tape=1.000km B=3.22T unif=1.63% hoop=27MPa I_op=65.9A margin(p5)=1.548 worst=1.108  (8 TA solves, 706s)
+  [  18] viol   f=1371.878  a=43.33 b=60.16 gap=14.92 (face=5.84mm) n=[379, 379, 692, 692, 331, 331]  tape=1.064km B=3.29T unif=1.61% hoop=23MPa I_op=61.8A margin(p5)=1.571 worst=1.071  (8 TA solves, 561s)
+  [a=31.6 b=46.3 gap=15.6 nt=2718] KSP converged reason: 4, iterations: 1
+  [a=47.3 b=65.2 gap=17.7 nt=3210] KSP converged reason: 4, iterations: 1
+  [a=29.3 b=68.7 gap=16.0 nt=3096] KSP converged reason: 4, iterations: 1
+  [a=44.1 b=81.8 gap=15.9 nt=2810] KSP converged reason: 4, iterations: 1
+
+[stop requested] finishing current step, will checkpoint and exit before starting a new generation ...
+  [a=26.8 b=66.7 gap=16.8 nt=2476] KSP converged reason: 4, iterations: 1

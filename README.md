@@ -468,7 +468,16 @@ Racetrack_v4/
 │   ├── current_source.py      ← tangent/normal/arc-length helpers, symmetry expansion
 │   ├── ic_model.py            ← IcModel + NValueModel (Ic(B,θ), n(B,θ) from CSV)
 │   ├── coil2_field.py         ← Biot-Savart reference field (both coils)
-│   └── *.csv                  ← Shanghai Superconductor 20 K tape data (0–8 T)
+│   ├── *.csv                  ← Shanghai Superconductor 20 K tape data (0–8 T)
+│   ├── digitized_IC_data/     ← 2026-09-12, OTHER tapes' published 4.2K/20K
+│   │                              Ic(B,θ)/n(B) data for the (still-open)
+│   │                              cryogenic-operation investigation — see
+│   │                              "Known limitations" below and CLAUDE.md
+│   └── Final_Design_...IRIS.pdf  ← 2026-09-13, real 10T HTS racetrack
+│                                  dipole (INFN/ASG IRIS-ESMA project, in
+│                                  fabrication) — external benchmark, see
+│                                  "Known limitations" below and CLAUDE.md
+│                                  known-open-issue #10
 ├── solve/
 │   ├── solve.py               ← uniform-J A-form FEM solve
 │   ├── ta_solve.py            ← T-A Picard solver (screening currents)
@@ -498,6 +507,10 @@ optimize/
 ├── cmaes_search.py            ← the CMA-ES search itself
 ├── evaluate.py                ← frozen external-team entry point
 ├── ta_validate.py             ← full T-A box-uniformity ground truth
+├── ic_extrapolation.py        ← KimIcModel/ScalingLawIcModel/BetaIcModel (Ic above 8T)
+├── ic_temperature_scaling.py  ← 2026-09-12, Fujikura4p2KScaledIcModel/NValueModel
+│                                  for the (still-open) 4.2K investigation
+├── ta_safe_current.py         ← T-A-resolved safe I_op (2026-09-02)
 ├── studies/                   ← one-off orchestrators, each a historical run
 │   ├── day_search.py                 ← 2026-07-27 widened 6–16 layer search
 │   ├── double_pancake_search.py      ← 2026-07-23 re-search under new constraints
@@ -793,6 +806,15 @@ failed to explore. A follow-up varying `N_LAYERS` is queued
 for the full account — **this makes the quench-margin question above
 more consequential, not resolved.**
 
+**Update, 2026-09-13/14 — that `N_LAYERS` follow-up WAS run at scale
+(combined with a fixed 4.2K temperature model), and it found a real
+ceiling, not a fix: best `B_target` climbed to 6.99T at 16 layers, then
+DECLINED at 20/24/28 layers with no recovery.** See "Known limitations"
+above for the full table — layer count alone tops out well short of
+10T; a real external design (ESMA/IRIS, also in "Known limitations")
+suggests conductor cross-section, not layer count, is the lever that
+actually matters.
+
 ### Ramp-down / hysteresis-loop cross-check (2026-08-08 to 08-10) — EXPLORATORY, latest work, not yet folded into `docs/HISTORY.md`
 
 `transient/validation/full_ramp_up_down_run.py` runs the T-A transient
@@ -829,8 +851,86 @@ this, so Ic above 8 T is extrapolated/clamped (~48 % of evaluations at
 higher currents) — quench predictions there are a floor estimate. Extended
 measurements (15–20 T) are planned; until then apply an extra safety factor.
 
+This project's own tape data does not go below 15 K. A 2026-09-12
+investigation into whether operating at 4.2 K (liquid helium) could raise
+the achievable field built a bridging model
+(`optimize/ic_temperature_scaling.py`) from OTHER tapes' published
+4.2 K/20 K Ic(B,θ) and n(B) data (digitized into `physics/digitized_IC_data/`)
+scaled onto this project's own measured 20 K grid — but every test of it
+hit a distinct solver-reliability problem (not a physics conclusion) before
+producing a trustworthy number. See CLAUDE.md's "Cryogenic (4.2K)
+operating-temperature investigation" for the full, still-open account.
+
 ## Known limitations
 
+- **NEW, 2026-09-14 — the layer-count lever (4.2K model + N_LAYERS
+  escalation, see "Ramp-up power analysis" above) has a real ceiling
+  around 16 layers / ~7T, not a path to 10T.** An overnight staged
+  search (`optimize/studies/run_4p2K_overnight_v2.py`) pushed
+  `N_LAYERS` from 6 to 28 (each stage warm-started from the previous
+  best, CMA-ES searching `a`/`b`/`gap`/turn-split at each layer count):
+
+  | layers | 6 | 8 | 10 | 12 | **16** | 20 | 24 | 28 |
+  |---|---|---|---|---|---|---|---|---|
+  | best B_target_T | 3.83 | 5.56 | 5.54 | 6.72 | **6.99** | 5.66 | 5.95 | 5.58 |
+
+  **The search peaked at 16 layers and every stage since landed below
+  it**, clustered 5.6-6.0T across three independent stages (20L, 24L,
+  28L) with no recovery — a real signal (each stage got its own
+  from-scratch CMA-ES budget), not one unlucky run. 32 layers was left
+  inconclusive (paused before any generation completed) and the whole
+  run is paused, not stopped or abandoned, so it can resume from
+  `optimize/runs/ta_safe_margin_4p2K/`. Combined with the ESMA
+  comparison below (a real 10T HTS racetrack magnet gets there mainly
+  through ~18x higher current-per-turn via a THICKER conductor, not more
+  layers or colder operation), the evidence now points at conductor
+  cross-section — never a search variable here (`params.w`=4mm single
+  tape has always been fixed) — as the more promising untried lever, not
+  further layer escalation. Full table, designs, and reasoning:
+  CLAUDE.md known-open-issue #9's "2026-09-14 morning update".
+- **NEW, 2026-09-13 — a real, currently-being-built 10T HTS racetrack
+  dipole gives an external benchmark, and it points at a lever this
+  project has never varied: conductor width/thickness, not layer count
+  or temperature.** Sorti et al., "Final Design and Production of a 10T
+  HTS Energy-Saving Dipole Magnet for the Italian Facility IRIS," IEEE
+  Trans. Appl. Supercond. 36(3), Art. 4601205, May 2026 (user-provided
+  PDF, `physics/Final_Design_and_Production_of_a_10_T_HTS_Energy-Saving_
+  Dipole_Magnet_for_the_Italian_Facility_IRIS.pdf` — INFN/ASG
+  Superconductors' IRIS/ESMA project, in fabrication, same basic
+  architecture: flat REBCO racetrack pancakes, non-insulated winding).
+  Reaches 10T with 12 racetracks at **1150A per turn**, vs. this
+  project's best-found design (16 layers, ongoing 4.2K search) at only
+  **63A per turn** — an ~18x gap that dwarfs the ~2x difference in
+  layer count. ESMA achieves this with a physically THICKER conductor
+  (two 12mm YBCO tapes stacked face-to-face) rather than more layers of
+  thin tape — a search dimension (conductor cross-section) this
+  project's optimizer has never varied (`params.w`=4mm single tape has
+  always been fixed). Per explicit user direction this is NOT currently
+  being added to the running search — recorded as a candidate lever for
+  a future decision. Also notable: ESMA's own paper independently found
+  no quench-protection scheme avoiding a disruptive mechanical
+  shockwave and a razor-thin 15W thermal budget — real-world
+  corroboration that this project's own margin/quench concerns (see the
+  "Ramp-up power analysis" section above) are a genuine class of
+  problem, not a modeling artifact. Full comparison table and reasoning:
+  CLAUDE.md known-open-issue #10.
+- **OPEN, found 2026-09-12 — a 4.2K operating-temperature model was
+  built and tested, but produced no result worth trusting in either
+  direction.** Naively scaling only Ic to 4.2K (leaving n(B,θ) at its
+  20K measured value) made local quench margins WORSE, not better — a
+  physically inconsistent Jc/n mismatch, since the T-A resistivity power
+  law depends on both together. Digitizing a properly tape-matched n(B,T)
+  and scaling both together made it worse again, and pushed n to ~50-60 —
+  far outside the n=13-34 range this project's Picard solver has ever
+  been validated at. A fine-mesh re-check then found the 20K baseline
+  itself isn't mesh-converged (70% swing between mesh tiers), the matched
+  4.2K solve shows the same false-stall-convergence signature the
+  `transient/` short-dt work already caught once, and a bisection-based
+  re-check silently returned a placeholder value instead of a real one
+  when the boosted Ic pushed its search bracket outside the tool's tuned
+  range. None of this shows cryogenic operation doesn't help — it shows
+  `ta_safe_current.py` hasn't been validated outside its historical
+  operating regime. See CLAUDE.md for the full arc.
 - **RESOLVED 2026-09-03/04 — diagonal "islands" in the poster J/Jc
   cross-section figures were a mesh-resolution artifact, not real
   physics.** A one-off finer ("xdense") mesh tier, solved at the

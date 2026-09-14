@@ -1,0 +1,22 @@
+[2026-09-13 21:53:57] ##########################################################################################
+[2026-09-13 21:53:57] 4.2K overnight search orchestrator v2 (layer-count continuation) starting
+[2026-09-13 21:53:57] Goal: B_target_T >= 10.0 ANYWHERE (reported immediately, regardless of hoop/uniformity) -- per explicit user direction
+[2026-09-13 21:53:57] Escalating by 4 layers/stage, 180 min/stage, up to 40 layers
+[2026-09-13 21:53:57] ##########################################################################################
+[2026-09-13 21:53:57] === STAGE 7_20layer_escalation: launching (budget 180 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage7_20layer ===
+[2026-09-13 21:53:57]     x0: a=31.13mm b=40.02mm gap=41.97mm n_turns=[550, 550, 584, 584, 17, 17, 507, 507, 507, 507, 613, 613, 629, 629, 605, 605, 571, 571, 571, 571]
+[2026-09-14 01:02:16]     stage 7_20layer_escalation: budget exhausted, sending SIGTERM to process group (script checkpoints and exits cleanly) ...
+[2026-09-14 01:02:16] === STAGE 7_20layer_escalation finished after 188.3 min: best (all_constraints_ok) B_target_T=None  all_constraints_ok=None ===
+[2026-09-14 01:02:16]     best FEASIBLE row (any constraint status): B_target_T=5.656014604587549 a=31.88249852951855mm b=52.41857967762267mm gap=41.740427583480994mm n_turns=[435, 435, 639, 639, 62, 62, 554, 554, 433, 433, 643, 643, 599, 599, 547, 547, 554, 554, 446, 446] I_op=50.765493573348905A hoop=18.620747207511215MPa unif=0.39423824259761003%
+[2026-09-14 01:02:16] === STAGE 8_24layer_escalation: launching (budget 180 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage8_24layer ===
+[2026-09-14 01:02:16]     x0: a=31.88mm b=52.42mm gap=49.74mm n_turns=[435, 435, 639, 639, 62, 62, 554, 554, 433, 433, 643, 643, 599, 599, 547, 547, 554, 554, 446, 446, 539, 539, 539, 539]
+[2026-09-14 04:11:15]     stage 8_24layer_escalation: budget exhausted, sending SIGTERM to process group (script checkpoints and exits cleanly) ...
+[2026-09-14 04:11:16] === STAGE 8_24layer_escalation finished after 189.0 min: best (all_constraints_ok) B_target_T=None  all_constraints_ok=None ===
+[2026-09-14 04:11:16]     best FEASIBLE row (any constraint status): B_target_T=5.953871150042904 a=34.12979654731231mm b=50.88665353183464mm gap=49.74275565889023mm n_turns=[372, 372, 639, 639, 61, 61, 658, 658, 445, 445, 550, 550, 511, 511, 645, 645, 475, 475, 472, 472, 519, 519, 617, 617] I_op=50.893464644559295A hoop=21.249094556850853MPa unif=0.7631586003922021%
+[2026-09-14 04:11:16] === STAGE 9_28layer_escalation: launching (budget 180 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage9_28layer ===
+[2026-09-14 04:11:16]     x0: a=34.13mm b=50.89mm gap=57.74mm n_turns=[372, 372, 639, 639, 61, 61, 658, 658, 445, 445, 550, 550, 511, 511, 645, 645, 475, 475, 472, 472, 519, 519, 617, 617, 537, 537, 537, 537]
+[2026-09-14 07:20:37]     stage 9_28layer_escalation: budget exhausted, sending SIGTERM to process group (script checkpoints and exits cleanly) ...
+[2026-09-14 07:20:37] === STAGE 9_28layer_escalation finished after 189.4 min: best (all_constraints_ok) B_target_T=None  all_constraints_ok=None ===
+[2026-09-14 07:20:37]     best FEASIBLE row (any constraint status): B_target_T=5.583893671152644 a=42.6949647774288mm b=52.243414243827424mm gap=58.214226349508614mm n_turns=[233, 233, 655, 655, 86, 86, 604, 604, 546, 546, 678, 678, 423, 423, 616, 616, 448, 448, 277, 277, 485, 485, 482, 482, 581, 581, 604, 604] I_op=47.829639867139804A hoop=23.58043878559014MPa unif=0.7538827479462645%
+[2026-09-14 07:20:37] === STAGE 10_32layer_escalation: launching (budget 180 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage10_32layer ===
+[2026-09-14 07:20:37]     x0: a=42.69mm b=52.24mm gap=66.21mm n_turns=[233, 233, 655, 655, 86, 86, 604, 604, 546, 546, 678, 678, 423, 423, 616, 616, 448, 448, 277, 277, 485, 485, 482, 482, 581, 581, 604, 604, 510, 510, 510, 510]

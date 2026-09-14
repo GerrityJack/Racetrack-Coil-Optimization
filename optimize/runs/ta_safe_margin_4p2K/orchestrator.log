@@ -1,0 +1,90 @@
+[2026-09-13 02:04:57] ##########################################################################################
+[2026-09-13 02:04:57] 4.2K overnight search orchestrator starting
+[2026-09-13 02:04:57] Goal: B_target_T >= 10.0 with all_constraints_ok (hoop, uniformity) also satisfied
+[2026-09-13 02:04:57] ##########################################################################################
+[2026-09-13 02:04:57] === STAGE 1_6layer_champion_start: launching (budget 90 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage1_6layer ===
+[2026-09-13 02:04:57]     env overrides: {}
+[2026-09-13 03:37:03]     stage 1_6layer_champion_start: budget exhausted, sending SIGTERM (script checkpoints and exits cleanly) ...
+[2026-09-13 03:40:06] === STAGE 1_6layer_champion_start finished after 95.2 min: best B_target_T=None  all_constraints_ok=None ===
+[2026-09-13 03:40:06] === STAGE 2_6layer_alt_start_wider_bounds: launching (budget 60 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage2_6layer_altstart ===
+[2026-09-13 03:40:06]     env overrides: {'TA_SAFE_X0_OVERRIDE_JSON': '{"a": 0.045, "b": 0.07, "gap": 0.0155, "n_turns": [600, 600, 600, 600, 300, 300]}', 'TA_SAFE_A_STD0_M': '0.010', 'TA_SAFE_B_STD0_M': '0.015', 'TA_SAFE_GAP_STD0_M': '0.004', 'TA_SAFE_N_STD0': '100', 'TA_SAFE_GAP_RANGE_WIDE_M': '0.100'}
+[2026-09-13 04:41:35]     stage 2_6layer_alt_start_wider_bounds: budget exhausted, sending SIGTERM (script checkpoints and exits cleanly) ...
+[2026-09-13 04:44:40]     stage 2_6layer_alt_start_wider_bounds: did not exit within 180s of SIGTERM, force-killing.
+[2026-09-13 04:44:40] === STAGE 2_6layer_alt_start_wider_bounds finished after 64.6 min: best B_target_T=None  all_constraints_ok=None ===
+[2026-09-13 04:44:40] === STAGE 3_8layer_warmstart_from_20K_best: launching (budget 120 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage3_8layer ===
+[2026-09-13 04:44:40]     env overrides: {'CMAES_X0_JSON_OVERRIDE': '{"a": 0.0356, "b": 0.04109, "coil_half_gap": 0.01775, "n_turns": [719, 719, 728, 728, 72, 72, 657, 657]}', 'TA_SAFE_X0_OVERRIDE_JSON': '{"a": 0.0356, "b": 0.04109, "gap": 0.01775, "n_turns": [719, 719, 728, 728, 72, 72, 657, 657]}', 'TA_SAFE_A_STD0_M': '0.008', 'TA_SAFE_B_STD0_M': '0.012', 'TA_SAFE_GAP_STD0_M': '0.003', 'TA_SAFE_N_STD0': '80'}
+[2026-09-13 06:47:58]     stage 3_8layer_warmstart_from_20K_best: budget exhausted, sending SIGTERM (script checkpoints and exits cleanly) ...
+[2026-09-13 06:51:03]     stage 3_8layer_warmstart_from_20K_best: did not exit within 180s of SIGTERM, force-killing.
+[2026-09-13 06:51:03] === STAGE 3_8layer_warmstart_from_20K_best finished after 126.4 min: best B_target_T=None  all_constraints_ok=None ===
+[2026-09-13 06:51:03] === STAGE 4_10layer_warmstart_from_20K_best: launching (budget 120 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage4_10layer ===
+[2026-09-13 06:51:03]     env overrides: {'CMAES_X0_JSON_OVERRIDE': '{"a": 0.0383, "b": 0.04528, "coil_half_gap": 0.02197, "n_turns": [609, 609, 639, 639, 76, 76, 550, 550, 571, 571]}', 'TA_SAFE_X0_OVERRIDE_JSON': '{"a": 0.0383, "b": 0.04528, "gap": 0.02197, "n_turns": [609, 609, 639, 639, 76, 76, 550, 550, 571, 571]}', 'TA_SAFE_A_STD0_M': '0.008', 'TA_SAFE_B_STD0_M': '0.012', 'TA_SAFE_GAP_STD0_M': '0.003', 'TA_SAFE_N_STD0': '80'}
+[2026-09-13 08:54:36]     stage 4_10layer_warmstart_from_20K_best: budget exhausted, sending SIGTERM (script checkpoints and exits cleanly) ...
+[2026-09-13 08:57:41]     stage 4_10layer_warmstart_from_20K_best: did not exit within 180s of SIGTERM, force-killing.
+[2026-09-13 08:57:41] === STAGE 4_10layer_warmstart_from_20K_best finished after 126.6 min: best B_target_T=None  all_constraints_ok=None ===
+[2026-09-13 08:57:41] === STAGE 5_12layer_fresh_wide_search: launching (budget 120 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage5_12layer ===
+[2026-09-13 08:57:41]     env overrides: {'CMAES_X0_JSON_OVERRIDE': '{"a": 0.041, "b": 0.049, "coil_half_gap": 0.026, "n_turns": [550, 550, 550, 550, 80, 80, 550, 550, 550, 550, 550, 550]}', 'TA_SAFE_X0_OVERRIDE_JSON': '{"a": 0.041, "b": 0.049, "gap": 0.026, "n_turns": [550, 550, 550, 550, 80, 80, 550, 550, 550, 550, 550, 550]}', 'TA_SAFE_A_STD0_M': '0.008', 'TA_SAFE_B_STD0_M': '0.012', 'TA_SAFE_GAP_STD0_M': '0.003', 'TA_SAFE_N_STD0': '80'}
+[2026-09-13 11:01:05]     stage 5_12layer_fresh_wide_search: budget exhausted, sending SIGTERM (script checkpoints and exits cleanly) ...
+[2026-09-13 11:04:10]     stage 5_12layer_fresh_wide_search: did not exit within 180s of SIGTERM, force-killing.
+[2026-09-13 11:04:10] === STAGE 5_12layer_fresh_wide_search finished after 126.5 min: best B_target_T=None  all_constraints_ok=None ===
+[2026-09-13 11:04:10] All stages exhausted without reaching the 10T goal with all constraints satisfied.
+[2026-09-13 11:04:10] ##########################################################################################
+[2026-09-13 11:04:10] FINAL SUMMARY
+[2026-09-13 11:04:10] No stage produced any all_constraints_ok=True candidate at all.
+[2026-09-13 11:04:10] ##########################################################################################
+[2026-09-13 12:15:16] ##########################################################################################
+[2026-09-13 12:15:16] 4.2K overnight search orchestrator v2 (layer-count continuation) starting
+[2026-09-13 12:15:16] Goal: B_target_T >= 10.0 ANYWHERE (reported immediately, regardless of hoop/uniformity) -- per explicit user direction
+[2026-09-13 12:15:16] Escalating by 4 layers/stage, 150 min/stage, up to 40 layers
+[2026-09-13 12:15:16] ##########################################################################################
+[2026-09-13 12:15:16] === STAGE 6_16layer_escalation: launching (budget 150 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage6_16layer ===
+[2026-09-13 12:15:16]     x0: a=32.19mm b=45.25mm gap=34.56mm n_turns=[600, 600, 559, 559, 37, 37, 519, 519, 583, 583, 601, 601, 572, 572, 572, 572]
+[2026-09-13 13:48:15] [stop requested] will not launch a new stage; current stage's own subprocess will be sent SIGTERM (checkpoints cleanly).
+[2026-09-13 13:48:15] === STAGE 6_16layer_escalation finished after 93.0 min: best (all_constraints_ok) B_target_T=None  all_constraints_ok=None ===
+[2026-09-13 13:48:15] [stop requested] ending orchestration before next stage.
+[2026-09-13 13:48:15] ##########################################################################################
+[2026-09-13 13:48:15] v2 ORCHESTRATOR DONE
+[2026-09-13 13:48:15] ##########################################################################################
+[2026-09-13 13:49:12] ##########################################################################################
+[2026-09-13 13:49:12] 4.2K overnight search orchestrator v2 (layer-count continuation) starting
+[2026-09-13 13:49:12] Goal: B_target_T >= 10.0 ANYWHERE (reported immediately, regardless of hoop/uniformity) -- per explicit user direction
+[2026-09-13 13:49:12] Escalating by 4 layers/stage, 150 min/stage, up to 40 layers
+[2026-09-13 13:49:12] ##########################################################################################
+[2026-09-13 13:49:12] === STAGE 6_16layer_escalation: launching (budget 150 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage6_16layer ===
+[2026-09-13 13:49:12]     x0: a=32.19mm b=45.25mm gap=34.56mm n_turns=[600, 600, 559, 559, 37, 37, 519, 519, 583, 583, 601, 601, 572, 572, 572, 572]
+[2026-09-13 14:12:48] [stop requested] will not launch a new stage; current stage's own subprocess will be sent SIGTERM (checkpoints cleanly).
+[2026-09-13 14:14:02] ##########################################################################################
+[2026-09-13 14:14:02] 4.2K overnight search orchestrator v2 (layer-count continuation) starting
+[2026-09-13 14:14:02] Goal: B_target_T >= 10.0 ANYWHERE (reported immediately, regardless of hoop/uniformity) -- per explicit user direction
+[2026-09-13 14:14:02] Escalating by 4 layers/stage, 360 min/stage, up to 40 layers
+[2026-09-13 14:14:02] ##########################################################################################
+[2026-09-13 14:14:02] === STAGE 6_16layer_escalation: launching (budget 360 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage6_16layer ===
+[2026-09-13 14:14:02]     x0: a=32.19mm b=45.25mm gap=34.56mm n_turns=[600, 600, 559, 559, 37, 37, 519, 519, 583, 583, 601, 601, 572, 572, 572, 572]
+[2026-09-13 18:59:46] ##########################################################################################
+[2026-09-13 18:59:46] 4.2K overnight search orchestrator v2 (layer-count continuation) starting
+[2026-09-13 18:59:46] Goal: B_target_T >= 10.0 ANYWHERE (reported immediately, regardless of hoop/uniformity) -- per explicit user direction
+[2026-09-13 18:59:46] Escalating by 4 layers/stage, 360 min/stage, up to 40 layers
+[2026-09-13 18:59:46] ##########################################################################################
+[2026-09-13 18:59:46] === STAGE 6_16layer_escalation: launching (budget 360 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage6_16layer ===
+[2026-09-13 18:59:46]     x0: a=32.19mm b=45.25mm gap=34.56mm n_turns=[600, 600, 559, 559, 37, 37, 519, 519, 583, 583, 601, 601, 572, 572, 572, 572]
+[2026-09-13 21:53:57] ##########################################################################################
+[2026-09-13 21:53:57] 4.2K overnight search orchestrator v2 (layer-count continuation) starting
+[2026-09-13 21:53:57] Goal: B_target_T >= 10.0 ANYWHERE (reported immediately, regardless of hoop/uniformity) -- per explicit user direction
+[2026-09-13 21:53:57] Escalating by 4 layers/stage, 180 min/stage, up to 40 layers
+[2026-09-13 21:53:57] ##########################################################################################
+[2026-09-13 21:53:57] === STAGE 7_20layer_escalation: launching (budget 180 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage7_20layer ===
+[2026-09-13 21:53:57]     x0: a=31.13mm b=40.02mm gap=41.97mm n_turns=[550, 550, 584, 584, 17, 17, 507, 507, 507, 507, 613, 613, 629, 629, 605, 605, 571, 571, 571, 571]
+[2026-09-14 01:02:16]     stage 7_20layer_escalation: budget exhausted, sending SIGTERM to process group (script checkpoints and exits cleanly) ...
+[2026-09-14 01:02:16] === STAGE 7_20layer_escalation finished after 188.3 min: best (all_constraints_ok) B_target_T=None  all_constraints_ok=None ===
+[2026-09-14 01:02:16]     best FEASIBLE row (any constraint status): B_target_T=5.656014604587549 a=31.88249852951855mm b=52.41857967762267mm gap=41.740427583480994mm n_turns=[435, 435, 639, 639, 62, 62, 554, 554, 433, 433, 643, 643, 599, 599, 547, 547, 554, 554, 446, 446] I_op=50.765493573348905A hoop=18.620747207511215MPa unif=0.39423824259761003%
+[2026-09-14 01:02:16] === STAGE 8_24layer_escalation: launching (budget 180 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage8_24layer ===
+[2026-09-14 01:02:16]     x0: a=31.88mm b=52.42mm gap=49.74mm n_turns=[435, 435, 639, 639, 62, 62, 554, 554, 433, 433, 643, 643, 599, 599, 547, 547, 554, 554, 446, 446, 539, 539, 539, 539]
+[2026-09-14 04:11:15]     stage 8_24layer_escalation: budget exhausted, sending SIGTERM to process group (script checkpoints and exits cleanly) ...
+[2026-09-14 04:11:16] === STAGE 8_24layer_escalation finished after 189.0 min: best (all_constraints_ok) B_target_T=None  all_constraints_ok=None ===
+[2026-09-14 04:11:16]     best FEASIBLE row (any constraint status): B_target_T=5.953871150042904 a=34.12979654731231mm b=50.88665353183464mm gap=49.74275565889023mm n_turns=[372, 372, 639, 639, 61, 61, 658, 658, 445, 445, 550, 550, 511, 511, 645, 645, 475, 475, 472, 472, 519, 519, 617, 617] I_op=50.893464644559295A hoop=21.249094556850853MPa unif=0.7631586003922021%
+[2026-09-14 04:11:16] === STAGE 9_28layer_escalation: launching (budget 180 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage9_28layer ===
+[2026-09-14 04:11:16]     x0: a=34.13mm b=50.89mm gap=57.74mm n_turns=[372, 372, 639, 639, 61, 61, 658, 658, 445, 445, 550, 550, 511, 511, 645, 645, 475, 475, 472, 472, 519, 519, 617, 617, 537, 537, 537, 537]
+[2026-09-14 07:20:37]     stage 9_28layer_escalation: budget exhausted, sending SIGTERM to process group (script checkpoints and exits cleanly) ...
+[2026-09-14 07:20:37] === STAGE 9_28layer_escalation finished after 189.4 min: best (all_constraints_ok) B_target_T=None  all_constraints_ok=None ===
+[2026-09-14 07:20:37]     best FEASIBLE row (any constraint status): B_target_T=5.583893671152644 a=42.6949647774288mm b=52.243414243827424mm gap=58.214226349508614mm n_turns=[233, 233, 655, 655, 86, 86, 604, 604, 546, 546, 678, 678, 423, 423, 616, 616, 448, 448, 277, 277, 485, 485, 482, 482, 581, 581, 604, 604] I_op=47.829639867139804A hoop=23.58043878559014MPa unif=0.7538827479462645%
+[2026-09-14 07:20:37] === STAGE 10_32layer_escalation: launching (budget 180 min) out_dir=/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage10_32layer ===
+[2026-09-14 07:20:37]     x0: a=42.69mm b=52.24mm gap=66.21mm n_turns=[233, 233, 655, 655, 86, 86, 604, 604, 546, 546, 678, 678, 423, 423, 616, 616, 448, 448, 277, 277, 485, 485, 482, 482, 581, 581, 604, 604, 510, 510, 510, 510]

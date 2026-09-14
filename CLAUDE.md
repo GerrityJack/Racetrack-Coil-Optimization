@@ -37,8 +37,19 @@ Racetrack_v4/
 │   └── build_mesh.py            # Gmsh mesh builder (eighth-symmetry domain)
 ├── physics/
 │   ├── current_source.py        # Arc-length, tangent/normal, turn/layer index helpers
-│   └── ic_model.py              # IcModel (Ic(B,θ) interpolation) + NValueModel
-│                                #   (n(B,θ) interpolation) + compute_rho_hts()
+│   ├── ic_model.py              # IcModel (Ic(B,θ) interpolation) + NValueModel
+│   │                            #   (n(B,θ) interpolation) + compute_rho_hts()
+│   └── digitized_IC_data/       # 2026-09-12 — hand-digitized Ic(B,θ) and
+│                                #   n(B) points from OTHER tapes' published
+│                                #   data, for the 4.2K temperature-scaling
+│                                #   investigation (see "Cryogenic (4.2K)
+│                                #   operating-temperature investigation"
+│                                #   below) — {5,10,15,20,24}T_{4p2K,20K}.csv
+│                                #   (Fujikura FESC-SCH04(40) Ic ratio, from
+│                                #   the Tsuchiya et al. 2026 IEEE paper) and
+│                                #   nvalue_Bc_{4p2K,...,77p3K}.csv (from the
+│                                #   Fujikura manufacturer datasheet, both
+│                                #   PDFs kept here too for provenance)
 ├── solve/
 │   ├── solve.py                 # Uniform-J A-form FEM solve (the baseline)
 │   ├── ta_solve.py              # T-A Picard solve  ← primary new file
@@ -54,6 +65,9 @@ Racetrack_v4/
 │   ├── evaluate.py              # frozen external-team entry point
 │   ├── ta_validate.py           # full T-A box-uniformity ground truth
 │   ├── ic_extrapolation.py      # KimIcModel / ScalingLawIcModel / BetaIcModel
+│   ├── ic_temperature_scaling.py # Fujikura4p2KScaledIcModel/NValueModel
+│   │                            #   (2026-09-12) — see "Cryogenic (4.2K)
+│   │                            #   operating-temperature investigation" below
 │   ├── ta_safe_current.py       # T-A-resolved safe I_op (2026-09-02) —
 │   │                            #   see "Ramp-up power analysis" below
 │   ├── studies/                 # one-off orchestrators (day_search.py,
@@ -1350,6 +1364,417 @@ $PY optimize/studies/ta_safe_margin_search.py
 
 ---
 
+## Cryogenic (4.2K) operating-temperature investigation (2026-09-12, continued same day by Claude Code) — RESOLVED: 4.2K gives only ~9% more T-A-safe current, not enough to close issues #6/#7's gap. Mesh convergence on the 20K baseline itself is still an open loose end.
+
+**Motivation:** issues #6/#7 above (the T-A-vs-uniform-J margin gap) leave
+the champion's real safety margin either genuinely tight or a benign
+critical-state artifact, unresolved. Since this project's own Ic/n-value
+data only goes down to 15K, and REBCO Jc/n both rise substantially at
+liquid-helium temperature, operating at 4.2K was proposed as a way to
+close the gap directly rather than resolve the interpretation question.
+**This session could not produce a trustworthy answer, in either
+direction** — not "4.2K doesn't help," but "every attempt to check hit a
+solver-reliability wall before producing a number worth trusting." Full
+arc below, kept in the same warts-and-all style as the `transient/`
+sections above because the failure mode rhymes with that investigation.
+
+**Data sourcing, in order of what was tried:**
+1. A candidate 4.2K Ic(B,θ) image (sample SP06-M3-609-1-MS) was
+   **REJECTED**: at the same B/θ/T its absolute Ic (~800 A/4mm at 4.2K,
+   1T, θ=0°) was LOWER than this project's own Shanghai tape at the
+   *warmer* 20K (1185 A/4mm) — a physical impossibility for the same
+   tape, proving only that it's a different, weaker conductor. Absolute
+   values from an unrelated tape cannot be transplanted onto this
+   project's model.
+2. **Tsuchiya, Nojima, Zampa, Mizuno, Kohama, Awaji, "High-Field Angular
+   Ic Metrology for REBCO Tapes: Combined Pulsed-Current and Rotation
+   Techniques," IEEE Trans. Appl. Supercond. 36(5), Art. 8001107, Aug
+   2026, DOI 10.1109/TASC.2026.3667136** — a genuine multi-temperature
+   (4.2-77K) Ic(B,θ) characterization of Fujikura FESC-SCH04(40) tape up
+   to 24T (`physics/digitized_IC_data/High-Field_Angular_Ic_Metrology_*.pdf`).
+   Cross-check against this project's own measured data: Fujikura
+   20K/5T/θ=90° digitizes to ~1827 A/4mm vs. Shanghai's own MEASURED 1728
+   A/4mm — 6% apart, i.e. comparable-class modern 4mm 2G HTS tape (unlike
+   SP06 above). The paper's own Fig. 4 (8-panel Ic(θ) grid, 4.2-77.3K,
+   fields to 24T) was hand-digitized by the user into
+   `physics/digitized_IC_data/{5,10,15,20,24}T_{4p2K,20K}.csv` (plain
+   `theta_deg,Ic_A_per_4mm` point lists).
+3. **`Fujikura4p2KScaledIcModel`** (`optimize/ic_temperature_scaling.py`)
+   borrows the Ic(4.2K)/Ic(20K) RATIO from those digitized points — never
+   Fujikura's absolute Ic — and applies it multiplicatively to this
+   project's own measured 20K Shanghai grid (itself already
+   Kim-extrapolated above 8T by `ic_extrapolation.py`). Ratio found:
+   **1.8-3.0x across the (B,θ) grid sampled, median ~2.2x** — notably
+   smaller than an initial eyeball estimate straight off the source
+   image (5-8x), which turned out to be a misread of the 20K panel's
+   axis scale; the digitized-CSV number is the one to trust. Bounded
+   flat extrapolation below 5T / above 24T and outside the digitized
+   theta range (never extrapolates the ratio itself, only clamps the
+   query point) — same discipline as `ic_extrapolation.py`.
+
+**First finding: naive Ic-only scaling made local margins WORSE, not
+better — a real modeling gap, not proof against 4.2K.** Fixed-current
+check on the champion (I=25A, medium mesh, cold start): scaling only
+Ic to 4.2K while leaving n(B,θ) at its 20K measured value dropped the
+worst-cell margin from 20K's 1.16 to **0.78** — worse. Root cause,
+verified by inspecting `ta_solve.py`'s `_update_rho()`: the T-A local
+resistivity is ρ=(E_c/Jc)(J/Jc)^(n-1), and the self-consistent screening-
+current distribution depends on Jc and n *together* — mixing 4.2K's
+higher Jc with 20K's lower (softer) n is a physically inconsistent
+hybrid the coupled nonlinear solve is sensitive to, not evidence about
+real 4.2K physics.
+
+**Fix attempt: digitize a properly tape-matched n(B,T), from the actual
+manufacturer datasheet.** The user located
+**Fujikura Ltd., "Introduction of Fujikura RE-based High Temperature
+Superconductor" (Superconductor Business Division, Rev. AUG2025)**
+(`physics/digitized_IC_data/Fujikura_superconductor_EN.pdf`) — page 14
+has an n-value-B-T chart for the **AP (FESC) series** (artificial
+pinning, 2.4µm SC layer, Ic≈200A@77K self-field) — the tape family that
+actually matches the IEEE paper's FESC-SCH04(40) sample, **not** the
+Non-AP (FYSC, 1.9µm layer, no artificial pinning) chart on pages 12-13
+the user first screenshotted from the same PDF. AP vs Non-AP have
+measurably different flux-pinning landscapes (that's the whole point of
+adding pinning centers), so this distinction mattered.
+Digitized (pymupdf render + per-curve color-classification pixel
+extraction) into `physics/digitized_IC_data/nvalue_Bc_{4p2K,10K,20K,30K,
+40K,50K,65K,77p3K}.csv`. **Hit and fixed one real extraction artifact
+worth remembering for any future re-digitization from this kind of
+chart:** each curve's own text label (e.g. "4.2K") is printed in the
+same color as the curve, positioned right at the plot's edge — naive
+whole-image color-matching scoops up the label text as fake data,
+corrupting the high-field tail. Fixed by restricting extraction to an
+interior window (B=0.75-17.5T) plus a median-based despike pass; the
+cleaned data is smooth and monotonic in the expected direction (higher T
+→ lower n, 77.3K flattening at n≈1 near B≈14.5T matching the chart's own
+floor). Resulting ratio n(4.2K)/n(20K) at B//c: **~2.25-3.0x** across
+0.75-17.5T. Wired into **`Fujikura4p2KScaledNValueModel`** (same module,
+same bounded-flat-extrapolation policy) — applied **isotropically** (no
+AP-type B//ab n-value chart exists in this datasheet), a disclosed
+simplification, not a validated angular n(T) model.
+
+**Second finding: matching n did NOT fix it — margins got worse again,
+and a new red flag appeared.** Same fixed-current check (I=25A, medium
+mesh), now with both Ic and n properly scaled together:
+
+| config | Picard iters | worst margin | p5 margin | median margin |
+|---|---|---|---|---|
+| 20K (baseline) | 73 | 1.16 | 1.69 | 28.5 |
+| 4.2K, Ic only (mismatched) | 102 | 0.81 | 1.63 | 2.9 |
+| 4.2K, Ic + n (matched) | 147 | **0.50** | 1.62 | 3.1 |
+
+Iteration count climbed monotonically with each added realism. Root
+cause: **this project's own measured n-value data spans only n=13-34**
+(the range the T-A Picard scheme's relaxation parameters,
+`ta_picard_alpha`/`ta_picard_alpha_fine`, and its EMA stall criterion
+were tuned and validated against). The Fujikura ratio pushes n to
+**~50-60** at 4.2K — a much stiffer E-J power law than the solver has
+ever been checked at, in this project or the one the ratio was borrowed
+from.
+
+**Fine-mesh re-check (params.py "fine" tier, ~70k DOF vs medium's ~48k)
+using the real bisection-based `ta_safe_current.evaluate()`** surfaced
+two further, independent reliability problems rather than resolving
+anything:
+- **The 20K baseline itself is not mesh-converged.** I_op/B_target went
+  from 25.4A/1.36T (medium) to **43.3A/2.31T** (fine) — a 70% swing from
+  mesh refinement alone, on the well-validated n=13-34 regime. Neither
+  number should be trusted as final; this is the same "never trust a
+  single-mesh number near a constraint boundary" lesson this file
+  already states elsewhere, now confirmed for `ta_safe_current.py`
+  specifically (it had not been mesh-convergence-checked before).
+- **4.2K matched (Ic+n), fine mesh: I_op=18.5A, B_target=0.98T — but the
+  raw Picard residual never actually settled.** At k=63, when the
+  EMA-based stall criterion declared "converged," `|ΔB|/|B|` was still
+  oscillating between 1.4 and 2.8 (140-280%), not decaying — the
+  identical false-stall signature the `transient/` short-dt investigation
+  already caught and documented (see above): quiet enough envelope to
+  fool the stall detector, not actually converged in any residual sense.
+- **4.2K, Ic-only (n at 20K), fine mesh, via bisection: a degenerate,
+  non-physical result caused by the bisection algorithm's fixed
+  5-iteration budget, not the physics.** The bisection tested
+  137.2→71.1→38.0→21.5→13.3→9.1A (halving from an I_hi bracket inflated
+  by the boosted Jc), found none satisfied the margin target, exhausted
+  its iteration budget before reaching anywhere near the 5A floor, and
+  fell back to evaluate()'s literal placeholder
+  (`I_op_A=5.0`, `margin=1.53846...`=1/0.65 exactly) — **not a
+  measurement.** `ta_safe_current.py`'s `MAX_BISECT=5` was tuned around
+  20K's own scale, where the true crossing sits close enough to I_hi for
+  5 halvings to resolve it; a substantially boosted Jc inflates I_hi far
+  past where 5 halvings can reach the answer.
+- **Direct fixed-current follow-up (no bisection) at 4.2K Ic-only, fine
+  mesh, I∈{4,6,8,10}A: still no value satisfies the target, and the
+  results themselves are internally inconsistent.** p5 margin stayed
+  below the 1.5385 target at every current tested (best: 1.41 at 4A).
+  Worst-cell margin was **non-monotonic** with current — 0.38 → 0.11 →
+  0.23 → 0.58 as I dropped 10→8→6→4A — and I=10A failed to converge
+  within the 150-iteration cap. This matches this project's own
+  documented "the flux front wanders chaotically among near-degenerate
+  states" finding (see "Convergence criterion" under "The T-A
+  formulation" above), not a clean physical trend a smooth current sweep
+  should show.
+
+**Conclusion, deliberately left open:** every 4.2K variant tried
+(Ic-only mismatched, Ic+n matched; medium and fine mesh; bisection and
+direct fixed-current) has shown a solver-reliability red flag
+(inconsistent-physics mismatch, false stall, bisection-budget exhaustion,
+non-monotonic/non-converged results), a failure to beat the 20K
+baseline, or both. **No test in this session produced a number worth
+trusting, in either direction.** This is not evidence that cryogenic
+operation doesn't help the real coil — it is evidence that
+`ta_safe_current.py`'s Picard relaxation parameters, stall criterion, and
+fixed bisection budget were tuned for this project's own historical
+operating regime (n=13-34, currents where the uniform-J bracket lands
+close to the true answer) and have not been validated outside it.
+Getting a trustworthy answer needs the same class of work already done
+once for the `transient/` short-dt problem — forced full-length runs
+that bypass the EMA stall flag and check the raw residual directly, and
+likely a retuned (smaller) relaxation pair for the much stiffer n~50-60
+regime — not another one-off script. **Not yet done**, and the natural
+next step if this path continues.
+
+New files from this session: `optimize/ic_temperature_scaling.py`
+(`Fujikura4p2KScaledIcModel`, `Fujikura4p2KScaledNValueModel`);
+`physics/digitized_IC_data/` (digitized CSVs plus both source PDFs, kept
+for provenance and any future re-digitization).
+
+### 2026-09-12 (continued, same day, by Claude Code): the solver-reliability
+wall above was root-caused and fixed the same way the `transient/`
+short-dt problem was — a forced-full-length validation matrix, not
+another one-off script. Result: 4.2K genuinely does not fix issues #6/#7.
+
+Built `optimize/studies/ta_thermal_validation.py` (a systematic matrix,
+not a one-off) plus two small, additive, backward-compatible instrumentation
+hooks needed to run it: `ta_solve.solve_ta_at_current()` gained
+`min_iters` (forces a full-length run past the point the EMA-smoothed-SCIF
+stall flag would normally declare "converged" — default value 25
+reproduces every existing caller's behaviour exactly) and `diag_log_path`
+(per-iteration raw-residual CSV, opt-in, no effect when omitted). All
+results: `optimize/runs/ta_thermal_validation/summary.csv` (35 rows, zero
+errors) + per-solve raw traces in `.../diag/*.csv`.
+
+**Phase A/B — z-resolution AND in-plane resolution convergence check on
+the 20K baseline (fixed I=25A, cold start, forced to the full 150
+iterations), isolating each axis separately:**
+
+| mesh config | 20K worst-margin | 20K raw \|ΔB\|/\|B\| | wall/solve |
+|---|---|---|---|
+| medium in-plane, medium5 z-grading (production default) | 1.162 | 0.0103 | 66s |
+| medium in-plane, uniform5 z (ungraded, nz=5) | 1.295 | 1.056 | 66s |
+| medium in-plane, xdense7 z-grading | 1.025 | 0.036 | 91s |
+| **fine** in-plane, medium5 z-grading | **0.925** | 0.127 | 435s |
+
+Two findings, both new:
+1. z-grading choice materially changes both the raw residual and the
+   worst-margin at FIXED in-plane resolution — the production `medium5`
+   grading is in fact the best-conditioned of the three z-configs tried
+   (lowest residual by ~3-100x), not an arbitrary historical choice.
+2. **This file's own claim that "in-plane refinement ... converges
+   quickly and is not the bottleneck" (see "Mesh resolution" under "SCIF
+   computation" above) does NOT hold for `ta_safe_current.py`'s local
+   margin check.** Fine in-plane (holding z-grading fixed) swings the
+   20K worst-margin by ~20% (1.162→0.925) and, notably, makes the raw
+   residual WORSE (0.0103→0.127), not better — i.e. none of the four
+   configs tried reaches genuine raw-residual convergence at 150 forced
+   iterations, `medium/medium5` is merely the least-bad of the four. This
+   independently confirms (via a DIFFERENT method — direct fixed-current,
+   not bisection) the 2026-09-12 fine-mesh finding above that
+   `ta_safe_current.py`'s 20K baseline is not mesh-converged, and extends
+   it: the non-convergence is present even isolating in-plane resolution
+   alone, and even the historically-reported "converged" 20K numbers in
+   this investigation were most likely EMA-stall false positives, the
+   same failure mode already caught for the 4.2K variants. **This remains
+   an open loose end** — no Richardson-style extrapolation across 3+
+   successively finer meshes was done (fine in-plane took 435-495s/solve
+   vs medium's 66-90s; the committed-on-disk `xdense` in-plane tier,
+   confirmed still live in `params.py` this session — see below — would
+   be the natural next data point but is ~20-30x medium's cost and was
+   not run here).
+
+**Phase B (same configs, 4.2K variants, DEFAULT alpha=(0.30,0.15)):**
+confirms the physically-inconsistent-mismatch finding above independent
+of mesh choice — 4.2K Ic-only worst-margin 0.55-0.83 and 4.2K Ic+n-matched
+worst-margin 0.68-0.83 across all four mesh configs, raw residual
+1.7-1.98 (never converging) in every single one. Mesh choice does not
+rescue the DEFAULT-alpha failure; the alpha itself was the problem (next).
+
+**Phase C — relaxation-pair sweep on the 4.2K Ic+n-matched model, at the
+best-converged mesh (`medium`/`medium5`), fixed I=25A, forced full length:**
+
+| alpha (high, low) | raw \|ΔB\|/\|B\| | worst-margin |
+|---|---|---|
+| (0.30, 0.15) — production default | 1.828 | 0.767 |
+| (0.15, 0.08) | 0.0236 | 1.243 |
+| (0.10, 0.05) | 0.0241 | 1.245 |
+| (0.05, 0.02) | 0.0173 | 1.310 |
+| **(0.03, 0.01)** — the SAME pair the `transient/` short-dt investigation found | **0.0138** | **1.981** |
+
+A ~2x-to-~130x drop in raw residual and a real, physical worst-margin
+recovery — this is the same class of fix as the `transient/` short-dt
+relaxation-parameter root cause (default alpha provides ~zero effective
+damping once n leaves the historically-validated 13-34 range; a ~10x
+smaller pair fixes it here too, independently confirming that finding's
+generality). **Caveat, honestly flagged rather than smoothed over:**
+worst-margin is still trending upward as alpha shrinks (0.77→1.24→1.25→
+1.31→1.98), not clearly plateaued at 150 forced iterations — smaller
+alpha needs proportionally more iterations to reach the same depth of
+convergence, so `(0.03, 0.01)`'s lower residual may mean "still slowly
+converging" rather than "has reached the fixed point already." Treat the
+Phase D numbers below as good-enough-to-be decisive on the HEADLINE
+question (is 4.2K a big win — no), not as a final, arbitrarily-precise
+answer.
+
+**Phase D — direct fixed-current sweep (bypasses `ta_safe_current.py`'s
+own `MAX_BISECT` entirely, sidestepping the exhaustion bug below) at
+`alpha=(0.03,0.01)`, `medium`/`medium5` mesh, I ∈ {5,8,10,15,20,25,30,35,40}A,
+each forced to 150 iterations:**
+
+Both curves are clean and monotonic (no repeat of the fine-mesh
+non-monotonic 4.2K-Ic-only finding above — that pathology does not
+reproduce once alpha is fixed), raw residual 0.010-0.048 throughout —
+genuinely, substantially better converged than anything in this
+investigation before today.
+
+- **20K**: crosses the MARGIN_REQUIRED=1.5385 threshold at **I_op ≈
+  17.7A** (linearly interpolated between the 15A/1.785 and 20A/1.331
+  points) — matches the champion's own previously-reported ~17.3A T-A-safe
+  current (from the 2026-09-02 smoke test, different alpha/mesh) to
+  within 3%, a strong independent cross-check that this harness is
+  measuring the same real quantity.
+- **4.2K, Ic+n-matched**: crosses the same threshold at **I_op ≈ 19.3A**
+  (between 15A/1.990 and 20A/1.466).
+- **Ratio: 19.3/17.7 ≈ 1.09 — only a ~9% improvement in T-A-safe
+  operating current from 4.2K operation**, despite the underlying
+  Ic/n ratios being ~2.2-3x. B_target scales roughly linearly with I_op
+  in this low-current regime (screening current is a small correction
+  relative to transport current well below I_design), so this implies
+  roughly 0.92T → ~1.0T, nowhere close to closing the ~11x gap to 10T
+  that issues #6/#7 identified.
+
+**Answer to known-open-issue #8, replacing "genuinely unanswered":**
+**4.2K operation does not meaningfully help.** Once the solver-reliability
+wall is actually fixed (not worked around), the honest comparison shows
+cryogenic operation buys single-digit-percent headroom on the T-A-safe
+current, not the order-of-magnitude the champion's field-margin gap
+(issues #6/#7) would need. The interpretation question those issues
+raise — whether the uniform-J-based 65%-of-Ic target was ever the right
+check, versus the champion's real quench margin being genuinely tight —
+is **still open**, but temperature is no longer a candidate lever to
+close it with.
+
+**Separately, found and fixed while investigating this: `optimize/
+ta_safe_current.py`'s `MAX_BISECT=5` could silently return a fabricated
+placeholder instead of a real measurement.** With `I_lo=I_FLOOR_A=5A` and
+`I_hi` inflated by a boosted Jc (up to `cfg.I_MAX_SEARCH_A`=1500A), 5
+halvings cannot resolve a 3A tolerance across that range (needs up to 9).
+The old fallback then reported `I_op_A=I_FLOOR_A, margin=1/0.65` exactly
+— indistinguishable from a genuine measurement — without ever actually
+solving at that current. Fixed: `MAX_BISECT` raised to 12 (covers the
+full possible bracket with margin), and the fallback now does one real
+confirming solve at `I_FLOOR_A` and reports its ACTUAL margin, tagged via
+a new `bisection_exhausted` field. **Not empirically re-triggered by this
+session's own work** (Phase D bypassed the bisection by design) — the fix
+is code-review/reasoning-validated, not exercised against a live
+budget-exhaustion case.
+
+**Also surfaced, unrelated to the fix above but relevant to trusting ANY
+current search result: `params.py` on disk is still the 2026-09-03/04
+one-off "xdense" mesh-artifact-investigation tier (confirmed live via
+`mesh_size_min_factor=0.05` on 2026-09-12), not the "medium" production
+default this file's own "Mesh resolution" section says to revert to.**
+`git status` on 2026-09-12 shows `params.py` as UNMODIFIED relative to
+HEAD — i.e. xdense is the currently-COMMITTED state, not merely an
+uncommitted local edit left over from the investigation. Every script in
+this investigation (and `optimize/studies/ta_safe_margin_search.py`,
+independently, per its own 2026-09-08 comment) works around this
+in-memory rather than relying on the file; any NEW script that reads
+`params.py`'s mesh settings directly (without such an override) will
+silently inherit the ~20-30x-slower xdense tier. Whether to actually
+commit a revert to medium is a decision left to the user — not done by
+this session, since another investigation's state may still depend on
+the file as committed.
+
+New files from this session: `optimize/studies/ta_thermal_validation.py`,
+`optimize/studies/summarize_ta_thermal_validation.py`,
+`optimize/runs/ta_thermal_validation/` (summary.csv + per-solve diag
+CSVs). Modified: `solve/ta_solve.py` (additive `min_iters`/
+`diag_log_path` kwargs on `solve_ta_at_current()`, default behaviour
+unchanged), `optimize/ta_safe_current.py` (bisection budget/fallback fix
+above).
+
+### 2026-09-13: sanity-checked the ~9% number against the source paper's
+own low-field data — confirms it, doesn't undermine it
+
+User pushback (reasonable): real REBCO magnets DO reach 10T+ (some well
+beyond, e.g. 25-45T), so if 4.2K genuinely only buys ~9% here, something
+else must differ — worth checking the ~9% wasn't an artifact of
+`Fujikura4p2KScaledIcModel`'s conservative flat-hold below its digitized
+floor (B_ratio_lo=5T), since the champion's own T-A-safe operating point
+(I≈17.7-19.3A) sits at peak coil field ≈1.1-1.2T — entirely inside that
+flat-held, never-actually-measured region (confirmed: `clip_frac=1.0` for
+EVERY 4.2K point in the Phase D sweep, including up to I=40A/peak
+B≈2.4T). The worry: if the true low-field ratio is LARGER than the
+flat-held 5T value, the 9% number understates the real benefit.
+
+**Checked directly against the source paper's own physics, not another
+guess.** Tsuchiya et al. Section III-B / Table II gives a generalized
+p-q scaling-law fit, `Ic(B) = Ic0(1+B/B0)^-p (1-B/Birr)^q`, fit to the
+FULL measured field-dependence curve (Fig. 3), from near self-field
+through 24T+ — a fundamentally better-grounded source for the low-field
+region than the 5-slice angular dataset (`{5,10,15,20,24}T_*.csv`) this
+project digitized for the Ic MODEL itself. At θ=0° (B⊥tape):
+
+| B (T) | Ic₄.₂K (A) | Ic₂₀K (A) | ratio |
+|---|---|---|---|
+| 0 (self-field) | 3050 | 1800 | 1.69 |
+| 1.0-1.2 (champion's own T-A-safe operating field) | 2140-2240 | 1244-1307 | 1.71-1.72 |
+| 5 (this project's flat-hold floor) | 1194 | 680 | 1.76 |
+| 24 | 365 | 178 | 2.06 |
+
+**The ratio INCREASES with B, not decreases — the opposite of the
+worried-about direction.** The true ratio at the champion's actual
+operating field (~1.1-1.2T) is ~1.71-1.72, slightly BELOW the flat-held
+5T value (~1.76) this project's model used for that entire region — i.e.
+the flat-hold was mildly GENEROUS to 4.2K, not conservative against it.
+The paper's own text independently corroborates this: "Ic at self-fields
+at 77K and 20K differs by roughly one order of magnitude, and that at
+4.2K is about 1.5 times larger [than 20K]" — a self-field ratio in the
+same ~1.5-1.7x ballpark, well below the ~2.2x median this project's
+digitized 5-24T angular ratio grid gives. **Conclusion stands, now on
+firmer ground: the ~9% T-A-safe-current improvement from 4.2K is not an
+extrapolation artifact.** Physically, this matches ordinary REBCO Jc(T)
+behaviour: Jc(T) is comparatively flat well below Tc/2 (~46K for
+Tc≈92K), so most of the temperature-scaling "gain" happens between
+~40-77K, not between 4.2K and 20K — both already deep in the flat part
+of the curve.
+
+**So what ARE real 10T+ (and 25-45T) REBCO magnets doing differently, if
+not mainly temperature?** Not exhaustively checked this session, but the
+same paper's own reference list points at one directly: citation [30],
+"First validation of robust REBCO insert concept on a large **20-pancake**
+prototype reaching up to 25 T" — 20 pancakes (40 layers) for a 25T
+insert, vs. this project's **6 layers** (3 double-pancake pairs).
+Spreading the same ampere-turns across many more, thinner pancakes
+reduces the self-field/screening-current concentration PER PANCAKE — this
+is exactly the mechanism the 2026-09-02/03 `ta_safe_margin_search.py`
+overnight search flagged (without confirming) as a possible structural
+property of the 6-layer topology, and exactly why an `N_LAYERS`-varying
+follow-up was queued (`CMAES_X0_JSON_OVERRIDE`, the `8layer` variant,
+only 2 generations run) but not pursued at scale. Other real, plausible
+differences not investigated this session: striated/filamented tape
+(reduces screening-current magnitude directly — this project assumes
+unstriated 4mm tape), hybrid designs with a background field from a
+separate (LTS or resistive) magnet rather than one winding generating the
+entire target field, and a quench/margin QUALIFICATION criterion based
+on actual thermal-runaway analysis rather than this project's static
+"no T-A-resolved cell exceeds 65% of local Ic" test (the still-open
+critical-state-physics interpretation question in issues #6/#7). The
+`N_LAYERS` lever is the best-evidenced next step of these — it's already
+partially built and directly supported by a real published high-field
+design, not a new hypothesis.
+
+---
+
 ## Operational lessons (env quirks and process gotchas)
 
 - **`conda run` buffers ALL subprocess stdout until the process exits**,
@@ -1458,6 +1883,16 @@ conda run -n fenicsx-env python3 sweep/quench_sweep.py
     nonexistent `CMAES_N_STD0_OVERRIDE` attribute via `getattr(..., None)`,
     silently falling back to the oversized cold-start default. Fixed;
     see "Operational lessons" above for the general habit this taught.
+13. **`ta_safe_current.py`'s `MAX_BISECT=5` bisection budget could
+    silently return a fabricated placeholder instead of a real
+    measurement** when a boosted Jc (e.g. the 4.2K temperature-scaled
+    model) inflated the search bracket past what 5 halvings can resolve
+    — `I_op_A=I_FLOOR_A, margin=1/0.65` exactly, reported as if measured.
+    Fixed 2026-09-12: `MAX_BISECT` raised to 12 (covers the full possible
+    bracket up to `cfg.I_MAX_SEARCH_A`), and the exhausted-budget fallback
+    now does one real confirming solve at `I_FLOOR_A` instead of
+    fabricating a value, flagged via a new `bisection_exhausted` field.
+    See "Cryogenic (4.2K) operating-temperature investigation" above.
 
 ---
 
@@ -1549,6 +1984,24 @@ run only), and `cmaes_param_map.png` (cumulative across every run — see
   I=19.6A; a warm-started crossing produces a milder, self-correcting
   transitional response and the ramp recovers fully. See the two
   2026-08-07 entries at the end of "NI transient work" above.
+- **2026-09-12: a 4.2K operating-temperature model was built
+  (`optimize/ic_temperature_scaling.py`) and tested; the initial pass
+  produced no trustworthy result in either direction, but a same-day
+  follow-up (forced-full-length validation matrix,
+  `optimize/studies/ta_thermal_validation.py`) root-caused the
+  solver-reliability wall and got a genuine answer: 4.2K gives only
+  ~9% more T-A-safe operating current, not enough to close known-open-
+  issues #6/#7's field-margin gap.** See "Cryogenic (4.2K)
+  operating-temperature investigation" above and known-open-issue #8
+  (now RESOLVED). The investigation also surfaced, as a byproduct, that
+  `ta_safe_current.py` itself has never been mesh-convergence-checked
+  (its 20K baseline swung 70% between medium and fine mesh via
+  bisection, and independently confirmed non-converged even isolating
+  in-plane resolution alone via direct fixed-current solves — still
+  open) and that its fixed 5-iteration bisection budget could silently
+  return a placeholder value instead of a real one when a candidate's Jc
+  is far outside the scale it was tuned around (fixed, `MAX_BISECT=12`
+  plus a real confirming solve on exhaustion — see "Bugs fixed" #13).
 
 **Known open issues, in priority order:**
 1. **Ic model uncertainty (~±0.5T on B_target)** — closable only by
@@ -1673,6 +2126,225 @@ run only), and `cmaes_param_map.png` (cumulative across every run — see
    generations) but not yet run at scale. See "Ramp-up power analysis"
    above for the full account. **This makes issue #6 more consequential,
    not less** — treat both as one open question, not two.
+8. **RESOLVED 2026-09-12 (same day, continued): 4.2K operation does NOT
+   meaningfully raise the achievable field.** The solver-reliability wall
+   (physically-inconsistent Jc/n mismatch, false-stall convergence,
+   bisection-budget exhaustion, non-monotonic results) was root-caused
+   the same way the `transient/` short-dt problem was: a forced-full-length
+   validation matrix (`optimize/studies/ta_thermal_validation.py`) found
+   the SAME relaxation-parameter root cause (default `alpha=(0.30,0.15)`
+   provides ~zero damping once n leaves the historically-validated 13-34
+   range; `alpha=(0.03,0.01)` fixes it here too). With that fix, a clean,
+   monotonic, low-residual direct current sweep gives 20K T-A-safe I_op ≈
+   17.7A (matches the champion's own previously-reported ~17.3A to
+   within 3%, cross-validating the harness) vs. 4.2K Ic+n-matched I_op ≈
+   19.3A — **only a ~9% improvement**, despite Ic/n themselves being
+   ~2.2-3x higher at 4.2K. Translates to roughly 0.92T → ~1.0T, nowhere
+   near closing issues #6/#7's ~11x gap to 10T. **Temperature alone is
+   not a sufficient lever for closing that gap** (see issue #9 below for
+   what tonight's follow-up search found when combining it with more
+   layers); the interpretation question issues #6/#7 raise (uniform-J
+   margin never the right check, vs. a genuinely tight real quench
+   margin) is unchanged and still open. Also fixed in the same session:
+   `ta_safe_current.py`'s `MAX_BISECT` budget bug (see "Bugs fixed"
+   #13). **Still open, found as a byproduct**: the 20K baseline itself
+   is not mesh-converged even isolating in-plane resolution alone (0.925
+   fine vs 1.162 medium worst-margin at otherwise-identical settings) —
+   no Richardson-style multi-mesh extrapolation has been done; see
+   "Cryogenic (4.2K) operating-temperature investigation" above for the
+   full account.
+9. **2026-09-12/13 overnight: staged CMA-ES search combining the 4.2K
+   model with issue #7's queued `N_LAYERS` lever — real, substantial
+   progress (3.8x the 6-layer-at-4.2K ceiling), still well short of
+   10T.** Prompted directly by a user challenge: real REBCO magnets DO
+   reach 10T+ (some far beyond), so if 4.2K alone barely helps, something
+   else must differ. Checking the source paper's (Tsuchiya et al.) own
+   reference list surfaced one candidate answer directly: citation [30]
+   is "a large 20-pancake prototype reaching up to 25T" — 20 pancakes
+   (40 layers) vs. this project's 6. `optimize/studies/
+   ta_safe_margin_search_4p2K.py` (sibling of the 20K-era search,
+   `ta_safe_margin_search.py`, kept separate so that script's own
+   checkpoints/history stay intact) reruns the SAME wide-bounds T-A-safe-
+   current CMA-ES search but with the matched 4.2K Ic+n models, the
+   validated `alpha=(0.03,0.01)`, and every solve forced to the full
+   `ta_n_picard` iterations (the EMA stall flag was found to never fire
+   True in this regime regardless of `min_iters`, so this costs nothing
+   extra and removes a systematic false-stall risk). `ta_safe_current.
+   evaluate()` gained `n_model=`/`min_iters=` kwargs the same session
+   specifically to make this possible (additive, default behaviour
+   unchanged). `optimize/studies/run_4p2K_overnight.py` orchestrated 5
+   time-boxed stages overnight, per explicit user direction (try 4.2K at
+   the current 6-layer topology first; try new starting points/wider
+   bounds if that stalls; only then escalate layers), each stage's
+   subprocess checkpointing cleanly on a timeout-triggered SIGTERM:
+
+   | stage | layers | evals | best B_target_T | binding constraint |
+   |---|---|---|---|---|
+   | 1: 6L, champion warm start | 6 | 99 | 3.67 | uniformity (2.73% vs 0.8% cap) + field |
+   | 2: 6L, alt start + wider bounds | 6 | 18 | 3.83 | field only (hoop/unif both clear) |
+   | 3: 8L, warm start from 20K-era best | 8 | 63 | 5.56 | field + uniformity |
+   | 4: 10L, warm start from 20K-era best | 10 | 30 | 5.54 | field + uniformity |
+   | 5: 12L, fresh wide search | 12 | 30 | **6.72** | field only (hoop 25MPa, unif 1.18% both clear-ish) |
+
+   No stage produced an `all_constraints_ok=True` candidate (10T is the
+   hard field floor); every stage's own budget (90-126 min) bought only
+   18-99 evaluations — a handful of CMA-ES generations at most, not the
+   500-1200-eval depth the 20K-era searches reached, because every solve
+   here is deliberately forced to full length. **Reading the trend
+   honestly**: 6→8 layers was a big jump (3.8T→5.56T), 8→10 was flat
+   (5.56T→5.54T, likely just under-evaluated — only 30 evals vs 63), and
+   12 broke through again to 6.72T — consistent with real progress that
+   is simply starved of evaluation budget at each step, not with a hard
+   ceiling near 5-6T. Stage 5's winner (a=32.19mm, b=45.25mm,
+   gap=26.56mm, n_turns=[600,600,559,559,37,37,519,519,583,583,601,601],
+   I_op=67.04A) has a genuinely comfortable margin at its own T-A-safe
+   operating point — **0/10927 coil cells locally quenched** (worst
+   margin 1.006), a categorically different, safer situation than the
+   champion's 27-34%-over-Ic picture at its own (much more aggressive)
+   I_design — see `visualization/quench_location_4p2K_winner_*.png`,
+   reproducible via `optimize/studies/regenerate_4p2K_winner_fields.py`
+   + `plot_quench_location_4p2K_winner.py`. Field snapshot:
+   `optimize/runs/ta_safe_margin_4p2K/winner_fields.npz`.
+
+   **Honest interpretation**: this is real, substantial, quantified
+   progress (3.8T → 6.72T, ~77% higher than the 4.2K-at-6-layers ceiling
+   from issue #8), directly connecting two previously-separate threads
+   (temperature and layer count) — but 6.72T is still 33% short of 10T,
+   and the citation that motivated this ([30]'s 40-layer design) is
+   more than 3x this search's best (12 layers) tried so far. **Not yet
+   done**: any stage beyond 12 layers; a longer per-stage budget to let
+   CMA-ES actually converge within a layer count rather than being
+   time-boxed mid-search; and reconciling the "which pairs should be
+   thick vs thin" pattern CMA-ES keeps finding (one persistently thin
+   pair, e.g. 37/37 turns here) against the per-cell worst-margin
+   location analysis `ta_safe_margin_search.py`'s own comments already
+   flagged for the 20K case. Whether continuing this same escalation
+   (16, 20, ... layers) reaches 10T, plateaus short of it, or needs the
+   striation/hybrid-field/margin-criterion levers instead (see issue #8's
+   entry above) is still open.
+
+   **2026-09-13 continuation**: the escalation was continued past 12
+   layers, per explicit user direction ("continue on that path until we
+   start getting some mean fields above 10T"). Progress: 6L→3.8T,
+   8L→5.56T, 10L→5.54T (likely just under-evaluated, 30 evals vs 8L's
+   63), 12L→6.72T, **16L→6.99T** (best so far, `a`=31.13mm, `b`=40.02mm,
+   gap=33.97mm, `n_turns=[550,550,584,584,17,17,507,507,507,507,613,613,
+   629,629,605,605]`, I_op=63.06A, hoop=23.7MPa, uniformity=0.13% — both
+   comfortably clear, only field is short; worst-cell margin 0.962,
+   slightly below 1.0, unlike 12L's cleanly-safe 1.006). **This
+   "still climbing" read did NOT hold up — see the 2026-09-14 morning
+   update below, which found 16L was the PEAK, not a waypoint.** Two
+   operational bugs were found and fixed
+   live during this continuation, both now fixed in
+   `optimize/studies/run_4p2K_overnight_v2.py` and (for consistency)
+   `run_4p2K_overnight.py`: (1) a force-killed stage leaked its entire
+   worker pool (`proc.kill()` only kills the immediate child, not
+   ProcessPoolExecutor descendants — fixed via `start_new_session=True` +
+   `os.killpg()`; 20 such orphaned workers, leaked across stages 1-5 of
+   the first overnight run, were found still consuming ~4.4GB RAM and
+   real CPU 6+ hours later), and (2) per-solve cost scales
+   SUPER-linearly with turn count (time ~ turns^1.28 fit from the only
+   two measured points, 6L@1726 turns=42.7s/solve, 12L@5798
+   turns=201s/solve) — the original per-generation timeout (2700s) and
+   per-stage budget (9000s) were both sized for 6-12 layers and started
+   silently discarding whole generations at 16L; raised to 10800s and
+   21600s respectively, plus `TA_SAFE_POPSIZE` dropped 11→8 to fit more
+   generations per stage in this now-expensive-per-eval regime.
+
+   **2026-09-14 morning update — RESOLVED (for this topology/search):
+   the layer-count lever has a real ceiling around 16 layers / ~7T, not
+   a continued path to 10T.** Per user direction overnight ("get a run
+   above 10T by morning if possible"), budgets were cut 6h→3h/stage and
+   the bisection tolerance loosened (3A→6A, `TA_SAFE_BISECT_TOL_A` env
+   var added to `ta_safe_current.py`, default unchanged) to cover more
+   layer counts before morning, at the cost of shallower CMA-ES
+   convergence per stage. Full overnight table:
+
+   | layers | best B_target_T |
+   |---|---|
+   | 6 | 3.83 |
+   | 8 | 5.56 |
+   | 10 | 5.54 |
+   | 12 | 6.72 |
+   | **16** | **6.99 (peak)** |
+   | 20 | 5.66 |
+   | 24 | 5.95 |
+   | 28 | 5.58 |
+   | 32 | inconclusive — paused before any generation completed |
+
+   **10T was not reached.** More importantly, the search **peaked at 16
+   layers and every stage since (20L, 24L, 28L) landed BELOW it**,
+   clustered in a 5.6-6.0T band with no recovery across three
+   consecutive stages — a real signal, not single-stage noise from an
+   under-evaluated budget. This does not prove 20-28L are worse than 16L
+   AT FULL CONVERGENCE (each stage here only got a shortened 3h budget,
+   vs. 16L's own 6h), but three independent stages all landing in the
+   same band well below the 16L peak is meaningfully different from "one
+   unlucky stage." **Practical reading: within this search's reachable
+   region (given the time actually spent), layer count alone tops out
+   around 12-16 layers at ~7T, roughly 30% short of 10T** — continuing
+   to add layers is not a reliable path to closing that gap by itself.
+   Combined with issue #10 below (a real 10T HTS racetrack magnet reaches
+   its target mainly via ~18x higher current-per-turn through a THICKER
+   conductor, not more layers or lower temperature), the evidence now
+   points at conductor cross-section — never a search variable in this
+   project (`params.w`=4mm single tape has always been fixed) — as the
+   more promising untried lever, not further layer escalation. **Per
+   explicit user direction, the run was paused (not stopped) at this
+   point** (`kill -STOP` on the whole process tree — safe, zero progress
+   lost, resumable) rather than continued or abandoned; all data above
+   is preserved in `optimize/runs/ta_safe_margin_4p2K/stage{6..10}_*/`.
+
+10. **2026-09-13: a real, currently-being-built 10T HTS racetrack dipole
+    (found via user-provided PDF, not web access — IEEE Xplore blocks
+    this session's fetch tooling) gives a concrete external benchmark,
+    and it points at a lever this whole search has never varied.** Sorti
+    et al., "Final Design and Production of a 10 T HTS Energy-Saving
+    Dipole Magnet for the Italian Facility IRIS," IEEE Trans. Appl.
+    Supercond. 36(3), Art. 4601205, May 2026, DOI 10.1109/TASC.2025.3628303
+    (`physics/Final_Design_and_Production_of_a_10_T_HTS_Energy-Saving_
+    Dipole_Magnet_for_the_Italian_Facility_IRIS.pdf`) — the IRIS/ESMA
+    project (INFN Milan + ASG Superconductors), currently in fabrication,
+    not yet tested. Same basic architecture as this project (flat
+    REBCO racetrack pancakes, non-insulated/metal-as-insulation winding,
+    conduction-cooled) — a genuinely comparable real design, not just
+    another simulation.
+
+    | | ESMA (real, in production) | This project's 2026-09-13 best (16L) |
+    |---|---|---|
+    | Field | 10 T (target) | 6.99 T (search-found) |
+    | Layers/racetracks | 12 | 16 |
+    | Turns | 4200 (350/racetrack × 12) | 8024 |
+    | **Current/turn** | **1150 A** | **63 A** |
+    | Conductor | 2× face-to-face 12mm YBCO tapes + steel co-wind (162µm stack) | 1× 4mm tape, single layer |
+    | Coil scale | 130mm mandrel radius, 240mm straight | ~31-45mm radius |
+    | Operating temp | 20 K | 4.2 K (this project's model) |
+    | Tape length | ~6.24km cable (12.48km raw REBCO, 2 tapes/cable) | 1.96 km |
+    | Critical current margin | >20% (≤80% Ic) | 35% (65%-of-Ic target) |
+
+    **The ~18x gap in current-per-turn, not layer count or temperature,
+    is the single biggest difference.** ESMA reaches this by using a
+    THICKER conductor (two 12mm-wide tapes stacked face-to-face) rather
+    than more layers of thin tape — raising the local Ic enough to carry
+    far more current per turn at a comparable safety margin. This
+    project's entire search space (this session and all prior ones) has
+    only ever varied `a`/`b`/`coil_half_gap`/turn-count/`N_LAYERS` — the
+    conductor cross-section itself (`params.w`=4mm single tape) has never
+    been a search variable. **Per explicit user direction (2026-09-13),
+    this is NOT being added to the running search** — documented here as
+    a candidate lever for a FUTURE decision, not applied.
+
+    Also worth carrying forward: ESMA's own paper independently
+    corroborates that this project's margin/quench concerns (issues
+    #6/#7 above) are a real class of problem, not an artifact of this
+    project's own modeling choices — they found NO quench-protection
+    scenario avoided a "disruptive mechanical shockwave" even with
+    non-insulated windings, had to switch from active to preventive
+    protection as a result, and their thermal budget is razor-thin (15W
+    max during ramp, mechanical safety factors of only 1.5-2× in places).
+    A real, funded, currently-being-fabricated 10T HTS racetrack magnet
+    is wrestling with the same class of margin/protection difficulty
+    this project's own T-A-vs-uniform-J investigation surfaced.
 
 **Full history, every rejected design, every retracted claim, and the
 reasoning behind every conclusion above:** `docs/HISTORY.md`.

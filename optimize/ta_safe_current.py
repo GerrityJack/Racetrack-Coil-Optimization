@@ -58,8 +58,30 @@ from ic_model import angle_with_normal_deg, NValueModel
 from coil2_field import compute_both_coils_field_multilayer
 
 MARGIN_REQUIRED = 1.0 / 0.65   # same threshold as ta_quench_margin_check.py
-MAX_BISECT = 5
-I_BISECT_TOL_A = 3.0
+# 2026-09-12 (4.2K investigation): MAX_BISECT=5 was tuned around the 20K
+# regime, where the true crossing sits close enough to I_hi for 5 halvings
+# to resolve it. A substantially boosted Jc (e.g. a temperature-scaled
+# model) inflates the I_hi bracket (derived from the SAME ic_model's
+# uniform-J quench current, up to cfg.I_MAX_SEARCH_A=1500A) far past where
+# 5 halvings can reach the answer -- confirmed: with I_lo=I_FLOOR_A=5 and
+# I_hi up to 1500A, resolving to I_BISECT_TOL_A=3.0A needs up to
+# ceil(log2((1500-5)/3.0)) = 9 halvings, not 5. This silently produced a
+# fabricated placeholder result (I_op_A=5.0, margin=1/0.65 exactly) that
+# was indistinguishable from a real measurement -- see CLAUDE.md's
+# "Cryogenic (4.2K) operating-temperature investigation". 12 gives margin
+# above the worst-case-bracket requirement without materially changing
+# the historical 20K-regime cost (that regime typically converges in far
+# fewer than 12 anyway via the (I_hi-I_lo)<I_BISECT_TOL_A early exit).
+MAX_BISECT = 12
+# 2026-09-13: overridable for time-pressured wide searches at expensive
+# (high-layer-count) mesh scales -- loosening this cuts ~1 bisection
+# solve per candidate (~10-15% of per-candidate cost at 16+ layers,
+# where each solve is already 5-6+ minutes) with NO accuracy cost on the
+# design that ends up mattering, since any real finalist gets a precise
+# re-solve anyway (same `regenerate_*_fields.py` pattern already used for
+# the 4.2K search's own winner plots). Default 3.0 unchanged for every
+# existing caller.
+I_BISECT_TOL_A = float(os.environ.get("TA_SAFE_BISECT_TOL_A", 3.0))
 I_FLOOR_A = 5.0                # assumed safe without a solve (near-zero J)
 
 # 2026-09-03: per-cell margin distribution at a candidate's own safe I_op
@@ -144,11 +166,31 @@ def _local_margin(domain, ta, B_h, ic_model):
     return margin, float(frac_clipped), centroids, J_arr
 
 
-def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None):
+def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None,
+             n_model=None, min_iters=None):
     """design: dict(a, b, coil_half_gap, n_turns). Returns a dict with the
     same keys optimize_geometry.evaluate() returns (so it's a drop-in
     replacement for the fitness function), plus ta_worst_margin/
-    n_ta_solves/ta_solve_s diagnostics."""
+    n_ta_solves/ta_solve_s diagnostics.
+
+    n_model: optional pre-built n-value model (e.g.
+    `ic_temperature_scaling.Fujikura4p2KScaledNValueModel`) to use instead
+    of building a plain `NValueModel(csv_path=params.n_value_csv_filename)`
+    internally -- added 2026-09-13 so a caller running under a
+    temperature-scaled Ic model can pass the MATCHED n-model too (mixing a
+    scaled Ic with an unmatched n was found to give a physically
+    inconsistent, worse-than-baseline margin -- see CLAUDE.md's "Cryogenic
+    (4.2K)" section). None (default) preserves the original behaviour
+    exactly.
+
+    min_iters: optional, forwarded to every `ta_solve.solve_ta_at_current()`
+    call in this function. None (default) preserves that function's own
+    default (25, i.e. every existing caller's historical behaviour). Set
+    to `params.ta_n_picard` to force full-length Picard runs, bypassing
+    the EMA-smoothed-SCIF stall flag -- needed for any n(B,theta) regime
+    outside the historically-validated n=13-34 range (e.g. a
+    temperature-scaled model), where that flag was found to fire
+    300-1000+ iterations before genuine settling."""
     t0 = time.time()
     label = (f"a={design['a']*1e3:.1f} b={design['b']*1e3:.1f} "
              f"gap={design['coil_half_gap']*1e3:.1f} "
@@ -170,7 +212,9 @@ def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None):
 
         uniform_setup = base_solve.setup_problem(domain, md.cell_tags,
                                                  md.facet_tags)
-        n_model = NValueModel(csv_path=params.n_value_csv_filename)
+        if n_model is None:
+            n_model = NValueModel(csv_path=params.n_value_csv_filename)
+        _min_iters = 25 if min_iters is None else min_iters
         ta = ta_solve.setup_ta_problem(domain, md.cell_tags, md.facet_tags,
                                        uniform_setup)
 
@@ -216,7 +260,8 @@ def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None):
         I_hi = max(I_op_uniform, I_FLOOR_A * 2.0)
         A_h, B_h, T_h, info = ta_solve.solve_ta_at_current(
             domain, ta, uniform_setup, I_amps=I_hi, ic_model=ic_model,
-            n_model=n_model, verbose=verbose, warm_start=False)
+            n_model=n_model, verbose=verbose, warm_start=False,
+            min_iters=_min_iters)
         n_ta_solves += 1
         margin_hi_arr, clip_ta, _, _ = _local_margin(domain, ta, B_h, ic_model)
         margin_hi = _constraint_margin(margin_hi_arr)
@@ -226,6 +271,7 @@ def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None):
             # for this candidate -- no derating needed.
             I_op_ta, final_margin = I_hi, margin_hi
             final_worst_margin = float(margin_hi_arr.min())
+            bisection_exhausted = False
         else:
             I_lo = I_FLOOR_A
             best_I, best_margin, best_worst = None, None, None
@@ -234,7 +280,7 @@ def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None):
                 A_h, B_h, T_h, info = ta_solve.solve_ta_at_current(
                     domain, ta, uniform_setup, I_amps=I_mid,
                     ic_model=ic_model, n_model=n_model, verbose=verbose,
-                    warm_start=True)
+                    warm_start=True, min_iters=_min_iters)
                 n_ta_solves += 1
                 m_arr, clip_ta, _, _ = _local_margin(domain, ta, B_h, ic_model)
                 m = _constraint_margin(m_arr)
@@ -245,16 +291,33 @@ def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None):
                     I_hi = I_mid
                 if (I_hi - I_lo) < I_BISECT_TOL_A:
                     break
+            bisection_exhausted = False
             if best_I is None:
-                # Never found a safe trial current above the floor --
-                # fall back to the floor itself (reported margin is the
-                # floor's, not re-verified by an extra solve: at I_FLOOR_A
-                # local J is a small fraction of Jc almost by construction
-                # for any physically sane geometry in this search's
-                # bounds; treat as a strong fitness penalty via the
-                # resulting tiny B_target_T rather than a hard failure).
-                I_op_ta, final_margin, final_worst_margin = (
-                    I_FLOOR_A, MARGIN_REQUIRED, MARGIN_REQUIRED)
+                # 2026-09-12 fix: never found a safe trial current above
+                # the floor within MAX_BISECT halvings. The OLD behaviour
+                # here fabricated a placeholder (I_op_A=I_FLOOR_A,
+                # margin=MARGIN_REQUIRED exactly) without ever actually
+                # solving at I_FLOOR_A -- indistinguishable from a real
+                # measurement to any downstream consumer. Do one real,
+                # explicit confirming solve AT I_FLOOR_A instead, and flag
+                # the row via `bisection_exhausted` so a caller (or a CSV
+                # reader) can tell "genuinely measured, happens to be
+                # unsafe/marginal at the floor" apart from "budget ran
+                # out before finding the true crossing" -- these need
+                # different responses (the first is a real infeasible
+                # candidate; the second means MAX_BISECT is still too
+                # small for this candidate's own I_hi bracket).
+                bisection_exhausted = True
+                A_h, B_h, T_h, info = ta_solve.solve_ta_at_current(
+                    domain, ta, uniform_setup, I_amps=I_FLOOR_A,
+                    ic_model=ic_model, n_model=n_model, verbose=verbose,
+                    warm_start=True, min_iters=_min_iters)
+                n_ta_solves += 1
+                floor_margin_arr, clip_ta, _, _ = _local_margin(
+                    domain, ta, B_h, ic_model)
+                I_op_ta = I_FLOOR_A
+                final_margin = _constraint_margin(floor_margin_arr)
+                final_worst_margin = float(floor_margin_arr.min())
             else:
                 # Final confirming solve exactly AT best_I, since the loop
                 # may have gone on to test a later (unsafe) I_mid after
@@ -263,7 +326,7 @@ def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None):
                 A_h, B_h, T_h, info = ta_solve.solve_ta_at_current(
                     domain, ta, uniform_setup, I_amps=best_I,
                     ic_model=ic_model, n_model=n_model, verbose=verbose,
-                    warm_start=True)
+                    warm_start=True, min_iters=_min_iters)
                 n_ta_solves += 1
                 final_margin_arr, clip_ta, cents_ta, J_ta = _local_margin(
                     domain, ta, B_h, ic_model)
@@ -341,5 +404,13 @@ def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None):
                 # equal to ta_worst_margin if MARGIN_PERCENTILE<=0.
                 ta_worst_margin=final_worst_margin,
                 ta_constraint_margin=final_margin,
+                # 2026-09-12: True only when the bisection ran out of
+                # MAX_BISECT halvings without ever finding a safe trial
+                # current -- I_op_A/margins below are then a REAL solve at
+                # I_FLOOR_A (not a fabricated placeholder), but a caller
+                # should treat this row as "the search couldn't localise
+                # the true crossing for this candidate's I_hi bracket",
+                # not as "this candidate's real safe current is I_FLOOR_A".
+                bisection_exhausted=bisection_exhausted,
                 clip_frac=clip_frac,
                 n_ta_solves=n_ta_solves, eval_s=time.time() - t0)

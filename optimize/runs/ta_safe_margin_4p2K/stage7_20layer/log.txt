@@ -1,0 +1,99 @@
+==========================================================================================
+T-A-safe-current CMA-ES search UNDER THE 4.2K MODEL -- optimize/studies/ta_safe_margin_search_4p2K.py
+alpha=(ta_picard_alpha=0.03, ta_picard_alpha_fine=0.01)  min_iters=ta_n_picard=150 (forced full-length)
+==========================================================================================
+x0: a=31.13mm b=40.02mm gap=41.97mm pairs=[np.float64(550.0), np.float64(584.0), np.float64(17.0), np.float64(507.0), np.float64(507.0), np.float64(613.0), np.float64(629.0), np.float64(605.0), np.float64(571.0), np.float64(571.0)]
+step sizes: a=8.00mm b=12.00mm gap=3.00mm n=80 turns
+popsize=8
+N_LAYERS=20  N_PAIRS=10
+budget: 600 evaluations, 4 parallel workers
+target: B >= 10.0 T AND T-A local margin >= 1.5385 (J/Jc <= 0.65) for 95% of cells (p5), hoop <= 400 MPa, uniformity <= 0.8%
+outputs: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage7_20layer/results.csv, /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage7_20layer/history.csv
+checkpoint: /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/stage7_20layer/cma_checkpoint.pkl
+
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=31.9 b=52.4 gap=41.7 nt=9824] KSP converged reason: 4, iterations: 1
+  [a=38.5 b=47.9 gap=42.4 nt=9496] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:165: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [   1] INFEAS f=2570.963  a=28.71 b=27.93 gap=42.23 (face=4.47mm) n=[468, 468, 587, 587, 37, 37, 588, 588, 611, 611, 663, 663, 537, 537, 561, 561, 615, 615, 625, 625]  no evaluation (geometry pre-check)
+  [   2] INFEAS f=1640.208  a=29.25 b=56.53 gap=42.05 (face=4.10mm) n=[563, 563, 648, 648, 4, 4, 467, 467, 593, 593, 489, 489, 597, 597, 740, 740, 513, 513, 688, 688]  no evaluation (geometry pre-check)
+  [   3] INFEAS f=1414.388  a=26.45 b=33.79 gap=41.90 (face=3.81mm) n=[548, 548, 584, 584, 53, 53, 408, 408, 525, 525, 617, 617, 525, 525, 576, 576, 634, 634, 463, 463]  no evaluation (geometry pre-check)
+  [   4] INFEAS f=2347.977  a=28.23 b=34.87 gap=41.70 (face=3.39mm) n=[582, 582, 619, 619, 105, 105, 428, 428, 365, 365, 639, 639, 785, 785, 484, 484, 582, 582, 653, 653]  no evaluation (geometry pre-check)
+  [   5] INFEAS f=3617.885  a=21.50 b=30.84 gap=41.81 (face=3.62mm) n=[478, 478, 638, 638, 57, 57, 457, 457, 494, 494, 485, 485, 693, 693, 697, 697, 682, 682, 459, 459]  no evaluation (geometry pre-check)
+  [   6] viol   f= 809.636  a=38.53 b=47.88 gap=42.40 (face=4.81mm) n=[438, 438, 561, 561, 110, 110, 390, 390, 492, 492, 730, 730, 662, 662, 412, 412, 567, 567, 386, 386]  tape=3.098km B=4.81T unif=0.30% hoop=19MPa I_op=47.2A margin(p5)=1.605 worst=1.037  (7 TA solves, 3433s)
+  [   7] viol   f= 569.110  a=31.88 b=52.42 gap=41.74 (face=3.48mm) n=[435, 435, 639, 639, 62, 62, 554, 554, 433, 433, 643, 643, 599, 599, 547, 547, 554, 554, 446, 446]  tape=3.004km B=5.66T unif=0.39% hoop=19MPa I_op=50.8A margin(p5)=1.580 worst=1.058  (7 TA solves, 3306s)
+  [   8] INFEAS f=3197.606  a=21.03 b=56.17 gap=41.99 (face=3.98mm) n=[350, 350, 512, 512, 11, 11, 539, 539, 560, 560, 514, 514, 625, 625, 573, 573, 657, 657, 580, 580]  no evaluation (geometry pre-check)
+  [   9] INFEAS f=1347.297  a=30.83 b=47.67 gap=41.96 (face=3.92mm) n=[740, 740, 624, 624, 189, 189, 434, 434, 468, 468, 546, 546, 541, 541, 574, 574, 579, 579, 462, 462]  no evaluation (geometry pre-check)
+  [  10] INFEAS f=1016.827  a=34.88 b=56.50 gap=42.22 (face=4.44mm) n=[433, 433, 564, 564, 8, 8, 592, 592, 528, 528, 756, 756, 631, 631, 582, 582, 508, 508, 404, 404]  no evaluation (geometry pre-check)
+  [  11] INFEAS f=1020.881  a=30.53 b=61.26 gap=41.80 (face=3.60mm) n=[480, 480, 604, 604, 47, 47, 399, 399, 553, 553, 589, 589, 570, 570, 513, 513, 643, 643, 428, 428]  no evaluation (geometry pre-check)
+  [  12] INFEAS f=1283.735  a=28.33 b=54.62 gap=42.08 (face=4.16mm) n=[383, 383, 662, 662, 161, 161, 596, 596, 464, 464, 656, 656, 619, 619, 545, 545, 563, 563, 447, 447]  no evaluation (geometry pre-check)
+  [  13] INFEAS f=1083.202  a=28.55 b=55.51 gap=41.52 (face=3.03mm) n=[509, 509, 607, 607, 185, 185, 493, 493, 343, 343, 619, 619, 561, 561, 498, 498, 516, 516, 446, 446]  no evaluation (geometry pre-check)
+  [  14] INFEAS f=8738.208  a=47.34 b=38.43 gap=42.03 (face=4.05mm) n=[356, 356, 561, 561, 13, 13, 482, 482, 596, 596, 634, 634, 510, 510, 413, 413, 588, 588, 441, 441]  no evaluation (geometry pre-check)
+  [  15] INFEAS f=1836.577  a=27.23 b=51.71 gap=41.66 (face=3.32mm) n=[442, 442, 667, 667, 25, 25, 538, 538, 584, 584, 554, 554, 709, 709, 560, 560, 577, 577, 597, 597]  no evaluation (geometry pre-check)
+  [  16] INFEAS f=1030.063  a=35.19 b=60.14 gap=41.77 (face=3.53mm) n=[441, 441, 773, 773, 94, 94, 531, 531, 460, 460, 668, 668, 448, 448, 424, 424, 482, 482, 453, 453]  no evaluation (geometry pre-check)
+  [a=40.5 b=61.5 gap=42.1 nt=9690] KSP converged reason: 4, iterations: 1
+  [a=35.9 b=79.8 gap=42.2 nt=8718] KSP converged reason: 4, iterations: 1
+  [a=50.0 b=60.0 gap=42.1 nt=10716] KSP converged reason: 4, iterations: 1
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:165: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:165: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+  [  17] INFEAS f=2939.482  a=24.84 b=63.50 gap=41.60 (face=3.20mm) n=[454, 454, 583, 583, 120, 120, 548, 548, 484, 484, 741, 741, 484, 484, 644, 644, 392, 392, 442, 442]  no evaluation (geometry pre-check)
+  [  18] viol   f=1027.994  a=35.91 b=79.82 gap=42.15 (face=4.31mm) n=[469, 469, 496, 496, 32, 32, 546, 546, 468, 468, 597, 597, 390, 390, 494, 494, 562, 562, 305, 305]  tape=3.714km B=4.16T unif=0.17% hoop=16MPa I_op=44.0A margin(p5)=1.618 worst=1.037  (7 TA solves, 5180s)
+  [  19] viol   f= 820.871  a=40.47 b=61.52 gap=42.06 (face=4.12mm) n=[494, 494, 649, 649, 109, 109, 342, 342, 492, 492, 679, 679, 567, 567, 559, 559, 643, 643, 311, 311]  tape=3.585km B=4.78T unif=0.18% hoop=19MPa I_op=44.9A margin(p5)=1.598 worst=1.003  (7 TA solves, 4088s)
+  [  20] INFEAS f=7290.425  a=13.09 b=47.59 gap=41.89 (face=3.79mm) n=[461, 461, 424, 424, 124, 124, 528, 528, 477, 477, 644, 644, 534, 534, 587, 587, 605, 605, 516, 516]  no evaluation (geometry pre-check)
+  [  21] INFEAS f=1916.718  a=31.37 b=41.11 gap=41.59 (face=3.19mm) n=[518, 518, 567, 567, 160, 160, 429, 429, 572, 572, 828, 828, 649, 649, 445, 445, 522, 522, 397, 397]  no evaluation (geometry pre-check)
+  [  22] INFEAS f=5265.642  a=20.82 b=53.91 gap=42.02 (face=4.05mm) n=[480, 480, 590, 590, 44, 44, 499, 499, 403, 403, 768, 768, 658, 658, 496, 496, 559, 559, 505, 505]  no evaluation (geometry pre-check)
+  [  23] viol   f= 945.914  a=50.01 b=60.02 gap=42.14 (face=4.27mm) n=[528, 528, 594, 594, 162, 162, 635, 635, 597, 597, 769, 769, 590, 590, 512, 512, 555, 555, 416, 416]  tape=4.277km B=4.40T unif=0.12% hoop=19MPa I_op=38.7A margin(p5)=1.596 worst=1.038  (7 TA solves, 4884s)
+  [  24] INFEAS f=1564.225  a=30.03 b=67.17 gap=41.77 (face=3.53mm) n=[396, 396, 542, 542, 154, 154, 529, 529, 427, 427, 751, 751, 561, 561, 540, 540, 502, 502, 342, 342]  no evaluation (geometry pre-check)
+  [eval error] Exception: Unknown node 0 in element 906
+  [a=45.9 b=77.2 gap=41.8 nt=10312] KSP converged reason: 4, iterations: 1
+  [a=33.6 b=70.0 gap=41.8 nt=9510] KSP converged reason: 4, iterations: 1
+  [a=43.1 b=94.8 gap=41.9 nt=10192] KSP converged reason: 4, iterations: 1
+
+[stop requested] finishing current step, will checkpoint and exit before starting a new generation ...
+[0]PETSC ERROR: [0]PETSC ERROR: [0]PETSC ERROR: ------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+[0]PETSC ERROR: [0]PETSC ERROR: [0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: [0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+Try option -start_in_debugger or -on_error_attach_debugger
+to get more information on the crash.
+[0]PETSC ERROR: [0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: [0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+  [GENERATION FAILED] BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending. -- a worker process almost certainly crashed natively (SEGV/MPI_Abort in PETSc/MUMPS, not a Python exception). Force-killing worker processes and recreating the pool; this generation's candidates are not recorded.
+[stop requested] exiting before next generation (checkpoint already reflects the last completed one).
+
+==========================================================================================
+Finished: 24 evaluations in 188.3 min
+==========================================================================================
+CMA-ES stop reason(s): {}
+
+No evaluation satisfied both B_target and hoop within budget -- see history.csv for the closest candidates (smallest fitness among feasible=True rows).
