@@ -1,0 +1,177 @@
+w: 4.0mm -> 12.0mm (3.0x)
+stack height: 64.0mm -> 192.0mm
+gap floor: 33.50mm -> 97.50mm (margin above floor preserved: 0.474mm)
+new coil_half_gap: 97.97mm (was 33.97mm)
+a=31.131mm b=40.016mm n_turns=[550, 550, 584, 584, 17, 17, 507, 507, 507, 507, 613, 613, 629, 629, 605, 605] (UNCHANGED)
+
+Solving (20K, width-scaled Ic, 3x)...
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=31.1 b=40.0 gap=98.0 nt=8024] KSP converged reason: 4, iterations: 1
+
+[T-A] I = 476.6 A   Δt = 600.0 s   δ_SC = 1.0 µm   [per-layer T]
+[T-A] T BCs: T_bot = +2.383e+08,  T_top = -2.383e+08  (single-tape z = [-6.0, 6.0] mm)
+[T-A] Seeding A from uniform-J solve ...
+[T-A] Seed |B| mean at coil cells: 7.0152 T
+[T-A] Initial ρ_homog: min=2.71e-18  max=4.62e-17  mean=7.55e-18 Ω·m
+[T-A] Seed j/jc mean: 0.225  n mean: 17.80
+  [k=01] SCIF = +21193.92 mT (stall  -- )  |ΔB|/|B| = 1.31e+00  ⟨|J|/Jc⟩_central = 1.425  corr = +1.00
+  [k=02] SCIF = +17974.90 mT (stall  -- )  |ΔB|/|B| = 9.11e-01  ⟨|J|/Jc⟩_central = 4.078  corr = -0.46
+  [k=03] SCIF = +15168.18 mT (stall  -- )  |ΔB|/|B| = 4.88e-01  ⟨|J|/Jc⟩_central = 2.209  corr = -0.32
+  [k=04] SCIF = +12786.34 mT (stall  -- )  |ΔB|/|B| = 4.19e-01  ⟨|J|/Jc⟩_central = 1.445  corr = +0.98
+  [k=05] SCIF = +10474.54 mT (stall  -- )  |ΔB|/|B| = 3.35e-01  ⟨|J|/Jc⟩_central = 1.184  corr = +0.92
+  [T-A] ramp-up done — fixed fine relaxation α=0.15
+  [k=06] SCIF = +8997.06 mT (stall  -- )  |ΔB|/|B| = 3.49e-01  ⟨|J|/Jc⟩_central = 1.521  corr = +0.47
+  [k=07] SCIF = +7617.73 mT (stall  -- )  |ΔB|/|B| = 1.21e-01  ⟨|J|/Jc⟩_central = 1.168  corr = -0.08
+  [k=08] SCIF = +6395.07 mT (stall  -- )  |ΔB|/|B| = 1.05e-01  ⟨|J|/Jc⟩_central = 0.950  corr = +0.23
+  [k=09] SCIF = +5557.25 mT (stall  -- )  |ΔB|/|B| = 2.00e-01  ⟨|J|/Jc⟩_central = 0.735  corr = -0.41
+  [k=10] SCIF = +4687.77 mT (stall  -- )  |ΔB|/|B| = 4.57e-01  ⟨|J|/Jc⟩_central = 0.646  corr = -0.73
+  [k=11] SCIF = +3924.33 mT (stall 17269.594)  |ΔB|/|B| = 3.11e-01  ⟨|J|/Jc⟩_central = 0.522  corr = -0.47
+  [k=12] SCIF = +3551.60 mT (stall 14423.302)  |ΔB|/|B| = 3.46e-01  ⟨|J|/Jc⟩_central = 0.439  corr = -0.55
+  [k=13] SCIF = +2869.31 mT (stall 12298.868)  |ΔB|/|B| = 3.25e-01  ⟨|J|/Jc⟩_central = 0.661  corr = -0.48
+  [k=14] SCIF = +2882.53 mT (stall 9903.809)  |ΔB|/|B| = 3.34e-01  ⟨|J|/Jc⟩_central = 1.385  corr = -0.50
+  [k=15] SCIF = +2919.72 mT (stall 7554.820)  |ΔB|/|B| = 1.98e-01  ⟨|J|/Jc⟩_central = 1.087  corr = -0.46
+  [k=16] SCIF = +2815.17 mT (stall 6181.889)  |ΔB|/|B| = 1.88e-01  ⟨|J|/Jc⟩_central = 0.894  corr = -0.30
+  [k=17] SCIF = +2650.88 mT (stall 4966.854)  |ΔB|/|B| = 2.28e-01  ⟨|J|/Jc⟩_central = 0.843  corr = -0.55
+  [k=18] SCIF = +2594.45 mT (stall 3800.616)  |ΔB|/|B| = 1.53e-01  ⟨|J|/Jc⟩_central = 0.755  corr = -0.49
+  [k=19] SCIF = +2367.76 mT (stall 3189.490)  |ΔB|/|B| = 1.58e-01  ⟨|J|/Jc⟩_central = 0.644  corr = -0.52
+  [k=20] SCIF = +2293.29 mT (stall 2394.478)  |ΔB|/|B| = 2.23e-01  ⟨|J|/Jc⟩_central = 0.568  corr = -0.65
+  [k=21] SCIF = +2030.49 mT (stall 1893.839)  |ΔB|/|B| = 3.65e-01  ⟨|J|/Jc⟩_central = 0.618  corr = -0.75
+  [k=22] SCIF = +1809.62 mT (stall 1741.985)  |ΔB|/|B| = 3.59e-01  ⟨|J|/Jc⟩_central = 0.660  corr = -0.63
+  [k=23] SCIF = +1878.04 mT (stall 991.274)  |ΔB|/|B| = 2.83e-01  ⟨|J|/Jc⟩_central = 0.719  corr = -0.63
+  [k=24] SCIF = +1746.84 mT (stall 1135.683)  |ΔB|/|B| = 2.39e-01  ⟨|J|/Jc⟩_central = 0.686  corr = -0.63
+  [k=25] SCIF = +1697.27 mT (stall 1222.451)  |ΔB|/|B| = 1.55e-01  ⟨|J|/Jc⟩_central = 0.634  corr = -0.56
+  [k=26] SCIF = +1489.76 mT (stall 1325.411)  |ΔB|/|B| = 1.94e-01  ⟨|J|/Jc⟩_central = 0.761  corr = -0.65
+  [k=27] SCIF = +1606.97 mT (stall 1043.905)  |ΔB|/|B| = 2.23e-01  ⟨|J|/Jc⟩_central = 0.936  corr = -0.60
+  [k=28] SCIF = +1484.15 mT (stall 1110.306)  |ΔB|/|B| = 2.73e-01  ⟨|J|/Jc⟩_central = 0.840  corr = -0.67
+  [k=29] SCIF = +1279.96 mT (stall 1087.803)  |ΔB|/|B| = 3.10e-01  ⟨|J|/Jc⟩_central = 0.828  corr = -0.69
+  [k=30] SCIF = +1207.47 mT (stall 1085.827)  |ΔB|/|B| = 2.77e-01  ⟨|J|/Jc⟩_central = 0.653  corr = -0.65
+  [k=31] SCIF = +1091.89 mT (stall 938.596)  |ΔB|/|B| = 2.54e-01  ⟨|J|/Jc⟩_central = 0.543  corr = -0.67
+  [k=32] SCIF = +1079.68 mT (stall 729.942)  |ΔB|/|B| = 1.80e-01  ⟨|J|/Jc⟩_central = 0.583  corr = -0.60
+  [k=33] SCIF = +1336.33 mT (stall 541.707)  |ΔB|/|B| = 2.29e-01  ⟨|J|/Jc⟩_central = 0.703  corr = -0.69
+  [k=34] SCIF = +1024.25 mT (stall 722.597)  |ΔB|/|B| = 2.58e-01  ⟨|J|/Jc⟩_central = 1.002  corr = -0.73
+  [k=35] SCIF =  +834.88 mT (stall 862.393)  |ΔB|/|B| = 2.54e-01  ⟨|J|/Jc⟩_central = 0.801  corr = -0.68
+  [k=36] SCIF =  +868.61 mT (stall 621.151)  |ΔB|/|B| = 2.76e-01  ⟨|J|/Jc⟩_central = 0.723  corr = -0.64
+  [k=37] SCIF =  +790.75 mT (stall 816.224)  |ΔB|/|B| = 2.79e-01  ⟨|J|/Jc⟩_central = 0.677  corr = -0.64
+  [k=38] SCIF =  +730.96 mT (stall 753.187)  |ΔB|/|B| = 2.58e-01  ⟨|J|/Jc⟩_central = 0.603  corr = -0.64
+  [k=39] SCIF =  +702.81 mT (stall 577.148)  |ΔB|/|B| = 2.13e-01  ⟨|J|/Jc⟩_central = 0.710  corr = -0.54
+  [k=40] SCIF =  +742.75 mT (stall 464.720)  |ΔB|/|B| = 2.75e-01  ⟨|J|/Jc⟩_central = 0.989  corr = -0.65
+  [k=41] SCIF =  +887.87 mT (stall 204.027)  |ΔB|/|B| = 3.03e-01  ⟨|J|/Jc⟩_central = 0.852  corr = -0.62
+  [k=42] SCIF = +1051.35 mT (stall 28.329)  |ΔB|/|B| = 3.06e-01  ⟨|J|/Jc⟩_central = 0.644  corr = -0.69
+  [k=43] SCIF =  +969.83 mT (stall 366.504)  |ΔB|/|B| = 2.42e-01  ⟨|J|/Jc⟩_central = 0.618  corr = -0.65
+  [k=44] SCIF = +1068.23 mT (stall 43.985)  |ΔB|/|B| = 1.82e-01  ⟨|J|/Jc⟩_central = 0.652  corr = -0.61
+  [k=45] SCIF = +1282.34 mT (stall 447.455)  |ΔB|/|B| = 2.22e-01  ⟨|J|/Jc⟩_central = 0.528  corr = -0.59
+  [k=46] SCIF =  +988.66 mT (stall 120.044)  |ΔB|/|B| = 2.37e-01  ⟨|J|/Jc⟩_central = 0.628  corr = -0.68
+  [k=47] SCIF = +1012.17 mT (stall 221.420)  |ΔB|/|B| = 2.53e-01  ⟨|J|/Jc⟩_central = 0.818  corr = -0.66
+  [k=48] SCIF = +1138.47 mT (stall 407.516)  |ΔB|/|B| = 3.02e-01  ⟨|J|/Jc⟩_central = 0.734  corr = -0.69
+  [k=49] SCIF =  +956.19 mT (stall 253.376)  |ΔB|/|B| = 2.96e-01  ⟨|J|/Jc⟩_central = 0.771  corr = -0.69
+  [k=50] SCIF = +1084.51 mT (stall 341.762)  |ΔB|/|B| = 2.40e-01  ⟨|J|/Jc⟩_central = 0.662  corr = -0.67
+  [k=51] SCIF = +1190.20 mT (stall 302.334)  |ΔB|/|B| = 1.90e-01  ⟨|J|/Jc⟩_central = 0.530  corr = -0.61
+  [k=52] SCIF = +1125.89 mT (stall 74.540)  |ΔB|/|B| = 2.22e-01  ⟨|J|/Jc⟩_central = 0.596  corr = -0.69
+  [k=53] SCIF = +1177.74 mT (stall 207.912)  |ΔB|/|B| = 2.25e-01  ⟨|J|/Jc⟩_central = 0.526  corr = -0.69
+  [k=54] SCIF = +1036.63 mT (stall 31.604)  |ΔB|/|B| = 3.20e-01  ⟨|J|/Jc⟩_central = 0.515  corr = -0.73
+  [k=55] SCIF = +1121.77 mT (stall 160.564)  |ΔB|/|B| = 3.33e-01  ⟨|J|/Jc⟩_central = 0.909  corr = -0.66
+  [k=56] SCIF = +1381.72 mT (stall 393.068)  |ΔB|/|B| = 2.29e-01  ⟨|J|/Jc⟩_central = 0.956  corr = -0.68
+  [k=57] SCIF = +1540.83 mT (stall 528.658)  |ΔB|/|B| = 2.10e-01  ⟨|J|/Jc⟩_central = 0.758  corr = -0.62
+  [k=58] SCIF = +1415.71 mT (stall 277.234)  |ΔB|/|B| = 2.36e-01  ⟨|J|/Jc⟩_central = 0.736  corr = -0.69
+  [k=59] SCIF = +1447.00 mT (stall 490.810)  |ΔB|/|B| = 3.10e-01  ⟨|J|/Jc⟩_central = 0.701  corr = -0.78
+  [k=60] SCIF = +1493.64 mT (stall 409.137)  |ΔB|/|B| = 2.28e-01  ⟨|J|/Jc⟩_central = 0.622  corr = -0.63
+  [k=61] SCIF = +1435.69 mT (stall 245.484)  |ΔB|/|B| = 3.41e-01  ⟨|J|/Jc⟩_central = 0.577  corr = -0.65
+  [k=62] SCIF = +1475.02 mT (stall 349.135)  |ΔB|/|B| = 1.81e-01  ⟨|J|/Jc⟩_central = 0.563  corr = -0.58
+  [k=63] SCIF = +1390.32 mT (stall 212.581)  |ΔB|/|B| = 2.38e-01  ⟨|J|/Jc⟩_central = 0.907  corr = -0.69
+  [k=64] SCIF = +1277.25 mT (stall 240.624)  |ΔB|/|B| = 3.06e-01  ⟨|J|/Jc⟩_central = 0.834  corr = -0.74
+  [k=65] SCIF = +1407.66 mT (stall 285.890)  |ΔB|/|B| = 2.75e-01  ⟨|J|/Jc⟩_central = 0.786  corr = -0.63
+  [k=66] SCIF = +1470.20 mT (stall 88.476)  |ΔB|/|B| = 2.15e-01  ⟨|J|/Jc⟩_central = 0.654  corr = -0.59
+  [k=67] SCIF = +1478.08 mT (stall 62.746)  |ΔB|/|B| = 1.87e-01  ⟨|J|/Jc⟩_central = 0.638  corr = -0.61
+  [k=68] SCIF = +1596.20 mT (stall 180.489)  |ΔB|/|B| = 2.35e-01  ⟨|J|/Jc⟩_central = 0.769  corr = -0.68
+  [k=69] SCIF = +1754.00 mT (stall 307.006)  |ΔB|/|B| = 2.84e-01  ⟨|J|/Jc⟩_central = 0.923  corr = -0.70
+  [k=70] SCIF = +1987.87 mT (stall 494.229)  |ΔB|/|B| = 2.41e-01  ⟨|J|/Jc⟩_central = 0.791  corr = -0.61
+  [k=71] SCIF = +1949.41 mT (stall 513.725)  |ΔB|/|B| = 3.03e-01  ⟨|J|/Jc⟩_central = 0.632  corr = -0.68
+  [k=72] SCIF = +1976.14 mT (stall 501.118)  |ΔB|/|B| = 2.30e-01  ⟨|J|/Jc⟩_central = 0.526  corr = -0.65
+  [k=73] SCIF = +1784.75 mT (stall 394.432)  |ΔB|/|B| = 2.65e-01  ⟨|J|/Jc⟩_central = 0.534  corr = -0.59
+  [k=74] SCIF = +1902.81 mT (stall 625.558)  |ΔB|/|B| = 2.43e-01  ⟨|J|/Jc⟩_central = 0.907  corr = -0.64
+  [k=75] SCIF = +1955.37 mT (stall 547.705)  |ΔB|/|B| = 2.15e-01  ⟨|J|/Jc⟩_central = 0.999  corr = -0.60
+  [k=76] SCIF = +1846.08 mT (stall 375.882)  |ΔB|/|B| = 2.15e-01  ⟨|J|/Jc⟩_central = 0.869  corr = -0.67
+  [k=77] SCIF = +1997.63 mT (stall 519.548)  |ΔB|/|B| = 2.63e-01  ⟨|J|/Jc⟩_central = 0.806  corr = -0.71
+  [k=78] SCIF = +1909.58 mT (stall 313.378)  |ΔB|/|B| = 2.74e-01  ⟨|J|/Jc⟩_central = 0.667  corr = -0.69
+  [k=79] SCIF = +1923.47 mT (stall 169.463)  |ΔB|/|B| = 2.98e-01  ⟨|J|/Jc⟩_central = 0.703  corr = -0.69
+  [k=80] SCIF = +1997.34 mT (stall 9.465)  |ΔB|/|B| = 2.51e-01  ⟨|J|/Jc⟩_central = 0.617  corr = -0.67
+  [k=81] SCIF = +1705.00 mT (stall 244.411)  |ΔB|/|B| = 2.12e-01  ⟨|J|/Jc⟩_central = 0.620  corr = -0.66
+  [k=82] SCIF = +1974.60 mT (stall 1.540)  |ΔB|/|B| = 2.49e-01  ⟨|J|/Jc⟩_central = 0.952  corr = -0.71
+  [k=83] SCIF = +2255.48 mT (stall 470.723)  |ΔB|/|B| = 2.71e-01  ⟨|J|/Jc⟩_central = 0.935  corr = -0.69
+  [k=84] SCIF = +2312.36 mT (stall 409.553)  |ΔB|/|B| = 3.09e-01  ⟨|J|/Jc⟩_central = 0.814  corr = -0.72
+  [k=85] SCIF = +2326.77 mT (stall 371.406)  |ΔB|/|B| = 2.53e-01  ⟨|J|/Jc⟩_central = 0.695  corr = -0.70
+  [k=86] SCIF = +2061.43 mT (stall 215.345)  |ΔB|/|B| = 2.34e-01  ⟨|J|/Jc⟩_central = 0.678  corr = -0.66
+  [k=87] SCIF = +2142.73 mT (stall 145.100)  |ΔB|/|B| = 2.87e-01  ⟨|J|/Jc⟩_central = 0.985  corr = -0.73
+  [k=88] SCIF = +2182.16 mT (stall 272.585)  |ΔB|/|B| = 2.03e-01  ⟨|J|/Jc⟩_central = 0.796  corr = -0.55
+  [k=89] SCIF = +1991.49 mT (stall 68.021)  |ΔB|/|B| = 2.30e-01  ⟨|J|/Jc⟩_central = 0.896  corr = -0.64
+  [k=90] SCIF = +2178.42 mT (stall 181.079)  |ΔB|/|B| = 3.40e-01  ⟨|J|/Jc⟩_central = 1.327  corr = -0.73
+  [k=91] SCIF = +2097.09 mT (stall 392.091)  |ΔB|/|B| = 3.02e-01  ⟨|J|/Jc⟩_central = 1.154  corr = -0.56
+  [k=92] SCIF = +2138.47 mT (stall 163.865)  |ΔB|/|B| = 2.32e-01  ⟨|J|/Jc⟩_central = 0.992  corr = -0.61
+  [k=93] SCIF = +2164.37 mT (stall 91.107)  |ΔB|/|B| = 2.11e-01  ⟨|J|/Jc⟩_central = 0.803  corr = -0.60
+  [k=94] SCIF = +2009.58 mT (stall 302.784)  |ΔB|/|B| = 2.30e-01  ⟨|J|/Jc⟩_central = 0.787  corr = -0.63
+  [k=95] SCIF = +1809.41 mT (stall 517.358)  |ΔB|/|B| = 2.31e-01  ⟨|J|/Jc⟩_central = 0.832  corr = -0.66
+  [k=96] SCIF = +1571.69 mT (stall 489.738)  |ΔB|/|B| = 2.22e-01  ⟨|J|/Jc⟩_central = 0.899  corr = -0.75
+  [k=97] SCIF = +1561.37 mT (stall 581.354)  |ΔB|/|B| = 2.23e-01  ⟨|J|/Jc⟩_central = 0.830  corr = -0.66
+  [k=98] SCIF = +1490.74 mT (stall 691.419)  |ΔB|/|B| = 2.95e-01  ⟨|J|/Jc⟩_central = 0.675  corr = -0.75
+  [k=99] SCIF = +1418.42 mT (stall 573.070)  |ΔB|/|B| = 3.00e-01  ⟨|J|/Jc⟩_central = 0.652  corr = -0.75
+  [k=100] SCIF = +1300.14 mT (stall 878.280)  |ΔB|/|B| = 3.16e-01  ⟨|J|/Jc⟩_central = 0.789  corr = -0.71
+  [k=101] SCIF = +1135.18 mT (stall 961.908)  |ΔB|/|B| = 2.44e-01  ⟨|J|/Jc⟩_central = 0.737  corr = -0.68
+  [k=102] SCIF = +1161.62 mT (stall 976.844)  |ΔB|/|B| = 1.72e-01  ⟨|J|/Jc⟩_central = 0.701  corr = -0.60
+  [k=103] SCIF = +1084.08 mT (stall 1080.291)  |ΔB|/|B| = 1.87e-01  ⟨|J|/Jc⟩_central = 0.579  corr = -0.68
+  [k=104] SCIF = +1092.47 mT (stall 917.108)  |ΔB|/|B| = 2.78e-01  ⟨|J|/Jc⟩_central = 0.500  corr = -0.76
+  [k=105] SCIF = +1006.23 mT (stall 803.183)  |ΔB|/|B| = 3.48e-01  ⟨|J|/Jc⟩_central = 0.742  corr = -0.66
+  [k=106] SCIF = +1162.70 mT (stall 408.986)  |ΔB|/|B| = 3.54e-01  ⟨|J|/Jc⟩_central = 1.059  corr = -0.67
+  [k=107] SCIF = +1370.40 mT (stall 190.973)  |ΔB|/|B| = 2.52e-01  ⟨|J|/Jc⟩_central = 1.075  corr = -0.60
+  [k=108] SCIF = +1411.74 mT (stall 79.000)  |ΔB|/|B| = 1.34e-01  ⟨|J|/Jc⟩_central = 0.882  corr = -0.48
+  [k=109] SCIF = +1377.58 mT (stall 40.834)  |ΔB|/|B| = 1.17e-01  ⟨|J|/Jc⟩_central = 0.717  corr = -0.36
+  [k=110] SCIF = +1390.47 mT (stall 90.331)  |ΔB|/|B| = 1.45e-01  ⟨|J|/Jc⟩_central = 0.586  corr = -0.52
+  [k=111] SCIF = +1330.16 mT (stall 194.977)  |ΔB|/|B| = 2.54e-01  ⟨|J|/Jc⟩_central = 0.595  corr = -0.76
+  [k=112] SCIF = +1247.51 mT (stall 85.886)  |ΔB|/|B| = 3.55e-01  ⟨|J|/Jc⟩_central = 0.713  corr = -0.68
+  [k=113] SCIF = +1450.86 mT (stall 366.777)  |ΔB|/|B| = 3.75e-01  ⟨|J|/Jc⟩_central = 0.900  corr = -0.60
+  [k=114] SCIF = +1446.27 mT (stall 353.799)  |ΔB|/|B| = 2.53e-01  ⟨|J|/Jc⟩_central = 0.767  corr = -0.58
+  [k=115] SCIF = +1442.50 mT (stall 436.273)  |ΔB|/|B| = 1.69e-01  ⟨|J|/Jc⟩_central = 0.699  corr = -0.48
+  [k=116] SCIF = +1469.75 mT (stall 307.052)  |ΔB|/|B| = 1.17e-01  ⟨|J|/Jc⟩_central = 0.599  corr = -0.39
+  [k=117] SCIF = +1336.86 mT (stall 33.541)  |ΔB|/|B| = 1.52e-01  ⟨|J|/Jc⟩_central = 0.544  corr = -0.57
+  [k=118] SCIF = +1482.61 mT (stall 70.868)  |ΔB|/|B| = 2.36e-01  ⟨|J|/Jc⟩_central = 0.725  corr = -0.70
+  [k=119] SCIF = +1571.55 mT (stall 193.964)  |ΔB|/|B| = 3.49e-01  ⟨|J|/Jc⟩_central = 0.934  corr = -0.77
+  [k=120] SCIF = +1549.41 mT (stall 158.940)  |ΔB|/|B| = 2.83e-01  ⟨|J|/Jc⟩_central = 0.796  corr = -0.62
+  [k=121] SCIF = +1618.25 mT (stall 288.090)  |ΔB|/|B| = 2.97e-01  ⟨|J|/Jc⟩_central = 0.618  corr = -0.61
+  [k=122] SCIF = +1548.07 mT (stall 300.561)  |ΔB|/|B| = 1.86e-01  ⟨|J|/Jc⟩_central = 0.560  corr = -0.63
+  [k=123] SCIF = +1459.30 mT (stall 8.447)  |ΔB|/|B| = 1.85e-01  ⟨|J|/Jc⟩_central = 0.703  corr = -0.60
+  [k=124] SCIF = +1527.46 mT (stall 81.188)  |ΔB|/|B| = 2.46e-01  ⟨|J|/Jc⟩_central = 0.887  corr = -0.69
+  [k=125] SCIF = +1296.65 mT (stall 145.853)  |ΔB|/|B| = 3.15e-01  ⟨|J|/Jc⟩_central = 0.919  corr = -0.79
+  [k=126] SCIF = +1122.56 mT (stall 347.191)  |ΔB|/|B| = 3.05e-01  ⟨|J|/Jc⟩_central = 0.795  corr = -0.73
+  [k=127] SCIF = +1065.27 mT (stall 271.595)  |ΔB|/|B| = 2.41e-01  ⟨|J|/Jc⟩_central = 0.633  corr = -0.69
+  [k=128] SCIF = +1028.29 mT (stall 454.314)  |ΔB|/|B| = 1.89e-01  ⟨|J|/Jc⟩_central = 0.488  corr = -0.65
+  [k=129] SCIF =  +986.38 mT (stall 585.165)  |ΔB|/|B| = 2.33e-01  ⟨|J|/Jc⟩_central = 0.481  corr = -0.71
+  [k=130] SCIF = +1123.05 mT (stall 426.360)  |ΔB|/|B| = 3.16e-01  ⟨|J|/Jc⟩_central = 0.895  corr = -0.77
+  [k=131] SCIF =  +933.75 mT (stall 684.498)  |ΔB|/|B| = 3.35e-01  ⟨|J|/Jc⟩_central = 1.602  corr = -0.66
+  [k=132] SCIF =  +784.89 mT (stall 763.182)  |ΔB|/|B| = 2.28e-01  ⟨|J|/Jc⟩_central = 1.274  corr = -0.62
+  [k=133] SCIF =  +729.62 mT (stall 729.686)  |ΔB|/|B| = 2.55e-01  ⟨|J|/Jc⟩_central = 1.019  corr = -0.65
+  [k=134] SCIF =  +668.27 mT (stall 859.184)  |ΔB|/|B| = 2.36e-01  ⟨|J|/Jc⟩_central = 0.803  corr = -0.64
+  [k=135] SCIF =  +751.99 mT (stall 544.663)  |ΔB|/|B| = 2.33e-01  ⟨|J|/Jc⟩_central = 0.679  corr = -0.70
+  [k=136] SCIF =  +653.43 mT (stall 469.134)  |ΔB|/|B| = 2.90e-01  ⟨|J|/Jc⟩_central = 0.611  corr = -0.74
+  [k=137] SCIF =  +955.81 mT (stall 109.460)  |ΔB|/|B| = 3.16e-01  ⟨|J|/Jc⟩_central = 0.889  corr = -0.74
+  [k=138] SCIF = +1284.92 mT (stall 256.622)  |ΔB|/|B| = 2.22e-01  ⟨|J|/Jc⟩_central = 0.835  corr = -0.60
+  [k=139] SCIF = +1280.08 mT (stall 293.699)  |ΔB|/|B| = 2.46e-01  ⟨|J|/Jc⟩_central = 0.769  corr = -0.73
+  [k=140] SCIF = +1458.37 mT (stall 335.316)  |ΔB|/|B| = 2.41e-01  ⟨|J|/Jc⟩_central = 0.673  corr = -0.74
+  [k=141] SCIF = +1317.60 mT (stall 383.848)  |ΔB|/|B| = 2.72e-01  ⟨|J|/Jc⟩_central = 0.770  corr = -0.76
+  [k=142] SCIF = +1342.95 mT (stall 558.067)  |ΔB|/|B| = 2.89e-01  ⟨|J|/Jc⟩_central = 0.731  corr = -0.68
+  [k=143] SCIF = +1326.86 mT (stall 597.248)  |ΔB|/|B| = 3.26e-01  ⟨|J|/Jc⟩_central = 0.922  corr = -0.77
+  [k=144] SCIF = +1269.59 mT (stall 601.312)  |ΔB|/|B| = 2.41e-01  ⟨|J|/Jc⟩_central = 0.772  corr = -0.70
+  [k=145] SCIF = +1245.96 mT (stall 493.970)  |ΔB|/|B| = 2.23e-01  ⟨|J|/Jc⟩_central = 0.663  corr = -0.60
+  [k=146] SCIF = +1086.94 mT (stall 433.508)  |ΔB|/|B| = 2.65e-01  ⟨|J|/Jc⟩_central = 0.652  corr = -0.74
+  [k=147] SCIF =  +857.46 mT (stall 98.347)  |ΔB|/|B| = 2.96e-01  ⟨|J|/Jc⟩_central = 0.706  corr = -0.72
+  [k=148] SCIF = +1107.76 mT (stall 177.156)  |ΔB|/|B| = 2.24e-01  ⟨|J|/Jc⟩_central = 0.726  corr = -0.57
+  [k=149] SCIF = +1230.27 mT (stall 49.813)  |ΔB|/|B| = 2.74e-01  ⟨|J|/Jc⟩_central = 0.913  corr = -0.70
+  [k=150] SCIF = +1370.06 mT (stall 88.302)  |ΔB|/|B| = 2.77e-01  ⟨|J|/Jc⟩_central = 0.755  corr = -0.70
+[T-A] WARNING: did not converge in 150 iterations (SCIF stall = 88.302 mT/10it vs tol 0.050; raw |ΔB|/|B| = 2.77e-01)
+[ta_safe_current] wrote /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/winner_12mm_tape_fields.npz
+
+======================================================================
+12mm tape @ 20K:  I_op_A=476.56  B_target_T=20.772  ta_worst_margin=0.6272  uniformity_pct=5.202  hoop_MPa=181.04  tape_km=1.962  bisection_exhausted=False  n_ta_solves=1
+
+Reference, SAME geometry, 4mm tape @ 20K: I_op_A=44.20  B_target_T=4.934  tape_km=1.962
+Reference, SAME geometry, 4mm tape @ 4.2K: I_op_A=63.06  B_target_T=6.987  tape_km=1.962
+Saved /home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/optimize/runs/ta_safe_margin_4p2K/winner_12mm_tape_fields.npz

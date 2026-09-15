@@ -1,0 +1,14 @@
+Building mesh...
+mesh+setup: 3.2s
+/home/gerrityjack/fenicsx/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+
+Sweeping alpha at I=476.56A, forced 150 iterations, cold start each time
+
+alpha=(0.3,0.15)  wall=283.6s  n_iters=150  rel_err=1.886e-01  scif_mT=951.39  worst_margin=0.4201  p5_margin=2.0840
+alpha=(0.15,0.08)  wall=291.7s  n_iters=150  rel_err=1.900e-01  scif_mT=1035.78  worst_margin=0.7009  p5_margin=2.3981
+alpha=(0.1,0.05)  wall=285.8s  n_iters=150  rel_err=1.959e-01  scif_mT=994.97  worst_margin=1.7352  p5_margin=2.4804
+alpha=(0.05,0.02)  wall=283.3s  n_iters=150  rel_err=9.601e-04  scif_mT=2101.77  worst_margin=1.8872  p5_margin=2.5202
+alpha=(0.03,0.01)  wall=282.4s  n_iters=150  rel_err=2.679e-03  scif_mT=5813.31  worst_margin=1.7225  p5_margin=2.5573
+alpha=(0.02,0.008)  wall=284.1s  n_iters=150  rel_err=3.304e-03  scif_mT=7599.43  worst_margin=1.7019  p5_margin=2.5740
+alpha=(0.01,0.005)  wall=285.4s  n_iters=150  rel_err=4.478e-03  scif_mT=11527.07  worst_margin=1.6958  p5_margin=2.5999

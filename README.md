@@ -863,6 +863,30 @@ operating-temperature investigation" for the full, still-open account.
 
 ## Known limitations
 
+- **NEW, 2026-09-14 — conductor width dwarfs every other lever tried:
+  tripling tape width (4mm→12mm) on the EXACT SAME winning geometry
+  took it from 4.93T to a validated 17.38T at 20K alone (3.5x), no
+  re-optimization needed.** Direct test of the ESMA hypothesis below
+  (`optimize/studies/test_12mm_tape_width.py` /
+  `eval_12mm_tape_validated.py`) — Ic scaled 3x with tape width (a
+  disclosed linear assumption, not measured 12mm-tape data; the Shanghai
+  CSV is Format B, so `params.w` alone does nothing to modeled Ic), gap
+  raised 34mm→98mm to physically fit the 3x-taller stack. First attempt
+  at default alpha did not converge (same class of problem as the whole
+  4.2K investigation — pushing to 476A puts a large fraction of cells
+  near/above local Ic, a stiffer regime); an alpha sweep found
+  `alpha=(0.03,0.01)` — the SAME pair that already fixed the
+  `transient/` short-dt problem AND the 4.2K regime — converges here too
+  (raw residual 2.67e-3, worst-cell margin 1.72, comfortably safe).
+  Compare: the entire overnight layer-escalation effort topped out at
+  1.42x (6.99T @ 16L); 4.2K alone gave 1.29-1.43x. Caveats: Ic-vs-width
+  scaling is an assumption (no measured 12mm data exists), the 98mm gap
+  wasn't checked against manufacturing constraints, and `a`/`b`/`n_turns`
+  were never re-optimized for a wider tape — this is a lower bound, not
+  an optimized design. Per explicit user direction, conductor width is
+  NOT a search variable (kept as a documented, validated, unexplored
+  lever). Full account: CLAUDE.md known-open-issue #10's 2026-09-14
+  continuation.
 - **NEW, 2026-09-14 — the layer-count lever (4.2K model + N_LAYERS
   escalation, see "Ramp-up power analysis" above) has a real ceiling
   around 16 layers / ~7T, not a path to 10T.** An overnight staged
@@ -886,8 +910,14 @@ operating-temperature investigation" for the full, still-open account.
   layers or colder operation), the evidence now points at conductor
   cross-section — never a search variable here (`params.w`=4mm single
   tape has always been fixed) — as the more promising untried lever, not
-  further layer escalation. Full table, designs, and reasoning:
-  CLAUDE.md known-open-issue #9's "2026-09-14 morning update".
+  further layer escalation. **2026-09-14/15 update: a dedicated overnight
+  run AT 16 layers (resumed from checkpoint, no per-stage timeout, 64
+  more evaluations, 96 total) re-confirmed 6.99T as at least a strong
+  local optimum** — best did not improve, though a close, genuinely safer
+  alternative emerged (eval 83: 6.71T, worst-cell margin 1.03 vs. the
+  original's 0.96, i.e. zero locally-quenched cells). Full table,
+  designs, and reasoning: CLAUDE.md known-open-issue #9's "2026-09-14
+  morning update" and its "2026-09-14/15" continuation.
 - **NEW, 2026-09-13 — a real, currently-being-built 10T HTS racetrack
   dipole gives an external benchmark, and it points at a lever this
   project has never varied: conductor width/thickness, not layer count

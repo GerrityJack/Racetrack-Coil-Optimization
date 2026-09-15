@@ -2295,6 +2295,34 @@ run only), and `cmaes_param_map.png` (cumulative across every run — see
    lost, resumable) rather than continued or abandoned; all data above
    is preserved in `optimize/runs/ta_safe_margin_4p2K/stage{6..10}_*/`.
 
+   **2026-09-14/15 — dedicated overnight optimization AT 16 layers
+   (resumed from the same checkpoint, not restarted) did not beat the
+   original find, but did surface a cleaner alternative.** Per user
+   direction ("do more optimization on the winning layers at 4mm 4.2K"),
+   the layer-escalation orchestrator was retired and
+   `ta_safe_margin_search_4p2K.py` was run directly against
+   `stage6_16layer`'s own checkpoint (preserving its 32 prior
+   evaluations/4 generations), given a full night with no per-generation
+   or per-stage wall-clock ceiling (2h generation-hang-protection only),
+   `TA_SAFE_BISECT_TOL_A=6.0` kept from the speed-up work. Result after
+   64 more evaluations (96 total): **best B_target_T unchanged at
+   6.987T (eval 13)** — genuinely re-confirmed as at least a strong local
+   optimum for this layer count, not just an early lucky find abandoned
+   too soon. One close, meaningfully DIFFERENT alternative did emerge:
+   eval 83, B_target_T=6.713T (a=36.71mm, b=50.10mm, gap=33.64mm,
+   n_turns=[673,673,679,679,21,21,509,509,629,629,582,582,625,625,672,672],
+   I_op=54.58A, uniformity=0.607%, hoop=22.7MPa) — 4% less field but
+   worst-cell margin **1.034** (genuinely 0 locally-quenched cells) vs.
+   eval 13's 0.962 (a handful of cells just over their local Ic) — a
+   small-field-for-cleaner-margin tradeoff worth knowing about if margin
+   headroom ever matters more than the last 0.3T. No PETSc/solver crashes
+   across the whole run; occasional
+   benign per-candidate failures (DOF-alignment misses, degenerate-mesh
+   KSP divergence) were caught and penalized by the search's own existing
+   error handling as designed, not new problems. **Paused (not stopped)
+   again** at this point, same safe `kill -STOP` discipline, all 96 rows
+   preserved in `optimize/runs/ta_safe_margin_4p2K/stage6_16layer/`.
+
 10. **2026-09-13: a real, currently-being-built 10T HTS racetrack dipole
     (found via user-provided PDF, not web access — IEEE Xplore blocks
     this session's fetch tooling) gives a concrete external benchmark,
@@ -2345,6 +2373,77 @@ run only), and `cmaes_param_map.png` (cumulative across every run — see
     A real, funded, currently-being-fabricated 10T HTS racetrack magnet
     is wrestling with the same class of margin/protection difficulty
     this project's own T-A-vs-uniform-J investigation surfaced.
+
+    **2026-09-14 — the ESMA-motivated hypothesis (conductor width, not
+    layer count or temperature) was directly tested, and it dwarfs every
+    other lever tried this session.** Quick, one-off test (NOT part of
+    the search — `optimize/studies/test_12mm_tape_width.py` /
+    `eval_12mm_tape_validated.py`, geometry unchanged, no re-optimization,
+    per explicit user direction): took the 16-layer winner's EXACT
+    radial geometry (`a`/`b`/`n_turns` from issue #9's eval 13) and
+    widened `params.w` from 4mm to 12mm (3x), with two physically-required
+    adjustments, both disclosed: (1) Ic scaled 3x — the Shanghai CSV is
+    Format B (absolute amps for the real 4mm tape; `tape_width` is
+    IGNORED for Format B, confirmed in `ic_model.py`'s own docstring), so
+    widening `params.w` alone does nothing to modeled Ic; a linear
+    Ic-scales-with-width assumption was applied instead (disclosed, NOT
+    measured data — same epistemic status as the 4.2K ratio-transplant
+    model), `n(B,theta)` left unscaled (reflects pinning uniformity, not
+    cross-sectional area); (2) `coil_half_gap` raised from 34.0mm to
+    98.0mm — 16 layers × 12mm = 192mm of axial stack vs. the original
+    64mm, physically cannot fit the old gap, so it was raised to the new
+    manufacturing floor plus the same margin-above-floor the original
+    design had.
+
+    First attempt (20K, DEFAULT alpha=(0.30,0.15)) did NOT converge (raw
+    |dB|/|B|=0.277, SCIF oscillating chaotically 857-1458mT even at
+    k=150) — same class of problem as the whole 4.2K investigation:
+    pushing to this much higher current (I_hi=476.6A, vs. the original
+    design's 44-63A) pushes a large fraction of cells to/above their
+    local Ic (naive worst_margin=0.42-1.9, wildly inconsistent across
+    reruns), a stiffer regime default alpha was never validated for.
+    An alpha sweep (`test_12mm_tape_alpha_sweep.py`, same methodology as
+    the temperature investigation) found the SAME `alpha=(0.03,0.01)`
+    pair that already fixed BOTH the `transient/` short-dt problem and
+    the 4.2K regime also converges here — 4 independent alpha values
+    ≤0.05 all converged to a consistent worst_margin~1.70-1.89 cluster
+    (raw residual ~1e-3, vs. ~0.19 for every alpha≥0.10 tested), smooth
+    monotonic SCIF decay, not chaotic oscillation.
+
+    **Validated result, `alpha=(0.03,0.01)`, forced full-length, raw
+    residual 2.67e-3:**
+
+    | | 4mm @ 20K | 4mm @ 4.2K | **12mm @ 20K** |
+    |---|---|---|---|
+    | I_op | 44.2 A | 63.1 A | **476.6 A** |
+    | **B_target** | 4.93 T | 6.99 T | **17.38 T** |
+    | Worst-cell margin | 0.92 | 0.96 | **1.72** |
+    | Uniformity | 0.075% | 0.130% | 0.604% (still passes) |
+    | Hoop stress | 12.6 MPa | 23.7 MPa | 181 MPa (still passes, 400 cap) |
+
+    **Tripling tape width took the exact same design from 4.93T to
+    17.38T (3.5x) at 20K alone — no re-optimization, not even the 4.2K
+    boost — comfortably clearing 10T with genuine safety margin to
+    spare (worst-cell 1.72, well above the 1.5385 requirement).** This
+    dwarfs every other lever tried this session: the entire overnight
+    layer-escalation effort topped out at 1.42x (6.99T @ 16L); 4.2K alone
+    gave 1.29-1.43x depending on the design. Field snapshots:
+    `optimize/runs/ta_safe_margin_4p2K/winner_12mm_tape_VALIDATED_fields.npz`
+    (this result) and `winner_at_20K_fields.npz` (the 4mm/20K reference).
+
+    **Caveats, not yet resolved:** (a) the linear Ic-vs-width scaling is
+    an assumption, not measured data — this project has no real 12mm-tape
+    Ic(B,theta) measurements; (b) the 98mm gap this needs was not checked
+    against face-gap/manufacturing constraints (`geometry_violation()`
+    was bypassed for this one-off test, per explicit "don't touch the
+    optimization" direction); (c) `a`/`b`/`n_turns` were never
+    re-optimized FOR a 12mm tape — CMA-ES has only ever searched with
+    `params.w` fixed at 4mm, so this number is a lower bound on what a
+    genuine 12mm-tape search could find, not an upper one. **Per explicit
+    user direction, conductor width has NOT been added as a search
+    variable** — this remains a documented, validated, but unexplored
+    lever for a future decision, same status as before, just now with a
+    concrete number behind it instead of just the ESMA analogy.
 
 **Full history, every rejected design, every retracted claim, and the
 reasoning behind every conclusion above:** `docs/HISTORY.md`.
