@@ -72,6 +72,13 @@ SCIF_CONV_MT = 0.5                  # max SCIF range over last 30 iters
 # are well inside the stable range measured on 2026-09-27.
 STAGE_COLD = (0.10, 150)
 STAGE_FLOOR = (0.10, 200)
+# TA_RAMP_ITER_SCALE < 1 shortens every solve (and MAX_SOLVES) for machinery
+# tests only (run_optimization.py --quick-test) -- results are then NOT converged.
+_scale = float(os.environ.get("TA_RAMP_ITER_SCALE", "1"))
+if _scale != 1.0:
+    STAGE_COLD = (STAGE_COLD[0], max(20, int(STAGE_COLD[1] * _scale)))
+    STAGE_FLOOR = (STAGE_FLOOR[0], max(20, int(STAGE_FLOOR[1] * _scale)))
+    MAX_SOLVES = min(MAX_SOLVES, 3)
 
 
 def _solve(domain, ta, uniform_setup, I, ic_model, n_model, eps, alpha,

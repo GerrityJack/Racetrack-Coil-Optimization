@@ -175,7 +175,13 @@ def setup_ta_problem(domain, cell_tags, facet_tags, uniform_setup,
     bot_dofs = fem.locate_dofs_geometrical(
         V_T, lambda x: np.abs(x[2] - z_bot) < tol_z)
 
-    if top_dofs.size == 0 or bot_dofs.size == 0:
+    # These central-tape planes are only used by the legacy replicated mode
+    # (per_layer=False). In per-layer mode every layer gets its own edge BCs
+    # below, and for layer counts with n_layers/2 even the planes z=+-w/2 lie
+    # mid-tape (the stack is centred at z=0), so there may legitimately be no
+    # nodes there (2026-09-27: this spuriously failed 8-layer designs on a
+    # coarse mesh; finer meshes found stray nodes near the planes by chance).
+    if (not per_layer) and (top_dofs.size == 0 or bot_dofs.size == 0):
         raise RuntimeError(
             f"T-A setup: failed to find Dirichlet DOFs on single-tape faces.\n"
             f"  z_top={z_top:.4f} m,  z_bot={z_bot:.4f} m,  tol={tol_z:.4f} m\n"

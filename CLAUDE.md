@@ -26,6 +26,65 @@ lookup away.
 
 ---
 
+## CURRENT STATE AND PLAN (2026-09-27) — read this first
+
+**Design criterion now in use** (user decisions, 2026-09-24/27): 4 mm tape,
+20 K; mean field ≥ 10 T over the 30×6 mm box; uniformity ≤ 0.8 % (spec
+< 1 %); **no coil cell above its local Jc at the moment a 2 h
+constant-power ramp ends**; minimize tape. The old "65 % of local Ic under
+uniform current" rule is retired. Physics: J/Jc = (E/E_c)^(1/n), so the
+per-cell load is set by the ramp-induced electric field; see "10 T with NO
+cell above Jc: ramp + hold" below.
+
+**Starting design: the 16-layer design** (a=31.13 mm, b=40.02 mm,
+gap=33.97 mm, n_turns=[550,550,584,584,17,17,507,507,507,507,613,613,629,
+629,605,605], 1.96 km). The 6-layer design ("LEGACY design" below, still in
+params.py) gives 7.1 T under the strict criterion, and 10.38 T only with a
+≥ 2 h hold after a 1 h ramp.
+
+**The search varies the layer count too** (added 2026-09-27): one CMA-ES
+"island" per layer count, rounds of GENS_PER_ROUND generations, worse
+half retired, neighbours of the best added (+-4 then +-2), new islands
+seeded from the best design re-profiled to the new count (same total
+turns). Starts with [12, 16, 20]. Dry-run tested (moves toward a fake
+optimum), resume/Ctrl+C tested; not run with real physics beyond a short
+launch.
+
+**Optimization runs on ANOTHER machine** (this WSL box is too slow:
+3.7 GB RAM, speed varies ~5×). Entry point: `run_optimization.py` (repo
+root); evaluator: `optimize/ta_ramp_current.py`. Work committed on branch
+`ramp-hold-optimization-runner` (4fb9b19); merge/push to main is up to the
+user. README.md was rewritten around this setup.
+
+**PLAN:**
+1. On the optimization machine: install (Miniforge + `conda env create -f
+   environment.yml`), then `python run_optimization.py --check`,
+   `--dry-run`, and `--smoke` (the smoke test is the FIRST evaluation of
+   the 16-layer design under the new criterion — no number exists yet).
+   Decide `B_MIN_T` (user asked for 10.0; 10.3 recommended for build
+   tolerance — a margin-less search converged onto the floor once and
+   failed jitter 0/14).
+2. Run the search; send back `optimize/runs/full_config_search/`
+   (`history.csv`, `best.csv` are git-ignored; also `run.log`,
+   `checkpoint.pkl`).
+3. Validate finalists (README, "Validating a design"). FIRST validate the
+   4 h single-step surrogate itself against a real sqrt(t) constant-power
+   march — never done yet. Planned case: 6-layer design at 126.6 A,
+   `RH_SEQUENCE=89.53:3600:1.0:1:0.1:150,89.53:3600:0.9:0:0.05:250,
+   115.58:2400:0.9:1:0.03:350,126.61:1200:0.9:1:0.015:600` in
+   `optimize/studies/ramp_hold_test.py`, compared with the surrogate's
+   worst load 0.998 (user cancelled it 2026-09-27 to prioritise the
+   runner). Then floor 0.8/0.7, `RH_ZGRID=xdense7`, an independent mesh,
+   `ta_validate.py` uniformity, and a build-tolerance jitter study.
+4. If no design reaches 10 T under the strict end-of-ramp rule: options
+   are (a) allow a hold/settle time before the criterion applies (the
+   6-layer design already reaches 10.38 T that way), (b) two power
+   supplies / current grading (assessment under "Relaxing the local-Ic
+   criterion" below), (c) a per-turn criterion plus a thermal/quench
+   analysis. User decision.
+
+---
+
 ## Repository layout
 
 ```
@@ -111,7 +170,7 @@ Racetrack_v4/
 
 ---
 
-## Current design — the champion (as of 2026-08-03)
+## LEGACY design — the 6-layer champion (as of 2026-08-03; superseded as the starting point 2026-09-27, see "CURRENT STATE AND PLAN" above)
 
 **n_layers=6 (double-pancake: 3 pairs), a=26.0mm, b=31.4mm,
 coil_half_gap=13.7mm, n_turns=[382,382,478,478,3,3],
@@ -1866,7 +1925,9 @@ warm-starts from the previous one), `RELAX_SEQUENCE="I:dt:eps,..."`
    n, worst load <= 1 at 196 A would need roughly a ~14x longer ramp than
    6,000 s (~1 day) — an estimate, not a solve.
 
-**PLAN (updated 2026-09-26 evening):**
+**PLAN (2026-09-26 evening) — SUPERSEDED 2026-09-27 by "CURRENT STATE AND
+PLAN" at the top of this file; kept for the record (steps 1-2 done, step 3
+replaced by the ramp+hold work and the optimization runner):**
 1. ~~Check machine speed~~ — done: champion cold 196 A/600 s solve took
    412 s after the reboot (906 s before, 171 s on 09-24), bit-reproducible.
    16L solves will be ~30 min each at this speed.
@@ -2193,6 +2254,11 @@ run only), and `cmaes_param_map.png` (cumulative across every run — see
 ---
 
 ## Current status and next steps
+
+**For the current plan see "CURRENT STATE AND PLAN (2026-09-27)" at the top
+of this file.** The list below is the longer-running record; items that
+call the 6-layer design "the champion" / "current design" predate its
+demotion to legacy on 2026-09-27.
 
 **Done / current state:**
 - T-A Picard solver converges cleanly and fast at the project's standard

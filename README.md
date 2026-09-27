@@ -48,7 +48,13 @@ python run_optimization.py --check
 ```bash
 python run_optimization.py --dry-run   # seconds: exercises the whole search machinery with a fake evaluator
 python run_optimization.py --smoke     # one REAL evaluation of the start design (roughly 20-120 min)
+python run_optimization.py --quick-test   # tiny REAL search, ~1-3 h: coarse mesh, 6-layer design,
+                                          # 6/8 layers, short solves -- tests every code path end to
+                                          # end (numbers are NOT meaningful; output in *_quicktest/)
 ```
+
+Recommended order on a new machine: `--check`, `--dry-run`,
+`--quick-test`, then the real search.
 
 **4. Run the search:**
 
@@ -80,7 +86,7 @@ python run_optimization.py --workers 4 --max-evals 300
 
 | file | content |
 |---|---|
-| `history.csv` | every candidate: geometry, status, fitness, I_op, B, uniformity, hoop stress, worst-cell load, T-A convergence flag, run time, error text |
+| `history.csv` | every candidate: round, layer count, geometry, status, fitness, I_op, B, uniformity, hoop stress, worst-cell load, T-A convergence flag, run time, error text |
 | `best.csv` | best design that satisfies all constraints |
 | `checkpoint.pkl` | CMA-ES state (used for resuming) |
 | `run.log` | copy of the terminal output |
@@ -89,7 +95,11 @@ python run_optimization.py --workers 4 --max-evals 300
 
 | setting | default | meaning |
 |---|---|---|
-| `START_DESIGN` | 16-layer design (below) | starting geometry; its number of layers fixes the layer count of the search |
+| `START_DESIGN` | 16-layer design (below) | starting geometry; it seeds every layer count |
+| `INITIAL_LAYERS` | [12, 16, 20] | layer counts searched in the first round |
+| `LAYERS_RANGE` | (4, 40) | layer counts the search may move to |
+| `LAYER_STEP_COARSE` / `_FINE` | 4 / 2 | neighbour spacing when moving toward better layer counts |
+| `GENS_PER_ROUND`, `MIN_ACTIVE` | 2, 2 | generations per layer count per round; layer counts kept after each round |
 | `B_MIN_T` | 10.0 | field floor. Searches converge *onto* this floor, so use ~10.3 T for build-tolerance margin (see Limitations) |
 | `UNIFORMITY_MAX_PCT` | 0.8 | uniformity limit |
 | `W_FIELD`, `W_UNIFORMITY`, `W_HOOP` | 3000, 50, 20 | penalty weights (see below) |
@@ -110,9 +120,28 @@ few hundred evaluations is a multi-day run. Each worker needs about
 ## What the optimizer does
 
 **Variables:** end-cap radius `a`, straight-section parameter `b`, coil
-half-gap, and one turn count per double pancake (layers 2i and 2i+1 share
-a count). The layer count is fixed by `START_DESIGN`; to try a different
-layer count, give a start design with that many layers.
+half-gap, one turn count per double pancake (layers 2i and 2i+1 share a
+count), **and the number of layers**.
+
+**How the layer count is searched.** Each layer count has a different
+number of variables, so each gets its own CMA-ES search (an "island"),
+and the islands compete:
+1. **Round 1** searches 12, 16 and 20 layers. Each starts from the
+   16-layer design, re-profiled to that layer count: the turn profile is
+   stretched over the stack with the same total turns, and the coil gap
+   and `a`/`b` are adjusted to stay buildable.
+2. **Every round**, each active layer count gets 2 CMA-ES generations.
+   The layer counts are then ranked by their best fitness and the worse
+   half is retired (at least 2 are kept).
+3. **The untried neighbours** of the best layer count are added: ±4
+   layers, then ±2 once both ±4 neighbours are known to be worse. New
+   layer counts start from the current best design, re-profiled.
+
+So the effort moves toward the best layer count, coarse to fine. The
+terminal prints a table of every layer count tried (status, generations,
+best fitness, best design) after each round. A dry run with fake physics
+that peaks at 24 layers moved 16 → 20 → 24, bracketed with 22/26, and
+retired the others.
 
 **Per candidate** (`optimize/ta_ramp_current.py`):
 1. **Geometry check** (instant): bend radius, face gap, and straight
@@ -439,8 +468,11 @@ enforced. Delamination stress is computed but not enforced.
   that way converged exactly onto B = 10 T and failed a ±0.2 mm / ±2 %
   jitter test (0/14 builds reached 10 T). Use `B_MIN_T` ≈ 10.3 T or
   re-check finalists with a jitter study.
-- **Fixed layer count per run.** The layer count is set by
-  `START_DESIGN`, not optimized.
+- **Layer-count search is greedy.** Retired layer counts are never
+  revisited. A layer count that looked poor after only 2 generations
+  could be dropped too early. Raise `GENS_PER_ROUND` or `MIN_ACTIVE` for a
+  more thorough (slower) search. With ~3 layer counts active, one round
+  is roughly 40–50 solved candidates, so `MAX_EVALS=300` is ~6 rounds.
 
 ---
 

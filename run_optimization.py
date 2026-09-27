@@ -6,6 +6,7 @@ run_optimization.py — ONE-FILE entry point for the racetrack coil design searc
     python run_optimization.py            # check setup, then search (resumes automatically)
     python run_optimization.py --check    # only check the setup, then exit
     python run_optimization.py --smoke    # check setup + evaluate the start design once
+    python run_optimization.py --quick-test  # tiny REAL search (~1 h) testing every code path
     python run_optimization.py --fresh    # ignore any saved checkpoint and start over
     python run_optimization.py --workers 4 --max-evals 300
 
@@ -18,8 +19,18 @@ Run it with the Python of the `fenicsx-env` conda environment (see README):
 What it optimizes
 -----------------
 A two-coil REBCO racetrack magnet (4 mm tape, 20 K). Variables: end-cap
-radius a, straight-section parameter b, coil half-gap, and one turn count
-per double-pancake pair (N_LAYERS is fixed by START_DESIGN below).
+radius a, straight-section parameter b, coil half-gap, one turn count per
+double-pancake pair -- AND the number of layers.
+
+Layer count (adaptive): each layer count gets its own CMA-ES search (an
+"island"; the number of variables differs per layer count). The search
+runs in rounds: every active island gets GENS_PER_ROUND generations, then
+the islands are ranked by their best fitness, the worse half is retired,
+and the untried neighbours of the best layer count are added (first
++-LAYER_STEP_COARSE layers, then +-LAYER_STEP_FINE once both coarse
+neighbours are known to be worse). So the effort moves toward the best
+layer count, coarse to fine. New islands start from the current best
+design, re-profiled to the new layer count (same total turns).
 
 For every candidate the T-A screening-current solver finds the LARGEST
 transport current at which NO coil cell is above its local critical current
@@ -51,7 +62,8 @@ design".
 # ─────────────────────────────────────────────────────────────────────────────
 #  USER SETTINGS — the only part of this file you normally edit
 # ─────────────────────────────────────────────────────────────────────────────
-# Starting design: the 16-layer design (8 double pancakes), SI units.
+# Starting design: the 16-layer design (8 double pancakes), SI units. It
+# seeds every layer count (re-profiled to that count).
 START_DESIGN = dict(
     a=0.03113, b=0.04002, coil_half_gap=0.03397,
     n_turns=[550, 550, 584, 584, 17, 17, 507, 507,
@@ -75,8 +87,19 @@ N_WORKERS = None          # parallel candidates; None = choose from CPUs/RAM
 POPSIZE = None            # CMA-ES population; None = pycma default
 SEED = 20260927
 
+# Layer-count search (see the docstring). Layer counts must be even.
+INITIAL_LAYERS = [12, 16, 20]   # islands created at the start
+LAYERS_RANGE = (4, 40)          # never go outside this
+LAYER_STEP_COARSE = 4           # neighbours added around the best count
+LAYER_STEP_FINE = 2             # ... refined to this once bracketed
+GENS_PER_ROUND = 2              # CMA-ES generations per island per round
+MIN_ACTIVE = 2                  # islands kept after each round (at least)
+NO_RESULT_GENS = 3              # retire a layer count after this many
+                                # generations without one successful solve
+
 # Initial CMA-ES step sizes (roughly how far it explores at first)
-STEP_A_M, STEP_B_M, STEP_GAP_M, STEP_TURNS = 0.003, 0.004, 0.0025, 60.0
+STEP_A_M, STEP_B_M, STEP_GAP_M = 0.003, 0.004, 0.0025
+STEP_TURNS_FRAC = 0.12           # turn-count step = this x mean turns per pair
 # Search box (physical limits are enforced separately, see geometry_violation)
 A_RANGE_M = (0.005, 0.100)
 B_RANGE_M = (0.006, 0.150)
@@ -88,6 +111,23 @@ HEARTBEAT_MIN = 10.0         # print a "still running" line this often
 MIN_RAM_PER_WORKER_GB = 2.5  # used to pick N_WORKERS automatically
 OUT_SUBDIR = "full_config_search"
 # ─────────────────────────────────────────────────────────────────────────────
+
+# --quick-test: a tiny REAL search (real T-A physics on a coarse mesh, the
+# small 6-layer design, 6/8 layers, population 4, solves cut to 1/4 of their
+# iterations) that exercises every code path in about 1-3 hours. Its
+# numbers are NOT physically meaningful. Set via
+# the environment so spawned worker processes see the same settings.
+QUICK_TEST = __import__("os").environ.get("RUN_OPT_QUICK_TEST") == "1"
+if QUICK_TEST:
+    START_DESIGN = dict(a=0.0260, b=0.0314, coil_half_gap=0.0137,
+                        n_turns=[382, 382, 478, 478, 3, 3])
+    INITIAL_LAYERS, MIN_ACTIVE, GENS_PER_ROUND, POPSIZE = [6, 8], 1, 1, 4
+    MAX_EVALS = 6
+    OUT_SUBDIR = "full_config_search_quicktest"
+    __import__("os").environ.setdefault("TA_RAMP_ITER_SCALE", "0.25")
+# testing hook: RUN_OPT_CANDIDATE_TIMEOUT_H=0.02 forces the hung-solve path
+CANDIDATE_TIMEOUT_H = float(__import__("os").environ.get(
+    "RUN_OPT_CANDIDATE_TIMEOUT_H", CANDIDATE_TIMEOUT_H))
 
 import os
 import sys
@@ -113,7 +153,7 @@ CHECKPOINT = os.path.join(OUT_DIR, "checkpoint.pkl")
 RUN_LOG = os.path.join(OUT_DIR, "run.log")
 
 HISTORY_FIELDS = [
-    "eval", "generation", "timestamp", "status", "fitness",
+    "eval", "round", "generation", "timestamp", "status", "fitness",
     "all_constraints_ok", "a_mm", "b_mm", "gap_mm", "face_gap_mm",
     "n_layers", "n_turns", "n_total", "tape_km", "I_op_A", "B_target_T",
     "uniformity_pct", "hoop_MPa", "worst_load", "ta_converged",
@@ -124,6 +164,9 @@ MESH_SETTINGS = dict(mesh_size_min_factor=0.25, mesh_size_max_factor=0.60,
                      mesh_dist_min_factor=1.50, mesh_dist_max_factor=2.00,
                      box_scale=4.0, mesh_nz_per_layer=3,
                      mesh_z_grading=[0.075, 0.15, 0.55, 0.15, 0.075])
+if QUICK_TEST:                          # coarse debugging tier
+    MESH_SETTINGS.update(mesh_size_min_factor=0.50, mesh_size_max_factor=1.00,
+                         box_scale=3.0)
 TAPE_W = 0.004        # m (params.w)
 TAPE_T = 75e-6        # m (params.t)
 MIN_FACE_GAP_M = 0.003
@@ -258,27 +301,41 @@ def _check_start_design():
             "edit START_DESIGN at the top of this file.")
     say(f"start design OK: {len(n)} layers, {sum(n)} turns, "
         f"face gap {face_gap*1e3:.2f} mm")
+    bad = [k for k in INITIAL_LAYERS if k % 2 or not
+           LAYERS_RANGE[0] <= k <= LAYERS_RANGE[1]]
+    if bad:
+        die(f"INITIAL_LAYERS contains {bad}: layer counts must be even and "
+            f"within LAYERS_RANGE {LAYERS_RANGE}.",
+            "edit INITIAL_LAYERS / LAYERS_RANGE at the top of this file.")
+    for k in INITIAL_LAYERS:
+        if k == len(n):
+            continue
+        x0 = derive_design(encode(START_DESIGN), k)
+        a, b, gap, nk = decode(x0)
+        ok = geometry_violation(a, b, gap, nk)[0] == 0
+        say(f"  {k}-layer start (re-profiled): a={a*1e3:.1f} b={b*1e3:.1f} "
+            f"gap={gap*1e3:.1f} mm, {sum(nk)} turns -> "
+            f"{'OK' if ok else 'NOT buildable, will be skipped'}")
 
 
 # ── design encoding and geometry rules ──────────────────────────────────────
+# A design vector is [a, b, coil_half_gap, turns of pair 1, ..., pair P];
+# the layer count is 2P, so it is implied by the vector length.
 
-N_LAYERS = len(START_DESIGN["n_turns"])
-N_PAIRS = N_LAYERS // 2
-
-
-def gap_floor():
-    return N_LAYERS * TAPE_W / 2.0 + MIN_FACE_GAP_M / 2.0
+def gap_floor(n_layers):
+    return n_layers * TAPE_W / 2.0 + MIN_FACE_GAP_M / 2.0
 
 
 def encode(d):
-    pairs = [d["n_turns"][2 * i] for i in range(N_PAIRS)]
-    return [d["a"], d["b"], d["coil_half_gap"], *pairs]
+    n = d["n_turns"]
+    return [d["a"], d["b"], d["coil_half_gap"],
+            *[n[2 * i] for i in range(len(n) // 2)]]
 
 
 def decode(x):
     a, b, gap = float(x[0]), float(x[1]), float(x[2])
     n = []
-    for v in x[3:3 + N_PAIRS]:
+    for v in x[3:]:
         k = max(1, int(round(v)))
         n += [k, k]
     return a, b, gap, n
@@ -289,7 +346,7 @@ def geometry_violation(a, b, gap, n_turns):
     size, face gap, reason). 0 violation = buildable."""
     t = TAPE_T
     a_inner_min = a - max(n_turns) * t / 2.0      # innermost turn radius
-    face_gap = 2.0 * (gap - N_LAYERS * TAPE_W / 2.0)
+    face_gap = 2.0 * (gap - len(n_turns) * TAPE_W / 2.0)
     viol, why = 0.0, []
     if a < 0.003:
         viol += ((0.003 - a) / 0.003) ** 2
@@ -304,6 +361,29 @@ def geometry_violation(a, b, gap, n_turns):
         viol += ((MIN_FACE_GAP_M - face_gap) / MIN_FACE_GAP_M) ** 2
         why.append(f"face gap {face_gap*1e3:.2f} mm < 3 mm")
     return viol, face_gap, "; ".join(why)
+
+
+def derive_design(x_parent, n_layers):
+    """Re-profile a design to another layer count: the pair turn profile is
+    interpolated over the stack position and rescaled to the same total
+    turns; the coil face gap is kept (>= 3.5 mm) and a/b are shifted out if
+    the new innermost turn would break the bend-radius rule."""
+    import numpy as np
+    a, b, gap, n = decode(x_parent)
+    pp = np.array(n[0::2], dtype=float)
+    q_n = n_layers // 2
+    pos_p = (np.arange(len(pp)) + 0.5) / len(pp)
+    pos_q = (np.arange(q_n) + 0.5) / q_n
+    q = np.interp(pos_q, pos_p, pp)
+    q *= pp.sum() / q.sum()                      # same total number of turns
+    q = np.maximum(1, np.round(q))
+    face = max(2.0 * (gap - len(n) * TAPE_W / 2.0), MIN_FACE_GAP_M + 0.0005)
+    gap_new = n_layers * TAPE_W / 2.0 + face / 2.0
+    a_min = MIN_BEND_RADIUS_M + 0.0001 + q.max() * TAPE_T / 2.0
+    if a < a_min:
+        b += a_min - a
+        a = a_min
+    return [a, b, gap_new, *q.tolist()]
 
 
 # ── worker side ─────────────────────────────────────────────────────────────
@@ -352,7 +432,9 @@ def evaluate_candidate(x, eval_id):
             except RuntimeError as e:
                 return dict(base, status="solver_error", error=str(e),
                             fitness=PENALTY_FAILED_KM, r=None, eval_min=0.0)
-        B = 4.0 + 2.0e-4 * sum(n) / (1.0 + 30.0 * abs(a - 0.031))
+        import math   # fake physics, best near 24 layers: tests the layer search
+        B = (4.0 + 1.2e-3 * sum(n) / (1.0 + 30.0 * abs(a - 0.031))) * \
+            math.exp(-((len(n) - 24) / 14.0) ** 2)
         r = dict(tape_km=sum(n) * 2 * 3.1416 * a / 1e3, I_op_A=80.0,
                  B_target_T=B, uniformity_pct=0.5, hoop_MPa=50.0,
                  ta_worst_load=1.0, converged=True, n_ta_solves=0,
@@ -417,13 +499,14 @@ class Search:
                     or float(row["fitness"]) < float(self.best["fitness"])):
                 self.best = row
 
-    def record(self, res, generation):
+    def record(self, res, generation, rnd=""):
         self.n_eval += 1
         if res["status"] != "rejected_geometry":
             self.n_solved += 1
         r = res.get("r") or {}
         row = dict.fromkeys(HISTORY_FIELDS, "")
-        row.update(eval=self.n_eval, generation=generation, timestamp=now(),
+        row.update(eval=self.n_eval, round=rnd, generation=generation,
+                   timestamp=now(),
                    status=res["status"], fitness=res["fitness"],
                    all_constraints_ok=bool(res.get("ok", False)),
                    a_mm=res["a"] * 1e3, b_mm=res["b"] * 1e3,
@@ -454,18 +537,19 @@ class Search:
                 w = csv.DictWriter(fh, fieldnames=HISTORY_FIELDS)
                 w.writeheader()
                 w.writerow(row)
-            say(f"*** NEW BEST design (eval {row['eval']}): tape "
+            say(f"*** NEW BEST design (eval {row['eval']}, {row['n_layers']} "
+                f"layers): tape "
                 f"{float(row['tape_km']):.3f} km, B={float(row['B_target_T']):.2f} T, "
                 f"unif={float(row['uniformity_pct']):.2f}%, n={row['n_turns']}")
         return row
 
 
-def save_checkpoint(es):
+def save_checkpoint(state):
+    """state = dict(islands={n_layers: island}, queue=[...], round=int)."""
     import pickle
     tmp = CHECKPOINT + ".tmp"
     with open(tmp, "wb") as fh:
-        pickle.dump(dict(es=es, n_layers=N_LAYERS,
-                         start_design=START_DESIGN), fh)
+        pickle.dump(dict(state, version=2), fh)
     os.replace(tmp, CHECKPOINT)
 
 
@@ -481,12 +565,11 @@ def load_checkpoint():
             f"starting a new search. (Old file kept as checkpoint.pkl.bad)")
         os.replace(CHECKPOINT, CHECKPOINT + ".bad")
         return None
-    if d.get("n_layers") != N_LAYERS:
-        die(f"the saved checkpoint is for a {d.get('n_layers')}-layer search "
-            f"but START_DESIGN now has {N_LAYERS} layers.",
-            "run with --fresh to start a new search (the old history.csv "
-            "is kept), or restore the old START_DESIGN.")
-    return d["es"]
+    if d.get("version") != 2:
+        die("the saved checkpoint is from an older version of this script "
+            "(single layer count).",
+            "run with --fresh to start a new search (old results are archived).")
+    return d
 
 
 def pick_workers(n_cpu, ram_gb):
@@ -533,9 +616,11 @@ def _failed(x, status, error):
                 error=error, fitness=PENALTY_FAILED_KM, r=None, eval_min=0.0)
 
 
-def run_generation(es, search, n_workers, ctx):
-    """Evaluate one CMA-ES generation. Every T-A candidate runs in its OWN
-    process, so a native crash or a hung solve costs only that candidate."""
+def run_generation(isl, search, n_workers, ctx, rnd):
+    """Evaluate one CMA-ES generation of one island (layer count). Every T-A
+    candidate runs in its OWN process, so a native crash or a hung solve
+    costs only that candidate."""
+    es = isl["es"]
     xs = es.ask()
     gen = es.countiter + 1
     first_id = search.n_eval + 1
@@ -546,7 +631,8 @@ def run_generation(es, search, n_workers, ctx):
             results[i] = evaluate_candidate(x, first_id + i)
         else:
             queue.append(i)
-    say(f"generation {gen}: {len(xs)} candidates (evals {first_id}-"
+    say(f"round {rnd}, {isl['n_layers']} layers, generation {gen}: "
+        f"{len(xs)} candidates (evals {first_id}-"
         f"{first_id + len(xs) - 1}); {len(xs) - len(queue)} rejected for "
         f"geometry, {len(queue)} to solve on up to {n_workers} workers")
     running = {}                                # i -> (process, conn, t_start)
@@ -612,12 +698,113 @@ def run_generation(es, search, n_workers, ctx):
             last_beat = time.time()
     fits = []
     for x, res in zip(xs, results):
-        search.record(res, gen)
+        search.record(res, gen, rnd)
         fits.append(res["fitness"])
+        if res["status"] == "ok":
+            isl["n_ok"] = isl.get("n_ok", 0) + 1
+        if res["status"] == "ok" and res["fitness"] < isl["best_fit"]:
+            isl["best_fit"], isl["best_x"] = res["fitness"], list(x)
+            r = res.get("r") or {}
+            isl["best_info"] = (f"B={r['B_target_T']:.2f} T, tape "
+                                f"{r['tape_km']:.3f} km, unif "
+                                f"{r['uniformity_pct']:.2f}%")
+    isl["n_solved"] += sum(res["status"] != "rejected_geometry" for res in results)
     return fits, xs
 
 
-def summary(search, es, budget):
+def new_island(n_layers, x0):
+    """A CMA-ES search for one layer count, started at design vector x0."""
+    import cma
+    n_pairs = n_layers // 2
+    turn_step = max(10.0, STEP_TURNS_FRAC * sum(x0[3:]) / n_pairs)
+    lo = [A_RANGE_M[0], B_RANGE_M[0], gap_floor(n_layers)] + [TURNS_RANGE[0]] * n_pairs
+    hi = [A_RANGE_M[1], B_RANGE_M[1], gap_floor(n_layers) + GAP_EXTRA_RANGE_M] + \
+        [TURNS_RANGE[1]] * n_pairs
+    x0 = [min(max(v, l), h) for v, l, h in zip(x0, lo, hi)]
+    # start >= 0.5 mm inside every geometric limit: a start ON a limit (the
+    # 6- and 16-layer designs sit on the 7.5 mm bend radius) wastes about half
+    # of the first generations on instantly rejected candidates
+    margin = 0.0005
+    a_need = MIN_BEND_RADIUS_M + margin + max(x0[3:]) * TAPE_T / 2.0
+    if x0[0] < a_need:
+        x0[1] += a_need - x0[0]
+        x0[0] = a_need
+    x0[1] = max(x0[1], x0[0] + 0.005 + margin)
+    x0[2] = max(x0[2], gap_floor(n_layers) + margin / 2.0)
+    opts = dict(bounds=[lo, hi], seed=SEED + n_layers, verbose=-9,
+                CMA_stds=[STEP_A_M, STEP_B_M, STEP_GAP_M] + [turn_step] * n_pairs)
+    if POPSIZE:
+        opts["popsize"] = POPSIZE
+    a, b, gap, n = decode(x0)
+    return dict(n_layers=n_layers, es=cma.CMAEvolutionStrategy(x0, 1.0, opts),
+                status="active", best_fit=float("inf"), best_x=None,
+                best_info="no successful solve yet", n_solved=0, n_ok=0,
+                start_info=f"a={a*1e3:.1f} b={b*1e3:.1f} gap={gap*1e3:.1f} mm, "
+                           f"{sum(n)} turns")
+
+
+def island_table(state):
+    say("layer counts explored so far (lower fitness = better):")
+    print(f"      {'layers':>6} {'status':>8} {'gens':>5} {'solved':>7} "
+          f"{'best fitness':>13}  best design", flush=True)
+    for n in sorted(state["islands"]):
+        isl = state["islands"][n]
+        bf = "-" if isl["best_fit"] == float("inf") else f"{isl['best_fit']:.3f}"
+        print(f"      {n:>6} {isl['status']:>8} {isl['es'].countiter:>5} "
+              f"{isl['n_solved']:>7} {bf:>13}  {isl['best_info']}", flush=True)
+
+
+def end_of_round(state):
+    """Rank the islands, retire the worse half, add neighbours of the best
+    layer count, and queue the next round."""
+    isl = state["islands"]
+    for n, i in isl.items():
+        if i["status"] == "active" and i["es"].stop():
+            i["status"] = "done"
+            say(f"{n} layers: CMA-ES converged/stopped ({dict(i['es'].stop())})")
+    island_table(state)
+    # only layer counts with at least one successful solve are ranked; the
+    # others get NO_RESULT_GENS generations to produce one
+    for n, i in isl.items():
+        if (i["status"] == "active" and i.get("n_ok", 0) == 0
+                and i["es"].countiter >= NO_RESULT_GENS):
+            i["status"] = "retired"
+            say(f"{n} layers retired: no successful solve in "
+                f"{i['es'].countiter} generations")
+    active = sorted((n for n, i in isl.items()
+                     if i["status"] == "active" and i.get("n_ok", 0) > 0),
+                    key=lambda n: isl[n]["best_fit"])
+    keep = max(MIN_ACTIVE, (len(active) + 1) // 2)
+    for n in active[keep:]:
+        isl[n]["status"] = "retired"
+        say(f"{n} layers retired (ranked {active.index(n) + 1} of {len(active)})")
+    evaluated = [n for n in isl if isl[n]["best_x"] is not None]
+    if evaluated:
+        best_n = min(evaluated, key=lambda n: isl[n]["best_fit"])
+        cands = [best_n - LAYER_STEP_COARSE, best_n + LAYER_STEP_COARSE]
+        known = [c for c in cands if c in isl and isl[c]["best_x"] is not None]
+        if len(known) == 2 and all(isl[c]["best_fit"] > isl[best_n]["best_fit"]
+                                   for c in known):
+            cands += [best_n - LAYER_STEP_FINE, best_n + LAYER_STEP_FINE]
+        for c in cands:
+            if (c in isl or c % 2 or not LAYERS_RANGE[0] <= c <= LAYERS_RANGE[1]):
+                continue
+            x0 = derive_design(isl[best_n]["best_x"], c)
+            if geometry_violation(*decode(x0))[0] > 0:
+                say(f"{c} layers: could not derive a buildable start design; skipped")
+                continue
+            isl[c] = new_island(c, x0)
+            say(f"NEW layer count {c} (neighbour of the current best, {best_n} "
+                f"layers), starting at {isl[c]['start_info']}")
+    active = sorted(n for n, i in isl.items() if i["status"] == "active")
+    state["round"] += 1
+    state["queue"] = [n for _ in range(GENS_PER_ROUND) for n in active]
+    if active:
+        say(f"round {state['round']}: {GENS_PER_ROUND} generation(s) each for "
+            f"{active} layers")
+
+
+def summary(search, state, budget):
     done = search.n_solved
     mins = [m for m in search.eval_minutes if m > 0]
     avg = f"{sum(mins) / len(mins):.1f} min" if mins else "n/a"
@@ -626,16 +813,16 @@ def summary(search, es, budget):
     if mins and left:
         eta = (f", roughly {fmt_dur(left * sum(mins) / len(mins) * 60 / max(1, search.n_workers))}"
                f" to go")
-    say(f"progress: {done} of {budget} solved candidates (budget checked after "
-        f"each whole generation; {search.n_eval - done} more rejected instantly "
-        f"for geometry), generation {es.countiter}, "
+    say(f"progress: {done} of {budget} solved candidates ({search.n_eval - done} "
+        f"more rejected instantly for geometry), round {state['round']}, "
         f"{fmt_dur(time.time() - search.t_start)} this session, avg {avg} per "
         f"solved candidate{eta}")
     if search.best:
         b = search.best
-        say(f"best so far (eval {b['eval']}): tape {float(b['tape_km']):.3f} km, "
-            f"B={float(b['B_target_T']):.2f} T at {float(b['I_op_A']):.1f} A, "
-            f"unif={float(b['uniformity_pct']):.2f}%, hoop={float(b['hoop_MPa']):.0f} MPa")
+        say(f"best so far (eval {b['eval']}, {b['n_layers']} layers): tape "
+            f"{float(b['tape_km']):.3f} km, B={float(b['B_target_T']):.2f} T at "
+            f"{float(b['I_op_A']):.1f} A, unif={float(b['uniformity_pct']):.2f}%, "
+            f"hoop={float(b['hoop_MPa']):.0f} MPa")
     else:
         say("no design satisfies all constraints yet (field >= "
             f"{B_MIN_T} T is usually the first to be reached)")
@@ -650,11 +837,22 @@ def main():
                     help="ignore the saved checkpoint and start a new search")
     ap.add_argument("--workers", type=int, help="parallel candidates")
     ap.add_argument("--max-evals", type=int, help="evaluation budget")
+    ap.add_argument("--quick-test", action="store_true",
+                    help="tiny REAL search (coarse mesh, 6-layer design, short "
+                         "solves, ~1-3 h) "
+                         "that exercises every code path; numbers not physical")
     ap.add_argument("--dry-run", action="store_true",
                     help="test the search machinery with a fake, instant "
                          "evaluator (no physics; writes to runs/"
                          f"{OUT_SUBDIR}_dryrun)")
     args = ap.parse_args()
+    if args.quick_test and not QUICK_TEST:
+        os.environ["RUN_OPT_QUICK_TEST"] = "1"        # re-run with quick settings
+        os.execv(sys.executable, [sys.executable, os.path.abspath(__file__)]
+                 + [a for a in sys.argv[1:]])
+    if QUICK_TEST:
+        say("QUICK TEST MODE: real physics on a coarse mesh, tiny search. "
+            "Tests the machinery end to end; the numbers are NOT meaningful.")
     if args.dry_run:
         global OUT_DIR, HISTORY_CSV, BEST_CSV, CHECKPOINT, RUN_LOG
         OUT_DIR = OUT_DIR + "_dryrun"
@@ -696,15 +894,14 @@ def main():
             f"{r['ta_worst_load']:.3f}, trials {r['trials']}")
         return
 
-    import cma
     import multiprocessing as mp
     banner("2/3  Setting up the search")
     search = Search()
-    es = None if args.fresh else load_checkpoint()
-    if es is not None:
+    state = None if args.fresh else load_checkpoint()
+    if state is not None:
         search.load_history()
-        say(f"RESUMING a saved search: {search.n_solved} solved candidates and "
-            f"{es.countiter} generations already done (use --fresh to restart)")
+        say(f"RESUMING a saved search: {search.n_solved} solved candidates, "
+            f"round {state['round']} (use --fresh to restart)")
     else:
         old = [p for p in (CHECKPOINT, HISTORY_CSV, BEST_CSV) if os.path.exists(p)]
         if old:
@@ -713,21 +910,32 @@ def main():
             for p in old:
                 os.replace(p, os.path.join(arch, os.path.basename(p)))
             say(f"previous search results moved to {arch}")
-        lo = [A_RANGE_M[0], B_RANGE_M[0], gap_floor()] + [TURNS_RANGE[0]] * N_PAIRS
-        hi = [A_RANGE_M[1], B_RANGE_M[1], gap_floor() + GAP_EXTRA_RANGE_M] + \
-            [TURNS_RANGE[1]] * N_PAIRS
-        opts = dict(bounds=[lo, hi], seed=SEED, verbose=-9,
-                    CMA_stds=[STEP_A_M, STEP_B_M, STEP_GAP_M] + [STEP_TURNS] * N_PAIRS)
-        if POPSIZE:
-            opts["popsize"] = POPSIZE
-        es = cma.CMAEvolutionStrategy(encode(START_DESIGN), 1.0, opts)
-        say(f"NEW search from the {N_LAYERS}-layer start design")
+        x_start = encode(START_DESIGN)
+        n_start = len(START_DESIGN["n_turns"])
+        state = dict(islands={}, queue=[], round=1)
+        for n in INITIAL_LAYERS:
+            x0 = x_start if n == n_start else derive_design(x_start, n)
+            if geometry_violation(*decode(x0))[0] > 0:
+                say(f"{n} layers: could not derive a buildable start design; skipped")
+                continue
+            state["islands"][n] = new_island(n, x0)
+            say(f"{n} layers: starting at {state['islands'][n]['start_info']}"
+                f"{' (START_DESIGN)' if n == n_start else ' (re-profiled START_DESIGN)'}")
+        if not state["islands"]:
+            die("no buildable start design for any layer count in INITIAL_LAYERS.",
+                "check INITIAL_LAYERS and START_DESIGN at the top of this file.")
+        active = sorted(state["islands"])
+        state["queue"] = [n for _ in range(GENS_PER_ROUND) for n in active]
+        say(f"NEW search. round 1: {GENS_PER_ROUND} generation(s) each for "
+            f"{active} layers")
     say(f"objective: minimize tape; require B >= {B_MIN_T} T, uniformity <= "
         f"{UNIFORMITY_MAX_PCT}%, hoop <= {HOOP_MAX_MPA:.0f} MPa, and no cell above "
         f"Jc at the end of a {RAMP_TIME_S/3600:.1f} h constant-power ramp")
     say(f"weights: field {W_FIELD:g}, uniformity {W_UNIFORMITY:g}, hoop {W_HOOP:g}")
-    say(f"budget {budget} evaluations, population {es.popsize}, {n_workers} "
-        f"workers x {threads} threads")
+    say(f"layer counts: adaptive within {LAYERS_RANGE}, neighbours "
+        f"+-{LAYER_STEP_COARSE} then +-{LAYER_STEP_FINE}, keep the best half "
+        f"(>= {MIN_ACTIVE}) after every round")
+    say(f"budget {budget} solved candidates, {n_workers} workers x {threads} threads")
     say(f"outputs in {OUT_DIR}  (history.csv, best.csv, checkpoint.pkl, run.log)")
 
     search.t_start = time.time()
@@ -746,20 +954,32 @@ def main():
 
     banner("3/3  Searching  (Ctrl+C stops safely; re-run to resume)")
     ctx = mp.get_context("spawn")
-    while search.n_solved < budget and not es.stop():
-        fits, xs = run_generation(es, search, n_workers, ctx)
+    while search.n_solved < budget:
+        if not state["queue"]:
+            end_of_round(state)
+            save_checkpoint(state)
+            if not state["queue"]:
+                say("no active layer counts left -- every search has converged "
+                    "or been retired.")
+                break
+        n = state["queue"][0]
+        isl = state["islands"][n]
+        if isl["status"] != "active":
+            state["queue"].pop(0)
+            continue
+        fits, xs = run_generation(isl, search, n_workers, ctx, state["round"])
         if fits is None:
             break
-        es.tell(xs, fits)
-        save_checkpoint(es)
-        summary(search, es, budget)
+        isl["es"].tell(xs, fits)
+        state["queue"].pop(0)
+        save_checkpoint(state)
+        summary(search, state, budget)
         if search.stop_requested:
             break
 
     banner("Search finished" if not search.stop_requested else "Search stopped")
-    summary(search, es, budget)
-    if not search.stop_requested and es.stop():
-        say(f"CMA-ES stop reason: {dict(es.stop())}")
+    summary(search, state, budget)
+    island_table(state)
     say(f"all results: {HISTORY_CSV}")
     if search.best:
         say(f"best design: {BEST_CSV} -- validate it before trusting it "
