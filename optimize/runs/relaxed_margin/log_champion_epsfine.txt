@@ -1,0 +1,15 @@
+champion: a=26.0mm b=31.4mm gap=13.7mm n_turns=[382, 382, 478, 478, 3, 3] w=4mm
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+I= 196.0A  ramp=6000s  eps=1  B= 9.076T  unif=0.925%  worst=1.039 p5=1.761 med=7.27  maxload=0.96 p95load=0.57  >Ic=0.0% >80%=0.4%  rel_err=6.24e-03  (595s)
+I= 196.0A  ramp=6000s  eps=0.9  B=10.610T  unif=0.553%  worst=0.879 p5=1.028 med=2.26  maxload=1.14 p95load=0.97  >Ic=1.7% >80%=33.7%  rel_err=6.78e-03  (535s)
+I= 196.0A  ramp=6000s  eps=0.8  B=10.838T  unif=0.431%  worst=0.873 p5=1.012 med=1.61  maxload=1.15 p95load=0.99  >Ic=3.1% >80%=39.7%  rel_err=1.05e-02  (257s)
+I= 196.0A  ramp=6000s  eps=0.75  B=10.910T  unif=0.468%  worst=0.873 p5=1.010 med=1.44  maxload=1.15 p95load=0.99  >Ic=3.4% >80%=41.4%  rel_err=3.86e-02  (290s)
+I= 196.0A  ramp=6000s  eps=0.7  B=10.917T  unif=0.557%  worst=0.629 p5=1.006 med=1.29  maxload=1.59 p95load=0.99  >Ic=4.0% >80%=46.4%  rel_err=5.27e-02  (291s)
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0

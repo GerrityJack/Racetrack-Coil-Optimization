@@ -1775,7 +1775,264 @@ design, not a new hypothesis.
 
 ---
 
+## Relaxing the local-Ic criterion, ramp time, and the ρ-floor (2026-09-24/26, by Claude Code) — IN PROGRESS
+
+**Fixed project decisions (user, 2026-09-24): tape stays 4 mm, cooling
+stays 20 K.** Conductor width (issue #10) and 4.2 K (issue #8) are off the
+table. The 65%-of-local-Ic T-A criterion MAY be relaxed. **Target (user,
+2026-09-26): 10 T with NO cell above its local critical current density.**
+
+**How the criterion works (for reference).** The T-A solver never caps
+current: `_update_rho()` gives every coil cell the power-law
+ρ = (E_c/Jc)(J/Jc)^(n−1) with the `ta_eps_reg` floor; the transport current
+is forced by the T boundary conditions. `ta_safe_current.py` then checks,
+AFTER the solve, per-cell margin = Jc(B,θ)/|J_inplane| at each DG0 coil-cell
+centroid (every mesh cell — 13,199 for the 16-layer design at medium mesh;
+not a continuous check, and medium-mesh-resolution-limited) against
+1/0.65 on the `MARGIN_PERCENTILE`=5 cell.
+
+**Tool:** `optimize/studies/relaxed_margin_test.py` — fixed-geometry direct
+current sweep (no bisection), medium/medium5 mesh forced in memory,
+`alpha=(0.03,0.01)`, forced 150 Picard iterations, records the full
+per-cell load distribution (load = J/Jc = 1/margin) and B_target. Env-var
+options: `RELAX_DESIGN_JSON` (geometry), `RELAX_I_SWEEP`, `RELAX_DT_LIST`
+(ramp time = the single implicit step's dt, set via `ta["dt_const"]`, no
+re-mesh), `RELAX_EPS_LIST` (`ta_eps_reg`), `RELAX_CONTINUE=1` (each solve
+warm-starts from the previous one), `RELAX_SEQUENCE="I:dt:eps,..."`
+(explicit ordered steps), `RELAX_SAVE_NPZ` (field snapshot for
+`plot_quench_location.py`), `RELAX_TAG` (CSV name). Outputs in
+`optimize/runs/relaxed_margin/`.
+
+**Findings so far:**
+1. **Per-cell load saturates at ~1.0-1.3×Jc once screening penetrates —
+   critical-state physics.** Relaxing the threshold percentage barely
+   helps. Champion (6L), 600 s ramp: 10 T needs ~110% of local Ic on 95%
+   of cells (~126% on the worst cell). **16-layer design** (4.2K-search
+   eval 13 geometry, run at 20 K: a=31.13mm, b=40.02mm, gap=33.97mm,
+   n_turns=[550,550,584,584,17,17,507,507,507,507,613,613,629,629,605,605])
+   reaches 10 T at ~88.5-92 A with 95% of cells ≤100% Ic, but ~5% of cells
+   are over Ic (worst 1.29×) and the 95th-percentile load sits on a flat
+   plateau (1.00 at 90 A, 1.08 at 140 A/16 T) — that threshold is not a
+   discriminating design rule. **All-cells ≤ Ic at 600 s: 16L ≈ 4.3-4.7 T
+   (~44 A), champion ≈ 2.4 T.** Over-Ic cells sit in the axially-outermost
+   pancakes of each coil (largest perpendicular field) —
+   `visualization/quench_location_16layer_20K_88p5A_{margin_map,3d}.png`.
+   Uniformity of the 16L design is excellent throughout (~0.09%); per-turn
+   (uniform-J) load at 88.5 A is only ~30% of Ic (uniform-J margin 3.3).
+2. **RETRACTED 2026-09-26 (evening): "cold vs warm start disagree on
+   B_target" was a convergence artifact, not physics.** The harness's
+   `alpha=(0.03,0.01)` + 150 forced iterations is far too short: the SCIF
+   error decays as (1-alpha_fine)^k = 0.99^k (measured ratio 0.819 per 20
+   iterations), so ~25% of the initial error remains at k=150, while
+   `rel_err` sits flat at ~6e-3 and never shows it. A cold start (far
+   from the answer) therefore stops short; a warm chain (already close)
+   does not. Confirmed: champion cold, 196 A, 600 s at `alpha=(0.10,0.05)`
+   gives 10.907 T = warm chain 10.909 T = xdense production 10.91 T.
+   **Every `alpha=(0.03,0.01)`/150-iteration number in this section, and
+   plausibly `ta_thermal_validation.py` Phase D, is suspect** unless it
+   was warm-chained from a nearby state; always use `RELAX_DIAG=1` and
+   read the SCIF column of the trace, not `rel_err`. The 16L sweep in
+   finding 1 was warm-chained (cold only at 20 A), so it is less exposed,
+   but has not been re-checked.
+3. **Finding 3's long-ramp numbers were also unconverged** (cold, slow
+   alpha). Converged champion @ 196 A, 6,000 s, eps=1.0 (default alpha,
+   flat SCIF 246.35 mT from k~50 on): B=11.34 T, worst load 1.04, 0.1%
+   over Ic, unif 0.91%. The floor-artifact reading stands (see 4).
+4. **ρ-floor continuation, redone with converged solves (2026-09-26
+   evening; `RELAX_ALPHA`, `RELAX_DIAG`, `RELAX_N_PICARD` hooks added to
+   `relaxed_margin_test.py`; logs `log_champion_eps{def,mid,600mid}.txt`,
+   traces in `optimize/runs/relaxed_margin/diag/`).** Champion, 196 A,
+   warm-started step to step:
+
+   | ramp | eps | B (T) | worst load | cells > Ic | status |
+   |---|---|---|---|---|---|
+   | 600 s | 1.0 | 10.91 | 1.27 | 25.1% | converged |
+   | 600 s | 0.9 | 10.83 | 1.27 | 30.0% | bounded ±1 mT oscillation |
+   | 6,000 s | 1.0 | 11.34 | 1.04 | 0.1% | converged |
+   | 6,000 s | 0.9 | 11.05 | 1.14 | 1.9% | converged |
+   | 6,000 s | 0.8 | 10.91 | 1.14 | 3.2% | bounded ±1.5 mT oscillation |
+
+   Below these floors no alpha works: default `(0.30,0.15)` limit-cycles
+   (rel_err 0.1-0.24, spurious loads to 15-233x), `(0.10,0.05)` wanders
+   (SCIF ±100 mT), `(0.03,0.01)` is too slow to reach the answer. Readings:
+   (a) at 6,000 s, B returns to the 600 s value (~10.9 T) once the floor
+   is lowered, i.e. the long-ramp field gain was the floor draining
+   screening currents; (b) the worst load is floor-independent at both
+   ramps (1.27 at 600 s, 1.14 at 6,000 s), and its ratio 0.898 per decade
+   of ramp time matches flux-creep scaling (E/E_c)^(1/n) with n~21 (inside
+   the measured 13-34) — the load reduction from a slower ramp looks
+   PHYSICAL, but modest; (c) the over-Ic FRACTION is not yet
+   floor-converged (still rising as eps drops). Extrapolating (b) at fixed
+   n, worst load <= 1 at 196 A would need roughly a ~14x longer ramp than
+   6,000 s (~1 day) — an estimate, not a solve.
+
+**PLAN (updated 2026-09-26 evening):**
+1. ~~Check machine speed~~ — done: champion cold 196 A/600 s solve took
+   412 s after the reboot (906 s before, 171 s on 09-24), bit-reproducible.
+   16L solves will be ~30 min each at this speed.
+2. **Before any new number: use `RELAX_ALPHA=0.10,0.05 RELAX_DIAG=1`**
+   (converges fully in 150 iterations where the problem is stable, as
+   good as default alpha at eps>=0.9) and check the SCIF trace is flat.
+   Floors below ~0.8 (6,000 s) / ~0.9 (600 s) cannot currently be solved;
+   getting there needs solver work (e.g. per-cell/local relaxation, or
+   continuation in n), not smaller eps steps.
+3. **16-layer design**: repeat the converged 6,000 s continuation
+   (1.0 → 0.9 → 0.8, ~1.5 h) and a 600 s warm chain near 88.5 A, to
+   re-establish its 10 T current and worst load with converged solves.
+   Then test the flux-creep scaling with one longer ramp (60,000 s).
+4. **If 10 T with zero over-Ic cells is still out of reach: model two power
+   supplies (current grading).** User proposal 2026-09-26. Claude's
+   assessment: split END double-pancakes (axially outermost, both coils,
+   symmetric) from CORE pancakes — not top/bottom, which breaks symmetry.
+   It relieves per-turn load (not binding: ~30% at 10 T) more than the
+   per-cell screening overload (driven by the whole magnet's radial field,
+   mostly from the core pancakes), so expect it to trim, not eliminate,
+   over-Ic cells. Engineering costs: second supply/leads, an inter-section
+   joint (sections must be whole double pancakes), strong inductive
+   coupling during NI ramps, two protection circuits. Model work: per-layer
+   current list in T BCs + Biot-Savart + margin bookkeeping (~half a day).
+   Single-supply alternative with a similar effect: fewer turns / larger
+   radius in the end pancakes.
+5. Standing recommendation, not yet adopted by the user: qualify with a
+   **per-turn** criterion (turn current vs tape-integrated Ic) plus a
+   thermal/quench analysis, as real magnets do — the strict per-cell rule
+   fights critical-state physics.
+
+---
+
+## 10 T with NO cell above Jc: ramp + hold (2026-09-27 overnight, by Claude Code) — FOUND, champion geometry, 20 K, 4 mm tape
+
+**Result.** The current champion (params.py geometry, 6 layers,
+[382,382,478,478,3,3]) at **I = 185 A**, ramped 0→185 A over **1 h** and
+then **held 11 h** at constant current: **B_target = 10.38 T (floor-converged),
+worst-cell load J/Jc = 0.92, 0 of 4,463 coil cells above local Jc**
+(99th-percentile load 0.81), box uniformity 0.45%. Hoop stress etc.
+are below the 196 A design values (stress ∝ I²).
+
+**Why a hold, and why this is the physically meaningful criterion.** With
+the power-law E-J model, J/Jc = (E/E_c)^(1/n), so "a cell above Jc" means
+"local E above E_c = 1 µV/cm". During a ramp E is set by the ramp rate and
+penetrated cells necessarily sit at or above Jc (1 h ramp: worst load 1.165,
+7.5% of cells over Ic, floor-converged). After the ramp stops, E decays by
+flux creep and loads fall below 1 — this is how real HTS magnets reach their
+DC operating state, and it is what every single-step (dt = ramp) T-A number
+in this file never modelled. `optimize/studies/ramp_hold_test.py` marches
+in time with the solver's existing `A_prev` hook (each step one
+backward-Euler step, E = −(A − A_prev)/dt).
+
+**Validation of the final state (all converged — flat SCIF trace, not
+rel_err):**
+
+| check | worst load | cells > Ic | B_target | SCIF |
+|---|---|---|---|---|
+| main (floor 0.8, medium mesh) | 0.921 | 0 | 10.570 T | 345 mT |
+| repeat, separate process | 0.920 | 0 | 10.570 T | 345 mT |
+| floor 0.7 | 0.919 | 0 | 10.405 T | 499 mT |
+| floor 0.65 | 0.917 | 0 | 10.378 T | 525 mT |
+| **floor 0.6 (floor-converged)** | **0.916** | **0** | **10.379 T** | 532 mT |
+| denser z-mesh (xdense7), floor 0.8 | 0.884 | 0 | 10.565 T | 360 mT |
+| conservative Ic (`scaling:45`), floor 0.8 | 0.920 | 0 | 10.573 T | 342 mT |
+| hold as 3 steps (1+3+6 h) instead of 1, floor 0.8 | 0.902 | 0 | 10.599 T | 318 mT |
+
+- **Floor:** the worst load is floor-independent from 0.8 down; SCIF and B
+  still move with the floor but converge (B change −0.165 T then −0.027 T
+  per step, then +0.001 T at 0.6), so quote B = 10.38 T, not the floor-0.8
+  10.57 T.
+- **Ic model:** loads are set by E, not by Jc's absolute value, so the
+  ±0.5 T Ic-extrapolation caveat (which concerns choosing I_op from Ic)
+  does not affect this result at fixed current.
+- **Time stepping:** a single BE step over a creep relaxation under-predicts
+  the relaxation (it evaluates the creep rate at the END of the step), so
+  single-step hold loads are conservative — confirmed: 3 steps give 0.902
+  vs the single step's 0.921.
+- **Hold-time dependence** (floor 0.8, 1 h ramp, multi-step march): worst
+  load 1.165 (ramp end, 7.5% of cells over) → 1.032 (1 h hold, 2 cells)
+  → **0.990 (2 h hold, 0 cells)** → 0.946 (5 h) → 0.902 (11 h). So the
+  coil is below Jc everywhere from ~2 h of hold on; 11 h gives ~8-10%
+  margin. A 10 min ramp + 1 h hold still leaves the worst cell at 1.045
+  (floor-converged: 1.038 / 1.044 / 1.046 at floor 0.9 / 0.8 / 0.7).
+
+**Solver findings that made this possible (and matter for every T-A result
+in this file):**
+1. **The ρ-floor is not a harmless regulariser on holds.** At the
+   production floor (1.0) sub-critical tape is ohmic (E = load·E_c instead
+   of load^n·E_c); a hold then drains nearly all screening current (SCIF
+   649 → 5 mT in 4 h) and wrongly shows every cell safe. Hold results
+   must be floor-converged.
+2. **Why low floors failed to converge:** the staggered Picard scheme
+   treats the tape self-inductance explicitly (the T-equation sees the
+   previous iterate's A), loop gain ~ μ0·w·D/(ρ·dt) ≈ 30 at floor 1 /
+   600 s, ×eps^−(n−1) for lower floors and ×1/dt for shorter steps — the
+   same mechanism as the 2026-08 short-dt failure. **Stable relaxation α
+   scales ∝ ρ_floor·dt**: used here, e.g. α = 0.05 (floor 0.9, 1 h),
+   0.02 (0.8, 1 h), 0.005 (0.7, 1 h), 0.05 (0.8, 10 h), 0.004 (0.65, 10 h),
+   0.0015 (0.6, 10 h), with iterations ~ a few/α. Long hold steps are
+   therefore the cheap case.
+3. **`solve/ta_implicit.py`** (experimental, not used for any number
+   above): matrix-free GMRES making the T-A coupling implicit. GMRES
+   converges fast, but the per-layer T-solve itself is only accurate to
+   ~1e-3 (intrinsic ill-conditioning from ρ spanning many decades — row
+   scaling did not help), which caps it; a monolithic sparse T+A linear
+   solve per ρ would be the proper fix.
+
+Files: `optimize/studies/ramp_hold_test.py` (driver; `RH_SEQUENCE`
+"I:dt:eps:adv[:alpha:iters:solver]", `RH_IC`, `RH_ZGRID`, `RH_SAVE_STEPS`),
+`optimize/studies/plot_quench_location_ramphold.py`, runs in
+`optimize/runs/ramp_hold/` (`champ185_P_*`), figures
+`visualization/quench_location_champion_185A_ramp1h_hold11h*.png`.
+
+**2026-09-27 (day): optimization criterion for a 2 h constant-power
+ramp.** User decision: no cell above Jc AT THE MOMENT the ramp ends, ramp
+by a constant-power supply within 2 h. Constant power into an inductive
+coil gives I(t) = I_op·sqrt(t/t_ramp), whose final rate equals a linear
+ramp over 2·t_ramp, so the surrogate is ONE T-A step of dt = 4 h from the
+virgin state (floor 0.9, forced Picard, worst cell, SCIF-trace
+convergence). `optimize/ta_ramp_current.py` (drop-in for
+`ta_safe_current.evaluate()`, secant search on log(load) vs log(I));
+selected in the CMA-ES search with `TA_SAFE_EVALUATOR=ramp`
+(`optimize/studies/ta_safe_margin_search.py`); single-design test:
+`optimize/studies/test_ta_ramp_current.py`. **Champion result: I_op =
+126.6 A, B_target = 7.11 T, worst load 0.998** (trials 123.2 A→0.989,
+126.6→0.998, 127.9→1.0005, 132.9→1.012; all converged). Load rises only
+~I^0.3 near the crossing, so the criterion is steep in field: the
+champion reaches 10 T only after a hold (see above), not at ramp end.
+Cost ~4 solves/design, 104 min on this machine at its slow speed.
+**Surrogate not yet validated** against a real sqrt(t) march.
+
+**2026-09-27: `run_optimization.py` (repo root) is now THE optimization
+entry point** — self-contained, for running on another machine: setup
+checks (`--check`), fake-evaluator machinery test (`--dry-run`, also
+`RUN_OPT_DRY_FAULT=raise|crash` to test error handling), one real
+evaluation (`--smoke`), automatic resume from `checkpoint.pkl`, safe
+Ctrl+C, one process per candidate (a native crash / hang / OOM costs only
+that candidate; killed children's mesh/tmp files are cleaned up),
+timestamped status lines + `run.log`. Start design = the 16-layer design,
+evaluator = `ta_ramp_current.evaluate()` (2 h constant-power ramp, 4 h
+surrogate), fitness = tape + 3000·field² + 50·uniformity² + 20·hoop²
+penalties, medium mesh forced in memory. Tested here with dry runs
+(normal, injected errors, injected crashes, stop/resume) and a real
+16-layer launch interrupted after a few minutes; NOT run to completion
+(user direction: optimization happens on another machine). README was
+rewritten around it the same day (6-layer design marked legacy,
+external-team `evaluate.py` material removed from the README; the file
+itself is untouched).
+
+**Not yet checked:** fine in-plane mesh (only z-refinement was tested);
+thermal effects (isothermal model); NI radial currents during the ramp
+(insulated-limit T-A; at DC hold they vanish); the 16-layer design (should
+have more margin — per-turn load ~30% vs the champion's ~60%).
+
+---
+
 ## Operational lessons (env quirks and process gotchas)
+
+- **2026-09-24: the whole conda install vanished** (fresh WSL — no conda,
+  no dolfinx, git-ignored run outputs missing). Rebuilt: Miniforge at
+  `~/miniconda3` + `conda env create -f environment.yml` (now also lists
+  `cma`), so the direct-binary path below is valid again. This WSL box has
+  only ~3.7 GB RAM / 8 cores — single medium-mesh solves fit; multi-worker
+  searches need more memory via `.wslconfig`. Speed has varied ~5x between
+  days (see the 2026-09-24/26 section's plan step 1).
 
 - **`conda run` buffers ALL subprocess stdout until the process exits**,
   regardless of `sys.stdout.reconfigure(line_buffering=True)` inside the
@@ -2444,6 +2701,26 @@ run only), and `cmaes_param_map.png` (cumulative across every run — see
     variable** — this remains a documented, validated, but unexplored
     lever for a future decision, same status as before, just now with a
     concrete number behind it instead of just the ESMA analogy.
+    **2026-09-24: user decision — tape stays 4 mm and cooling stays 20 K;
+    this lever and 4.2 K are closed.**
+
+11. **2026-09-24/26 — IN PROGRESS: can the 16-layer design reach 10 T with
+    NO cell above local Ic, via a relaxed criterion and/or a slower ramp?**
+    **2026-09-26 evening: the harness's alpha=(0.03,0.01)/150-iteration
+    solves were found to be unconverged (error decays as 0.99^k); with
+    converged solves the worst per-cell load drops ~10% per decade of ramp
+    time (flux-creep-like, floor-independent) — see finding 2-4 of that
+    section.**
+    Not yet answered. A slower ramp only removed over-Ic cells at the
+    production ρ-floor (`ta_eps_reg`=1.0), and that turned out to be a
+    floor artifact; lowering the floor brings them back, and below ~0.85
+    the solver stops converging reliably. Next steps, and the
+    two-power-supply (current grading) fallback, are in "Relaxing the
+    local-Ic criterion, ramp time, and the ρ-floor" above.
+    **2026-09-27: ANSWERED for the champion — 10.38 T with 0 cells above
+    Jc after a 1 h ramp to 185 A and a >=2 h hold (0.92 worst load at
+    11 h), floor-, mesh-, Ic-model- and time-step-checked. See "10 T with
+    NO cell above Jc: ramp + hold" above.**
 
 **Full history, every rejected design, every retracted claim, and the
 reasoning behind every conclusion above:** `docs/HISTORY.md`.

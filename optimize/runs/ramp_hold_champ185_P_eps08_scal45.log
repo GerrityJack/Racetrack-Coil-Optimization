@@ -1,0 +1,10 @@
+design: a=26.00mm b=31.40mm gap=13.70mm n_turns=[382, 382, 478, 478, 3, 3] alpha=(0.1, 0.05) n_picard=150
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+Ic model: scaling:45
+[0] I= 185.0A dt=    3600s t=    3600s eps=1 a=0.1x150  B=10.579T unif=0.775%  maxload=1.107 p99=0.989 >Ic=31/4463  maxE/Ec=8.8  SCIF=347.1mT range30=0.06 slope=-0.002  (422s)
+[1] I= 185.0A dt=    3600s t=    3600s eps=0.9 a=0.05x250  B=10.325T unif=0.458%  maxload=1.163 p99=1.041 >Ic=222/4463  maxE/Ec=19  SCIF=580.5mT range30=0.01 slope=-0.000  (730s)
+[2] I= 185.0A dt=    3600s t=    3600s eps=0.8 a=0.02x400  B=10.237T unif=0.350%  maxload=1.166 p99=1.053 >Ic=341/4463  maxE/Ec=20  SCIF=653.5mT range30=1.96 slope=+0.067  (1162s)
+[3] I= 185.0A dt=    3600s t=    7200s eps=0.8 a=0.02x400  B=10.317T unif=0.399%  maxload=1.033 p99=0.917 >Ic=2/4463  maxE/Ec=1.9  SCIF=584.2mT range30=0.04 slope=-0.001  (1140s)
+[4] I= 185.0A dt=   36000s t=   43200s eps=0.8 a=0.05x300  B=10.573T unif=0.619%  maxload=0.920 p99=0.815 >Ic=0/4463  maxE/Ec=0.22  SCIF=342.2mT range30=0.01 slope=+0.000  (1093s)
+    saved /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/ramp_hold/champ185_P_eps08_scal45_s4_fields.npz

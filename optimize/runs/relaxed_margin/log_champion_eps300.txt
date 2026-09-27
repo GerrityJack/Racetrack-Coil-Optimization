@@ -1,0 +1,11 @@
+champion: a=26.0mm b=31.4mm gap=13.7mm n_turns=[382, 382, 478, 478, 3, 3] w=4mm
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+I= 196.0A  ramp=6000s  eps=1  B=10.834T  unif=0.911%  worst=0.973 p5=1.234 med=5.13  maxload=1.03 p95load=0.81  >Ic=0.1% >80%=5.4%  rel_err=9.09e-03  (527s)
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 15 Terminate: Some process (or the batch system) has told this process to end
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see https://petsc.org/release/faq/#valgrind and https://petsc.org/release/faq/
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+Abort(59) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0

@@ -1,0 +1,15 @@
+design: a=26.00mm b=31.40mm gap=13.70mm n_turns=[382, 382, 478, 478, 3, 3] alpha=(0.1, 0.05) n_picard=150
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[0] I= 185.0A dt=    3600s t=    3600s eps=1 a=0.1x150  B=10.577T unif=0.778%  maxload=1.109 p99=0.989 >Ic=31/4463  maxE/Ec=8.9  SCIF=349.2mT range30=0.06 slope=-0.002  (654s)
+[1] I= 185.0A dt=    3600s t=    3600s eps=0.9 a=0.05x250  B=10.323T unif=0.459%  maxload=1.165 p99=1.040 >Ic=222/4463  maxE/Ec=19  SCIF=583.3mT range30=0.02 slope=-0.000  (1079s)
+[2] I= 185.0A dt=    3600s t=    3600s eps=0.8 a=0.02x400  B=10.233T unif=0.349%  maxload=1.166 p99=1.050 >Ic=341/4463  maxE/Ec=20  SCIF=656.8mT range30=1.94 slope=+0.065  (1628s)
+[3] I= 185.0A dt=    3600s t=    7200s eps=0.8 a=0.02x400  B=10.313T unif=0.400%  maxload=1.032 p99=0.916 >Ic=2/4463  maxE/Ec=1.9  SCIF=588.0mT range30=0.06 slope=+0.001  (1678s)
+[4] I= 185.0A dt=   36000s t=   43200s eps=0.8 a=0.05x300  B=10.570T unif=0.618%  maxload=0.920 p99=0.815 >Ic=0/4463  maxE/Ec=0.22  SCIF=345.2mT range30=0.02 slope=-0.000  (752s)
+    saved /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/ramp_hold/champ185_P_floor_s4_fields.npz
+[5] I= 185.0A dt=   36000s t=   43200s eps=0.7 a=0.01x600  B=10.405T unif=0.445%  maxload=0.919 p99=0.814 >Ic=0/4463  maxE/Ec=0.19  SCIF=499.0mT range30=0.03 slope=+0.001  (1478s)
+    saved /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/ramp_hold/champ185_P_floor_s5_fields.npz
+[6] I= 185.0A dt=   36000s t=   43200s eps=0.65 a=0.004x1000  B=10.378T unif=0.428%  maxload=0.917 p99=0.814 >Ic=0/4463  maxE/Ec=0.18  SCIF=525.4mT range30=0.04 slope=+0.001  (2811s)
+    saved /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/ramp_hold/champ185_P_floor_s6_fields.npz
+[7] I= 185.0A dt=   36000s t=   43200s eps=0.6 a=0.0015x2000  B=10.379T unif=0.445%  maxload=0.916 p99=0.814 >Ic=0/4463  maxE/Ec=0.18  SCIF=531.8mT range30=1.42 slope=-0.045  (10271s)
+    saved /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/ramp_hold/champ185_P_floor_s7_fields.npz

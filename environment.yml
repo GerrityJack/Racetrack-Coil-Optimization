@@ -25,3 +25,4 @@ dependencies:
   - matplotlib-base=3.11.0
   - seaborn
   - pyvista=0.48.4
+  - cma            # pycma, for optimize/cmaes_search.py

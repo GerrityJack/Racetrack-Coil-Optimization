@@ -1,0 +1,16 @@
+design: a=26.00mm b=31.40mm gap=13.70mm n_turns=[382, 382, 478, 478, 3, 3] alpha=(0.1, 0.05) n_picard=200
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[0] I= 185.0A dt=     600s t=     600s eps=1  B=10.256T unif=0.415%  maxload=1.266 p99=1.145 >Ic=1038/4463  maxE/Ec=97  SCIF=647.0mT range30=0.65 slope=-0.022  (224s)
+[1] I= 185.0A dt=     600s t=    1200s eps=1  B=10.424T unif=0.605%  maxload=1.087 p99=0.969 >Ic=18/4463  maxE/Ec=6.6  SCIF=490.5mT range30=0.02 slope=-0.000  (281s)
+[2] I= 185.0A dt=     600s t=    1200s eps=0.9  B=10.319T unif=0.428%  maxload=1.283 p99=1.025 >Ic=83/4463  maxE/Ec=13  SCIF=583.2mT range30=0.56 slope=-0.013  (453s)
+[3] I= 185.0A dt=     600s t=    1200s eps=0.8  B=10.312T unif=1.485%  maxload=5.238 p99=2.312 >Ic=720/4463  maxE/Ec=3.5e+11  SCIF=609.4mT range30=43.43 slope=-0.003  (441s)
+Traceback (most recent call last):
+  File "/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/studies/ramp_hold_test.py", line 186, in <module>
+    main()
+  File "/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/studies/ramp_hold_test.py", line 132, in main
+    _, B_h, _, info = ta_solve.solve_ta_at_current(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/solve/ta_solve.py", line 918, in solve_ta_at_current
+    raise RuntimeError(
+RuntimeError: [T-A k=18] A solve produced NaN.

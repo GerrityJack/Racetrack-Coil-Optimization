@@ -1,0 +1,34 @@
+design {'a': 0.026, 'b': 0.0314, 'coil_half_gap': 0.0137, 'n_turns': [382, 382, 478, 478, 3, 3]}  t_ramp=7200s dt_eff=14400s eps=0.9
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+  [a=26.0 b=31.4 gap=13.7 nt=1726] KSP converged reason: 4, iterations: 1
+  [ta_ramp] I= 123.20A  worst load=0.9886  SCIF range=0.01mT
+  [ta_ramp] I= 132.94A  worst load=1.0119  SCIF range=0.01mT
+  [ta_ramp] I= 127.89A  worst load=1.0005  SCIF range=0.02mT
+  [ta_ramp] I= 126.61A  worst load=0.9984  SCIF range=0.01mT
+  label: a=26.0 b=31.4 gap=13.7 nt=1726
+  feasible: True
+  a_mm: 26.0
+  b_mm: 31.4
+  n_turns: [382, 382, 478, 478, 3, 3]
+  n_total: 1726
+  tape_km: 0.3371986121435626
+  I_quench_uniform_A: 246.39037918941625
+  I_op_A: 126.60959421651663
+  binding: ta_end_of_ramp_load
+  B_target_T: 7.112677772628922
+  uniformity_pct: 0.5418194250273484
+  hoop_MPa: 47.082646622773694
+  delam_MPa: 3.9057792553129658
+  delam_scr_MPa: 3.9057792553129658
+  ta_worst_margin: 1.0016119376939367
+  ta_constraint_margin: 1.0016119376939367
+  ta_worst_load: 0.9983906564675656
+  bisection_exhausted: False
+  search_ok: True
+  scif_range_mT: 0.011424240931148688
+  converged: True
+  trials: 123.2:0.9886;132.9:1.0119;127.9:1.0005;126.6:0.9984
+  clip_frac: 0.23213085368586153
+  n_ta_solves: 4
+  eval_s: 6216.393454790115

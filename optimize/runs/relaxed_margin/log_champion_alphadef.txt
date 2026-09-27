@@ -1,0 +1,4 @@
+champion: a=26.0mm b=31.4mm gap=13.7mm n_turns=[382, 382, 478, 478, 3, 3] w=4mm
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+I= 196.0A  ramp=6000s  eps=1  B=11.338T  unif=0.908%  worst=0.964 p5=1.176 med=4.63  maxload=1.04 p95load=0.85  >Ic=0.1% >80%=8.0%  rel_err=6.09e-03  (244s)

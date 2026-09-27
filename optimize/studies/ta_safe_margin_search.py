@@ -113,6 +113,14 @@ params.mesh_z_grading = [0.075, 0.15, 0.55, 0.15, 0.075]
 
 import opt_config as cfg
 import ta_safe_current
+# 2026-09-27: TA_SAFE_EVALUATOR=ramp swaps the fitness evaluator for
+# ta_ramp_current.evaluate() -- largest current with NO cell above Jc at the
+# end of a 2 h constant-power ramp (4 h single-step surrogate). Same return
+# keys; default "margin" keeps ta_safe_current.evaluate() exactly as before.
+if os.environ.get("TA_SAFE_EVALUATOR", "margin") == "ramp":
+    import ta_ramp_current as _EVALUATOR
+else:
+    _EVALUATOR = ta_safe_current
 from cmaes_search import (decode, encode_x0, geometry_violation, N_PAIRS,
                           N_LAYERS)
 from ic_extrapolation import make_ic_model
@@ -245,7 +253,7 @@ def _evaluate_candidate(x):
 
     cand = dict(a=a, b=b, coil_half_gap=gap, n_turns=n_turns)
     try:
-        r = ta_safe_current.evaluate(cand, _ic_model, _comm)
+        r = _EVALUATOR.evaluate(cand, _ic_model, _comm)
     except Exception as e:
         print(f"  [eval error] {type(e).__name__}: {e}", flush=True)
         f = cfg.CMAES_INFEASIBLE_PENALTY_KM

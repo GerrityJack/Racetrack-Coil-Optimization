@@ -1,0 +1,12 @@
+champion: a=26.0mm b=31.4mm gap=13.7mm n_turns=[382, 382, 478, 478, 3, 3] w=4mm
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+I=  25.0A  B= 1.084T  unif=0.653%  worst=1.572 p5=3.266 med=35.79  maxload=0.64 p95load=0.31  >Ic=0.0% >80%=0.0%  rel_err=5.60e-02  (183s)
+I=  50.0A  B= 2.575T  unif=0.625%  worst=0.953 p5=1.116 med=13.50  maxload=1.05 p95load=0.90  >Ic=0.3% >80%=7.5%  rel_err=4.45e-02  (163s)
+I=  75.0A  B= 3.997T  unif=0.555%  worst=0.884 p5=1.026 med=8.11  maxload=1.13 p95load=0.98  >Ic=2.6% >80%=12.7%  rel_err=2.72e-02  (163s)
+I= 100.0A  B= 5.384T  unif=0.478%  worst=0.857 p5=0.988 med=5.58  maxload=1.17 p95load=1.01  >Ic=6.4% >80%=19.1%  rel_err=1.88e-02  (200s)
+I= 125.0A  B= 6.780T  unif=0.352%  worst=0.833 p5=0.961 med=4.04  maxload=1.20 p95load=1.04  >Ic=11.0% >80%=27.2%  rel_err=1.27e-02  (169s)
+I= 150.0A  B= 8.204T  unif=0.300%  worst=0.809 p5=0.939 med=2.94  maxload=1.24 p95load=1.07  >Ic=15.4% >80%=33.8%  rel_err=1.14e-02  (164s)
+I= 175.0A  B= 9.667T  unif=0.379%  worst=0.796 p5=0.919 med=2.26  maxload=1.26 p95load=1.09  >Ic=21.2% >80%=38.9%  rel_err=8.74e-03  (168s)
+I= 196.0A  B=10.909T  unif=0.455%  worst=0.785 p5=0.909 med=1.85  maxload=1.27 p95load=1.10  >Ic=25.1% >80%=41.4%  rel_err=7.33e-03  (171s)
+I= 220.0A  B=12.338T  unif=0.530%  worst=0.776 p5=0.896 med=1.51  maxload=1.29 p95load=1.12  >Ic=29.2% >80%=44.9%  rel_err=6.90e-03  (167s)

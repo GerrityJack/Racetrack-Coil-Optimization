@@ -98,6 +98,11 @@ _TIER_FACTORS = dict(
     medium=dict(mesh_size_min_factor=0.25, mesh_size_max_factor=0.60,
                 mesh_dist_min_factor=1.50, mesh_dist_max_factor=2.00,
                 box_scale=4.0),
+    # 2026-09-26: debugging-only tier (fast solver development, NOT for
+    # reported numbers)
+    coarse=dict(mesh_size_min_factor=0.50, mesh_size_max_factor=1.00,
+                mesh_dist_min_factor=1.50, mesh_dist_max_factor=2.00,
+                box_scale=3.0),
     fine=dict(mesh_size_min_factor=0.10, mesh_size_max_factor=1.0 / 3.0,
               mesh_dist_min_factor=1.00, mesh_dist_max_factor=3.00,
               box_scale=6.0),

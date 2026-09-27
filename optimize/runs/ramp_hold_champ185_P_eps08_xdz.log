@@ -1,0 +1,11 @@
+design: a=26.00mm b=31.40mm gap=13.70mm n_turns=[382, 382, 478, 478, 3, 3] alpha=(0.1, 0.05) n_picard=150
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:165: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+[0] I= 185.0A dt=    3600s t=    3600s eps=1 a=0.1x150  B=10.574T unif=0.950%  maxload=1.138 p99=1.010 >Ic=81/6213  maxE/Ec=7.4  SCIF=357.8mT range30=0.07 slope=-0.002  (881s)
+[1] I= 185.0A dt=    3600s t=    3600s eps=0.9 a=0.05x250  B=10.308T unif=0.865%  maxload=1.167 p99=1.060 >Ic=354/6213  maxE/Ec=9.7  SCIF=611.1mT range30=0.12 slope=+0.001  (1454s)
+[2] I= 185.0A dt=    3600s t=    3600s eps=0.8 a=0.02x400  B=10.237T unif=0.944%  maxload=1.218 p99=1.071 >Ic=503/6213  maxE/Ec=12  SCIF=676.8mT range30=1.55 slope=+0.038  (2435s)
+[3] I= 185.0A dt=    3600s t=    7200s eps=0.8 a=0.02x400  B=10.312T unif=0.881%  maxload=1.127 p99=0.924 >Ic=3/6213  maxE/Ec=0.81  SCIF=604.2mT range30=0.85 slope=+0.028  (1600s)
+[4] I= 185.0A dt=   36000s t=   43200s eps=0.8 a=0.05x300  B=10.565T unif=0.809%  maxload=0.884 p99=0.820 >Ic=0/6213  maxE/Ec=0.09  SCIF=360.2mT range30=0.06 slope=-0.000  (1065s)
+    saved /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/ramp_hold/champ185_P_eps08_xdz_s4_fields.npz
