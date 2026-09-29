@@ -1,0 +1,472 @@
+
+==============================================================================
+  Racetrack coil optimization  --  2026-09-28 13:14:59
+==============================================================================
+
+==============================================================================
+  1/3  Checking your setup
+==============================================================================
+[2026-09-28 13:14:59] python 3.12.3  (/dolfinx-env/bin/python3)
+[2026-09-28 13:15:04] packages: numpy 2.4.6, scipy 1.17.1, mpi4py 4.1.2, petsc4py 3.25.1, dolfinx 0.11.0.post0, ufl 2026.1.0, basix 0.11.0, gmsh 4.15.2, cma 4.5.0
+[2026-09-28 13:15:04] tape data files found (physics/*.csv)
+[2026-09-28 13:15:05] output folder: /work/optimize/runs/full_config_search
+[2026-09-28 13:15:05] machine: 16 CPU threads, 31.2 GB RAM
+[2026-09-28 13:15:05] start design OK: 16 layers, 8024 turns, face gap 3.94 mm
+[2026-09-28 13:15:05]   12-layer start (re-profiled): a=38.4 b=47.3 gap=26.0 mm, 8024 turns -> OK
+[2026-09-28 13:15:05]   20-layer start (re-profiled): a=31.1 b=40.0 gap=42.0 mm, 8024 turns -> OK
+
+==============================================================================
+  2/3  Setting up the search
+==============================================================================
+[2026-09-28 13:15:05] 12 layers: starting at a=38.8 b=47.7 gap=26.0 mm, 8024 turns (re-profiled START_DESIGN)
+[2026-09-28 13:15:05] 16 layers: starting at a=31.6 b=40.5 gap=34.0 mm, 8024 turns (START_DESIGN)
+[2026-09-28 13:15:05] 20 layers: starting at a=31.1 b=40.0 gap=42.0 mm, 8024 turns (re-profiled START_DESIGN)
+[2026-09-28 13:15:05] NEW search. round 1: 2 generation(s) each for [12, 16, 20] layers
+[2026-09-28 13:15:05] objective: minimize tape; require B >= 10.3 T, uniformity <= 0.8%, hoop <= 400 MPa, and no cell above Jc at the end of a 2.0 h constant-power ramp
+[2026-09-28 13:15:05] weights: field 3000, uniformity 50, hoop 20
+[2026-09-28 13:15:05] layer counts: adaptive within (4, 40), neighbours +-4 then +-2, keep the best half (>= 2) after every round
+[2026-09-28 13:15:05] budget 300 solved candidates, 6 workers x 2 threads
+[2026-09-28 13:15:05] outputs in /work/optimize/runs/full_config_search  (history.csv, best.csv, checkpoint.pkl, run.log)
+
+==============================================================================
+  3/3  Searching  (Ctrl+C stops safely; re-run to resume)
+==============================================================================
+[2026-09-28 13:15:05] round 1, 12 layers, generation 1: 10 candidates (evals 1-10); 5 rejected for geometry, 5 to solve on up to 6 workers
+[2026-09-28 13:15:07]   -> eval 9 started   a=38.56 b=47.51 gap=26.81 mm, 8176 turns
+[2026-09-28 13:15:07]   -> eval 8 started   a=39.30 b=47.33 gap=25.64 mm, 8216 turns
+[2026-09-28 13:15:07]   -> eval 1 started   a=42.32 b=54.86 gap=25.94 mm, 7918 turns
+[2026-09-28 13:15:07]   -> eval 10 started   a=40.17 b=48.31 gap=26.09 mm, 7308 turns
+[2026-09-28 13:15:07]   -> eval 7 started   a=38.43 b=47.75 gap=26.35 mm, 7616 turns
+  [a=38.6 b=47.5 gap=26.8 nt=8176] KSP converged reason: 4, iterations: 1
+  [a=42.3 b=54.9 gap=25.9 nt=7918] KSP converged reason: 4, iterations: 1
+  [a=40.2 b=48.3 gap=26.1 nt=7308] KSP converged reason: 4, iterations: 1
+  [a=39.3 b=47.3 gap=25.6 nt=8216] KSP converged reason: 4, iterations: 1
+  [a=38.4 b=47.8 gap=26.3 nt=7616] KSP converged reason: 4, iterations: 1
+[2026-09-28 13:25:05]    ... still running: 5/10 candidates of generation 1 finished, 5 in progress, 10m00s elapsed
+[2026-09-28 13:35:05]    ... still running: 5/10 candidates of generation 1 finished, 5 in progress, 20m00s elapsed
+[2026-09-28 13:35:08]   <- eval 9 done in 20m00s: B=12.72 T at 98.0 A, unif=0.78%, tape=2.449 km  PASSES ALL
+[2026-09-28 13:42:56]   <- eval 10 done in 27m48s: B=12.66 T at 108.3 A, unif=1.43%, tape=2.255 km  violates constraints
+[2026-09-28 13:43:43]   <- eval 1 done in 28m35s: B=9.05 T at 77.1 A, unif=0.11%, tape=2.756 km  violates constraints
+[2026-09-28 13:45:05]    ... still running: 8/10 candidates of generation 1 finished, 2 in progress, 30m00s elapsed
+[2026-09-28 13:55:05]    ... still running: 8/10 candidates of generation 1 finished, 2 in progress, 40m00s elapsed
+[2026-09-28 14:02:08]   <- eval 8 done in 47m01s: B=12.85 T at 90.5 A, unif=2.15%, tape=2.511 km  violates constraints
+[2026-09-28 14:05:05]    ... still running: 9/10 candidates of generation 1 finished, 1 in progress, 50m00s elapsed
+[2026-09-28 14:06:49]   <- eval 7 done in 51m41s: B=6.90 T at 55.8 A, unif=0.60%, tape=2.278 km  violates constraints
+[2026-09-28 14:06:50] *** NEW BEST design (eval 9, 12 layers): tape 2.449 km, B=12.72 T, unif=0.78%, n=[720, 720, 459, 459, 647, 647, 683, 683, 791, 791, 788, 788]
+[2026-09-28 14:06:50] progress: 5 of 300 solved candidates (5 more rejected instantly for geometry), round 1, 51m45s this session, avg 35.0 min per solved candidate, roughly 28h42m to go
+[2026-09-28 14:06:50] best so far (eval 9, 12 layers): tape 2.449 km, B=12.72 T at 98.0 A, unif=0.78%, hoop=84 MPa
+[2026-09-28 14:06:50] round 1, 16 layers, generation 1: 11 candidates (evals 11-21); 10 rejected for geometry, 1 to solve on up to 6 workers
+[2026-09-28 14:06:54]   -> eval 15 started   a=35.55 b=45.30 gap=34.32 mm, 8120 turns
+  [a=35.6 b=45.3 gap=34.3 nt=8120] KSP converged reason: 4, iterations: 1
+[2026-09-28 14:16:50]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 10m00s elapsed
+[2026-09-28 14:26:50]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 20m00s elapsed
+[2026-09-28 14:36:50]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 30m00s elapsed
+[2026-09-28 14:46:51]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 40m00s elapsed
+[2026-09-28 14:56:51]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 50m00s elapsed
+[2026-09-28 14:59:31]   <- eval 15 done in 52m37s: B=11.20 T at 97.6 A, unif=1.13%, tape=2.223 km  violates constraints
+[2026-09-28 14:59:33] progress: 6 of 300 solved candidates (15 more rejected instantly for geometry), round 1, 1h44m this session, avg 38.0 min per solved candidate, roughly 31h00m to go
+[2026-09-28 14:59:33] best so far (eval 9, 12 layers): tape 2.449 km, B=12.72 T at 98.0 A, unif=0.78%, hoop=84 MPa
+[2026-09-28 14:59:33] round 1, 20 layers, generation 1: 11 candidates (evals 22-32); 2 rejected for geometry, 9 to solve on up to 6 workers
+[2026-09-28 14:59:35]   -> eval 29 started   a=31.49 b=43.46 gap=42.29 mm, 8320 turns
+[2026-09-28 14:59:35]   -> eval 27 started   a=29.33 b=42.64 gap=41.89 mm, 7614 turns
+[2026-09-28 14:59:35]   -> eval 25 started   a=31.46 b=39.77 gap=41.96 mm, 8332 turns
+[2026-09-28 14:59:35]   -> eval 24 started   a=31.73 b=38.73 gap=41.65 mm, 8222 turns
+[2026-09-28 14:59:35]   -> eval 28 started   a=26.84 b=35.83 gap=41.89 mm, 8228 turns
+[2026-09-28 14:59:35]   -> eval 26 started   a=32.30 b=48.16 gap=42.25 mm, 7950 turns
+  [a=31.7 b=38.7 gap=41.6 nt=8222] KSP converged reason: 4, iterations: 1
+  [a=26.8 b=35.8 gap=41.9 nt=8228] KSP converged reason: 4, iterations: 1
+  [a=31.5 b=39.8 gap=42.0 nt=8332] KSP converged reason: 4, iterations: 1
+  [a=29.3 b=42.6 gap=41.9 nt=7614] KSP converged reason: 4, iterations: 1
+  [a=31.5 b=43.5 gap=42.3 nt=8320] KSP converged reason: 4, iterations: 1
+  [a=32.3 b=48.2 gap=42.2 nt=7950] KSP converged reason: 4, iterations: 1
+[2026-09-28 15:09:33]    ... still running: 2/11 candidates of generation 1 finished, 6 in progress, 10m00s elapsed
+[2026-09-28 15:19:33]    ... still running: 2/11 candidates of generation 1 finished, 6 in progress, 20m00s elapsed
+[2026-09-28 15:29:33]    ... still running: 2/11 candidates of generation 1 finished, 6 in progress, 30m00s elapsed
+[2026-09-28 15:39:33]    ... still running: 2/11 candidates of generation 1 finished, 6 in progress, 40m00s elapsed
+[2026-09-28 15:49:33]    ... still running: 2/11 candidates of generation 1 finished, 6 in progress, 50m00s elapsed
+[2026-09-28 15:59:33]    ... still running: 2/11 candidates of generation 1 finished, 6 in progress, 1h00m elapsed
+[2026-09-28 16:02:17]   <- eval 24 done in 1h02m: B=11.15 T at 103.5 A, unif=2.01%, tape=2.032 km  violates constraints
+[2026-09-28 16:02:20]   -> eval 30 started   a=31.32 b=37.81 gap=41.80 mm, 8034 turns
+  [a=31.3 b=37.8 gap=41.8 nt=8034] KSP converged reason: 4, iterations: 1
+[2026-09-28 16:08:31]   <- eval 29 done in 1h08m: B=8.81 T at 88.1 A, unif=1.09%, tape=2.216 km  violates constraints
+[2026-09-28 16:08:34]   -> eval 31 started   a=32.47 b=39.49 gap=42.35 mm, 8310 turns
+  [a=32.5 b=39.5 gap=42.4 nt=8310] KSP converged reason: 4, iterations: 1
+[2026-09-28 16:09:33]    ... still running: 4/11 candidates of generation 1 finished, 6 in progress, 1h10m elapsed
+[2026-09-28 16:13:35]   <- eval 27 done in 1h13m: B=11.14 T at 120.0 A, unif=0.22%, tape=1.960 km  PASSES ALL
+[2026-09-28 16:13:38]   -> eval 32 started   a=31.91 b=42.27 gap=42.21 mm, 7776 turns
+  [a=31.9 b=42.3 gap=42.2 nt=7776] KSP converged reason: 4, iterations: 1
+[2026-09-28 16:19:33]    ... still running: 5/11 candidates of generation 1 finished, 6 in progress, 1h20m elapsed
+[2026-09-28 16:29:34]    ... still running: 5/11 candidates of generation 1 finished, 6 in progress, 1h30m elapsed
+[2026-09-28 16:34:03]   <- eval 25 done in 1h34m: B=10.46 T at 105.1 A, unif=0.17%, tape=2.183 km  PASSES ALL
+[2026-09-28 16:39:34]    ... still running: 6/11 candidates of generation 1 finished, 5 in progress, 1h40m elapsed
+[2026-09-28 16:49:34]    ... still running: 6/11 candidates of generation 1 finished, 5 in progress, 1h50m elapsed
+[2026-09-28 16:56:27]   <- eval 28 done in 1h56m: B=7.79 T at 72.2 A, unif=0.43%, tape=1.784 km  violates constraints
+[2026-09-28 16:59:34]    ... still running: 7/11 candidates of generation 1 finished, 4 in progress, 2h00m elapsed
+[2026-09-28 17:09:34]    ... still running: 7/11 candidates of generation 1 finished, 4 in progress, 2h10m elapsed
+[2026-09-28 17:16:07]   <- eval 30 done in 1h13m: B=9.54 T at 105.8 A, unif=0.27%, tape=1.981 km  violates constraints
+[2026-09-28 17:19:34]    ... still running: 8/11 candidates of generation 1 finished, 3 in progress, 2h20m elapsed
+[2026-09-28 17:23:29]   <- eval 32 done in 1h09m: B=12.06 T at 118.9 A, unif=1.20%, tape=1.984 km  violates constraints
+[2026-09-28 17:27:05]   <- eval 31 done in 1h18m: B=7.61 T at 73.5 A, unif=0.44%, tape=2.114 km  violates constraints
+[2026-09-28 17:29:34]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 2h30m elapsed
+[2026-09-28 17:39:34]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 2h40m elapsed
+[2026-09-28 17:49:35]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 2h50m elapsed
+[2026-09-28 17:59:35]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 3h00m elapsed
+[2026-09-28 18:09:35]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 3h10m elapsed
+[2026-09-28 18:19:35]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 3h20m elapsed
+[2026-09-28 18:29:35]    ... still running: 10/11 candidates of generation 1 finished, 1 in progress, 3h30m elapsed
+[2026-09-28 18:39:35]   <- eval 26 done in 3h39m: B=4.98 T at 51.0 A, unif=0.37%, tape=2.308 km  violates constraints
+[2026-09-28 18:39:35]    ... still running: 11/11 candidates of generation 1 finished, 0 in progress, 3h40m elapsed
+[2026-09-28 18:39:35] *** NEW BEST design (eval 25, 20 layers): tape 2.183 km, B=10.46 T, unif=0.17%, n=[417, 417, 509, 509, 294, 294, 100, 100, 384, 384, 413, 413, 455, 455, 552, 552, 591, 591, 451, 451]
+[2026-09-28 18:39:35] *** NEW BEST design (eval 27, 20 layers): tape 1.960 km, B=11.14 T, unif=0.22%, n=[377, 377, 456, 456, 213, 213, 217, 217, 355, 355, 365, 365, 489, 489, 472, 472, 395, 395, 468, 468]
+[2026-09-28 18:39:36] progress: 15 of 300 solved candidates (17 more rejected instantly for geometry), round 1, 5h24m this session, avg 72.5 min per solved candidate, roughly 57h21m to go
+[2026-09-28 18:39:36] best so far (eval 27, 20 layers): tape 1.960 km, B=11.14 T at 120.0 A, unif=0.22%, hoop=80 MPa
+[2026-09-28 18:39:36] round 1, 12 layers, generation 2: 10 candidates (evals 33-42); 7 rejected for geometry, 3 to solve on up to 6 workers
+[2026-09-28 18:39:38]   -> eval 37 started   a=42.45 b=48.91 gap=25.80 mm, 8412 turns
+[2026-09-28 18:39:38]   -> eval 42 started   a=40.57 b=51.95 gap=26.01 mm, 7926 turns
+[2026-09-28 18:39:38]   -> eval 39 started   a=39.58 b=51.35 gap=26.51 mm, 8298 turns
+  [a=40.6 b=51.9 gap=26.0 nt=7926] KSP converged reason: 4, iterations: 1
+  [a=39.6 b=51.3 gap=26.5 nt=8298] KSP converged reason: 4, iterations: 1
+  [a=42.4 b=48.9 gap=25.8 nt=8412] KSP converged reason: 4, iterations: 1
+[2026-09-28 18:49:36]    ... still running: 7/10 candidates of generation 2 finished, 3 in progress, 10m00s elapsed
+[2026-09-28 18:51:23]   <- eval 39 done in 11m44s: B=8.68 T at 68.8 A, unif=0.36%, tape=2.684 km  violates constraints
+[2026-09-28 18:59:36]    ... still running: 8/10 candidates of generation 2 finished, 2 in progress, 20m00s elapsed
+[2026-09-28 19:04:10]   <- eval 42 done in 24m31s: B=11.35 T at 91.7 A, unif=0.41%, tape=2.651 km  PASSES ALL
+[2026-09-28 19:09:36]    ... still running: 9/10 candidates of generation 2 finished, 1 in progress, 30m00s elapsed
+[2026-09-28 19:19:36]    ... still running: 9/10 candidates of generation 2 finished, 1 in progress, 40m00s elapsed
+[2026-09-28 19:23:35]   <- eval 37 done in 43m56s: B=10.54 T at 78.3 A, unif=1.09%, tape=2.639 km  violates constraints
+[2026-09-28 19:23:36] progress: 18 of 300 solved candidates (24 more rejected instantly for geometry), round 1, 6h08m this session, avg 64.8 min per solved candidate, roughly 50h47m to go
+[2026-09-28 19:23:36] best so far (eval 27, 20 layers): tape 1.960 km, B=11.14 T at 120.0 A, unif=0.22%, hoop=80 MPa
+[2026-09-28 19:23:36] round 1, 16 layers, generation 2: 11 candidates (evals 43-53); 5 rejected for geometry, 6 to solve on up to 6 workers
+[2026-09-28 19:23:39]   -> eval 45 started   a=33.31 b=50.06 gap=33.82 mm, 7770 turns
+[2026-09-28 19:23:39]   -> eval 47 started   a=33.92 b=44.46 gap=34.16 mm, 7444 turns
+[2026-09-28 19:23:39]   -> eval 50 started   a=39.44 b=48.87 gap=34.19 mm, 8214 turns
+[2026-09-28 19:23:39]   -> eval 52 started   a=35.04 b=43.37 gap=34.23 mm, 8240 turns
+[2026-09-28 19:23:39]   -> eval 53 started   a=34.24 b=43.24 gap=34.01 mm, 7662 turns
+[2026-09-28 19:23:39]   -> eval 43 started   a=35.24 b=47.96 gap=34.67 mm, 7924 turns
+  [a=35.0 b=43.4 gap=34.2 nt=8240] KSP converged reason: 4, iterations: 1
+  [a=34.2 b=43.2 gap=34.0 nt=7662] KSP converged reason: 4, iterations: 1
+  [a=35.2 b=48.0 gap=34.7 nt=7924] KSP converged reason: 4, iterations: 1
+  [a=39.4 b=48.9 gap=34.2 nt=8214] KSP converged reason: 4, iterations: 1
+  [a=33.3 b=50.1 gap=33.8 nt=7770] KSP converged reason: 4, iterations: 1
+  [a=33.9 b=44.5 gap=34.2 nt=7444] KSP converged reason: 4, iterations: 1
+[2026-09-28 19:33:36]    ... still running: 5/11 candidates of generation 2 finished, 6 in progress, 10m00s elapsed
+[2026-09-28 19:43:36]    ... still running: 5/11 candidates of generation 2 finished, 6 in progress, 20m00s elapsed
+[2026-09-28 19:53:36]    ... still running: 5/11 candidates of generation 2 finished, 6 in progress, 30m00s elapsed
+[2026-09-28 20:03:36]    ... still running: 5/11 candidates of generation 2 finished, 6 in progress, 40m00s elapsed
+[2026-09-28 20:12:36]   <- eval 47 done in 48m57s: B=8.48 T at 77.1 A, unif=1.59%, tape=2.024 km  violates constraints
+[2026-09-28 20:13:37]    ... still running: 6/11 candidates of generation 2 finished, 5 in progress, 50m00s elapsed
+[2026-09-28 20:17:27]   <- eval 43 done in 53m48s: B=9.48 T at 86.3 A, unif=0.22%, tape=2.357 km  violates constraints
+[2026-09-28 20:23:37]    ... still running: 7/11 candidates of generation 2 finished, 4 in progress, 1h00m elapsed
+[2026-09-28 20:25:02]   <- eval 52 done in 1h01m: B=10.82 T at 92.7 A, unif=0.48%, tape=2.267 km  PASSES ALL
+[2026-09-28 20:25:13]   <- eval 53 done in 1h01m: B=11.19 T at 108.7 A, unif=0.38%, tape=2.106 km  PASSES ALL
+[2026-09-28 20:26:42]   <- eval 50 done in 1h03m: B=11.43 T at 103.2 A, unif=0.17%, tape=2.537 km  PASSES ALL
+[2026-09-28 20:33:37]    ... still running: 10/11 candidates of generation 2 finished, 1 in progress, 1h10m elapsed
+[2026-09-28 20:43:37]    ... still running: 10/11 candidates of generation 2 finished, 1 in progress, 1h20m elapsed
+[2026-09-28 20:47:36]   <- eval 45 done in 1h23m: B=8.35 T at 71.8 A, unif=1.31%, tape=2.283 km  violates constraints
+[2026-09-28 20:47:37] progress: 24 of 300 solved candidates (29 more rejected instantly for geometry), round 1, 7h32m this session, avg 64.2 min per solved candidate, roughly 49h11m to go
+[2026-09-28 20:47:37] best so far (eval 27, 20 layers): tape 1.960 km, B=11.14 T at 120.0 A, unif=0.22%, hoop=80 MPa
+[2026-09-28 20:47:37] round 1, 20 layers, generation 2: 11 candidates (evals 54-64); 3 rejected for geometry, 8 to solve on up to 6 workers
+[2026-09-28 20:47:40]   -> eval 59 started   a=29.17 b=40.00 gap=41.67 mm, 7856 turns
+[2026-09-28 20:47:40]   -> eval 61 started   a=31.44 b=40.35 gap=41.55 mm, 8078 turns
+[2026-09-28 20:47:40]   -> eval 60 started   a=31.76 b=41.35 gap=41.85 mm, 7884 turns
+[2026-09-28 20:47:40]   -> eval 58 started   a=30.47 b=46.20 gap=41.76 mm, 7646 turns
+[2026-09-28 20:47:40]   -> eval 57 started   a=29.50 b=41.95 gap=41.76 mm, 8024 turns
+[2026-09-28 20:47:40]   -> eval 55 started   a=29.75 b=40.09 gap=42.56 mm, 7844 turns
+[2026-09-28 20:47:49]    !! eval 60: its process died (exit code 15) -- usually a native crash in PETSc/MUMPS or running out of memory. Marked failed; the search continues.
+  [a=30.5 b=46.2 gap=41.8 nt=7646] KSP converged reason: 4, iterations: 1
+  [a=29.8 b=40.1 gap=42.6 nt=7844] KSP converged reason: 4, iterations: 1
+  [a=29.2 b=40.0 gap=41.7 nt=7856] KSP converged reason: 4, iterations: 1
+  [a=29.5 b=42.0 gap=41.8 nt=8024] KSP converged reason: 4, iterations: 1
+  [a=31.4 b=40.3 gap=41.6 nt=8078] KSP converged reason: -11, iterations: 0
+[2026-09-28 20:47:52]   !! eval 61 FAILED: RuntimeError: KSP did NOT converge at a=31.4 b=40.3 gap=41.6 nt=8078 (PETSc converged reason -11 -- negative means diverged/failed, not just slow; see https://petsc.org/release/manualpages/KSP/KSPConvergedReason for the code meanings). The resulting field values are numerical garbage, not physics -- do not use them. If you changed the solver away from the MUMPS default in setup_problem(), that's the first thing to revert; if you kept MUMPS, look for an unusually distorted/degenerate mesh or a much larger problem than MUMPS can handle.
+[2026-09-28 20:47:52]   -> eval 63 started   a=32.49 b=46.45 gap=41.67 mm, 8178 turns
+[2026-09-28 20:47:56]   -> eval 64 started   a=33.64 b=41.52 gap=42.53 mm, 7668 turns
+  [a=32.5 b=46.4 gap=41.7 nt=8178] KSP converged reason: 4, iterations: 1
+  [a=33.6 b=41.5 gap=42.5 nt=7668] KSP converged reason: 4, iterations: 1
+[2026-09-28 20:57:37]    ... still running: 5/11 candidates of generation 2 finished, 6 in progress, 10m00s elapsed
+[2026-09-28 21:07:37]    ... still running: 5/11 candidates of generation 2 finished, 6 in progress, 20m00s elapsed
+[2026-09-28 21:17:37]    ... still running: 5/11 candidates of generation 2 finished, 6 in progress, 30m00s elapsed
+[2026-09-28 21:27:18]   <- eval 58 done in 39m38s: B=7.50 T at 84.9 A, unif=0.09%, tape=2.220 km  violates constraints
+[2026-09-28 21:27:37]    ... still running: 6/11 candidates of generation 2 finished, 5 in progress, 40m00s elapsed
+[2026-09-28 21:37:38]    ... still running: 6/11 candidates of generation 2 finished, 5 in progress, 50m00s elapsed
+[2026-09-28 21:40:46]   <- eval 55 done in 53m06s: B=11.62 T at 127.0 A, unif=0.22%, tape=2.062 km  PASSES ALL
+[2026-09-28 21:47:07]   <- eval 59 done in 59m27s: B=10.93 T at 114.8 A, unif=1.86%, tape=1.959 km  violates constraints
+[2026-09-28 21:47:38]    ... still running: 8/11 candidates of generation 2 finished, 3 in progress, 1h00m elapsed
+[2026-09-28 21:57:38]    ... still running: 8/11 candidates of generation 2 finished, 3 in progress, 1h10m elapsed
+[2026-09-28 22:07:38]    ... still running: 8/11 candidates of generation 2 finished, 3 in progress, 1h20m elapsed
+[2026-09-28 22:17:38]    ... still running: 8/11 candidates of generation 2 finished, 3 in progress, 1h30m elapsed
+[2026-09-28 22:27:38]    ... still running: 8/11 candidates of generation 2 finished, 3 in progress, 1h40m elapsed
+[2026-09-28 22:37:38]    ... still running: 8/11 candidates of generation 2 finished, 3 in progress, 1h50m elapsed
+[2026-09-28 22:47:38]    ... still running: 8/11 candidates of generation 2 finished, 3 in progress, 2h00m elapsed
+[2026-09-28 22:50:35]   <- eval 64 done in 2h02m: B=10.15 T at 105.5 A, unif=1.27%, tape=2.051 km  violates constraints
+[2026-09-28 22:57:38]    ... still running: 9/11 candidates of generation 2 finished, 2 in progress, 2h10m elapsed
+[2026-09-28 23:03:40]   <- eval 57 done in 2h16m: B=11.13 T at 112.6 A, unif=1.30%, tape=2.037 km  violates constraints
+[2026-09-28 23:07:39]    ... still running: 10/11 candidates of generation 2 finished, 1 in progress, 2h20m elapsed
+[2026-09-28 23:11:05]   <- eval 63 done in 2h23m: B=1.29 T at 13.8 A, unif=0.09%, tape=2.249 km  violates constraints
+[2026-09-28 23:11:05] progress: 32 of 300 solved candidates (32 more rejected instantly for geometry), round 1, 9h56m this session, avg 69.8 min per solved candidate, roughly 51h57m to go
+[2026-09-28 23:11:05] best so far (eval 27, 20 layers): tape 1.960 km, B=11.14 T at 120.0 A, unif=0.22%, hoop=80 MPa
+[2026-09-28 23:11:05] layer counts explored so far (lower fitness = better):
+      layers   status  gens  solved  best fitness  best design
+          12   active     2       8         2.449  B=12.72 T, tape 2.449 km, unif 0.78%
+          16   active     2       7         2.106  B=11.19 T, tape 2.106 km, unif 0.38%
+          20   active     2      17         1.960  B=11.14 T, tape 1.960 km, unif 0.22%
+[2026-09-28 23:11:05] 12 layers retired (ranked 3 of 3)
+[2026-09-28 23:11:05] NEW layer count 24 (neighbour of the current best, 20 layers), starting at a=29.3 b=42.6 gap=49.9 mm, 7612 turns
+[2026-09-28 23:11:05] round 2: 2 generation(s) each for [16, 20, 24] layers
+[2026-09-28 23:11:05] round 2, 16 layers, generation 3: 11 candidates (evals 65-75); 5 rejected for geometry, 6 to solve on up to 6 workers
+[2026-09-28 23:11:08]   -> eval 69 started   a=39.99 b=45.57 gap=33.85 mm, 8100 turns
+[2026-09-28 23:11:08]   -> eval 71 started   a=38.28 b=49.05 gap=34.52 mm, 7280 turns
+[2026-09-28 23:11:08]   -> eval 74 started   a=37.38 b=50.19 gap=33.91 mm, 8478 turns
+[2026-09-28 23:11:08]   -> eval 72 started   a=33.40 b=45.48 gap=34.21 mm, 7310 turns
+[2026-09-28 23:11:08]   -> eval 65 started   a=33.88 b=45.29 gap=34.36 mm, 8064 turns
+[2026-09-28 23:11:08]   -> eval 66 started   a=33.92 b=43.17 gap=34.33 mm, 7784 turns
+  [a=40.0 b=45.6 gap=33.9 nt=8100] KSP converged reason: 4, iterations: 1
+  [a=33.4 b=45.5 gap=34.2 nt=7310] KSP converged reason: 4, iterations: 1
+  [a=33.9 b=43.2 gap=34.3 nt=7784] KSP converged reason: 4, iterations: 1
+  [a=38.3 b=49.0 gap=34.5 nt=7280] KSP converged reason: 4, iterations: 1
+  [a=37.4 b=50.2 gap=33.9 nt=8478] KSP converged reason: 4, iterations: 1
+  [a=33.9 b=45.3 gap=34.4 nt=8064] KSP converged reason: 4, iterations: 1
+[2026-09-28 23:21:05]    ... still running: 5/11 candidates of generation 3 finished, 6 in progress, 10m00s elapsed
+[2026-09-28 23:31:05]    ... still running: 5/11 candidates of generation 3 finished, 6 in progress, 20m00s elapsed
+[2026-09-28 23:41:05]    ... still running: 5/11 candidates of generation 3 finished, 6 in progress, 30m00s elapsed
+[2026-09-28 23:51:05]    ... still running: 5/11 candidates of generation 3 finished, 6 in progress, 40m00s elapsed
+[2026-09-29 00:00:43]   <- eval 66 done in 49m35s: B=10.97 T at 99.6 A, unif=0.68%, tape=2.118 km  PASSES ALL
+[2026-09-29 00:01:05]    ... still running: 6/11 candidates of generation 3 finished, 5 in progress, 50m00s elapsed
+[2026-09-29 00:04:20]   <- eval 74 done in 53m12s: B=8.18 T at 71.2 A, unif=0.19%, tape=2.576 km  violates constraints
+[2026-09-29 00:07:36]   <- eval 72 done in 56m28s: B=10.12 T at 102.4 A, unif=0.50%, tape=2.037 km  violates constraints
+[2026-09-29 00:11:06]    ... still running: 8/11 candidates of generation 3 finished, 3 in progress, 1h00m elapsed
+[2026-09-29 00:20:00]   <- eval 69 done in 1h08m: B=10.11 T at 93.3 A, unif=0.39%, tape=2.491 km  violates constraints
+[2026-09-29 00:21:06]    ... still running: 9/11 candidates of generation 3 finished, 2 in progress, 1h10m elapsed
+[2026-09-29 00:25:37]   <- eval 71 done in 1h14m: B=10.27 T at 99.9 A, unif=1.09%, tape=2.189 km  violates constraints
+[2026-09-29 00:26:39]   <- eval 65 done in 1h15m: B=10.57 T at 99.7 A, unif=1.48%, tape=2.283 km  violates constraints
+[2026-09-29 00:26:40] progress: 38 of 300 solved candidates (37 more rejected instantly for geometry), round 2, 11h11m this session, avg 68.7 min per solved candidate, roughly 49h58m to go
+[2026-09-29 00:26:40] best so far (eval 27, 20 layers): tape 1.960 km, B=11.14 T at 120.0 A, unif=0.22%, hoop=80 MPa
+[2026-09-29 00:26:40] round 2, 20 layers, generation 3: 11 candidates (evals 76-86); 1 rejected for geometry, 10 to solve on up to 6 workers
+[2026-09-29 00:26:42]   -> eval 80 started   a=32.05 b=42.00 gap=43.17 mm, 7944 turns
+[2026-09-29 00:26:42]   -> eval 82 started   a=31.50 b=46.05 gap=42.29 mm, 8106 turns
+[2026-09-29 00:26:42]   -> eval 81 started   a=31.65 b=43.42 gap=42.04 mm, 7706 turns
+[2026-09-29 00:26:42]   -> eval 78 started   a=31.37 b=38.26 gap=42.25 mm, 7778 turns
+[2026-09-29 00:26:42]   -> eval 77 started   a=32.84 b=40.11 gap=42.22 mm, 7854 turns
+[2026-09-29 00:26:42]   -> eval 79 started   a=29.28 b=38.09 gap=42.00 mm, 8160 turns
+  [a=29.3 b=38.1 gap=42.0 nt=8160] KSP converged reason: 4, iterations: 1
+  [a=31.4 b=38.3 gap=42.2 nt=7778] KSP converged reason: 4, iterations: 1
+  [a=32.8 b=40.1 gap=42.2 nt=7854] KSP converged reason: 4, iterations: 1
+  [a=31.6 b=43.4 gap=42.0 nt=7706] KSP converged reason: 4, iterations: 1
+  [a=31.5 b=46.0 gap=42.3 nt=8106] KSP converged reason: 4, iterations: 1
+  [a=32.1 b=42.0 gap=43.2 nt=7944] KSP converged reason: 4, iterations: 1
+[2026-09-29 00:36:40]    ... still running: 1/11 candidates of generation 3 finished, 6 in progress, 10m00s elapsed
+[2026-09-29 00:46:40]    ... still running: 1/11 candidates of generation 3 finished, 6 in progress, 20m00s elapsed
+[2026-09-29 00:56:40]    ... still running: 1/11 candidates of generation 3 finished, 6 in progress, 30m00s elapsed
+[2026-09-29 01:06:40]    ... still running: 1/11 candidates of generation 3 finished, 6 in progress, 40m00s elapsed
+[2026-09-29 01:16:40]    ... still running: 1/11 candidates of generation 3 finished, 6 in progress, 50m00s elapsed
+[2026-09-29 01:26:40]    ... still running: 1/11 candidates of generation 3 finished, 6 in progress, 1h00m elapsed
+[2026-09-29 01:36:40]    ... still running: 1/11 candidates of generation 3 finished, 6 in progress, 1h10m elapsed
+[2026-09-29 01:38:44]   <- eval 82 done in 1h12m: B=11.71 T at 119.4 A, unif=0.38%, tape=2.266 km  PASSES ALL
+[2026-09-29 01:38:48]   -> eval 83 started   a=30.14 b=41.81 gap=42.45 mm, 7974 turns
+  [a=30.1 b=41.8 gap=42.5 nt=7974] KSP converged reason: 4, iterations: 1
+[2026-09-29 01:44:35]   <- eval 79 done in 1h17m: B=10.41 T at 106.5 A, unif=0.87%, tape=1.974 km  violates constraints
+[2026-09-29 01:44:40]   -> eval 84 started   a=31.94 b=37.09 gap=42.08 mm, 8210 turns
+  [a=31.9 b=37.1 gap=42.1 nt=8210] KSP converged reason: 4, iterations: 1
+[2026-09-29 01:46:41]    ... still running: 3/11 candidates of generation 3 finished, 6 in progress, 1h20m elapsed
+[2026-09-29 01:56:41]    ... still running: 3/11 candidates of generation 3 finished, 6 in progress, 1h30m elapsed
+[2026-09-29 02:06:24]   <- eval 80 done in 1h39m: B=12.00 T at 129.1 A, unif=0.76%, tape=2.137 km  PASSES ALL
+[2026-09-29 02:06:28]   -> eval 85 started   a=31.36 b=45.29 gap=42.95 mm, 7490 turns
+  [a=31.4 b=45.3 gap=42.9 nt=7490] KSP converged reason: 4, iterations: 1
+[2026-09-29 02:06:41]    ... still running: 4/11 candidates of generation 3 finished, 6 in progress, 1h40m elapsed
+[2026-09-29 02:16:41]    ... still running: 4/11 candidates of generation 3 finished, 6 in progress, 1h50m elapsed
+[2026-09-29 02:18:32]   <- eval 77 done in 1h51m: B=11.53 T at 111.2 A, unif=1.67%, tape=2.004 km  violates constraints
+[2026-09-29 02:18:36]   -> eval 86 started   a=29.69 b=41.40 gap=41.88 mm, 7994 turns
+  [a=29.7 b=41.4 gap=41.9 nt=7994] KSP converged reason: 4, iterations: 1
+[2026-09-29 02:26:41]    ... still running: 5/11 candidates of generation 3 finished, 6 in progress, 2h00m elapsed
+[2026-09-29 02:34:48]   <- eval 78 done in 2h08m: B=4.11 T at 42.6 A, unif=0.75%, tape=1.907 km  violates constraints
+[2026-09-29 02:36:41]    ... still running: 6/11 candidates of generation 3 finished, 5 in progress, 2h10m elapsed
+[2026-09-29 02:45:06]   <- eval 84 done in 1h00m: B=10.91 T at 113.1 A, unif=0.10%, tape=2.013 km  PASSES ALL
+[2026-09-29 02:46:41]    ... still running: 7/11 candidates of generation 3 finished, 4 in progress, 2h20m elapsed
+[2026-09-29 02:48:16]   <- eval 83 done in 1h09m: B=12.43 T at 124.8 A, unif=0.54%, tape=2.013 km  PASSES ALL
+[2026-09-29 02:56:42]    ... still running: 8/11 candidates of generation 3 finished, 3 in progress, 2h30m elapsed
+[2026-09-29 03:06:42]    ... still running: 8/11 candidates of generation 3 finished, 3 in progress, 2h40m elapsed
+[2026-09-29 03:10:13]   <- eval 81 done in 2h43m: B=6.47 T at 74.1 A, unif=0.26%, tape=2.062 km  violates constraints
+[2026-09-29 03:16:42]    ... still running: 9/11 candidates of generation 3 finished, 2 in progress, 2h50m elapsed
+[2026-09-29 03:26:42]    ... still running: 9/11 candidates of generation 3 finished, 2 in progress, 3h00m elapsed
+[2026-09-29 03:32:28]   <- eval 86 done in 1h13m: B=10.24 T at 102.4 A, unif=0.71%, tape=2.066 km  violates constraints
+[2026-09-29 03:36:42]    ... still running: 10/11 candidates of generation 3 finished, 1 in progress, 3h10m elapsed
+[2026-09-29 03:37:48]   <- eval 85 done in 1h31m: B=10.00 T at 112.9 A, unif=0.32%, tape=2.067 km  violates constraints
+[2026-09-29 03:37:50] progress: 48 of 300 solved candidates (38 more rejected instantly for geometry), round 2, 14h22m this session, avg 74.4 min per solved candidate, roughly 52h02m to go
+[2026-09-29 03:37:50] best so far (eval 27, 20 layers): tape 1.960 km, B=11.14 T at 120.0 A, unif=0.22%, hoop=80 MPa
+[2026-09-29 03:37:50] round 2, 24 layers, generation 1: 12 candidates (evals 87-98); 0 rejected for geometry, 12 to solve on up to 6 workers
+[2026-09-29 03:37:53]   -> eval 90 started   a=29.49 b=38.00 gap=49.66 mm, 7968 turns
+[2026-09-29 03:37:53]   -> eval 88 started   a=30.43 b=45.81 gap=49.97 mm, 7658 turns
+[2026-09-29 03:37:53]   -> eval 87 started   a=30.09 b=45.84 gap=49.83 mm, 7550 turns
+[2026-09-29 03:37:53]   -> eval 91 started   a=26.27 b=42.18 gap=49.68 mm, 7556 turns
+[2026-09-29 03:37:53]   -> eval 92 started   a=26.95 b=39.91 gap=49.55 mm, 7466 turns
+[2026-09-29 03:37:53]   -> eval 89 started   a=27.68 b=46.75 gap=49.96 mm, 7526 turns
+  [a=30.4 b=45.8 gap=50.0 nt=7658] KSP converged reason: 4, iterations: 1
+  [a=29.5 b=38.0 gap=49.7 nt=7968] KSP converged reason: 4, iterations: 1
+  [a=26.9 b=39.9 gap=49.5 nt=7466] KSP converged reason: 4, iterations: 1
+  [a=26.3 b=42.2 gap=49.7 nt=7556] KSP converged reason: 4, iterations: 1
+  [a=30.1 b=45.8 gap=49.8 nt=7550] KSP converged reason: 4, iterations: 1
+  [a=27.7 b=46.8 gap=50.0 nt=7526] KSP converged reason: 4, iterations: 1
+[2026-09-29 03:47:50]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 10m00s elapsed
+[2026-09-29 03:57:50]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 20m00s elapsed
+[2026-09-29 04:07:50]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 30m00s elapsed
+[2026-09-29 04:17:50]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 40m00s elapsed
+[2026-09-29 04:27:51]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 50m00s elapsed
+[2026-09-29 04:37:51]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 1h00m elapsed
+[2026-09-29 04:47:51]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 1h10m elapsed
+[2026-09-29 04:57:51]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 1h20m elapsed
+[2026-09-29 05:07:51]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 1h30m elapsed
+[2026-09-29 05:17:51]    ... still running: 0/12 candidates of generation 1 finished, 6 in progress, 1h40m elapsed
+[2026-09-29 05:23:56]   <- eval 92 done in 1h46m: B=10.24 T at 131.3 A, unif=0.66%, tape=1.828 km  violates constraints
+[2026-09-29 05:24:00]   -> eval 93 started   a=29.01 b=44.31 gap=49.99 mm, 7406 turns
+  [a=29.0 b=44.3 gap=50.0 nt=7406] KSP converged reason: 4, iterations: 1
+[2026-09-29 05:27:51]    ... still running: 1/12 candidates of generation 1 finished, 6 in progress, 1h50m elapsed
+[2026-09-29 05:28:51]   <- eval 88 done in 1h50m: B=8.67 T at 111.3 A, unif=0.09%, tape=2.138 km  violates constraints
+[2026-09-29 05:28:54]   -> eval 94 started   a=27.77 b=46.38 gap=50.03 mm, 7740 turns
+  [a=27.8 b=46.4 gap=50.0 nt=7740] KSP converged reason: 4, iterations: 1
+[2026-09-29 05:37:51]    ... still running: 2/12 candidates of generation 1 finished, 6 in progress, 2h00m elapsed
+[2026-09-29 05:47:51]    ... still running: 2/12 candidates of generation 1 finished, 6 in progress, 2h10m elapsed
+[2026-09-29 05:57:51]    ... still running: 2/12 candidates of generation 1 finished, 6 in progress, 2h20m elapsed
+[2026-09-29 06:07:51]    ... still running: 2/12 candidates of generation 1 finished, 6 in progress, 2h30m elapsed
+[2026-09-29 06:17:52]    ... still running: 2/12 candidates of generation 1 finished, 6 in progress, 2h40m elapsed
+[2026-09-29 06:22:45]   <- eval 87 done in 2h44m: B=10.30 T at 128.5 A, unif=0.64%, tape=2.067 km  PASSES ALL
+[2026-09-29 06:22:48]   -> eval 95 started   a=28.77 b=36.67 gap=49.95 mm, 6890 turns
+  [a=28.8 b=36.7 gap=50.0 nt=6890] KSP converged reason: 4, iterations: 1
+[2026-09-29 06:27:31]   <- eval 91 done in 2h49m: B=9.89 T at 122.4 A, unif=0.36%, tape=1.888 km  violates constraints
+[2026-09-29 06:27:34]   -> eval 96 started   a=25.76 b=44.94 gap=50.02 mm, 7692 turns
+  [a=25.8 b=44.9 gap=50.0 nt=7692] KSP converged reason: 4, iterations: 1
+[2026-09-29 06:27:52]    ... still running: 4/12 candidates of generation 1 finished, 6 in progress, 2h50m elapsed
+[2026-09-29 06:31:39]   <- eval 89 done in 2h53m: B=8.97 T at 120.5 A, unif=0.03%, tape=2.025 km  violates constraints
+[2026-09-29 06:31:42]   -> eval 97 started   a=26.04 b=40.04 gap=50.41 mm, 8080 turns
+  [a=26.0 b=40.0 gap=50.4 nt=8080] KSP converged reason: 4, iterations: 1
+[2026-09-29 06:37:52]    ... still running: 5/12 candidates of generation 1 finished, 6 in progress, 3h00m elapsed
+[2026-09-29 06:47:52]    ... still running: 5/12 candidates of generation 1 finished, 6 in progress, 3h10m elapsed
+[2026-09-29 06:57:52]    ... still running: 5/12 candidates of generation 1 finished, 6 in progress, 3h20m elapsed
+[2026-09-29 07:07:52]    ... still running: 5/12 candidates of generation 1 finished, 6 in progress, 3h30m elapsed
+[2026-09-29 07:17:52]    ... still running: 5/12 candidates of generation 1 finished, 6 in progress, 3h40m elapsed
+[2026-09-29 07:27:52]    ... still running: 5/12 candidates of generation 1 finished, 6 in progress, 3h50m elapsed
+[2026-09-29 07:37:52]    ... still running: 5/12 candidates of generation 1 finished, 6 in progress, 4h00m elapsed
+[2026-09-29 07:47:52]    ... still running: 5/12 candidates of generation 1 finished, 6 in progress, 4h10m elapsed
+[2026-09-29 07:53:49]   <- eval 90 done in 4h15m: B=4.62 T at 55.7 A, unif=0.40%, tape=1.930 km  violates constraints
+[2026-09-29 07:53:53]   -> eval 98 started   a=32.22 b=45.20 gap=49.88 mm, 7300 turns
+  [a=32.2 b=45.2 gap=49.9 nt=7300] KSP converged reason: 4, iterations: 1
+[2026-09-29 07:57:01]   <- eval 93 done in 2h33m: B=9.71 T at 124.7 A, unif=1.13%, tape=1.955 km  violates constraints
+[2026-09-29 07:57:53]    ... still running: 7/12 candidates of generation 1 finished, 5 in progress, 4h20m elapsed
+[2026-09-29 08:07:53]    ... still running: 7/12 candidates of generation 1 finished, 5 in progress, 4h30m elapsed
+[2026-09-29 08:17:53]    ... still running: 7/12 candidates of generation 1 finished, 5 in progress, 4h40m elapsed
+[2026-09-29 08:27:53]    ... still running: 7/12 candidates of generation 1 finished, 5 in progress, 4h50m elapsed
+[2026-09-29 08:37:53]    ... still running: 7/12 candidates of generation 1 finished, 5 in progress, 5h00m elapsed
+[2026-09-29 08:47:53]    ... still running: 7/12 candidates of generation 1 finished, 5 in progress, 5h10m elapsed
+[2026-09-29 08:52:37]   <- eval 95 done in 2h29m: B=8.62 T at 130.3 A, unif=0.59%, tape=1.615 km  violates constraints
+[2026-09-29 08:57:53]    ... still running: 8/12 candidates of generation 1 finished, 4 in progress, 5h20m elapsed
+[2026-09-29 09:07:53]    ... still running: 8/12 candidates of generation 1 finished, 4 in progress, 5h30m elapsed
+[2026-09-29 09:17:53]    ... still running: 8/12 candidates of generation 1 finished, 4 in progress, 5h40m elapsed
+[2026-09-29 09:27:54]    ... still running: 8/12 candidates of generation 1 finished, 4 in progress, 5h50m elapsed
+[2026-09-29 09:37:54]    ... still running: 8/12 candidates of generation 1 finished, 4 in progress, 6h00m elapsed
+[2026-09-29 09:43:16]   <- eval 97 done in 3h11m: B=10.22 T at 121.2 A, unif=0.09%, tape=1.968 km  violates constraints
+[2026-09-29 09:46:35]   <- eval 98 done in 1h52m: B=8.87 T at 114.3 A, unif=0.13%, tape=2.026 km  violates constraints
+[2026-09-29 09:47:54]    ... still running: 10/12 candidates of generation 1 finished, 2 in progress, 6h10m elapsed
+[2026-09-29 09:57:54]    ... still running: 10/12 candidates of generation 1 finished, 2 in progress, 6h20m elapsed
+[2026-09-29 09:59:22]   <- eval 94 done in 4h30m: B=3.28 T at 42.5 A, unif=0.32%, tape=2.147 km  violates constraints
+[2026-09-29 10:02:54]   <- eval 96 done in 3h35m: B=4.69 T at 61.5 A, unif=0.25%, tape=2.031 km  violates constraints
+[2026-09-29 10:02:54] progress: 60 of 300 solved candidates (38 more rejected instantly for geometry), round 2, 20h47m this session, avg 94.7 min per solved candidate, roughly 63h09m to go
+[2026-09-29 10:02:54] best so far (eval 27, 20 layers): tape 1.960 km, B=11.14 T at 120.0 A, unif=0.22%, hoop=80 MPa
+[2026-09-29 10:02:54] round 2, 16 layers, generation 4: 11 candidates (evals 99-109); 3 rejected for geometry, 8 to solve on up to 6 workers
+[2026-09-29 10:02:57]   -> eval 100 started   a=34.36 b=46.15 gap=34.05 mm, 8072 turns
+[2026-09-29 10:02:57]   -> eval 102 started   a=33.51 b=44.52 gap=34.64 mm, 7396 turns
+[2026-09-29 10:02:57]   -> eval 104 started   a=33.68 b=44.38 gap=34.22 mm, 7334 turns
+[2026-09-29 10:02:57]   -> eval 99 started   a=33.91 b=50.43 gap=34.23 mm, 7816 turns
+[2026-09-29 10:02:57]   -> eval 103 started   a=33.69 b=44.39 gap=34.26 mm, 7246 turns
+  [a=33.5 b=44.5 gap=34.6 nt=7396] KSP converged reason: 4, iterations: 1
+  [a=34.4 b=46.1 gap=34.1 nt=8072] KSP converged reason: 4, iterations: 1
+  [a=35.0 b=45.5 gap=34.2 nt=7530] KSP converged reason: 4, iterations: 1
+  [a=33.9 b=50.4 gap=34.2 nt=7816] KSP converged reason: 4, iterations: 1
+  [a=33.7 b=44.4 gap=34.2 nt=7334] KSP converged reason: 4, iterations: 1
+  [a=33.7 b=44.4 gap=34.3 nt=7246] KSP converged reason: 4, iterations: 1
+[2026-09-29 10:12:54]    ... still running: 3/11 candidates of generation 4 finished, 6 in progress, 10m00s elapsed
+[2026-09-29 10:22:54]    ... still running: 3/11 candidates of generation 4 finished, 6 in progress, 20m00s elapsed
+[2026-09-29 10:31:05]   <- eval 106 done in 28m07s: B=9.82 T at 88.9 A, unif=0.72%, tape=2.076 km  violates constraints
+[2026-09-29 10:31:09]   -> eval 107 started   a=34.32 b=40.29 gap=34.52 mm, 7564 turns
+  [a=34.3 b=40.3 gap=34.5 nt=7564] KSP converged reason: 4, iterations: 1
+[2026-09-29 10:32:55]    ... still running: 4/11 candidates of generation 4 finished, 6 in progress, 30m00s elapsed
+[2026-09-29 10:42:55]    ... still running: 4/11 candidates of generation 4 finished, 6 in progress, 40m00s elapsed
+[2026-09-29 10:52:55]    ... still running: 4/11 candidates of generation 4 finished, 6 in progress, 50m00s elapsed
+[2026-09-29 11:02:55]    ... still running: 4/11 candidates of generation 4 finished, 6 in progress, 1h00m elapsed
+[2026-09-29 11:09:08]   <- eval 99 done in 1h06m: B=8.93 T at 87.1 A, unif=0.09%, tape=2.451 km  violates constraints
+[2026-09-29 11:09:12]   -> eval 108 started   a=35.03 b=47.33 gap=34.65 mm, 8048 turns
+  [a=35.0 b=47.3 gap=34.6 nt=8048] KSP converged reason: 4, iterations: 1
+[2026-09-29 11:12:55]    ... still running: 5/11 candidates of generation 4 finished, 6 in progress, 1h10m elapsed
+[2026-09-29 11:19:15]   <- eval 107 done in 48m05s: B=11.38 T at 111.4 A, unif=0.24%, tape=1.989 km  PASSES ALL
+[2026-09-29 11:22:28]   <- eval 102 done in 1h19m: B=1.99 T at 19.3 A, unif=1.17%, tape=2.037 km  violates constraints
+[2026-09-29 11:22:55]    ... still running: 7/11 candidates of generation 4 finished, 4 in progress, 1h20m elapsed
+[2026-09-29 11:27:00]   <- eval 100 done in 1h24m: B=5.03 T at 51.1 A, unif=0.49%, tape=2.356 km  violates constraints
+[2026-09-29 11:27:36]   <- eval 103 done in 1h24m: B=9.75 T at 102.3 A, unif=0.05%, tape=1.995 km  violates constraints
+[2026-09-29 11:32:55]    ... still running: 9/11 candidates of generation 4 finished, 2 in progress, 1h30m elapsed
+[2026-09-29 11:42:55]    ... still running: 9/11 candidates of generation 4 finished, 2 in progress, 1h40m elapsed
+[2026-09-29 11:52:56]    ... still running: 9/11 candidates of generation 4 finished, 2 in progress, 1h50m elapsed
+[2026-09-29 11:56:33]   <- eval 104 done in 1h53m: B=7.85 T at 72.6 A, unif=0.52%, tape=1.959 km  violates constraints
+[2026-09-29 12:02:56]    ... still running: 10/11 candidates of generation 4 finished, 1 in progress, 2h00m elapsed
+[2026-09-29 12:03:27]   <- eval 108 done in 54m15s: B=10.25 T at 96.4 A, unif=0.19%, tape=2.397 km  violates constraints
+[2026-09-29 12:03:28] progress: 68 of 300 solved candidates (41 more rejected instantly for geometry), round 2, 22h48m this session, avg 91.7 min per solved candidate, roughly 59h06m to go
+[2026-09-29 12:03:28] best so far (eval 27, 20 layers): tape 1.960 km, B=11.14 T at 120.0 A, unif=0.22%, hoop=80 MPa
+[2026-09-29 12:03:28] round 2, 20 layers, generation 4: 11 candidates (evals 110-120); 2 rejected for geometry, 9 to solve on up to 6 workers
+[2026-09-29 12:03:30]   -> eval 113 started   a=30.53 b=40.38 gap=42.52 mm, 7884 turns
+[2026-09-29 12:03:30]   -> eval 111 started   a=31.50 b=41.28 gap=42.67 mm, 8102 turns
+[2026-09-29 12:03:30]   -> eval 115 started   a=28.76 b=41.03 gap=42.65 mm, 8056 turns
+[2026-09-29 12:03:31]   -> eval 112 started   a=32.64 b=38.91 gap=43.25 mm, 7780 turns
+[2026-09-29 12:03:31]   -> eval 116 started   a=29.40 b=41.78 gap=42.34 mm, 8048 turns
+[2026-09-29 12:03:31]   -> eval 110 started   a=31.86 b=44.58 gap=41.84 mm, 8262 turns
+  [a=32.6 b=38.9 gap=43.2 nt=7780] KSP converged reason: 4, iterations: 1
+  [a=31.5 b=41.3 gap=42.7 nt=8102] KSP converged reason: 4, iterations: 1
+  [a=28.8 b=41.0 gap=42.6 nt=8056] KSP converged reason: 4, iterations: 1
+  [a=31.9 b=44.6 gap=41.8 nt=8262] KSP converged reason: 4, iterations: 1
+  [a=30.5 b=40.4 gap=42.5 nt=7884] KSP converged reason: 4, iterations: 1
+  [a=29.4 b=41.8 gap=42.3 nt=8048] KSP converged reason: 4, iterations: 1
+[2026-09-29 12:13:28]    ... still running: 2/11 candidates of generation 4 finished, 6 in progress, 10m00s elapsed
+[2026-09-29 12:23:28]    ... still running: 2/11 candidates of generation 4 finished, 6 in progress, 20m00s elapsed
+[2026-09-29 12:33:28]    ... still running: 2/11 candidates of generation 4 finished, 6 in progress, 30m00s elapsed
+[2026-09-29 12:43:28]    ... still running: 2/11 candidates of generation 4 finished, 6 in progress, 40m00s elapsed
+[2026-09-29 12:53:28]    ... still running: 2/11 candidates of generation 4 finished, 6 in progress, 50m00s elapsed
+[2026-09-29 13:03:28]    ... still running: 2/11 candidates of generation 4 finished, 6 in progress, 1h00m elapsed
+[2026-09-29 13:13:29]    ... still running: 2/11 candidates of generation 4 finished, 6 in progress, 1h10m elapsed
+[2026-09-29 13:16:14]   <- eval 110 done in 1h12m: B=10.33 T at 101.7 A, unif=0.92%, tape=2.242 km  violates constraints
+[2026-09-29 13:16:17]   -> eval 117 started   a=31.38 b=40.75 gap=42.76 mm, 8488 turns
+  [a=31.4 b=40.8 gap=42.8 nt=8488] KSP converged reason: 4, iterations: 1
+[2026-09-29 13:23:29]    ... still running: 3/11 candidates of generation 4 finished, 6 in progress, 1h20m elapsed
+[2026-09-29 13:26:03]   <- eval 116 done in 1h22m: B=7.41 T at 75.1 A, unif=0.84%, tape=2.080 km  violates constraints
+[2026-09-29 13:26:07]   -> eval 118 started   a=31.57 b=37.73 gap=42.75 mm, 8470 turns
+  [a=31.6 b=37.7 gap=42.7 nt=8470] KSP converged reason: 4, iterations: 1
+[2026-09-29 13:30:30]   <- eval 115 done in 1h26m: B=9.56 T at 103.4 A, unif=0.57%, tape=2.032 km  violates constraints
+[2026-09-29 13:30:33]   -> eval 119 started   a=32.44 b=41.17 gap=42.21 mm, 7964 turns
+  [a=32.4 b=41.2 gap=42.2 nt=7964] KSP converged reason: 4, iterations: 1
+[2026-09-29 13:33:29]    ... still running: 5/11 candidates of generation 4 finished, 6 in progress, 1h30m elapsed
+[2026-09-29 13:43:29]    ... still running: 5/11 candidates of generation 4 finished, 6 in progress, 1h40m elapsed
+[2026-09-29 13:44:03]   <- eval 111 done in 1h40m: B=8.56 T at 92.2 A, unif=0.08%, tape=2.171 km  violates constraints
+[2026-09-29 13:52:10]   <- eval 117 done in 35m53s: B=8.52 T at 83.7 A, unif=0.65%, tape=2.224 km  violates constraints
+[2026-09-29 13:53:29]    ... still running: 7/11 candidates of generation 4 finished, 4 in progress, 1h50m elapsed
+[2026-09-29 14:03:29]    ... still running: 7/11 candidates of generation 4 finished, 4 in progress, 2h00m elapsed
+[2026-09-29 14:05:35]   <- eval 113 done in 2h02m: B=9.31 T at 96.5 A, unif=1.33%, tape=2.017 km  violates constraints
+[2026-09-29 14:11:37]   <- eval 112 done in 2h08m: B=2.45 T at 27.8 A, unif=0.49%, tape=1.976 km  violates constraints
+[2026-09-29 14:13:29]    ... still running: 9/11 candidates of generation 4 finished, 2 in progress, 2h10m elapsed
+[2026-09-29 14:23:29]    ... still running: 9/11 candidates of generation 4 finished, 2 in progress, 2h20m elapsed
+[2026-09-29 14:33:29]    ... still running: 9/11 candidates of generation 4 finished, 2 in progress, 2h30m elapsed
+[2026-09-29 14:43:29]    ... still running: 9/11 candidates of generation 4 finished, 2 in progress, 2h40m elapsed
+[2026-09-29 14:50:50]   <- eval 118 done in 1h24m: B=11.53 T at 118.1 A, unif=1.19%, tape=2.088 km  violates constraints
+[2026-09-29 14:53:30]    ... still running: 10/11 candidates of generation 4 finished, 1 in progress, 2h50m elapsed
+[2026-09-29 15:03:30]    ... still running: 10/11 candidates of generation 4 finished, 1 in progress, 3h00m elapsed
+[2026-09-29 15:07:45]   <- eval 119 done in 1h37m: B=9.26 T at 90.6 A, unif=0.92%, tape=2.070 km  violates constraints
+[2026-09-29 15:07:46] progress: 77 of 300 solved candidates (43 more rejected instantly for geometry), round 2, 25h52m this session, avg 91.5 min per solved candidate, roughly 56h41m to go
+[2026-09-29 15:07:46] best so far (eval 27, 20 layers): tape 1.960 km, B=11.14 T at 120.0 A, unif=0.22%, hoop=80 MPa
+[2026-09-29 15:07:46] round 2, 24 layers, generation 2: 12 candidates (evals 121-132); 0 rejected for geometry, 12 to solve on up to 6 workers
+[2026-09-29 15:07:48]   -> eval 125 started   a=27.25 b=40.79 gap=49.66 mm, 7460 turns
+[2026-09-29 15:07:48]   -> eval 126 started   a=29.06 b=45.68 gap=49.77 mm, 7586 turns
+[2026-09-29 15:07:48]   -> eval 122 started   a=30.39 b=46.42 gap=49.77 mm, 7024 turns
+[2026-09-29 15:07:48]   -> eval 123 started   a=25.85 b=47.35 gap=49.76 mm, 7550 turns
+[2026-09-29 15:07:48]   -> eval 124 started   a=24.20 b=38.39 gap=49.95 mm, 7924 turns
+[2026-09-29 15:07:49]   -> eval 121 started   a=27.16 b=43.51 gap=49.95 mm, 7740 turns
+  [a=24.2 b=38.4 gap=50.0 nt=7924] KSP converged reason: 4, iterations: 1
+  [a=27.3 b=40.8 gap=49.7 nt=7460] KSP converged reason: 4, iterations: 1
+  [a=25.9 b=47.3 gap=49.8 nt=7550] KSP converged reason: 4, iterations: 1
+  [a=27.2 b=43.5 gap=49.9 nt=7740] KSP converged reason: 4, iterations: 1
+  [a=29.1 b=45.7 gap=49.8 nt=7586] KSP converged reason: 4, iterations: 1
+  [a=30.4 b=46.4 gap=49.8 nt=7024] KSP converged reason: 4, iterations: 1
+[2026-09-29 15:17:46]    ... still running: 0/12 candidates of generation 2 finished, 6 in progress, 10m00s elapsed

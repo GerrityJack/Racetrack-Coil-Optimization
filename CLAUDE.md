@@ -56,6 +56,28 @@ root); evaluator: `optimize/ta_ramp_current.py`. Work committed on branch
 `ramp-hold-optimization-runner` (4fb9b19); merge/push to main is up to the
 user. README.md was rewritten around this setup.
 
+**2026-09-29: first leg of the search came back** (another machine, 16
+threads; stopped by the operator after 26 h: 77/300 solved, round 2,
+evals 1-120). Results live in `optimize/runs/full_config_search/`
+(committed; `.gitignore` exception) and resume from `checkpoint.pkl`
+(needs pycma >= 4.5 -- conda-forge stops at 4.0, which can't unpickle
+it; environment.yml now installs cma from pip). The operator had run
+with B_MIN_T = 10.3; **user decision: floor is 10.0 T** -- the runner
+now re-scores history.csv/island bests on resume when settings change
+(`rescore_history()`; done once here, backup
+`history_before_rescore_*.csv`). At 10.0 T: 22 designs pass; best
+**eval 92, 24 layers, 1.828 km, 10.24 T, unif 0.66%**; then eval 27
+(20 layers, 1.960 km, 11.14 T, unif 0.22%) and eval 107 (16 layers,
+1.989 km, 11.38 T). Also fixed in `ta_ramp_current.py`: the I_op
+false-position search stalled approaching load 1.0 from above and then
+scored the design at its first, far lower passing current (e.g. eval
+104: crossing ~95 A scored at 72.6 A / 7.85 T; ~8 of 75 designs
+affected). Now Illinois + aim 0.995 + 10 % bracket clamp (offline
+synthetic test: mean I_op shortfall 12 % -> 3 %). Rows before eval 121
+keep the old search's numbers. Seen but NOT fixed: worst load
+occasionally non-monotone in I (evals 28, 112, 119 -- up to 3 % load
+noise), and 24-layer candidates cost 2-4.5 h each.
+
 **PLAN:**
 1. On the optimization machine: install (Miniforge + `conda env create -f
    environment.yml`), then `python run_optimization.py --check`,

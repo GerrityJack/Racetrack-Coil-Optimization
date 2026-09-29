@@ -34,7 +34,7 @@ Search for I_op: the worst load rises only slowly with current once the
 coil is penetrated (roughly load ~ I^0.15), and steeply below that. A
 secant search in log(load) vs log(I) with bracketing, starting from the
 uniform-J quench current, reaches |load - LOAD_MAX| < LOAD_TOL in ~3-4
-solves. The reported I_op is always a current that was actually solved and
+solves (see _next_current). The reported I_op is always a current that was actually solved and
 satisfied the criterion (never an interpolated value).
 
 Mesh: like ta_safe_current.py this uses whatever mesh settings params
@@ -63,6 +63,8 @@ T_RAMP_S = float(os.environ.get("TA_RAMP_T_RAMP_S", 7200.0))   # 2 h
 DT_EFF_S = 2.0 * T_RAMP_S           # constant-power end rate == linear over 2*t_ramp
 LOAD_MAX = float(os.environ.get("TA_RAMP_LOAD_MAX", 1.0))       # worst J/Jc allowed
 LOAD_TOL = 0.01                     # stop when a passing point is within 1%
+LOAD_AIM = LOAD_MAX * (1.0 - LOAD_TOL / 2.0)   # search target: the middle
+                                    # of the accepted window, not its edge
 EPS_FLOOR = float(os.environ.get("TA_RAMP_EPS", 0.9))
 MAX_SOLVES = int(os.environ.get("TA_RAMP_MAX_SOLVES", 5))
 I_FLOOR_A = 5.0
@@ -109,6 +111,39 @@ def _load_at(domain, ta, uniform_setup, I, ic_model, n_model, first,
                             EPS_FLOOR, *STAGE_FLOOR, True, diag_path)
     m, clip, _, _ = _local_margin(domain, ta, B_h, ic_model)
     return float((1.0 / m).max()), m, B_h, rng, clip
+
+
+def _next_current(trials, lo, hi):
+    """Next trial current. trials = [(I, load, ...)], lo/hi = the passing /
+    failing bracket ends (or None).
+
+    With a bracket: false position in log(load) vs log(I) through the
+    bracket ends, aimed at LOAD_AIM, with the Illinois rule (the end not
+    refreshed by the last two trials gets half weight) and each step kept
+    >= 10 % of the bracket (in log I) away from both ends. Until 2026-09-29
+    this was plain false position aimed at LOAD_MAX: with the load curving
+    near the crossing it approached 1.0 from above in ~1 % steps (99.6 ->
+    96.3 -> 95.4 A at loads 1.008 -> 1.002 -> 1.0005, eval 104 of the
+    2026-09-28 run) until the budget ran out, and the design was scored at
+    its first, far too low, passing current. On synthetic load curves
+    matching that run this cut the mean I_op shortfall from ~12 % to ~3 %
+    and the cases > 10 % short from ~38 % to ~3 %, with fewer solves.
+    Without a bracket: a log-log step with the typical penetrated-coil
+    slope 0.15, at most x4 / /4."""
+    if lo is None or hi is None:
+        ref = trials[-1]
+        I_new = ref[0] * (LOAD_AIM / ref[1]) ** (1.0 / 0.15)
+        return min(max(I_new, ref[0] / 4.0), ref[0] * 4.0)
+    xl, xh = np.log(lo[0]), np.log(hi[0])
+    yl, yh = np.log(lo[1] / LOAD_AIM), np.log(hi[1] / LOAD_AIM)
+    if len(trials) >= 3:
+        if all(t[1] > LOAD_MAX for t in trials[-2:]):
+            yl *= 0.5
+        elif all(t[1] <= LOAD_MAX for t in trials[-2:]):
+            yh *= 0.5
+    x = xl - yl * (xh - xl) / (yh - yl) if yh > yl else 0.5 * (xl + xh)
+    x = min(max(x, xl + 0.1 * (xh - xl)), xh - 0.1 * (xh - xl))
+    return float(np.exp(x))
 
 
 def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None,
@@ -186,20 +221,9 @@ def evaluate(design, ic_model, comm, verbose=False, save_fields_path=None,
                     break
             else:
                 hi = (I_try, load) if hi is None or I_try < hi[0] else hi
-            # next trial: secant through the bracket if we have one, else
-            # a log-log step with the typical penetrated-coil slope 0.15
-            if lo is not None and hi is not None:
-                s = np.log(hi[1] / lo[1]) / np.log(hi[0] / lo[0])
-                s = max(s, 0.05)
-                I_new = lo[0] * np.exp(np.log(LOAD_MAX / lo[1]) / s)
-                I_new = min(max(I_new, lo[0] * 1.01), hi[0] * 0.99)
-                if hi[0] / lo[0] < 1.03:
-                    break
-            else:
-                ref = trials[-1]
-                I_new = ref[0] * (LOAD_MAX / ref[1]) ** (1.0 / 0.15)
-                I_new = min(max(I_new, ref[0] / 4.0), ref[0] * 4.0)
-            I_try = I_new
+            if lo is not None and hi is not None and hi[0] / lo[0] < 1.03:
+                break
+            I_try = _next_current(trials, lo, hi)
 
         if best is None:
             # nothing passed within the budget: report the lowest-current

@@ -262,6 +262,12 @@ def preflight():
         die(f"cannot write to the output folder {OUT_DIR}: {e}",
             "run from a folder you have write permission to.")
     say(f"output folder: {OUT_DIR}")
+    if os.path.exists(CHECKPOINT):
+        d = load_checkpoint()
+        if d is not None:
+            say(f"saved search found (round {d['round']}, layer counts "
+                f"{sorted(d['islands'])}) -- running without --fresh "
+                f"RESUMES it")
 
     n_cpu = os.cpu_count() or 1
     ram_gb = _ram_gb()
@@ -410,6 +416,17 @@ def _worker_init(ramp_time_s, in_worker=True):
               ev=ta_ramp_current)
 
 
+def score(tape_km, B, unif, hoop):
+    """(fitness, all constraints ok) of a solved design, with the settings at
+    the top of this file."""
+    g_f = max(0.0, (B_MIN_T - B) / B_MIN_T)
+    g_u = max(0.0, (unif - UNIFORMITY_MAX_PCT) / UNIFORMITY_MAX_PCT)
+    g_h = max(0.0, (hoop - HOOP_MAX_MPA) / HOOP_MAX_MPA)
+    fitness = (tape_km + W_FIELD * g_f ** 2 + W_UNIFORMITY * g_u ** 2
+               + W_HOOP * g_h ** 2)
+    return fitness, (g_f == 0 and g_u == 0 and g_h == 0)
+
+
 def evaluate_candidate(x, eval_id):
     """Evaluate one candidate. Never raises: any failure is returned as a
     status so one bad design cannot stop the search."""
@@ -458,12 +475,8 @@ def evaluate_candidate(x, eval_id):
         return dict(base, status="rejected_model", error=r.get("reason", ""),
                     fitness=PENALTY_FAILED_KM, r=None,
                     eval_min=(time.time() - t0) / 60)
-    g_f = max(0.0, (B_MIN_T - r["B_target_T"]) / B_MIN_T)
-    g_u = max(0.0, (r["uniformity_pct"] - UNIFORMITY_MAX_PCT) / UNIFORMITY_MAX_PCT)
-    g_h = max(0.0, (r["hoop_MPa"] - HOOP_MAX_MPA) / HOOP_MAX_MPA)
-    fitness = (r["tape_km"] + W_FIELD * g_f ** 2 + W_UNIFORMITY * g_u ** 2
-               + W_HOOP * g_h ** 2)
-    ok = g_f == 0 and g_u == 0 and g_h == 0
+    fitness, ok = score(r["tape_km"], r["B_target_T"], r["uniformity_pct"],
+                        r["hoop_MPa"])
     print(f"[{now()}]   <- eval {eval_id} done in {fmt_dur(time.time()-t0)}: "
           f"B={r['B_target_T']:.2f} T at {r['I_op_A']:.1f} A, "
           f"unif={r['uniformity_pct']:.2f}%, tape={r['tape_km']:.3f} km  "
@@ -544,6 +557,64 @@ class Search:
         return row
 
 
+def rescore_history(state):
+    """Re-score every solved design in history.csv with the CURRENT settings
+    (B_MIN_T, limits, weights) and refresh each layer count's best design.
+    Needed when the settings changed between sessions: the saved fitness,
+    pass/fail flags and island ranking would otherwise still use the old
+    ones. The physics results themselves (I_op, B, ...) are unchanged. The
+    CMA-ES internal state keeps what it learned from the old scores and
+    adapts from here on."""
+    if not os.path.exists(HISTORY_CSV):
+        return
+    with open(HISTORY_CSV, newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    n_changed = 0
+    for row in rows:
+        if row["status"] != "ok" or not row["tape_km"]:
+            continue
+        fit, ok = score(float(row["tape_km"]), float(row["B_target_T"]),
+                        float(row["uniformity_pct"]), float(row["hoop_MPa"]))
+        if (abs(fit - float(row["fitness"])) > 1e-9
+                or str(ok) != row["all_constraints_ok"]):
+            row["fitness"], row["all_constraints_ok"] = fit, str(ok)
+            n_changed += 1
+    if n_changed:
+        backup = os.path.join(OUT_DIR, "history_before_rescore_"
+                              + time.strftime("%Y%m%d_%H%M%S") + ".csv")
+        os.replace(HISTORY_CSV, backup)
+        with open(HISTORY_CSV, "w", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=HISTORY_FIELDS)
+            w.writeheader()
+            w.writerows(rows)
+        passing = [r for r in rows if r["all_constraints_ok"] == "True"]
+        if passing:
+            with open(BEST_CSV, "w", newline="") as fh:
+                w = csv.DictWriter(fh, fieldnames=HISTORY_FIELDS)
+                w.writeheader()
+                w.writerow(min(passing, key=lambda r: float(r["fitness"])))
+        elif os.path.exists(BEST_CSV):
+            os.remove(BEST_CSV)
+        say(f"settings changed since these results were scored: re-scored "
+            f"{n_changed} designs with B >= {B_MIN_T} T, uniformity <= "
+            f"{UNIFORMITY_MAX_PCT}%, hoop <= {HOOP_MAX_MPA:.0f} MPa "
+            f"(old history kept as {os.path.basename(backup)})")
+    for n, isl in state["islands"].items():
+        mine = [r for r in rows if r["status"] == "ok" and r["tape_km"]
+                and int(r["n_layers"]) == n]
+        if not mine:
+            continue
+        r = min(mine, key=lambda r: float(r["fitness"]))
+        isl["best_fit"] = float(r["fitness"])
+        isl["best_x"] = encode(dict(
+            a=float(r["a_mm"]) / 1e3, b=float(r["b_mm"]) / 1e3,
+            coil_half_gap=float(r["gap_mm"]) / 1e3,
+            n_turns=json.loads(r["n_turns"])))
+        isl["best_info"] = (f"B={float(r['B_target_T']):.2f} T, tape "
+                            f"{float(r['tape_km']):.3f} km, unif "
+                            f"{float(r['uniformity_pct']):.2f}%")
+
+
 def save_checkpoint(state):
     """state = dict(islands={n_layers: island}, queue=[...], round=int)."""
     import pickle
@@ -560,6 +631,15 @@ def load_checkpoint():
     try:
         with open(CHECKPOINT, "rb") as fh:
             d = pickle.load(fh)
+    except (ImportError, AttributeError) as e:
+        # the file is fine, but this Python's pycma cannot rebuild the saved
+        # CMA-ES objects (e.g. checkpoint written by cma 4.5, loaded by 4.0)
+        import cma
+        die(f"the saved checkpoint cannot be loaded with the installed pycma "
+            f"{cma.__version__} ({type(e).__name__}: {e}).",
+            "install the pycma version that wrote it:  pip install "
+            "'cma>=4.5'   -- do NOT use --fresh, that would restart the "
+            "search from scratch.")
     except Exception as e:                # noqa: BLE001
         say(f"WARNING: could not read the checkpoint ({type(e).__name__}: {e}); "
             f"starting a new search. (Old file kept as checkpoint.pkl.bad)")
@@ -899,6 +979,7 @@ def main():
     search = Search()
     state = None if args.fresh else load_checkpoint()
     if state is not None:
+        rescore_history(state)
         search.load_history()
         say(f"RESUMING a saved search: {search.n_solved} solved candidates, "
             f"round {state['round']} (use --fresh to restart)")

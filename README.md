@@ -82,6 +82,24 @@ python run_optimization.py --workers 4 --max-evals 300
   (evaluations done, average time per candidate, estimated time left)
   plus the best design so far. Everything printed also goes to `run.log`.
 
+**Continuing a search on another machine.** The results in
+`optimize/runs/full_config_search/` are committed to git, so the search
+moves between machines with the repository:
+
+```bash
+git pull                                 # gets history.csv, best.csv, checkpoint.pkl, run.log
+conda env update -f environment.yml      # needs pycma >= 4.5 (installed from pip)
+python run_optimization.py --check       # must print "saved search found ... RESUMES it"
+python run_optimization.py               # continues where it stopped -- NO --fresh
+```
+
+When you stop, commit the folder and push it back (`git add
+optimize/runs/full_config_search && git commit && git push`). Don't edit
+the settings block for a continued run unless asked: any change to a
+limit or weight re-scores the saved results. If `--check` says the
+checkpoint can't be loaded, upgrade pycma (`pip install 'cma>=4.5'`).
+Don't use `--fresh`, which starts over.
+
 **Outputs** (`optimize/runs/full_config_search/`):
 
 | file | content |
@@ -100,7 +118,7 @@ python run_optimization.py --workers 4 --max-evals 300
 | `LAYERS_RANGE` | (4, 40) | layer counts the search may move to |
 | `LAYER_STEP_COARSE` / `_FINE` | 4 / 2 | neighbour spacing when moving toward better layer counts |
 | `GENS_PER_ROUND`, `MIN_ACTIVE` | 2, 2 | generations per layer count per round; layer counts kept after each round |
-| `B_MIN_T` | 10.0 | field floor. Searches converge *onto* this floor, so use ~10.3 T for build-tolerance margin (see Limitations) |
+| `B_MIN_T` | 10.0 | field floor (project decision, 2026-09-29: keep 10.0; build-tolerance margin is checked when validating finalists, see Limitations). Changing any limit or weight re-scores the saved results on the next resume |
 | `UNIFORMITY_MAX_PCT` | 0.8 | uniformity limit |
 | `W_FIELD`, `W_UNIFORMITY`, `W_HOOP` | 3000, 50, 20 | penalty weights (see below) |
 | `RAMP_TIME_S` | 7200 | constant-power ramp duration |
@@ -466,8 +484,8 @@ enforced. Delamination stress is computed but not enforced.
   every candidate.
 - **Build tolerance is not in the fitness.** The previous champion found
   that way converged exactly onto B = 10 T and failed a ±0.2 mm / ±2 %
-  jitter test (0/14 builds reached 10 T). Use `B_MIN_T` ≈ 10.3 T or
-  re-check finalists with a jitter study.
+  jitter test (0/14 builds reached 10 T). The floor stays at 10.0 T
+  (project decision), so finalists near 10 T MUST get a jitter study.
 - **Layer-count search is greedy.** Retired layer counts are never
   revisited. A layer count that looked poor after only 2 generations
   could be dropped too early. Raise `GENS_PER_ROUND` or `MIN_ACTIVE` for a
