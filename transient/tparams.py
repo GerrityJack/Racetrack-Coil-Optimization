@@ -69,7 +69,17 @@ RHO_CT_INSULATED_UOHM_CM2 = 1e12       # the insulated limit (I_r -> 0)
 # next to E_i, so the closure largely reduces to the inductive behaviour the
 # DCN already captures.  The agreement therefore shows F = 1 is the
 # self-consistent choice, NOT that the factor is independently confirmed.
-EP_FACTOR_MODE = "paper"       # "paper" | "derived"
+#
+# 2026-10-04 -- SUPERSEDED.  The T-A resistivity carried a wrong delta_SC/Lambda
+# factor (validation/ta_rho_scaling_benchmark.py: it made every T-A step act
+# like a 75x shorter dt).  rho_fn is now rho_sc itself, so:
+#   "derived": F = 1          -> E_p = rho_sc*J_sc, the physical field (default)
+#   "legacy":  F = delta/Lambda -> reproduces the old "paper" (F = 1) numbers
+# The 2026-08-03 comparison above was made with the 75x-too-fast T-A model,
+# so it does not carry over: "derived" was then physically right but driven
+# by an overstated E.  The NI closure has NOT been re-checked against the DCN
+# since the fix (validation/dcn_crosscheck.py, ni_closure_smoke_check.py).
+EP_FACTOR_MODE = "derived"     # "derived" | "legacy"
 
 
 # ── coupling / relaxation ───────────────────────────────────────────────────

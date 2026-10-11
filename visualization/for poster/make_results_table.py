@@ -25,14 +25,16 @@ sys.path.insert(0, _ROOT)
 import params
 
 ROWS = [
-    ("Bore field\n(Kim Ic model)", "10.49 T", "≥ 10 T", "10.10 – 10.49 T", "PASS 15/15"),
-    ("Box uniformity\n(T-A, 30×6mm box)", "0.495 %", "≤ 1 %", "0.338 – 0.517 %", "PASS 15/15"),
-    ("Hoop stress", "113 MPa", "≤ 400 MPa", "102 – 113 MPa", "PASS 15/15"),
-    ("Bend radius", "8.075 mm", "≥ 7.5 mm", "7.545 – 8.434 mm", "PASS 15/15"),
-    ("Face gap", "3.40 mm", "≥ 3.0 mm", "3.00 – 3.84 mm", "PASS 15/15"),
+    ("Bore field\n(T-A, end of 2 h ramp)", "10.24 T", "≥ 10 T", "—", "PASS"),
+    ("Bore field\n(6-layer, ramp + hold)", "10.38 T", "≥ 10 T", "—", "PASS"),
+    ("Box uniformity\n(T-A, 30×6mm box)", "0.656 %", "≤ 1 %", "—", "PASS"),
+    ("Hoop stress", "82.9 MPa", "≤ 400 MPa", "—", "PASS"),
+    ("Worst load\n(end of 2 h ramp)", "0.996", "≤ 1.0 Jc", "—", "PASS"),
+    ("Face gap", "3.10 mm", "≥ 3.0 mm", "—", "PASS"),
+    ("Tape length", "1.828 km", "minimize", "—", "—"),
 ]
 
-COLS = ["Metric", "Nominal", "Limit", "Jitter range\n(15 perturbed builds)", "Result"]
+COLS = ["Metric", "Nominal", "Limit", "Build-tolerance jitter", "Result"]
 COL_WIDTHS = [0.26, 0.16, 0.16, 0.26, 0.16]
 
 
@@ -60,14 +62,13 @@ def main():
                 cell.set_text_props(color="#1e7d34", fontweight="bold")
 
     fig.text(0.5, 0.96,
-              "Champion design -- validated performance "
-              f"(a={params.a*1e3:.1f}mm, b={params.b*1e3:.1f}mm, "
-              f"n_turns={params.n_turns}, I={params.I_design:.0f} A)",
-              ha="center", va="top", fontsize=14, color="#111")
+              f"24-layer champion — a={params.a*1e3:.1f} mm, b={params.b*1e3:.1f} mm, "
+              f"gap={params.coil_half_gap*1e3:.1f} mm, {params.n_layers} layers, "
+              f"I_op={params.I_design:.0f} A, {params.tape_length_m/1e3:.3f} km tape",
+              ha="center", va="top", fontsize=13, color="#111")
     fig.text(0.5, 0.02,
-              "State bore field as ~10.5 T ± 0.5 T -- the Ic(B) "
-              "extrapolation above the measured 8T dataset ceiling is "
-              "the dominant uncertainty, not build tolerance.",
+              "Criterion: no coil cell above local Jc at end of a 2 h constant-power ramp.  "
+              "Build-tolerance jitter not yet validated for this design.",
               ha="center", va="bottom", fontsize=9.5, style="italic",
               color="#555")
 

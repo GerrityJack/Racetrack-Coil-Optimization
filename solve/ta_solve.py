@@ -448,8 +448,13 @@ def _update_rho(ta, J_coil, B_coil, ic_model, n_model, eps_reg, relax=None):
     log_j    = np.log(np.maximum(j_norm, 1e-30))
     rho_SC   = (1e-4 / Jc_vol) * np.exp((n_arr - 1.0) * log_j)
 
-    # Scale to homogenised-volume resistivity
-    rho_homog = rho_SC * (delta_SC / Lambda)
+    # The T-equation uses the SC-layer resistivity itself: its unknown
+    # ∇T×n̂ is the SC-layer J (T BCs ±I/(2δ)), and Faraday's law holds per
+    # tape, so ρ_HTS enters unscaled (Vargas-Llanos et al. 2022, eqs. 4-5,
+    # 10); δ/Λ belongs only on the A-equation source (eq. 8, _update_Js).
+    # Until 2026-10-04 this was multiplied by δ/Λ (1/75), which is exactly
+    # a 75x too-short time step — validation/ta_rho_scaling_benchmark.py.
+    rho_homog = rho_SC
 
     # Log-space under-relaxation against the previous iterate (see docstring)
     if relax is not None and ta.get("_rho_prev") is not None:
@@ -716,7 +721,8 @@ def _solve_A(ta, L_form):
 
 def solve_ta_at_current(domain, ta, uniform_setup,
                          I_amps, ic_model, n_model, verbose=True,
-                         warm_start=True, min_iters=25, diag_log_path=None):
+                         warm_start=True, min_iters=25, diag_log_path=None,
+                         iter_callback=None):
     """
     Run the T-A Picard loop for transport current I_amps.
     Returns (A_h, B_h, T_h, info) at convergence, where info is a dict
@@ -747,6 +753,13 @@ def solve_ta_at_current(domain, ta, uniform_setup,
     to this path — the raw-residual trail needed to tell a genuine
     convergence from a false EMA stall. None (default) = no logging, no
     behaviour change.
+
+    iter_callback: if given, called once per Picard iteration as
+    iter_callback(k, J_coil, B_coil) with the 0-based iteration index and
+    the coil-cell J (A/m^2) and B (T) arrays of that iterate (the last call
+    sees the returned state). Used by optimize/ta_ramp_current.py to check
+    that the per-cell load has settled, not only the bore SCIF. None
+    (default) = no behaviour change.
     """
     comm      = domain.comm
     delta_SC  = ta["delta_SC"]
@@ -1014,6 +1027,9 @@ def solve_ta_at_current(domain, ta, uniform_setup,
                                      "corr"])
                     _w.writerow([k + 1, rel_err, scif_ema, scif_stall,
                                  T_min, T_max, j_over_jc, corr])
+
+        if iter_callback is not None:
+            iter_callback(k, J_coil, B_coil)
 
         # ── (f) Update ρ from new J and B (log-space under-relaxed) ─────
         _update_rho(ta, J_coil, B_coil, ic_model, n_model, eps_reg,

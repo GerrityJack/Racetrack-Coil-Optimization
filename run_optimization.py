@@ -34,8 +34,12 @@ design, re-profiled to the new layer count (same total turns).
 
 For every candidate the T-A screening-current solver finds the LARGEST
 transport current at which NO coil cell is above its local critical current
-density at the moment a 2-hour constant-power ramp ends
-(optimize/ta_ramp_current.py). The mean field in the 30x6 mm target box,
+density at the moment a 30-minute constant-power ramp ends
+(optimize/ta_ramp_current.py; "no cell" = the 99.99th percentile of J/Jc
+by cell count, slivers excluded: the worst cell below 10,000 coil cells,
+the 2nd-3rd worst on the largest meshes).
+A design whose T-A solve did not converge (flat SCIF AND settled load) is
+recorded but never accepted (status "unconverged"). The mean field in the 30x6 mm target box,
 uniformity and hoop stress are evaluated at that current. The fitness is
 
     tape length [km]
@@ -75,12 +79,16 @@ B_MIN_T = 10.0            # required mean |Bz| over the target box. The
 UNIFORMITY_MAX_PCT = 0.8  # peak-to-peak |B| over the box [%] (spec is < 1 %)
 HOOP_MAX_MPA = 400.0      # end-cap hoop stress limit
 
-W_FIELD = 3000.0          # penalty weights [km of tape per (relative
-W_UNIFORMITY = 50.0       #   violation)^2]. Field dominates until 10 T is
-W_HOOP = 20.0             #   reached; uniformity was 20 in earlier searches.
+W_FIELD = 6000.0          # penalty weights [km of tape per (relative
+W_UNIFORMITY = 100.0      #   violation)^2]. Field dominates until 10 T is
+W_HOOP = 40.0             #   reached. Doubled 2026-10-05 when tape_km became
+                          #   both coils (was 3000/50/20 on per-coil tape),
+                          #   so the trade-offs are unchanged.
 PENALTY_FAILED_KM = 1000.0  # fitness for a candidate whose evaluation failed
 
-RAMP_TIME_S = 7200.0      # constant-power ramp duration (2 h)
+RAMP_TIME_S = 1800.0      # constant-power ramp duration (30 min; was 2 h
+                          # until 2026-10-05). Changing it changes the
+                          # physics: start a new search (OUT_SUBDIR).
 
 MAX_EVALS = 300           # total candidate evaluations (T-A-solved ones)
 N_WORKERS = None          # parallel candidates; None = choose from CPUs/RAM
@@ -109,7 +117,8 @@ TURNS_RANGE = (1, 1500)
 CANDIDATE_TIMEOUT_H = 6.0    # one candidate taking longer = a hung solve
 HEARTBEAT_MIN = 10.0         # print a "still running" line this often
 MIN_RAM_PER_WORKER_GB = 2.5  # used to pick N_WORKERS automatically
-OUT_SUBDIR = "full_config_search"
+OUT_SUBDIR = "search_ramp30min"  # full_config_search = old, invalid (2 h ramp,
+                                  # pre-2026-10-04 resistivity bug)
 # ─────────────────────────────────────────────────────────────────────────────
 
 # --quick-test: a tiny REAL search (real T-A physics on a coarse mesh, the
@@ -156,8 +165,9 @@ HISTORY_FIELDS = [
     "eval", "round", "generation", "timestamp", "status", "fitness",
     "all_constraints_ok", "a_mm", "b_mm", "gap_mm", "face_gap_mm",
     "n_layers", "n_turns", "n_total", "tape_km", "I_op_A", "B_target_T",
-    "uniformity_pct", "hoop_MPa", "worst_load", "ta_converged",
-    "n_ta_solves", "trials", "eval_min", "error"]
+    "uniformity_pct", "hoop_MPa", "load_gated", "worst_load",
+    "ta_converged", "scif_range_mT", "load_range", "load_resid",
+    "n_sliver_cells", "n_ta_solves", "trials", "eval_min", "error"]
 
 # medium mesh tier (params.py on disk may hold a much slower one-off tier)
 MESH_SETTINGS = dict(mesh_size_min_factor=0.25, mesh_size_max_factor=0.60,
@@ -452,9 +462,11 @@ def evaluate_candidate(x, eval_id):
         import math   # fake physics, best near 24 layers: tests the layer search
         B = (4.0 + 1.2e-3 * sum(n) / (1.0 + 30.0 * abs(a - 0.031))) * \
             math.exp(-((len(n) - 24) / 14.0) ** 2)
-        r = dict(tape_km=sum(n) * 2 * 3.1416 * a / 1e3, I_op_A=80.0,
+        r = dict(tape_km=2 * sum(n) * 2 * 3.1416 * a / 1e3, I_op_A=80.0,
                  B_target_T=B, uniformity_pct=0.5, hoop_MPa=50.0,
-                 ta_worst_load=1.0, converged=True, n_ta_solves=0,
+                 ta_worst_load=1.0, ta_load_gated=1.0, converged=True,
+                 scif_range_mT=0.0, load_range=0.0, load_resid=0.0,
+                 n_sliver_cells=0, n_ta_solves=0,
                  trials="dry-run")
         g_f = max(0.0, (B_MIN_T - B) / B_MIN_T)
         return dict(base, status="ok", error="", r=r, ok=g_f == 0,
@@ -474,6 +486,18 @@ def evaluate_candidate(x, eval_id):
     if not r.get("feasible", False):
         return dict(base, status="rejected_model", error=r.get("reason", ""),
                     fitness=PENALTY_FAILED_KM, r=None,
+                    eval_min=(time.time() - t0) / 60)
+    if not r.get("converged", False):
+        # numbers from an unconverged solve can be spurious (error hunt
+        # 2026-10-05): keep them in history.csv, never let them guide the
+        # search or pass
+        print(f"[{now()}]   <- eval {eval_id} done in {fmt_dur(time.time()-t0)}"
+              f": NOT CONVERGED (SCIF range {r['scif_range_mT']:.2f} mT, "
+              f"load range {r['load_range']:.4f}, resid "
+              f"{r['load_resid']:.4f}); counted as a failed evaluation",
+              flush=True)
+        return dict(base, status="unconverged", error="T-A solve not "
+                    "converged", fitness=PENALTY_FAILED_KM, ok=False, r=r,
                     eval_min=(time.time() - t0) / 60)
     fitness, ok = score(r["tape_km"], r["B_target_T"], r["uniformity_pct"],
                         r["hoop_MPa"])
@@ -532,8 +556,12 @@ class Search:
             row.update(tape_km=r["tape_km"], I_op_A=r["I_op_A"],
                        B_target_T=r["B_target_T"],
                        uniformity_pct=r["uniformity_pct"],
-                       hoop_MPa=r["hoop_MPa"], worst_load=r["ta_worst_load"],
+                       hoop_MPa=r["hoop_MPa"], load_gated=r["ta_load_gated"],
+                       worst_load=r["ta_worst_load"],
                        ta_converged=r["converged"],
+                       scif_range_mT=r["scif_range_mT"],
+                       load_range=r["load_range"], load_resid=r["load_resid"],
+                       n_sliver_cells=r["n_sliver_cells"],
                        n_ta_solves=r["n_ta_solves"], trials=r["trials"])
             self.eval_minutes.append(res.get("eval_min", 0.0))
         new = not os.path.exists(HISTORY_CSV)
@@ -970,14 +998,23 @@ def main():
                 "see the messages above; check the conda environment.")
         r = res["r"]
         say(f"smoke test OK: I_op={r['I_op_A']:.1f} A, B={r['B_target_T']:.2f} T, "
-            f"uniformity={r['uniformity_pct']:.2f}%, worst load "
-            f"{r['ta_worst_load']:.3f}, trials {r['trials']}")
+            f"uniformity={r['uniformity_pct']:.2f}%, load "
+            f"{r['ta_load_gated']:.3f} (worst cell {r['ta_worst_load']:.3f}), "
+            f"converged={r['converged']}, trials {r['trials']}")
         return
 
     import multiprocessing as mp
     banner("2/3  Setting up the search")
     search = Search()
     state = None if args.fresh else load_checkpoint()
+    if state is not None and os.path.exists(HISTORY_CSV):
+        with open(HISTORY_CSV, newline="") as fh:
+            header = next(csv.reader(fh), [])
+        if "load_gated" not in header:
+            die(f"{HISTORY_CSV} was written by the old evaluator (2 h ramp, "
+                "worst-cell gate) and cannot be mixed with this one.",
+                "point RUN_OPT_OUT_DIR elsewhere or run with --fresh "
+                "(old results are archived).")
     if state is not None:
         rescore_history(state)
         search.load_history()

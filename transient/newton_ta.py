@@ -166,17 +166,18 @@ def build_layer_newton_problems(ta, snes_options=None, verbose=False):
         Jmag = ufl.sqrt(ufl.inner(J_ufl, J_ufl) + 1e-30)
         j_norm_raw = Jmag / Jc_fn
         j_norm = (eps_reg ** p_floor + j_norm_raw ** p_floor) ** (1.0 / p_floor)
-        # rho_SC (the SC-layer resistivity) times delta_SC/Lambda -- the
-        # HOMOGENISED value ta_solve._update_rho actually uses in a_T. A
-        # first version of this omitted the delta_SC/Lambda factor, making
-        # rho ~75x too large; the outer loop still converged numerically
-        # (SNES was happy) but to a self-consistent, PHYSICALLY WRONG fixed
-        # point (13.6 mT vs the Picard-validated 172.77 mT at this same
-        # operating point) -- a reminder that "SNES reports converged" and
-        # "the formulation is correct" are different claims; always check
-        # against a ground-truth number, not just the solver's own status.
+        # rho_SC (the SC-layer resistivity), unscaled -- the same value
+        # ta_solve._update_rho uses in a_T. History: a first version of
+        # this omitted a delta_SC/Lambda factor that the Picard solver then
+        # applied, and was "corrected" to match Picard (13.6 mT vs Picard's
+        # 172.77 mT). That check was circular: on 2026-10-04 an independent
+        # discrete-tape benchmark (validation/ta_rho_scaling_benchmark.py)
+        # showed the factor itself was wrong (a 75x too-short dt), and it
+        # was removed from both. The lesson stands, in a stronger form:
+        # agreement with another solver that shares the same assumption is
+        # not a ground truth.
         rho_SC = (E_c / Jc_fn) * ufl.exp((n_fn - 1.0) * ufl.ln(j_norm))
-        rho_expr = rho_SC * (ta["delta_SC"] / ta["Lambda"])
+        rho_expr = rho_SC
 
         J_phi = ufl.cross(ufl.grad(phi), n_hat_ufl)
         F = (rho_expr * ufl.inner(J_ufl, J_phi) * dx

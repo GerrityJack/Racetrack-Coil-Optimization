@@ -45,3 +45,4 @@ mumps_verbose*.log
 # ...except the live search results of run_optimization.py: they are handed
 # between machines through git (resume from checkpoint.pkl)
 !optimize/runs/full_config_search/*.csv
+Miniforge3-*.sh

@@ -1,25 +1,11 @@
 """
 make_penalty_evolution.py
 ============================
-Poster figure: how the CMA-ES search's constraint-violation penalty
-shrinks to zero over the course of a run.
+Poster figure: how the CMA-ES search's combined fitness shrinks over the
+full_config_search run.  fitness = tape_km + constraint penalties, so a
+passing design has fitness = tape_km.
 
-optimize/cmaes_search.py's fitness is `f = tape_km + penalty`, where
-penalty sums the squared, weighted constraint violations (field, hoop,
-uniformity -- each 0 when satisfied). optimize/runs/
-cmaes_all_evaluations.csv only logs the combined fitness and tape_km
-directly, so penalty = fitness - tape_km recovers it exactly (an
-infeasible-geometry row has no tape_km; treated as 0 tape_km, so its
-fitness IS its penalty). Same RUN_TAG as make_pca_convergence.py /
-make_pca_3d_trajectory.py for a consistent, cross-referenceable set of
-poster figures describing the same run.
-
-The penalty spans ~7000 down to ~0 over the run and legitimately hits
-exactly 0 for many converged-feasible evaluations, so it's plotted on a
-symlog y-axis (linear near 0, log above a small threshold) rather than a
-plain log axis, which can't represent 0 at all.
-
-Inputs: optimize/runs/cmaes_all_evaluations.csv
+Inputs: optimize/runs/full_config_search/history.csv
 Output: visualization/for poster/penalty_evolution.png
 """
 import os
@@ -34,67 +20,75 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 _VIZ = os.path.dirname(_HERE)
 _ROOT = os.path.dirname(_VIZ)
 
-CSV_PATH = os.path.join(_ROOT, "optimize", "runs", "cmaes_all_evaluations.csv")
-RUN_TAG = "run_20260722_221136"
-ROLL_WINDOW = 45   # same window as make_pca_convergence.py
-LINTHRESH = 1.0    # symlog linear-region half-width
+CSV_PATH = os.path.join(_ROOT, "optimize", "runs",
+                        "full_config_search", "history.csv")
+ROLL_WINDOW = 10
+LINTHRESH = 1.0
 BLACK = "#111111"
 POINT_COLOR = "#c0392b"
 TREND_COLOR = "#1f6feb"
+PASS_COLOR  = "#1e7d34"
 
 
 def _load():
     df = pd.read_csv(CSV_PATH)
-    sub = df[df["run_tag"] == RUN_TAG].reset_index(drop=True)
-    if sub.empty:
-        raise SystemExit(f"No rows for run_tag={RUN_TAG!r} in {CSV_PATH}")
-    penalty = (sub["fitness"] - sub["tape_km"].fillna(0.0)).clip(lower=0.0)
-    return sub["eval"].values, penalty.values
+    # Keep all evaluated rows (skip rejected_geometry with no tape_km)
+    df = df[df["status"] == "ok"].reset_index(drop=True)
+    evals   = df["eval"].values
+    fitness = df["fitness"].values
+    passed  = df["all_constraints_ok"].astype(bool).values
+    return evals, fitness, passed
 
 
-def _rolling_mean(y, window):
-    if window < 2:
-        return y
-    kernel = np.ones(window) / window
-    pad = window // 2
-    y_pad = np.pad(y, (pad, window - 1 - pad), mode="edge")
-    return np.convolve(y_pad, kernel, mode="valid")
+def _rolling_min(y, window):
+    """Rolling minimum — shows the best-so-far trend."""
+    out = np.empty_like(y)
+    for i in range(len(y)):
+        out[i] = y[max(0, i - window + 1):i + 1].min()
+    return out
 
 
 def main():
-    evals, penalty = _load()
-    trend = _rolling_mean(penalty, ROLL_WINDOW)
+    evals, fitness, passed = _load()
+    best_so_far = np.minimum.accumulate(fitness)
 
     fig, ax = plt.subplots(figsize=(9, 5.2))
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
 
-    ax.scatter(evals, penalty, s=6, color=POINT_COLOR, alpha=0.22,
-               linewidths=0, label="Per-evaluation penalty")
-    ax.plot(evals, trend, color=TREND_COLOR, lw=2.2,
-            label="Rolling mean")
+    # Failed evals
+    fail_mask = ~passed
+    ax.scatter(evals[fail_mask], fitness[fail_mask], s=10,
+               color=POINT_COLOR, alpha=0.35, linewidths=0,
+               label="Evaluated (constraint violation)")
+    # Passing evals
+    pass_mask = passed
+    ax.scatter(evals[pass_mask], fitness[pass_mask], s=30,
+               color=PASS_COLOR, alpha=0.8, linewidths=0.5,
+               edgecolors="black", zorder=4,
+               label=f"Passing (all constraints OK, {pass_mask.sum()} designs)")
+    # Best-so-far line
+    ax.plot(evals, best_so_far, color=TREND_COLOR, lw=2.2,
+            label="Best fitness so far")
 
     ax.set_yscale("symlog", linthresh=LINTHRESH)
-    ax.set_xlabel("Evaluation", fontsize=12)
-    ax.set_ylabel("Constraint-violation penalty", fontsize=12)
+    ax.set_xlabel("Evaluation index", fontsize=12)
+    ax.set_ylabel("Fitness  (≈ tape km when passing)", fontsize=12)
     ax.set_xlim(evals.min(), evals.max())
-    ax.set_ylim(0, penalty.max() * 1.15)
     ax.tick_params(colors=BLACK)
     for sp in ax.spines.values():
         sp.set_edgecolor("#888")
     ax.grid(True, which="both", axis="y", color="#ddd", lw=0.6)
     ax.legend(fontsize=10, loc="upper right", framealpha=0.9,
               edgecolor="#ccc")
+    ax.set_title("full_config_search: fitness convergence", fontsize=13)
 
     fig.tight_layout(pad=0.4)
     out = os.path.join(_HERE, "penalty_evolution.png")
     fig.savefig(out, dpi=220, bbox_inches="tight", pad_inches=0.03,
                 facecolor="white")
     plt.close(fig)
-    n_zero = int((penalty == 0).sum())
-    print(f"Wrote {out}  ({len(evals)} evaluations, run_tag={RUN_TAG})")
-    print(f"  penalty range: [{penalty.min():.4g}, {penalty.max():.4g}], "
-          f"{n_zero} evals ({n_zero/len(evals)*100:.1f}%) at exactly 0")
+    print(f"Wrote {out}  ({len(evals)} evaluations, {pass_mask.sum()} passing)")
 
 
 if __name__ == "__main__":

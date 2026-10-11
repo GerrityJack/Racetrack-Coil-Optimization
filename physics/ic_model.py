@@ -548,12 +548,11 @@ def compute_rho_hts(J_vec, B_vec, n_hat_vec, ic_model, n_model,
     j_norm = Jmag / Jc_vol + eps_reg                       # |J|/Jc + ε
     rho = (E_c / Jc_vol) * j_norm ** (n_arr - 1.0)
 
-    # Scale from SC-layer resistivity to homogenised-volume resistivity:
-    # ρ_homog = ρ_SC * (delta_SC / Lambda)
-    # This keeps the A-source J_s = (delta_SC/Lambda)*J_phys consistent.
-    rho_homog = rho * (delta_SC / Lambda)
-
-    return rho_homog, Jmag, Ic_arr
+    # The T-equation acts on the SC-layer J, so it takes the SC-layer ρ
+    # unscaled; δ/Λ applies only to the A-equation source J_s (Vargas-Llanos
+    # et al. 2022, eqs. 4-5, 8).  Fixed 2026-10-04 (was ρ·δ/Λ); Lambda is
+    # kept in the signature for compatibility only.
+    return rho, Jmag, Ic_arr
 
 
 if __name__ == "__main__":

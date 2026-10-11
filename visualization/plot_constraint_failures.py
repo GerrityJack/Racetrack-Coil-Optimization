@@ -100,7 +100,8 @@ Y_CAP_M = 1000.0   # linear axis cap -- see main()'s caption for the
 # in sync with the actual champion; CHAMPION_IDX is set in main() once the
 # log's real max evaluation index is known, since the champion has no
 # genuine chronological position in this file.
-CHAMPION_TAPE_M = params.tape_length_m   # already in metres, not km
+# per coil, like every tape_km in the (pre-2026-10-05) master log
+CHAMPION_TAPE_M = params.tape_length_per_coil_m   # metres, not km
 
 
 def _predicted_tape_m(a_m, b_m, n_turns):

@@ -26,6 +26,9 @@ get bridged into its wide neighbour and each layer's true a_inner..a_out
 radial extent is respected.
 
 Inputs: solve/racetrack_ta_fields.npz (run solve/ta_solve.py if missing/stale)
+        OR set env-var FIELDS_NPZ to an alternative npz path; if that npz
+        stores geometry keys (a, b, n_turns, coil_half_gap), params is
+        temporarily overridden so the coil dimensions match the data.
 Output: visualization/for poster/jjc_major_axis_cross_section.png
         visualization/for poster/jjc_minor_axis_cross_section.png
 """
@@ -52,18 +55,31 @@ from ic_model import angle_with_normal_deg                # noqa: E402
 from ic_extrapolation import make_ic_model                 # noqa: E402
 from plot_3d import _mirror_z, _layer_colors                # noqa: E402
 
-FIELDS_NPZ = os.path.join(params.SOLVE_DIR, "racetrack_ta_fields.npz")
+_DEFAULT_NPZ = os.path.join(params.SOLVE_DIR, "racetrack_ta_fields.npz")
+FIELDS_NPZ = os.environ.get("FIELDS_NPZ", _DEFAULT_NPZ)
 SLAB_EPS = 3.0e-3    # m -- thin-slab half-width around the cut plane
 CMAP = "plasma"
 BLACK = "#111111"
 
 
+def _override_params_from_npz(d):
+    """If d has geometry keys, update params so coil dimensions match the data."""
+    if "a" in d and "b" in d and "n_turns" in d and "coil_half_gap" in d:
+        params.a             = float(d["a"])
+        params.b             = float(d["b"])
+        params.coil_half_gap = float(d["coil_half_gap"])
+        params.n_turns       = list(map(int, d["n_turns"]))
+        params.recompute_derived()
+        print(f"  [geometry from npz] a={params.a*1e3:.2f}mm "
+              f"b={params.b*1e3:.2f}mm gap={params.coil_half_gap*1e3:.2f}mm "
+              f"n_layers={params.n_layers}")
+
+
 def _load_ratio():
     d = np.load(FIELDS_NPZ)
+    _override_params_from_npz(d)
     I_solved = float(d["I_solved"])
-    if abs(I_solved - params.I_design) > 0.5:
-        print(f"WARNING: {FIELDS_NPZ} is at I={I_solved:.1f} A, "
-              f"not I_design={params.I_design:.1f} A.")
+    print(f"  I_solved = {I_solved:.1f} A  (params.I_design = {params.I_design:.1f} A)")
 
     c = d["coil_centroids"]
     B = d["coil_B"]

@@ -1,18 +1,17 @@
 """
 make_pca_3d_trajectory.py
 ===========================
-Poster figure: the same CMA-ES design-variable PCA as
-make_pca_convergence.py, but rendered as a single 3D trajectory --
-the top 3 principal-component scores as (x, y, z), each evaluation's
-point connected to the next in evaluation order, coloured along a
-colorbar by evaluation index so the search's path through this reduced
-3-mode space (scatter early -> converge onto a point late) is visible
-directly, instead of as three separate 1D traces over time.
+Poster figure: 3D scatter of the full_config_search designs in
+(a, b, coil_half_gap) space, coloured by B_target, with passing designs
+larger and layer count indicated by marker shape.
 
-Inputs: optimize/runs/cmaes_all_evaluations.csv
+Since different islands have different n_layers, PCA on the full variable
+vector is not well-defined across islands.  Using the three continuous
+geometric variables (a, b, gap) directly gives an interpretable 3D view.
+
+Inputs: optimize/runs/full_config_search/history.csv
 Output: visualization/for poster/pca_3d_trajectory.png
 """
-import ast
 import os
 
 import numpy as np
@@ -20,124 +19,87 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d.art3d import Line3DCollection
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _VIZ = os.path.dirname(_HERE)
 _ROOT = os.path.dirname(_VIZ)
 
-CSV_PATH = os.path.join(_ROOT, "optimize", "runs", "cmaes_all_evaluations.csv")
-RUN_TAG = "run_20260722_221136"
-N_PC = 3
-ROLL_WINDOW = 45   # same window as make_pca_convergence.py's 1D trend lines
-CMAP = "viridis"
+CSV_PATH = os.path.join(_ROOT, "optimize", "runs",
+                        "full_config_search", "history.csv")
+CMAP = "plasma"
 BLACK = "#111111"
 
-
-def _rolling_mean(y, window):
-    if window < 2:
-        return y
-    kernel = np.ones(window) / window
-    pad = window // 2
-    y_pad = np.pad(y, (pad, window - 1 - pad), mode="edge")
-    return np.convolve(y_pad, kernel, mode="valid")
-
-
-def _load_design_matrix():
-    df = pd.read_csv(CSV_PATH)
-    sub = df[df["run_tag"] == RUN_TAG].reset_index(drop=True)
-    if sub.empty:
-        raise SystemExit(f"No rows for run_tag={RUN_TAG!r} in {CSV_PATH}")
-
-    turns = np.array([ast.literal_eval(s) for s in sub["n_turns"]], dtype=float)
-    X = np.column_stack([sub["a_mm"].values, sub["b_mm"].values,
-                          sub["gap_mm"].values, turns])
-    return X, sub["eval"].values
-
-
-def _pca(X, n_pc):
-    mu = X.mean(axis=0)
-    sd = X.std(axis=0)
-    Xs = (X - mu) / sd
-    Xs -= Xs.mean(axis=0)
-    _, S, Vt = np.linalg.svd(Xs, full_matrices=False)
-    evr = (S ** 2) / (S ** 2).sum()
-    scores = Xs @ Vt.T
-    return scores[:, :n_pc], evr[:n_pc]
+# Layer-count → marker shape for visual distinction
+LAYER_MARKERS = {12: "o", 16: "s", 20: "^", 24: "D", 28: "P", 32: "X"}
 
 
 def main():
-    X, evals = _load_design_matrix()
-    scores, evr = _pca(X, N_PC)
+    df = pd.read_csv(CSV_PATH)
+    df = df[df["status"] == "ok"].reset_index(drop=True)
 
-    # Raw per-evaluation scores are extremely jumpy early on (CMA-ES's
-    # step size starts large) -- connecting every consecutive raw point
-    # produces an unreadable 3D hairball even after clipping the axis
-    # range (mpl's 3D line collections aren't clipped to the view box, so
-    # a jump between two otherwise-in-range points still draws as a long
-    # spike straight through the plot). Smooth each PC axis with the same
-    # rolling window make_pca_convergence.py's 1D trend lines use, and
-    # draw THAT as the connected trajectory -- it tells the same
-    # scattered-then-converged story without the raw noise obscuring it.
-    smoothed = np.column_stack([_rolling_mean(scores[:, k], ROLL_WINDOW)
-                                 for k in range(N_PC)])
+    a   = df["a_mm"].values
+    b   = df["b_mm"].values
+    gap = df["gap_mm"].values
+    B   = df["B_target_T"].values
+    layers = df["n_layers"].values
+    passed = df["all_constraints_ok"].astype(bool).values
 
-    lo = np.percentile(smoothed, 0.5, axis=0)
-    hi = np.percentile(smoothed, 99.5, axis=0)
-    pad = 0.08 * (hi - lo)
-    lims = np.column_stack([lo - pad, hi + pad])
-
-    pts = smoothed
-    segs = np.stack([pts[:-1], pts[1:]], axis=1)
-    seg_t = 0.5 * (evals[:-1] + evals[1:])
-
-    fig = plt.figure(figsize=(9, 8))
+    fig = plt.figure(figsize=(10, 8))
     fig.patch.set_facecolor("white")
     ax = fig.add_subplot(111, projection="3d")
     ax.set_facecolor("white")
 
-    lc = Line3DCollection(segs, cmap=CMAP, array=seg_t, linewidths=2.0,
-                          norm=plt.Normalize(evals.min(), evals.max()))
-    ax.add_collection3d(lc)
+    vmin, vmax = B.min(), B.max()
+    norm = plt.Normalize(vmin=vmin, vmax=vmax)
+    sm   = plt.cm.ScalarMappable(cmap=CMAP, norm=norm)
+    sm.set_array([])
 
-    # Faint raw-score scatter underneath the smoothed line for context --
-    # shows the true scatter/density the smoothed path is summarising.
-    raw_inside = np.all((scores >= lims[:, 0]) & (scores <= lims[:, 1]), axis=1)
-    ax.scatter(scores[raw_inside, 0], scores[raw_inside, 1], scores[raw_inside, 2],
-               c=evals[raw_inside], cmap=CMAP, s=3, alpha=0.12, linewidths=0,
-               vmin=evals.min(), vmax=evals.max())
+    unique_layers = sorted(set(layers))
+    for nl in unique_layers:
+        mk = LAYER_MARKERS.get(nl, "o")
+        mask_fail = (layers == nl) & ~passed
+        mask_pass = (layers == nl) & passed
+        if mask_fail.any():
+            ax.scatter(a[mask_fail], b[mask_fail], gap[mask_fail],
+                       c=B[mask_fail], cmap=CMAP, vmin=vmin, vmax=vmax,
+                       s=20, alpha=0.4, marker=mk, linewidths=0,
+                       depthshade=True, label=f"{nl}L")
+        if mask_pass.any():
+            ax.scatter(a[mask_pass], b[mask_pass], gap[mask_pass],
+                       c=B[mask_pass], cmap=CMAP, vmin=vmin, vmax=vmax,
+                       s=80, alpha=0.9, marker=mk, linewidths=0.7,
+                       edgecolors="black", depthshade=True,
+                       label=f"{nl}L (pass)" if not mask_fail.any() else "")
 
-    # Mark start and end distinctly.
-    ax.scatter(*pts[0], color="#2e7d32", s=70, marker="o",
-               edgecolor=BLACK, linewidth=0.8, depthshade=False,
-               label="First evaluation", zorder=5)
-    ax.scatter(*pts[-1], color="#c0392b", s=90, marker="*",
-               edgecolor=BLACK, linewidth=0.8, depthshade=False,
-               label="Final (converged) evaluation", zorder=5)
+    # Mark winner
+    win = df[df["eval"] == 92]
+    if not win.empty:
+        ax.scatter(win["a_mm"], win["b_mm"], win["gap_mm"],
+                   c=win["B_target_T"], cmap=CMAP, vmin=vmin, vmax=vmax,
+                   s=300, marker="*", edgecolors="black", linewidth=1.5,
+                   depthshade=False, zorder=10, label="Winner (eval 92)")
 
-    ax.set_xlim(*lims[0])
-    ax.set_ylim(*lims[1])
-    ax.set_zlim(*lims[2])
-    ax.set_xlabel(f"Principal Component 1  ({evr[0]*100:.0f}% var)", fontsize=11, labelpad=8)
-    ax.set_ylabel(f"Principal Component 2  ({evr[1]*100:.0f}% var)", fontsize=11, labelpad=8)
-    ax.set_zlabel(f"Principal Component 3  ({evr[2]*100:.0f}% var)", fontsize=11, labelpad=8)
+    cbar = fig.colorbar(sm, ax=ax, pad=0.12, fraction=0.03, shrink=0.6)
+    cbar.set_label("B_target  (T)", fontsize=11)
+
+    ax.set_xlabel("a  (mm)", fontsize=11, labelpad=8)
+    ax.set_ylabel("b  (mm)", fontsize=11, labelpad=8)
+    ax.set_zlabel("coil gap  (mm)", fontsize=11, labelpad=8)
     ax.tick_params(colors=BLACK, labelsize=8)
-    ax.view_init(elev=22, azim=-60)
-
-    cbar = fig.colorbar(lc, ax=ax, pad=0.08, fraction=0.035, shrink=0.6)
-    cbar.set_label("Evaluation index", fontsize=11)
-    cbar.ax.tick_params(labelsize=9)
-
-    ax.legend(fontsize=9, loc="upper left", framealpha=0.9, edgecolor="#ccc")
+    ax.view_init(elev=18, azim=-55)
+    ax.legend(fontsize=8, loc="upper left", framealpha=0.85,
+              edgecolor="#ccc", ncol=2)
+    ax.set_title("Geometric search space: (a, b, gap) coloured by B_target",
+                 fontsize=12)
 
     fig.tight_layout(pad=0.4)
     out = os.path.join(_HERE, "pca_3d_trajectory.png")
     fig.savefig(out, dpi=220, bbox_inches="tight", pad_inches=0.05,
                 facecolor="white")
     plt.close(fig)
-    print(f"Wrote {out}  ({len(evals)} evaluations, run_tag={RUN_TAG})")
-    print(f"  explained variance: {', '.join(f'PC{k+1}={v*100:.1f}%' for k, v in enumerate(evr))}  "
-          f"(cumulative {evr.sum()*100:.1f}%)")
+    print(f"Wrote {out}  ({len(df)} evaluated designs, "
+          f"{passed.sum()} passing)")
 
 
 if __name__ == "__main__":

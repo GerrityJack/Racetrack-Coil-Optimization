@@ -28,10 +28,110 @@ lookup away.
 
 ## CURRENT STATE AND PLAN (2026-09-27) — read this first
 
-**Design criterion now in use** (user decisions, 2026-09-24/27): 4 mm tape,
-20 K; mean field ≥ 10 T over the 30×6 mm box; uniformity ≤ 0.8 % (spec
-< 1 %); **no coil cell above its local Jc at the moment a 2 h
-constant-power ramp ends**; minimize tape. The old "65 % of local Ic under
+**2026-10-05 — tape length is now BOTH coils.** `params.tape_length_m`
+(and every `tape_km` output) covers the whole magnet;
+`params.tape_length_per_coil_m` is the old quantity. **Every tape number
+in this file, docs/HISTORY.md and every run CSV before this date is per
+coil** (e.g. 16-layer design 1.96 km/coil = 3.92 km magnet). The runner's
+penalty weights were doubled (6000/100/40) so the search's trade-offs
+are unchanged. `optimize/evaluate.py` (external-team entry point) and
+the legacy `cmaes_search.py` also report two-coil tape now; the latter's
+`opt_config.py` weights were NOT rescaled.
+
+**2026-10-05 (evening) — evaluator changed; read before running a search.**
+User decisions: **ramp is now 30 min** (1 h surrogate step, was 2 h / 4 h);
+the gate is the **99.99th percentile of J/Jc by cell count** (nearest rank:
+the worst cell below 10,000 coil cells, 2nd-3rd worst above), with slivers
+(gmsh γ < 1e-3) excluded; designs are accepted only if the I_op solve
+converged (flat SCIF AND the gated load settled: range and |slope|/α over
+the last 30 iterations < 0.005). Floors ≤ 0.7 use α/4 and 4× iterations at
+the 1 h step, about 3× the old cost per design. Those α values come from
+the scaling rule and have not been checked with a forced long run. Output
+folder is now `optimize/runs/search_ramp30min/`. **Finalists MUST get the
+expensive checks the search skips**: √t ramp march (the surrogate is
+non-conservative), xdense7 uniformity (±0.5 pp), fine/independent mesh,
+air box 8, α-halving, floor 0.5 — README "Validating a design".
+Details and data: `docs/error_hunt_2026-10-04.md`, "Actions taken".
+Volume-weighted percentiles were rejected: they discount the small
+tape-edge cells where the peak load sits (~7 % below the worst cell).
+
+**2026-10-05 — error hunt (overnight): see `docs/error_hunt_2026-10-04.md`.**
+Non-conservative findings that matter for design verdicts: (1) the single
+4 h-step ramp surrogate under-predicts the end-of-ramp worst load by ~4 %
+vs a √t constant-power march (legacy, 180 A: 0.881 vs 0.917; B 1.7 % high);
+(2) the single-worst-cell criterion is fragile — too-large α gives spurious
+hotspots invisible to the SCIF convergence test (nonlinear benchmark
+`validation/ta_nonlinear_benchmark.py`), and even converged solves carry
+~6 % mesh noise in the worst cell (p99.9 accurate). Also: the air box
+(box_scale 4) makes the FEM field 5–8 % low in the winding, but loads move
+only ~0.2 % (load = (E/E_c)^(1/n)). Verified correct: nonlinear T-A
+implementation, Ic angle convention, normals, normalisations, screening
+sum, B_target/uniformity, scoring, reproducibility.
+
+**2026-10-04 — READ FIRST: every T-A number in this file before this date
+was computed with a wrong resistivity and must be re-run.**
+`ta_solve._update_rho()` used ρ = ρ_HTS·(δ_SC/Λ) in the T-equation. The
+formulation paper (Vargas-Llanos et al. 2022, now in `physics/`, eqs. 4,
+5, 8, 10) applies δ/Λ ONLY to the A-equation source; the T-equation acts
+on the SC-layer J (T BCs ±I/(2δ)) and takes plain ρ_HTS. Because the factor
+is uniform, it is exactly a 75× too-short time step: the "4 h surrogate"
+modelled ~190 s, the old 600 s production step ~8 s, and the ramp+hold
+times were 75× shorter than stated. Loads were therefore overstated. A
+rough estimate from the measured ~0.898 per decade creep scaling puts
+them at ~0.82× the reported values, so operating currents and fields
+were too low.
+**Confirmed** independently by `validation/ta_rho_scaling_benchmark.py`
+(ohmic n=1, 40-tape single-layer racetrack, vs a discrete-tape
+integral-equation reference with no FEM or homogenisation). At dt=375 s
+the old code matched the reference at dt/75 = 5 s to 1.5 % RMS and was 16 %
+off the reference at 375 s. With ρ_HTS it matches at 375 s to 0.01 % and
+at 5 s to 0.8 %. **Fixed** in `solve/ta_solve.py`, `solve/ta_implicit.py`,
+`physics/ic_model.compute_rho_hts`, and every `transient/` copy
+(`newton_ta.py`, `monolithic_ta*.py`, 4 validation scripts). Consumers
+that compensated for the factor were adjusted: `ramp_hold_test.efield_ratio`,
+`transient/loss.hysteretic_power` (now multiplies by the SC fraction δ/Λ
+explicitly; same physical number as before), `loss_sanity_check`'s floor
+estimate, and the NI closure's E_p factor (`tparams.EP_FACTOR_MODE` is
+now "derived" = physical F=1; "legacy" reproduces the old numbers; the
+2026-08-03 empirical choice of "paper" mode was made with the 75×-fast
+model and no longer applies — NI closure NOT re-validated since).
+**Consequences:** `optimize/runs/full_config_search/` (evals 1-120,
+incl. the 10.24 T 24-layer best), the 7.11 T / 126.6 A legacy
+end-of-ramp result, the ramp+hold table, the 2026-09 relaxed-margin
+findings, the 4.2K ~9 % result, and every SCIF/load number in the NI
+transient sections were all computed with the error. Don't resume the
+search checkpoint; start a new search. Picard stability (α ∝ ρ·dt) improves
+75×, but the ρ-floor now matters more and the evaluator's floor was moved
+from 0.9 to 0.6 (see the re-check below). The "agreement with Picard" checks in
+`transient/newton_ta.py`'s history were circular (both carried the
+factor) — agreement between solvers that share an assumption is not
+ground truth.
+**Post-fix re-check (legacy 6-layer, 126.6 A, 4 h step, medium mesh):** the
+evaluator's α=0.10 converges cleanly (SCIF range 0.01-0.04 mT). The
+ρ-floor now matters far more: worst load 0.274 / 0.284 / 0.557 / 0.837 /
+0.838 and B 7.51 / 7.50 / 7.44 / 7.20 / 6.95 T at floors 1.0 / 0.9 / 0.8 /
+0.7 / 0.6 (α 0.1/0.1/0.1/0.05/0.01). The load is floor-converged from 0.7;
+B is not (−3.5 % from 0.7 to 0.6). The old 0.998 has become 0.838.
+**Floor ladders down to 0.5 at 180 A and 300 A** (`floortest_legacy6L_*`):
+the worst load converges once the floor is ~0.1 below the load (300 A:
+0.980/0.979/0.977/0.978/0.978 at floors 0.9-0.5; 180 A: 0.881 from 0.7).
+B and uniformity need floor 0.6: at 180 A B is 10.67/10.59/10.41/10.16/
+10.12 T and uniformity 1.07/0.93/0.77/0.47/0.45 % at floors 0.9→0.5.
+Floor 0.5 is solvable (α=0.002, ~1500 iterations). `ta_ramp_current.py`
+now uses **floor 0.6** via a cold ladder 1.0→0.9→0.8→0.7→0.6
+(`COLD_LADDER`, `STAGE_FLOOR=(0.01, 300)`), roughly 2.5× the old cost per
+design. With the fixed solver the legacy design passes the end-of-ramp
+rule at 180 A / 10.12 T (worst load 0.88). Its load reaches ~1 only near
+~310 A / ~18 T, far above the 8 T Ic data, so the search's current range
+needs a cap tied to the Ic-extrapolation uncertainty (not yet done).
+Runs: `optimize/runs/ramp_hold/postfix_legacy6L_126p6A_4h*.csv`,
+`floortest_legacy6L_{Iscan,180A,300A}.csv`.
+
+**Design criterion now in use** (user decisions, 2026-09-24/27, ramp
+shortened 2026-10-05): 4 mm tape, 20 K; mean field ≥ 10 T over the 30×6 mm
+box; uniformity ≤ 0.8 % (spec < 1 %); **no coil cell above its local Jc at
+the moment a 30 min constant-power ramp ends** (99.99th-percentile-by-count
+gate, see above); minimize tape. The old "65 % of local Ic under
 uniform current" rule is retired. Physics: J/Jc = (E/E_c)^(1/n), so the
 per-cell load is set by the ramp-induced electric field; see "10 T with NO
 cell above Jc: ramp + hold" below.
@@ -352,6 +452,8 @@ Ampere's law with source J_s = (δ_SC/Λ) × ∇T×n̂.
 **Key relationship:** `J_SC = ∇T × n̂`  (SC-layer current density, A/m²)
 **T BCs:** `T_bot = +I/(2δ_SC)`, `T_top = −I/(2δ_SC)` at z = ±w/2
 **A-form source:** `J_s = (δ_SC/Λ) × J_SC`
+**T-equation resistivity:** plain `ρ_HTS(J_SC, B)` — NO δ/Λ factor (the
+factor was wrongly applied here until 2026-10-04; see the top of this file).
 
 ### Single-tape architecture (critical design decision)
 
@@ -2233,6 +2335,11 @@ conda run -n fenicsx-env python3 sweep/quench_sweep.py
     now does one real confirming solve at `I_FLOOR_A` instead of
     fabricating a value, flagged via a new `bisection_exhausted` field.
     See "Cryogenic (4.2K) operating-temperature investigation" above.
+14. **The T-equation resistivity carried a spurious δ_SC/Λ (= 1/75)
+    factor** in `ta_solve._update_rho()` (and every copy), equivalent to a
+    75× too-short time step in every T-A solve ever run. Fixed
+    2026-10-04, confirmed by `validation/ta_rho_scaling_benchmark.py`.
+    See the top of this file.
 
 ---
 

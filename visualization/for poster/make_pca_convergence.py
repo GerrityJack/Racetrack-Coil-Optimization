@@ -1,31 +1,19 @@
 """
 make_pca_convergence.py
 =========================
-Poster figure: convergence of the CMA-ES design search, visualised via
-PCA on the design-variable trajectory.
+Poster figure: convergence of the multi-layer CMA-ES search in
+full_config_search, visualised as the three geometric variables
+(a, b, coil_half_gap) converging over evaluation index.
 
-Each evaluation is a point in design-variable space (a, b, coil_half_gap,
-per-layer turn counts) pulled straight from `optimize/runs/
-cmaes_all_evaluations.csv` for one representative full run. Standardising
-and taking the PCA of that trajectory collapses the 6-dimensional search
-into its dominant modes of variation -- CMA-ES's adaptive covariance
-naturally shrinks the search distribution as it converges, so the top
-principal-component scores start scattered (early, exploratory
-generations) and settle onto a flat plateau (late generations, the
-search has converged around a single design).
+Since different islands have different n_layers (and thus different-length
+turn vectors), PCA on the full variable vector is not meaningful across
+islands.  Instead: show the three continuous geometric variables directly
+(not PCA) as parallel traces -- each starts scattered and narrows toward
+the winning design.  Colour by layer count.
 
-RUN_TAG is a single fixed run picked for having the most evaluations
-(4005) and a clean, fully-converged tail (population's a/b/gap/n_turns
-all settle to a single point by the end) -- not the literal search that
-produced the current champion (that came from a later, smaller
-margin-aware grid scan, see CLAUDE.md's "Current design"). This figure
-demonstrates the CMA-ES search's own convergence behaviour, which is the
-project's primary search method throughout `optimize/`.
-
-Inputs: optimize/runs/cmaes_all_evaluations.csv
+Inputs: optimize/runs/full_config_search/history.csv
 Output: visualization/for poster/pca_convergence.png
 """
-import ast
 import os
 
 import numpy as np
@@ -33,94 +21,79 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _VIZ = os.path.dirname(_HERE)
 _ROOT = os.path.dirname(_VIZ)
 
-CSV_PATH = os.path.join(_ROOT, "optimize", "runs", "cmaes_all_evaluations.csv")
-RUN_TAG = "run_20260722_221136"
-N_PC = 3
-ROLL_WINDOW = 45   # ~5 generations at this run's ~9-per-generation popsize
+CSV_PATH = os.path.join(_ROOT, "optimize", "runs",
+                        "full_config_search", "history.csv")
 COLORS = ["#1f6feb", "#c0392b", "#2e7d32"]
 BLACK = "#111111"
+VAR_LABELS = ["a  (mm)", "b  (mm)", "coil gap  (mm)"]
 
 
-def _load_design_matrix():
+def _load():
     df = pd.read_csv(CSV_PATH)
-    sub = df[df["run_tag"] == RUN_TAG].reset_index(drop=True)
-    if sub.empty:
-        raise SystemExit(f"No rows for run_tag={RUN_TAG!r} in {CSV_PATH}")
-
-    turns = np.array([ast.literal_eval(s) for s in sub["n_turns"]], dtype=float)
-    X = np.column_stack([sub["a_mm"].values, sub["b_mm"].values,
-                          sub["gap_mm"].values, turns])
-    return X, sub["eval"].values
-
-
-def _pca(X, n_pc):
-    mu = X.mean(axis=0)
-    sd = X.std(axis=0)
-    Xs = (X - mu) / sd
-    Xs -= Xs.mean(axis=0)
-    _, S, Vt = np.linalg.svd(Xs, full_matrices=False)
-    evr = (S ** 2) / (S ** 2).sum()
-    scores = Xs @ Vt.T
-    return scores[:, :n_pc], evr[:n_pc]
-
-
-def _rolling_mean(y, window):
-    if window < 2:
-        return y
-    kernel = np.ones(window) / window
-    pad = window // 2
-    y_pad = np.pad(y, (pad, window - 1 - pad), mode="edge")
-    return np.convolve(y_pad, kernel, mode="valid")
+    df = df[df["status"] == "ok"].reset_index(drop=True)
+    return df
 
 
 def main():
-    X, evals = _load_design_matrix()
-    scores, evr = _pca(X, N_PC)
+    df = _load()
+    evals   = df["eval"].values
+    a_mm    = df["a_mm"].values
+    b_mm    = df["b_mm"].values
+    gap_mm  = df["gap_mm"].values
+    layers  = df["n_layers"].values
+    passed  = df["all_constraints_ok"].astype(bool).values
+    B       = df["B_target_T"].values
 
-    fig, ax = plt.subplots(figsize=(9, 5.2))
+    unique_layers = sorted(df["n_layers"].unique())
+    layer_cmap = plt.colormaps["tab10"].resampled(len(unique_layers))
+    lcolor = {nl: layer_cmap(i) for i, nl in enumerate(unique_layers)}
+
+    fig, axes = plt.subplots(3, 1, figsize=(9, 9), sharex=True)
     fig.patch.set_facecolor("white")
-    ax.set_facecolor("white")
 
-    for k in range(N_PC):
-        y = scores[:, k]
-        ax.scatter(evals, y, s=5, color=COLORS[k], alpha=0.18,
-                   linewidths=0)
-        ax.plot(evals, _rolling_mean(y, ROLL_WINDOW), color=COLORS[k],
-                lw=2.2, label=f"Principal Component {k+1}  ({evr[k]*100:.0f}% var)")
+    for ax, vals, label in zip(axes, [a_mm, b_mm, gap_mm], VAR_LABELS):
+        ax.set_facecolor("white")
+        for nl in unique_layers:
+            mask = layers == nl
+            ax.scatter(evals[mask & ~passed], vals[mask & ~passed],
+                       s=14, color=lcolor[nl], alpha=0.45, linewidths=0)
+            ax.scatter(evals[mask & passed], vals[mask & passed],
+                       s=40, color=lcolor[nl], alpha=0.9, linewidths=0.6,
+                       edgecolors="black", zorder=5,
+                       label=f"{nl}L" if label == VAR_LABELS[0] else "")
+        # Mark winner (eval 92)
+        win_mask = df["eval"].values == 92
+        if win_mask.any():
+            win_val = vals[df["eval"].values == 92][0]
+            win_eval = 92
+            ax.scatter([win_eval], [win_val], s=200, marker="*",
+                       color="#1e7d34", edgecolor="black", linewidth=1,
+                       zorder=8, label="Winner (eval 92)" if label == VAR_LABELS[0] else "")
+        ax.set_ylabel(label, fontsize=11)
+        ax.tick_params(colors=BLACK, labelsize=9)
+        for sp in ax.spines.values():
+            sp.set_edgecolor("#888")
+        ax.grid(True, alpha=0.15)
 
-    ax.axhline(0.0, color="#aaa", lw=0.8, ls=":")
-
-    ax.set_xlabel("Evaluation", fontsize=12)
-    ax.set_ylabel("Principal component score", fontsize=12)
-    ax.set_xlim(evals.min(), evals.max())
-    # A handful of first-generation outliers span a much wider range than
-    # everything after the search actually starts converging -- clip to
-    # the robust (0.5-99.5 percentile) range across all components so the
-    # plateau (the actual convergence story) fills the plot instead of
-    # being squashed into a thin band by a few early spikes.
-    y_all = scores.ravel()
-    y_lo, y_hi = np.percentile(y_all, [0.5, 99.5])
-    y_pad = 0.08 * (y_hi - y_lo)
-    ax.set_ylim(y_lo - y_pad, y_hi + y_pad)
-    ax.tick_params(colors=BLACK)
-    for sp in ax.spines.values():
-        sp.set_edgecolor("#888")
-    ax.legend(fontsize=10, loc="upper right", framealpha=0.9,
-              edgecolor="#ccc")
+    axes[0].legend(fontsize=8, loc="upper right", ncol=4,
+                   framealpha=0.9, edgecolor="#ccc",
+                   title="Layer count (filled = passing)")
+    axes[2].set_xlabel("Evaluation index", fontsize=12)
+    fig.suptitle("Geometric variables over the full_config_search run",
+                 fontsize=13, y=1.01)
 
     fig.tight_layout(pad=0.4)
     out = os.path.join(_HERE, "pca_convergence.png")
     fig.savefig(out, dpi=220, bbox_inches="tight", pad_inches=0.03,
                 facecolor="white")
     plt.close(fig)
-    print(f"Wrote {out}  ({len(evals)} evaluations, run_tag={RUN_TAG})")
-    print(f"  explained variance: {', '.join(f'PC{k+1}={v*100:.1f}%' for k, v in enumerate(evr))}")
-    print(f"  y-limits clipped to {ax.get_ylim()}")
+    print(f"Wrote {out}  ({len(evals)} evaluated designs)")
 
 
 if __name__ == "__main__":

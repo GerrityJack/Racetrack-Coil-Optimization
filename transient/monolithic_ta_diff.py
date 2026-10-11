@@ -212,7 +212,9 @@ def build_monolithic_problem_diff(ta, ic_beta_model=None, n_hill_model=None,
         j_norm_raw = Jmag / Jc_expr
         j_norm = (eps_reg ** p_floor + j_norm_raw ** p_floor) ** (1.0 / p_floor)
         rho_SC = (E_c / Jc_expr) * ufl.exp((n_expr - 1.0) * ufl.ln(j_norm))
-        rho_expr = rho_SC * (delta_SC / Lambda)
+        # SC-layer rho, unscaled (delta_SC/Lambda removed 2026-10-04; see
+        # ta_solve._update_rho and validation/ta_rho_scaling_benchmark.py)
+        rho_expr = rho_SC
 
         J_phi = ufl.cross(ufl.grad(phi), n_hat_ufl)
         F_i = (rho_expr * ufl.inner(J_ufl, J_phi) * dx

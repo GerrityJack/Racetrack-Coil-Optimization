@@ -45,19 +45,32 @@ from ta_solve import dB_bore_from_dJ
 import opt_config as cfg
 
 NX, NY = 130, 65
-_CACHE = os.path.join(_HERE, "_field_comparison_cache.npz")
+_DEFAULT_FIELDS_NPZ = os.path.join(params.SOLVE_DIR, "racetrack_ta_fields.npz")
+_FIELDS_NPZ = os.environ.get("FIELDS_NPZ", _DEFAULT_FIELDS_NPZ)
+_cache_tag = os.path.splitext(os.path.basename(_FIELDS_NPZ))[0]
+_CACHE = os.path.join(_HERE, f"_field_comparison_cache_{_cache_tag}.npz")
+
+
+def _override_params_from_npz(ta):
+    if "a" in ta and "b" in ta and "n_turns" in ta and "coil_half_gap" in ta:
+        params.a             = float(ta["a"])
+        params.b             = float(ta["b"])
+        params.coil_half_gap = float(ta["coil_half_gap"])
+        params.n_turns       = list(map(int, ta["n_turns"]))
+        params.recompute_derived()
+        print(f"  [geometry from npz] a={params.a*1e3:.2f}mm "
+              f"b={params.b*1e3:.2f}mm gap={params.coil_half_gap*1e3:.2f}mm "
+              f"n_layers={params.n_layers}")
 
 
 def _compute():
     """Runs the two Biot-Savart passes (~45s combined) and caches the
     result to disk -- re-running this script for a pure styling tweak
     should not re-pay that cost."""
-    ta_path = os.path.join(params.SOLVE_DIR, "racetrack_ta_fields.npz")
-    ta = np.load(ta_path)
+    ta = np.load(_FIELDS_NPZ)
+    _override_params_from_npz(ta)
     I_solved = float(ta["I_solved"])
-    if abs(I_solved - params.I_design) > 0.5:
-        print(f"WARNING: racetrack_ta_fields.npz is at I={I_solved:.1f} A, "
-              f"not I_design={params.I_design:.1f} A.")
+    print(f"  I_solved = {I_solved:.1f} A  (params.I_design = {params.I_design:.1f} A)")
 
     centroids = ta["coil_centroids"]
     J_TA      = ta["J_TA_coil"]

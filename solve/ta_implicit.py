@@ -113,7 +113,9 @@ def solve_ta_implicit(domain, ta, uniform_setup, I_amps, ic_model, n_model,
     delta_SC, Lambda = float(ta["delta_SC"]), float(ta["Lambda"])
     eps = float(getattr(params, "ta_eps_reg", 1.0))
     p = float(getattr(params, "ta_floor_smooth_p", 16.0) or 0.0)
-    to_homog = np.log(delta_SC / Lambda)
+    # rho_fn is the SC-layer resistivity itself (no δ/Λ — see
+    # ta_solve._update_rho, fixed 2026-10-04), so no log offset.
+    to_homog = 0.0
     B_h = ta["B_fn"]
     probs = ta["prob_T_layers"]
     Tfns = ta["layer_T_fns"]

@@ -1,0 +1,11 @@
+geometry: 40 tapes, Ic=100.0 A/tape, I=50.0 A, n=21, floor=0.6
+reference dt=   100.0s: max|u| pure 0.7985, floor 0.6 0.7982  (38s)
+  FEM floor 1.0: max|u| (x<8mm) 0.5114, all cells 0.5114, SCIF range30 0.003 mT  (517s)
+  FEM floor 0.9: max|u| (x<8mm) 0.5860, all cells 0.6158, SCIF range30 0.003 mT  (484s)
+  FEM floor 0.8: max|u| (x<8mm) 0.7896, all cells 0.8379, SCIF range30 0.007 mT  (1278s)
+  FEM floor 0.7: max|u| (x<8mm) 0.7956, all cells 0.8430, SCIF range30 0.014 mT  (6627s)
+floor 1.0: FEM max|u| 0.5114 vs ref(same floor) 0.5116 vs pure 0.7985;  profile RMS vs ref(same floor) 0.001
+floor 0.9: FEM max|u| 0.5860 vs ref(same floor) 0.5888 vs pure 0.7985;  profile RMS vs ref(same floor) 0.003
+floor 0.8: FEM max|u| 0.7896 vs ref(same floor) 0.7687 vs pure 0.7985;  profile RMS vs ref(same floor) 0.028
+floor 0.7: FEM max|u| 0.7956 vs ref(same floor) 0.7948 vs pure 0.7985;  profile RMS vs ref(same floor) 0.063
+wrote /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/validation/ta_nonlinear_benchmark.csv

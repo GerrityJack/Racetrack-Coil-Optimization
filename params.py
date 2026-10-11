@@ -5,55 +5,28 @@ All other scripts import this module; nothing is hardcoded elsewhere.
 import os, math
 
 # ── Tape / winding geometry ──────────────────────────────────────────────────
-# 2026-07-31 (FINAL): n_layers=6 double-pancake, tape=0.3372 km,
-# a=26.0mm, b=31.4mm, gap=13.7mm, n_turns=[382,382,478,478,3,3],
-# I_op=196.0 A (65% of local Ic).
+# 2026-09-29 (CURRENT DESIGN): n_layers=24 double-pancake (12 pairs),
+# tape=1.828 km, a=26.95mm, b=39.91mm, gap=49.55mm,
+# n_turns=[223,223,350,350,335,335,198,198,216,216,272,272,
+#           336,336,358,358,426,426,318,318,318,318,383,383],
+# I_op=131.3 A.
+# Best design from full_config_search (eval 92, round 2).
+# Criterion: no coil cell above local Jc at end of a 2h constant-power ramp.
 #
-# This is the first design validated against BOTH a realistic
-# critical-current model AND build tolerance.
+#   metric                    nominal    limit
+#   B_target (T-A, 2h ramp)   10.24 T    >= 10 T   PASS
+#   box p2p uniformity (T-A)   0.656%    <= 1%     PASS
+#   hoop stress                82.9 MPa  <= 400     PASS
+#   worst load (end of ramp)   0.996     <= 1.0     PASS
+#   face gap                   3.10 mm   >= 3.0 mm  PASS
+#   tape length                1.828 km  (minimize)
 #
-#   metric                    nominal    limit     jitter (15 samples)
-#   B_target (Kim Ic)         10.49 T    >= 10 T   10.10-10.49  15/15 PASS
-#   box p2p uniformity (T-A)   0.495%    <= 1%     0.338-0.517  15/15 PASS
-#   hoop stress                113 MPa   <= 400    102-113      PASS
-#   bend radius               8.075 mm   >= 7.5    7.545-8.434  PASS
-#   face gap                   3.40 mm   >= 3.0    3.00-3.84    PASS
-#
-# WHY IT LOOKS "OVERSIZED" vs earlier designs: it is deliberately NOT
-# sitting on its constraint floors. Its predecessor (a=23.227,
-# [329,329,411,411,2,2], 0.2596 km) hit 10.03 T nominal -- 0.3% margin --
-# and then FAILED build tolerance completely: 0 of 14 perturbed builds
-# reached 10 T, 5 of 6 were out of spec on a clearance floor, and 2
-# violated the 7.5mm bend radius. That happened because the search
-# minimized tape subject to B >= 10 T and so converged EXACTLY ONTO the
-# constraint; nothing asked for margin, so none was bought.
-#
-# This design was instead optimized against margin-aware constraints
-# derived from that measured jitter response (assumed tolerances: a, b,
-# gap +-0.2mm; tape thickness +-2%; turns exact):
-#   B >= 10.3 T nominal            (worst measured jitter cost -0.21 T)
-#   bend >= 7.5mm at a-0.2mm AND t+2% simultaneously
-#   face gap 3.4mm nominal, straight 5.4mm nominal
-# TAPE THICKNESS is the dominant build error and is asymmetric -- on the
-# predecessor, t+2% alone failed uniformity (1.33%), ate the entire
-# bend-radius margin, and cost 0.15 T. Here it is benign (0.356%, 10.15T).
-#
-# ~Half the tape increase over the original 0.2235km design is the
-# realistic Ic model; the other half is build tolerance that was never
-# budgeted before. The tolerance half scales directly with the assumed
-# +-0.2mm / +-2% figures -- tighter machining would recover much of it.
-#
-# CAVEAT: under the more conservative `scaling:45` Ic extrapolation this
-# gives 9.44 T. Kim is the measurably better model (hold-out MAPE 4.1% vs
-# 6.1%) AND itself slightly conservative, so ~10.5 T is the better
-# estimate; state it as ~10.5 T with about +-0.5 T of MODEL uncertainty,
-# closable only by measured Ic data above 8 T.
-#
-# There is NO fast proxy for box uniformity -- four have been falsified
-# against T-A (on-axis SCIF, peak turns/pair, Bean-state, uniform-J box
-# field). Always validate finalists with optimize/ta_validate.py.
-a  = 0.0260                  # m
-b  = 0.0314                  # m
+# LEGACY 6-layer champion (2026-07-31):
+#   n_layers=6, a=26.0mm, b=31.4mm, gap=13.7mm,
+#   n_turns=[382,382,478,478,3,3], I_op=196A, tape=0.3372km
+#   reaches 10.38T with a 1h ramp + ~2h hold (ramp+hold validated).
+a  = 0.026947                # m
+b  = 0.039914                # m
 t  = 75e-6     # m — single tape thickness (radial pitch, no gap)
 w  = 0.004     # m — tape width (out-of-plane depth per layer)
 
@@ -63,14 +36,9 @@ delta_SC = 1.0e-6   # m — REBCO superconducting layer thickness (~1 µm).
 # ── Layer definition  [top → bottom] ────────────────────────────────────────
 # Each entry is the number of turns in that z-layer.
 # All layers share the SAME outer radial edge; inner edge = a_out − n_i·t.
-# Double-pancake pairs: (382,382),(478,478),(3,3).
-# 2026-07-30: was [285,285,379,379,2,2]. The perturbation study found that
-# shifting 10 turns per pancake from the inner pair to the outer pair
-# improves tape AND B_target AND hoop AND T-A box uniformity all at once
-# (0.2259->0.2235km, 10.005->10.215T, 114->111MPa, 0.828->0.687%).
-# Confirmed on four independent mesh realizations (0.687/0.688/0.686%).
-# a, b and coil_half_gap are UNCHANGED -- only the turn split moved.
-n_turns = [382, 382, 478, 478, 3, 3]
+# Double-pancake pairs: 12 pairs.  Eval 92 from full_config_search.
+n_turns = [223, 223, 350, 350, 335, 335, 198, 198, 216, 216, 272, 272,
+           336, 336, 358, 358, 426, 426, 318, 318, 318, 318, 383, 383]
 
 # ── Derived winding quantities ────────────────────────────────────────────────
 # Computed by recompute_derived() at the BOTTOM of this file.  To change
@@ -79,15 +47,14 @@ n_turns = [382, 382, 478, 478, 3, 3]
 # quantity below (and the mesh sizing) is refreshed.
 
 # ── Current ───────────────────────────────────────────────────────────────────
-I_design = 196.00            # A/turn — quench/SF-limited I_op for the
-                                 # n_layers=6 champion (was 200.0 default;
-                                 # 224.28825989070785 for the superseded
-                                 # [285,285,379,379,2,2] turn split).
+I_design = 131.28            # A/turn — T-A-safe I_op for the 24-layer champion
+                                 # under the 2h constant-power ramp criterion.
+                                 # (Legacy 6-layer champion used 196.0 A.)
 # J_mag (homogenised current density) is set by recompute_derived()
 
 # ── Two-coil configuration ────────────────────────────────────────────────────
 two_coil_mode  = True
-coil_half_gap  = 0.0137                  # m
+coil_half_gap  = 0.049549                # m
                            # (coil 1 at z=0, coil 2 at z=2g, midplane at z=g)
 
 # ── Eighth-symmetry mode ──────────────────────────────────────────────────────
@@ -208,16 +175,17 @@ mesh_z_grading = [0.05, 0.075, 0.10, 0.55, 0.10, 0.075, 0.05]
 #            pre-test comparison images, and
 #            solve/racetrack_ta_fields_medium_backup.npz for the field data)
 #
-# current: xdense (TEMPORARY, revert to medium block after the comparison):
-mesh_size_min_factor = 0.05   # × pack_thickness
-mesh_size_max_factor = 0.20   # × b
-mesh_dist_min_factor = 0.75   # × pack_thickness
-mesh_dist_max_factor = 4.00   # × b
-box_scale     = 6.0
-
 # medium (production default):
-# mesh_size_min_factor = 0.25; mesh_size_max_factor = 0.60
-# mesh_dist_min_factor = 1.50; mesh_dist_max_factor = 2.00; box_scale = 4.0
+mesh_size_min_factor = 0.25   # × pack_thickness
+mesh_size_max_factor = 0.60   # × b
+mesh_dist_min_factor = 1.50   # × pack_thickness
+mesh_dist_max_factor = 2.00   # × b
+box_scale     = 4.0
+
+# xdense (2026-09-03/04 one-off mesh-artifact comparison — do not reuse
+# unless specifically re-checking the diagonal-island artifact question):
+# mesh_size_min_factor = 0.05; mesh_size_max_factor = 0.20
+# mesh_dist_min_factor = 0.75; mesh_dist_max_factor = 4.00; box_scale = 6.0
 
 # smoke:
 # mesh_size_min = 0.5*pack_thickness; mesh_size_max = 0.8*b
@@ -269,6 +237,7 @@ def recompute_derived():
     global a_out, a_center_list, a_inner_list
     global _z_top, layer_z_bottoms, layer_z_tops
     global L, pack_x_mm, pack_y_mm, pack_z_mm, bore_inner_r_mm, tape_length_m
+    global tape_length_per_coil_m
     global J_mag, mesh_size_min, mesh_size_max, mesh_dist_min, mesh_dist_max
 
     n_layers            = len(n_turns)
@@ -290,8 +259,12 @@ def recompute_derived():
     pack_y_mm       = 2 * a_out * 1e3
     pack_z_mm       = n_layers * w * 1e3
     bore_inner_r_mm = min(a_inner_list) * 1e3
-    tape_length_m   = sum(n*(4*L + 2*math.pi*ac)
-                          for n, ac in zip(n_turns, a_center_list))
+    # n_turns describes ONE coil; the magnet has two identical coils.
+    # tape_length_m is the whole magnet (both coils) since 2026-10-05 --
+    # every tape_km reported before that date is per coil (half this).
+    tape_length_per_coil_m = sum(n*(4*L + 2*math.pi*ac)
+                                 for n, ac in zip(n_turns, a_center_list))
+    tape_length_m   = 2 * tape_length_per_coil_m
 
     J_mag = I_design / (t * w)     # homogenised current density [A/m²]
 

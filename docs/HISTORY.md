@@ -4362,3 +4362,101 @@ accounted for. See CLAUDE.md's "Known open issues" for how this is
 carried forward.
 
 ---
+
+## 2026-10-04: the T-equation resistivity carried a spurious δ_SC/Λ factor — found, benchmarked, fixed
+
+**How it was found.** While explaining the T-A weak form, the factor
+`rho_homog = rho_SC * (delta_SC / Lambda)` in `ta_solve._update_rho()` did
+not match a derivation. The T unknown gives the SC-layer current
+(J = ∇T×n̂ with T = ±I/(2δ) on the tape edges), and Faraday's law holds
+per tape, so summing the per-tape weak forms over a stack of pitch Λ
+cancels Λ on both sides. That leaves plain ρ_HTS. The formulation paper
+(Vargas-Llanos et al. 2022, `physics/Vargas-Llanos_2022_*.pdf`) agrees.
+δ appears only in eq. 7 (I = (T1−T2)δ) and δ/Λ only in eq. 8, the
+A-equation source. Eqs. 4, 5 and 10 use ρ_HTS unscaled. The factor is
+uniform over the coil, and the T right-hand side has no compensating
+factor, so it is algebraically a 75× shorter dt.
+
+**Benchmark** (`validation/ta_rho_scaling_benchmark.py`): ohmic (n = 1)
+40-tape single-layer racetrack (a = 8 mm, L = 30 mm, g = 20 mm, 10 z-slabs),
+production code path, with variants switched only through a stub Ic. The
+reference is the straight-section cross-section as 40 discrete zero-thickness
+tapes × 40 z-elements. It uses exact log-kernel mutual inductances, images
+for the other leg (y=0 PEC) and coil 2 (z=g PMC), one backward-Euler step,
+and a per-tape voltage gradient with an I constraint. It is converged in z
+to 1.3 % (edge/centre at dt = 5 s, M = 40 vs 80). Reference screening time
+≈ 2 s at ρ_SC = 4e-15 Ω·m. Results (stack-mean J across the width, x < 8 mm):
+
+| FEM run | vs reference at dt | vs reference at dt/75 |
+|---|---|---|
+| ρ_HTS, dt = 375 s | 0.01 % RMS | 15 % |
+| old ρ·δ/Λ, dt = 375 s | 16 % | 1.5 % RMS |
+| ρ_HTS, dt = 5 s | 0.8 % RMS | 61 % |
+
+The solver's own |ΔB|/|B| stayed O(1) in these ohmic runs, so the
+agreement of the profile with the reference was the convergence check.
+After the fix the solver reproduces the 375 s reference to 0.00 % RMS.
+Pre-fix outputs: `validation/ta_rho_scaling_benchmark_prefix{,_dt5}.csv`,
+`visualization/ta_rho_scaling_benchmark_prefix.png`.
+
+**Why earlier checks missed it.** `transient/newton_ta.py` originally
+omitted the factor and gave 13.6 mT vs Picard's 172.77 mT. It was then
+"corrected" to match Picard, which carried the same factor, so the check
+was circular. `transient/tparams.py` had noted on 2026-08-03 that the
+physical tape field is ρ_fn·(Λ/δ)·J. Its "derived" mode (physically
+correct E_p) then produced I_r 5-10× above the DCN, and that was read as
+evidence against the derived mode rather than against ρ_fn.
+
+**Fix:** removed from `solve/ta_solve.py`, `solve/ta_implicit.py`,
+`physics/ic_model.compute_rho_hts`, `transient/newton_ta.py`,
+`monolithic_ta.py`, `monolithic_ta_diff.py`, and four
+`transient/validation/` scripts. Compensating consumers were adjusted:
+`ramp_hold_test.efield_ratio`, `transient/loss.hysteretic_power` (explicit
+SC fraction), `loss_sanity_check` floor, and `ni_circuit` E_p factor
+(modes "derived" = 1, default, and "legacy" = δ/Λ; "paper" retired).
+
+**Post-fix re-check of the evaluator** (legacy 6-layer design, 126.6 A, the
+current the old evaluator scored at load 0.998; 4 h step; medium mesh;
+`ramp_hold_test.py`, tags `postfix_legacy6L_126p6A_4h{,_floorcont}`):
+
+| floor | α × iters | worst load | B_target | SCIF |
+|---|---|---|---|---|
+| 1.0 | 0.10 × 150 | 0.274 | 7.511 T | −16.5 mT |
+| 0.9 | 0.10 × 200 | 0.284 | 7.501 T | −8.7 mT |
+| 0.8 | 0.10 × 250 | 0.557 | 7.439 T | 46.2 mT |
+| 0.7 | 0.05 × 350 | 0.837 | 7.202 T | 266 mT |
+| 0.6 | 0.01 × 700 | 0.838 | 6.950 T | 504 mT |
+
+All stages converged on the SCIF trace (range over the last 30 iterations
+0.01–0.04 mT; 0.19 mT at 0.6). The first post-fix number (0.28 at floor 0.9)
+looked like a large gain but was a floor artifact. With the correct ρ the
+75× longer effective time lets the ohmic floor drain the screening
+currents. The floor-converged worst load is 0.838 (old 0.998, ratio 0.84),
+in line with the ~10 %/decade creep estimate. `ta_ramp_current.py` was
+moved from floor 0.9 to 0.7 with a cold ladder 1.0→0.9→0.8→0.7.
+
+**Floor ladders to 0.5 at the decision point and at 10 T** (same design,
+4 h step; `floortest_legacy6L_{Iscan,180A,300A}`). At floor 0.7 the worst
+load vs current is 0.837 (126.6 A, 7.20 T), 0.880 (180 A, 10.41 T), 0.904
+(240 A, 14.05 T), 0.977 (300 A, 17.74 T): it rises slowly, and "no cell
+above Jc" is reached only near ~310 A / ~18 T, well beyond the 8 T Ic data.
+
+| floor (α × iters) | 180 A load | 180 A B | 180 A unif | 300 A load | 300 A B |
+|---|---|---|---|---|---|
+| 1.0 (0.10 × 150) | 0.508 | 10.683 T | 1.16 % | 1.028 | 17.812 T |
+| 0.9 (0.10 × 100) | 0.508 | 10.666 T | 1.07 % | 0.980 | 17.798 T |
+| 0.8 (0.10 × 120) | 0.741 | 10.594 T | 0.93 % | 0.979 | 17.766 T |
+| 0.7 (0.05 × 150) | 0.881 | 10.413 T | 0.77 % | 0.977 | 17.735 T |
+| 0.6 (0.01 × 300) | 0.881 | 10.161 T | 0.47 % | 0.978 | 17.641 T |
+| 0.5 (0.002 × 1500) | 0.883 | 10.119 T | 0.45 % | 0.978 | 17.625 T |
+
+The floor only changes the resistivity of cells below it. The worst load
+therefore converges once the floor is ~0.1 below it (0.9 suffices at the
+pass/fail point), but the field and uniformity depend on all the sub-floor
+screening currents and need 0.6. The evaluator was moved to floor 0.6
+(ladder 1.0→0.9→0.8→0.7→0.6, final stage α=0.01 × 300).
+
+**Invalidated (must be re-run):** every T-A load / I_op / B_target /
+SCIF number before this date, including `optimize/runs/full_config_search/`,
+the ramp+hold study, the relaxed-margin study, the 4.2K comparison, and
+the `transient/` SCIF trajectories.

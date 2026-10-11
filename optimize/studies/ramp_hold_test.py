@@ -64,6 +64,7 @@ from ta_thermal_validation import apply_mesh_config, build_setup, make_models
 import ta_solve
 import ta_implicit
 from ta_safe_current import _local_margin
+from ta_ramp_current import _cell_ctx, gated_load, LOAD_PCTL
 from relaxed_margin_test import b_target
 
 OUT_DIR = os.path.join(_ROOT, "optimize", "runs", "ramp_hold")
@@ -103,9 +104,8 @@ def trace_stats(path, n=30):
 
 def efield_ratio(ta, J_arr):
     """E/E_c per coil cell from the rho actually used last (rho_fn is the
-    homogenised resistivity; the SC-layer value is rho*Lambda/delta)."""
-    rho_h = ta["rho_fn"].x.array[ta["coil_cells"]]
-    rho_sc = rho_h * float(ta["Lambda"]) / float(ta["delta_SC"])
+    SC-layer resistivity itself since the 2026-10-04 δ/Λ fix)."""
+    rho_sc = ta["rho_fn"].x.array[ta["coil_cells"]]
     n_hat = ta["n_hat_coil"]
     Jd = np.einsum("ij,ij->i", J_arr, n_hat)
     Jm = np.linalg.norm(J_arr - Jd[:, None] * n_hat, axis=-1)
@@ -120,6 +120,12 @@ def main():
         params.n_turns = list(DESIGN["n_turns"])
     apply_mesh_config(os.environ.get("RH_MESH", "medium"),
                       os.environ.get("RH_ZGRID", "medium5"))
+    # RH_BOX_SCALE: outer air-box edge in units of b (tiers use 4 or 6).
+    # 2026-10-04 error hunt: box_scale 4 under-predicts the field by ~9 %
+    # at the bore and 5-8 % in the winding (validation/eh_box_size_check.py)
+    if os.environ.get("RH_BOX_SCALE"):
+        params.box_scale = float(os.environ["RH_BOX_SCALE"])
+        params.recompute_derived()
     print(f"design: a={params.a*1e3:.2f}mm b={params.b*1e3:.2f}mm "
           f"gap={params.coil_half_gap*1e3:.2f}mm n_turns={params.n_turns} "
           f"alpha={ALPHA} n_picard={N_PICARD}")
@@ -136,6 +142,7 @@ def main():
     new = not os.path.exists(out_csv)
     t_phys = 0.0
     first = True
+    ctx = _cell_ctx(domain, ta)    # sliver mask for the gated load
     for idx, (I, dt, eps, adv, alpha, n_it, solver) in enumerate(STEPS):
         params.ta_picard_alpha, params.ta_picard_alpha_fine = alpha
         params.ta_n_picard = n_it
@@ -185,7 +192,11 @@ def main():
                    n_cells=len(m), scif_mT=info["scif_mT"],
                    scif_range_mT=rng, scif_slope_mT=slope,
                    rel_err=info["rel_err"], clip_frac=clip,
-                   wall_s=time.time() - t0)
+                   wall_s=time.time() - t0,
+                   # the optimizer's gate (ta_ramp_current.gated_load)
+                   gated_load=gated_load(load, ctx["keep"]),
+                   gated_pctl=LOAD_PCTL,
+                   n_sliver_cells=int((~ctx["keep"]).sum()))
         with open(out_csv, "a", newline="") as fh:
             w = csv.DictWriter(fh, fieldnames=list(row.keys()))
             if new:
@@ -194,16 +205,28 @@ def main():
             w.writerow(row)
         print(f"[{idx}] I={I:6.1f}A dt={dt:8.0f}s t={t_phys:8.0f}s "
               f"eps={eps:g} a={alpha[1]:g}x{n_it}  B={Bt:6.3f}T unif={unif:.3f}%  "
-              f"maxload={row['max_load']:.3f} p99={row['p99_load']:.3f} "
+              f"gated={row['gated_load']:.3f} maxload={row['max_load']:.3f} "
+              f"p99={row['p99_load']:.3f} "
               f">Ic={row['n_over_Ic']}/{len(m)}  maxE/Ec={row['max_E_over_Ec']:.2g}  "
               f"SCIF={info['scif_mT']:.1f}mT range30={rng:.2f} "
               f"slope={slope:+.3f}  ({row['wall_s']:.0f}s)")
         if idx in SAVE_STEPS:
             path = os.path.join(OUT_DIR, f"{TAG}_s{idx}_fields.npz")
             cells = ta["coil_cells"]
+            # uniform-J coil field at the same current (one linear A-solve;
+            # used e.g. for hoop-stress maps consistent with the search)
+            import solve as base_solve
+            from mpi4py import MPI
+            _, B_u = base_solve.solve_at_current(
+                domain, uniform_setup, I, MPI.COMM_WORLD,
+                verbose_label="snapshot")
             np.savez(path, I_solved=I, delta_SC=float(ta["delta_SC"]),
                      coil_centroids=cents,
                      coil_B=B_h.x.array.reshape(-1, 3)[cells],
+                     coil_B_uniform=B_u.x.array.reshape(-1, 3)[cells],
+                     # (N_coil, 4, 3) tet vertices, for exact plane slices
+                     coil_cell_vertices=domain.geometry.x[
+                         domain.geometry.dofmaps[0][cells]],
                      J_TA_coil=J_arr,
                      J_unif_coil=ta["t_hat_coil"] * (
                          I / (float(ta["delta_SC"]) * params.w)),

@@ -1,0 +1,85 @@
+
+==============================================================================
+  Racetrack coil optimization  --  2026-10-11 11:01:06
+==============================================================================
+
+==============================================================================
+  1/3  Checking your setup
+==============================================================================
+[2026-10-11 11:01:06] python 3.11.15  (/home/gerrityjack/miniconda3/envs/fenicsx-env/bin/python3)
+[2026-10-11 11:01:10] packages: numpy 2.4.6, scipy 1.17.1, mpi4py 4.1.2, petsc4py 3.25.2, dolfinx 0.11.0, ufl 2026.1.0, basix 0.11.0, gmsh 4.15.2, cma 4.5.0
+[2026-10-11 11:01:10] tape data files found (physics/*.csv)
+[2026-10-11 11:01:10] output folder: /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/search_ramp30min_dryrun
+[2026-10-11 11:01:10] machine: 8 CPU threads, 3.7 GB RAM
+[2026-10-11 11:01:10] start design OK: 16 layers, 8024 turns, face gap 3.94 mm
+[2026-10-11 11:01:10]   12-layer start (re-profiled): a=38.4 b=47.3 gap=26.0 mm, 8024 turns -> OK
+[2026-10-11 11:01:10]   20-layer start (re-profiled): a=31.1 b=40.0 gap=42.0 mm, 8024 turns -> OK
+
+==============================================================================
+  2/3  Setting up the search
+==============================================================================
+[2026-10-11 11:01:10] 12 layers: starting at a=38.8 b=47.7 gap=26.0 mm, 8024 turns (re-profiled START_DESIGN)
+[2026-10-11 11:01:10] 16 layers: starting at a=31.6 b=40.5 gap=34.0 mm, 8024 turns (START_DESIGN)
+[2026-10-11 11:01:10] 20 layers: starting at a=31.1 b=40.0 gap=42.0 mm, 8024 turns (re-profiled START_DESIGN)
+[2026-10-11 11:01:10] NEW search. round 1: 2 generation(s) each for [12, 16, 20] layers
+[2026-10-11 11:01:10] objective: minimize tape; require B >= 10.0 T, uniformity <= 0.8%, hoop <= 400 MPa, and no cell above Jc at the end of a 0.5 h constant-power ramp
+[2026-10-11 11:01:10] weights: field 6000, uniformity 100, hoop 40
+[2026-10-11 11:01:10] layer counts: adaptive within (4, 40), neighbours +-4 then +-2, keep the best half (>= 2) after every round
+[2026-10-11 11:01:10] budget 40 solved candidates, 1 workers x 8 threads
+[2026-10-11 11:01:10] outputs in /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/search_ramp30min_dryrun  (history.csv, best.csv, checkpoint.pkl, run.log)
+
+==============================================================================
+  3/3  Searching  (Ctrl+C stops safely; re-run to resume)
+==============================================================================
+[2026-10-11 11:01:10] round 1, 12 layers, generation 1: 10 candidates (evals 1-10); 5 rejected for geometry, 5 to solve on up to 1 workers
+[2026-10-11 11:01:35] progress: 5 of 40 solved candidates (5 more rejected instantly for geometry), round 1, 0m24s this session, avg n/a per solved candidate
+[2026-10-11 11:01:35] no design satisfies all constraints yet (field >= 10.0 T is usually the first to be reached)
+[2026-10-11 11:01:35] round 1, 16 layers, generation 1: 11 candidates (evals 11-21); 10 rejected for geometry, 1 to solve on up to 1 workers
+[2026-10-11 11:01:39] progress: 6 of 40 solved candidates (15 more rejected instantly for geometry), round 1, 0m28s this session, avg n/a per solved candidate
+[2026-10-11 11:01:39] no design satisfies all constraints yet (field >= 10.0 T is usually the first to be reached)
+[2026-10-11 11:01:39] round 1, 20 layers, generation 1: 11 candidates (evals 22-32); 2 rejected for geometry, 9 to solve on up to 1 workers
+[2026-10-11 11:02:17] *** NEW BEST design (eval 24, 20 layers): tape 3.278 km, B=12.59 T, unif=0.50%, n=[500, 500, 403, 403, 318, 318, 179, 179, 519, 519, 359, 359, 411, 411, 511, 511, 434, 434, 477, 477]
+[2026-10-11 11:02:17] *** NEW BEST design (eval 26, 20 layers): tape 3.227 km, B=12.15 T, unif=0.50%, n=[443, 443, 535, 535, 193, 193, 169, 169, 375, 375, 405, 405, 513, 513, 407, 407, 515, 515, 420, 420]
+[2026-10-11 11:02:17] *** NEW BEST design (eval 27, 20 layers): tape 2.806 km, B=11.70 T, unif=0.50%, n=[377, 377, 456, 456, 213, 213, 217, 217, 355, 355, 365, 365, 489, 489, 472, 472, 395, 395, 468, 468]
+[2026-10-11 11:02:17] *** NEW BEST design (eval 28, 20 layers): tape 2.775 km, B=11.78 T, unif=0.50%, n=[492, 492, 490, 490, 192, 192, 156, 156, 434, 434, 399, 399, 487, 487, 500, 500, 474, 474, 490, 490]
+[2026-10-11 11:02:17] progress: 15 of 40 solved candidates (17 more rejected instantly for geometry), round 1, 1m06s this session, avg n/a per solved candidate
+[2026-10-11 11:02:17] best so far (eval 28, 20 layers): tape 2.775 km, B=11.78 T at 80.0 A, unif=0.50%, hoop=50 MPa
+[2026-10-11 11:02:17] round 1, 12 layers, generation 2: 10 candidates (evals 33-42); 8 rejected for geometry, 2 to solve on up to 1 workers
+[2026-10-11 11:02:27] progress: 17 of 40 solved candidates (25 more rejected instantly for geometry), round 1, 1m16s this session, avg n/a per solved candidate
+[2026-10-11 11:02:27] best so far (eval 28, 20 layers): tape 2.775 km, B=11.78 T at 80.0 A, unif=0.50%, hoop=50 MPa
+[2026-10-11 11:02:27] round 1, 16 layers, generation 2: 11 candidates (evals 43-53); 5 rejected for geometry, 6 to solve on up to 1 workers
+[2026-10-11 11:02:51] progress: 23 of 40 solved candidates (30 more rejected instantly for geometry), round 1, 1m40s this session, avg n/a per solved candidate
+[2026-10-11 11:02:51] best so far (eval 28, 20 layers): tape 2.775 km, B=11.78 T at 80.0 A, unif=0.50%, hoop=50 MPa
+[2026-10-11 11:02:51] round 1, 20 layers, generation 2: 11 candidates (evals 54-64); 7 rejected for geometry, 4 to solve on up to 1 workers
+[2026-10-11 11:03:07] *** NEW BEST design (eval 54, 20 layers): tape 2.563 km, B=11.17 T, unif=0.50%, n=[466, 466, 382, 382, 320, 320, 90, 90, 436, 436, 261, 261, 449, 449, 439, 439, 490, 490, 493, 493]
+[2026-10-11 11:03:07] progress: 27 of 40 solved candidates (37 more rejected instantly for geometry), round 1, 1m56s this session, avg n/a per solved candidate
+[2026-10-11 11:03:07] best so far (eval 54, 20 layers): tape 2.563 km, B=11.17 T at 80.0 A, unif=0.50%, hoop=50 MPa
+[2026-10-11 11:03:07] layer counts explored so far (lower fitness = better):
+      layers   status  gens  solved  best fitness  best design
+          12   active     2       7      1085.573  B=5.75 T, tape 3.962 km, unif 0.50%
+          16   active     2       7        37.482  B=9.25 T, tape 3.628 km, unif 0.50%
+          20   active     2      13         2.563  B=11.17 T, tape 2.563 km, unif 0.50%
+[2026-10-11 11:03:07] 12 layers retired (ranked 3 of 3)
+[2026-10-11 11:03:08] NEW layer count 24 (neighbour of the current best, 20 layers), starting at a=26.7 b=40.1 gap=49.8 mm, 7650 turns
+[2026-10-11 11:03:08] round 2: 2 generation(s) each for [16, 20, 24] layers
+[2026-10-11 11:03:08] round 2, 16 layers, generation 3: 11 candidates (evals 65-75); 2 rejected for geometry, 9 to solve on up to 1 workers
+[2026-10-11 11:03:42] progress: 36 of 40 solved candidates (39 more rejected instantly for geometry), round 2, 2m31s this session, avg n/a per solved candidate
+[2026-10-11 11:03:42] best so far (eval 54, 20 layers): tape 2.563 km, B=11.17 T at 80.0 A, unif=0.50%, hoop=50 MPa
+[2026-10-11 11:03:42] round 2, 20 layers, generation 3: 11 candidates (evals 76-86); 1 rejected for geometry, 10 to solve on up to 1 workers
+[2026-10-11 11:04:22] *** NEW BEST design (eval 84, 20 layers): tape 2.520 km, B=11.00 T, unif=0.50%, n=[457, 457, 372, 372, 312, 312, 71, 71, 385, 385, 338, 338, 442, 442, 515, 515, 374, 374, 420, 420]
+[2026-10-11 11:04:22] progress: 46 of 40 solved candidates (40 more rejected instantly for geometry), round 2, 3m11s this session, avg n/a per solved candidate
+[2026-10-11 11:04:22] best so far (eval 84, 20 layers): tape 2.520 km, B=11.00 T at 80.0 A, unif=0.50%, hoop=50 MPa
+
+==============================================================================
+  Search finished
+==============================================================================
+[2026-10-11 11:04:22] progress: 46 of 40 solved candidates (40 more rejected instantly for geometry), round 2, 3m11s this session, avg n/a per solved candidate
+[2026-10-11 11:04:22] best so far (eval 84, 20 layers): tape 2.520 km, B=11.00 T at 80.0 A, unif=0.50%, hoop=50 MPa
+[2026-10-11 11:04:22] layer counts explored so far (lower fitness = better):
+      layers   status  gens  solved  best fitness  best design
+          12  retired     2       7      1085.573  B=5.75 T, tape 3.962 km, unif 0.50%
+          16   active     3      16        22.896  B=9.43 T, tape 3.146 km, unif 0.50%
+          20   active     3      23         2.520  B=11.00 T, tape 2.520 km, unif 0.50%
+          24   active     0       0             -  no successful solve yet
+[2026-10-11 11:04:22] all results: /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/search_ramp30min_dryrun/history.csv
+[2026-10-11 11:04:22] best design: /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/search_ramp30min_dryrun/best.csv -- validate it before trusting it (README, 'Validating a design').

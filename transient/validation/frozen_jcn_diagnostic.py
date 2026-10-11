@@ -60,7 +60,9 @@ def _update_rho_frozen_jcn(ta, J_coil, Jc_vol_fixed, n_arr_fixed, eps_reg,
 
     log_j = np.log(np.maximum(j_norm, 1e-30))
     rho_SC = (1e-4 / Jc_vol_fixed) * np.exp((n_arr_fixed - 1.0) * log_j)
-    rho_homog = rho_SC * (delta_SC / Lambda)
+    # SC-layer rho, unscaled (delta_SC/Lambda removed 2026-10-04, as in
+    # ta_solve._update_rho)
+    rho_homog = rho_SC
 
     if relax is not None and ta.get("_rho_prev") is not None:
         rho_homog = np.exp((1.0 - relax) * np.log(ta["_rho_prev"])

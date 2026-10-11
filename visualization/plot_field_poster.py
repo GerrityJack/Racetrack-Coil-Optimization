@@ -122,7 +122,8 @@ def _make_color_lookup(centroids, Bmag, norm):
     return facecolors
 
 
-def _draw_filled_stack(ax, facecolors, g, mirror, stretch_m=0.0):
+def _draw_filled_stack(ax, facecolors, g, mirror, stretch_m=0.0,
+                       fill_alpha=None):
     """One coil's solid geometry (outer wall, top/bottom caps, per-layer
     inner walls + shelf steps, interior cutaway-wedge faces), filled at
     FILL_ALPHA -- a translucent backdrop under the point cloud/wireframe,
@@ -155,7 +156,8 @@ def _draw_filled_stack(ax, facecolors, g, mirror, stretch_m=0.0):
     def surf(X, Y, Z):
         ax.plot_surface(X, Y, Z, facecolors=facecolors(X, Y, Z - z_shift_mm),
                         rstride=1, cstride=1, linewidth=0,
-                        antialiased=False, shade=False, alpha=FILL_ALPHA)
+                        antialiased=False, shade=False,
+                        alpha=FILL_ALPHA if fill_alpha is None else fill_alpha)
 
     xo, yo = _racetrack_xy_open(a_out, WEDGE_HALF_ANGLE_DEG, n=N_PATH)
     zs = np.linspace(z_top0, z_bot_last, N_Z_OUTER)
@@ -319,13 +321,19 @@ def _draw_cut_cross_section(ax, g, mirror, stretch_m=0.0):
 
 
 def plot_field_poster(npz_data, out_name="field_3d_poster.png",
-                      value_raw=None, cbar_label="|B|  (T)"):
+                      value_raw=None, cbar_label="|B|  (T)",
+                      gap_stretch_mm=None, point_alpha=0.8, point_size=6,
+                      fill_alpha=None):
     """value_raw: optional per-cell scalar aligned with npz_data's raw
     (1/8-domain) coil_centroids, to color the point cloud/fill by instead
     of |B|. Must be symmetric under the eighth-domain's x/y reflections
     (same physical requirement |B| already relies on) since it gets
     expanded the same way. Defaults to |B| from coil_B for backward
-    compatibility."""
+    compatibility.
+
+    gap_stretch_mm / point_alpha / point_size / fill_alpha: display-only
+    overrides (2026-10-04, for tall many-layer stacks whose point cloud
+    saturates); the defaults reproduce the original figure exactly."""
     centroids_raw = npz_data["coil_centroids"]
     if value_raw is None:
         value_raw = np.linalg.norm(npz_data["coil_B"], axis=1)
@@ -356,7 +364,8 @@ def plot_field_poster(npz_data, out_name="field_3d_poster.png",
     # (unlike the fill surfaces) there's no need to track a separate
     # "true" z for anything; each point already carries its own correct
     # field value regardless of where it's drawn.
-    gap_stretch_m = GAP_VISUAL_STRETCH_MM / 1e3
+    gap_stretch_m = (GAP_VISUAL_STRETCH_MM if gap_stretch_mm is None
+                     else gap_stretch_mm) / 1e3
     z_draw = centroids[:, 2].copy()
     z_draw[centroids[:, 2] > g] += gap_stretch_m
 
@@ -372,13 +381,15 @@ def plot_field_poster(npz_data, out_name="field_3d_poster.png",
     ax.set_xticks([]); ax.set_yticks([]); ax.set_zticks([])
     ax.grid(False)
 
-    _draw_filled_stack(ax, fill_facecolors, g, mirror=False)
+    _draw_filled_stack(ax, fill_facecolors, g, mirror=False,
+                       fill_alpha=fill_alpha)
     _draw_filled_stack(ax, fill_facecolors, g, mirror=True,
-                       stretch_m=gap_stretch_m)
+                       stretch_m=gap_stretch_m, fill_alpha=fill_alpha)
 
     sc = ax.scatter(centroids[:, 0] * 1e3, centroids[:, 1] * 1e3,
                     z_draw * 1e3, c=Bmag, cmap=_POSTER_CMAP, norm=norm,
-                    s=6, alpha=0.8, linewidths=0, rasterized=True)
+                    s=point_size, alpha=point_alpha, linewidths=0,
+                    rasterized=True)
 
     _draw_layer_outlines(ax, g, mirror=False)
     _draw_layer_outlines(ax, g, mirror=True, stretch_m=gap_stretch_m)
@@ -396,7 +407,16 @@ def plot_field_poster(npz_data, out_name="field_3d_poster.png",
     drawn_total_z = true_total_z + gap_stretch_m
     ax.set_box_aspect((1, 1, 0.7 * drawn_total_z / true_total_z))
 
-    cb = fig.colorbar(sc, ax=ax, shrink=0.7, pad=0.02, aspect=18)
+    # The colorbar inherits the points' alpha; the original look is 0.8
+    # (fully opaque turns the low end of the PowerNorm scale into a solid
+    # black block). Keep 0.8 whatever point_alpha is used.
+    cb_src = sc
+    if point_alpha != 0.8:
+        cb_src = plt.cm.ScalarMappable(norm=norm, cmap=_POSTER_CMAP)
+        cb_src.set_array([])
+    cb = fig.colorbar(cb_src, ax=ax, shrink=0.7, pad=0.02, aspect=18)
+    if point_alpha != 0.8:
+        cb.solids.set_alpha(0.8)
     cb.set_label(cbar_label, color="black", fontsize=26, labelpad=14)
     cb.ax.tick_params(color="black", labelsize=20, length=6, width=1.2)
     plt.setp(cb.ax.get_yticklabels(), color="black")

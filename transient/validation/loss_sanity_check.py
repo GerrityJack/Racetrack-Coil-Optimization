@@ -95,8 +95,11 @@ def main():
     Ic_arr, clip_frac = ic.critical_current(Bmag, theta)
     Jc_vol = Ic_arr / (ta["delta_SC"] * ic.tape_width)
     E_c = 1.0e-4
-    P_floor_density = E_c * Jc_vol            # W/m^3 at j/jc = 1 (the floor)
-    P_floor_total = loss_mod.CELL_SYMMETRY * float(
+    P_floor_density = E_c * Jc_vol            # W/m^3 of SC at j/jc = 1 (the floor)
+    # only the fraction delta_SC/Lambda of each homogenised cell is SC
+    # (added 2026-10-04 with the rho fix, to match hysteretic_power())
+    sc_frac = float(ta["delta_SC"]) / float(ta["Lambda"])
+    P_floor_total = loss_mod.CELL_SYMMETRY * sc_frac * float(
         np.sum(P_floor_density * ta["coil_vols"]))
 
     j_norm = np.linalg.norm(J_coil, axis=1) / Jc_vol

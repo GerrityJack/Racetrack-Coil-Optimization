@@ -33,8 +33,9 @@ inductance matrix and a power law.
 
 THE F FACTOR
 ------------
-ta_solve's rho_fn is rho_sc*(delta_SC/Lambda) and _J_from_T returns SC-layer
-J, so the true field along the tape is rho_fn*(Lambda/delta_SC)*J_sc.  See
+ta_solve's rho_fn is the SC-layer resistivity (since the 2026-10-04 fix; it
+was rho_sc*(delta_SC/Lambda) before) and _J_from_T returns SC-layer J, so
+the true field along the tape is rho_fn*J_sc, i.e. F = 1.  See
 tparams.EP_FACTOR_MODE.
 
 ═══════════════════════════════════════════════════════════════════════════
@@ -116,9 +117,13 @@ class NICircuit:
 
         mode = ep_factor_mode or tp.EP_FACTOR_MODE
         if mode == "derived":
-            self.ep_factor = params.t / params.delta_SC       # Lambda/delta
+            self.ep_factor = 1.0                              # E = rho_sc*J_sc
+        elif mode == "legacy":
+            self.ep_factor = params.delta_SC / params.t       # pre-2026-10-04 F=1
         elif mode == "paper":
-            self.ep_factor = 1.0
+            raise ValueError(
+                'EP_FACTOR_MODE "paper" was retired on 2026-10-04 -- use '
+                '"derived" (physical) or "legacy" (old numbers); see tparams.py')
         else:
             raise ValueError(f"unknown EP_FACTOR_MODE {mode!r}")
         self.ep_mode = mode

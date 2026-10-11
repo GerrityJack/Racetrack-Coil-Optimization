@@ -1,0 +1,21 @@
+=== 2026-10-04_22:17:22 START repro
+design: a=26.00mm b=31.40mm gap=13.70mm n_turns=[382, 382, 478, 478, 3, 3] alpha=(0.1, 0.05) n_picard=150
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[0] I= 180.0A dt=   14400s t=   14400s eps=1 a=0.1x150  B=10.683T unif=1.156%  maxload=0.508 p99=0.378 >Ic=0/4463  maxE/Ec=0.51  SCIF=-27.4mT range30=0.06 slope=-0.002  (374s)
+[1] I= 180.0A dt=   14400s t=   14400s eps=0.9 a=0.1x100  B=10.666T unif=1.072%  maxload=0.508 p99=0.428 >Ic=0/4463  maxE/Ec=0.12  SCIF=-15.2mT range30=0.10 slope=+0.004  (254s)
+[2] I= 180.0A dt=   14400s t=   14400s eps=0.8 a=0.1x120  B=10.594T unif=0.933%  maxload=0.741 p99=0.674 >Ic=0/4463  maxE/Ec=0.027  SCIF=48.3mT range30=0.09 slope=+0.003  (289s)
+[3] I= 180.0A dt=   14400s t=   14400s eps=0.7 a=0.05x150  B=10.413T unif=0.767%  maxload=0.880 p99=0.779 >Ic=0/4463  maxE/Ec=0.086  SCIF=217.1mT range30=0.03 slope=+0.001  (490s)
+[4] I= 180.0A dt=   14400s t=   14400s eps=0.6 a=0.01x300  B=10.161T unif=0.475%  maxload=0.882 p99=0.786 >Ic=0/4463  maxE/Ec=0.087  SCIF=450.7mT range30=0.80 slope=+0.028  (1832s)
+=== 2026-10-04_23:11:34 END rc=0
+=== 2026-10-04_23:11:34 START march
+design: a=26.00mm b=31.40mm gap=13.70mm n_turns=[382, 382, 478, 478, 3, 3] alpha=(0.1, 0.05) n_picard=150
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+[0] I=  90.0A dt=    1800s t=    1800s eps=1 a=0.05x200  B= 5.327T unif=1.162%  maxload=0.165 p99=0.134 >Ic=0/4463  maxE/Ec=0.17  SCIF=0.9mT range30=0.81 slope=-0.028  (1187s)
+[1] I=  90.0A dt=    1800s t=    1800s eps=0.9 a=0.05x150  B= 5.272T unif=1.004%  maxload=0.322 p99=0.250 >Ic=0/4463  maxE/Ec=0.044  SCIF=50.6mT range30=0.04 slope=+0.001  (692s)
+[2] I=  90.0A dt=    1800s t=    1800s eps=0.8 a=0.02x200  B= 5.049T unif=0.493%  maxload=0.817 p99=0.765 >Ic=0/4463  maxE/Ec=0.04  SCIF=256.8mT range30=0.20 slope=+0.007  (961s)
+[3] I=  90.0A dt=    1800s t=    1800s eps=0.7 a=0.005x600  B= 4.839T unif=0.596%  maxload=0.895 p99=0.823 >Ic=0/4463  maxE/Ec=0.13  SCIF=452.9mT range30=0.01 slope=-0.000  (2553s)
+[4] I= 127.3A dt=    1800s t=    3600s eps=0.7 a=0.005x600  B= 6.992T unif=0.336%  maxload=0.904 p99=0.813 >Ic=0/4463  maxE/Ec=0.15  SCIF=502.2mT range30=0.07 slope=-0.002  (2336s)
+[5] I= 155.9A dt=    1800s t=    5400s eps=0.7 a=0.005x600  B= 8.736T unif=0.450%  maxload=0.927 p99=0.817 >Ic=0/4463  maxE/Ec=0.24  SCIF=451.6mT range30=0.10 slope=-0.003  (2133s)
+[6] I= 180.0A dt=    1800s t=    7200s eps=0.7 a=0.005x600  B=10.236T unif=0.587%  maxload=0.917 p99=0.808 >Ic=0/4463  maxE/Ec=0.19  SCIF=382.7mT range30=0.10 slope=-0.003  (2229s)

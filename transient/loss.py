@@ -4,11 +4,13 @@ loss.py — dissipation from the transient T-A + NI state.
 Two channels, and the difference between them is the whole reason Phase B
 exists on top of Phase A's circuit model:
 
-  HYSTERETIC (superconducting).  P_sc = sum_cells rho_fn * |J_sc|^2 * dV.
+  HYSTERETIC (superconducting).
+  P_sc = sum_cells (delta_SC/Lambda) * rho_fn * |J_sc|^2 * dV.
   This is exact rather than a bolt-on: the SC occupies a fraction
-  delta_SC/Lambda of each homogenised cell and ta_solve's rho_fn is already
-  rho_sc*(delta_SC/Lambda), so rho_fn*|J_sc|^2*dV_bulk IS
-  integral(rho_sc |J_sc|^2 dV_SC).  It carries the screening-current
+  delta_SC/Lambda of each homogenised cell and ta_solve's rho_fn is the
+  SC-layer resistivity, so this IS integral(rho_sc |J_sc|^2 dV_SC).  (Until
+  2026-10-04 rho_fn itself carried the delta_SC/Lambda factor -- wrongly, for
+  the T-equation -- and this sum omitted it; the product was the same.)  It carries the screening-current
   distribution across the tape width, which a lumped circuit model cannot
   represent at all -- the Phase A DCN reports ~0.02 J here and that number is
   meaningless by construction.
@@ -48,8 +50,9 @@ def hysteretic_power(ta, J_coil):
     """P_sc [W] for the full two-coil system."""
     rho = ta["rho_fn"].x.array[ta["coil_cells"]]
     vol = ta["coil_vols"]
+    sc_frac = float(ta["delta_SC"]) / float(ta["Lambda"])
     j2 = np.einsum("ij,ij->i", J_coil, J_coil)
-    return CELL_SYMMETRY * float(np.sum(rho * j2 * vol))
+    return CELL_SYMMETRY * sc_frac * float(np.sum(rho * j2 * vol))
 
 
 def contact_power(circuit):

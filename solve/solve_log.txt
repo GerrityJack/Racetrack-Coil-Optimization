@@ -3,21 +3,21 @@ SOLVE LOG
 ======================================================================
 
 mode: single solve (solve.py)
-num_coil_cells: 4463
-num_V_dofs: 10551
-mesh_nodes: 1718
-mesh_cells: 8136
+num_coil_cells: 35811
+num_V_dofs: 64122
+mesh_nodes: 9911
+mesh_cells: 51673
 petsc_options: {'ksp_type': 'preonly', 'pc_type': 'lu', 'pc_factor_mat_solver_type': 'mumps'}
 gauge_regularization: 0.001
-I_design: 196.0
+I_design: 131.28
 
 ----------------------------------------------------------------------
-[single solve]  I = 196.00 A
+[single solve]  I = 131.28 A
   solver: ksp_type=preonly, pc_type=lu
   PETSc converged reason: 4 (CONVERGED_ITS), iterations: 1
-  true residual ||Ax-b||/||b||: 1.248e-01 (absolute: 8.257e+03)
-  residual history: [(0, 66165.76968889762), (1, 8257.267783237729)]
-  |B| on coil: min=0.1038 T, max=11.89 T, mean=4.451 T, p50=3.429 T, p99=10.4 T
-  ||A|| (solution vector norm): 3.051e+09  |  max/p99 outlier ratio: 1.14
-  wall time: 2.39 s
+  true residual ||Ax-b||/||b||: 4.746e-01 (absolute: 4.503e+04)
+  residual history: [(0, 94879.60644740437), (1, 45034.0953378361)]
+  |B| on coil: min=0.01188 T, max=15.52 T, mean=3.784 T, p50=3.256 T, p99=10.03 T
+  ||A|| (solution vector norm): 1.668e+10  |  max/p99 outlier ratio: 1.55
+  wall time: 1.49 s
 ----------------------------------------------------------------------

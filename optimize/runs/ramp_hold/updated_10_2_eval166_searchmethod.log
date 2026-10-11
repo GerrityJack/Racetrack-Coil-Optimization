@@ -1,0 +1,9 @@
+design: a=25.76mm b=33.65mm gap=57.67mm n_turns=[285, 285, 315, 315, 341, 341, 239, 239, 129, 129, 155, 155, 305, 305, 274, 274, 282, 282, 384, 384, 308, 308, 247, 247, 294, 294, 299, 299] alpha=(0.1, 0.05) n_picard=150
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/physics/ic_model.py:381: UserWarning: Using column '𝘯-value' as n-value column.
+  warnings.warn(f"Using column '{candidates[0]}' as n-value column.")
+/home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/ta_safe_current.py:165: RuntimeWarning: divide by zero encountered in divide
+  margin = Jc / Jmag
+[0] I= 131.9A dt=     192s t=     192s eps=1 a=0.1x150  B=10.488T unif=0.623%  maxload=0.832 p99=0.511 >Ic=0/29367  maxE/Ec=0.88  SCIF=21.7mT range30=0.06 slope=-0.002  (4257s)
+[1] I= 131.9A dt=     192s t=     192s eps=0.9 a=0.1x200  B=10.418T unif=0.441%  maxload=1.103 p99=0.921 >Ic=1/29367  maxE/Ec=6.9  SCIF=96.6mT range30=0.04 slope=+0.000  (6081s)
+  [snapshot] KSP converged reason: 4, iterations: 1
+    saved /home/gerrityjack/PPPL/Racetrack-Coil-Optimization/optimize/runs/ramp_hold/updated_10_2_eval166_131p9A_searchmethod_s1_fields.npz
